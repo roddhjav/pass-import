@@ -38,7 +38,7 @@ See `man pass-import` for more information on import process
 		sudo make install
 
 
-Please be advised, `pass-import` require `pass>1.6.5`.
+Please be advised, `pass-import` requires `pass>1.6.5` for extension support.
 
 
 ## Contribution
