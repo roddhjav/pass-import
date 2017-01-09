@@ -22,6 +22,7 @@ install: install-common install-importers
 uninstall:
 	@rm -vrf \
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash" \
+		"$(DESTDIR)$(IMPORTERS_DIR)/" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-import.1" \
 
 .PHONY: install uninstall install-common install-importers
