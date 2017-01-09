@@ -38,6 +38,13 @@ See `man pass-import` for more information on import process
 		sudo make install
 
 
+Please be advised, `pass-import` require `pass>1.6.5`.
+
+
+## Contribution
+Feedback, contributors, pull requests are all very welcome.
+
+
 ## License
 
 This program is free software; you can redistribute it and/or
