@@ -33,6 +33,12 @@ See `man pass-import` for more information on import process
 
 ## Installation
 
+**ArchLinux**
+
+		pacaur -S pass-import
+
+**Other linux**
+
 		git clone https://github.com/alexandrepujol/pass-import/
 		cd pass-import
 		sudo make install
