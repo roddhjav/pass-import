@@ -43,8 +43,19 @@ See `man pass-import` for more information on import process
 		cd pass-import
 		sudo make install
 
+**Requirments**
 
-Please be advised, `pass-import` requires `pass>1.6.5` for extension support.
+In order to use extension with `pass`, you need:
+* `pass 1.7.0` or greater. As of today this version has not been released yet.
+Therefore you need to install it by hand from zx2c4.com:
+
+		git clone https://git.zx2c4.com/password-store
+		cd password-store
+		sudo make install
+
+* You need to enable the extensions in pass: `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`.
+You can create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
+
 
 
 ## Contribution
