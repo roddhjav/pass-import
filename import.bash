@@ -18,9 +18,16 @@
 # 
 
 IMPORTER_DIR="${PASSWORD_STORE_IMPORTER_DIR:-/usr/lib/password-store/importers}"
-IMPORTERS=( "1password" "fpm" "gorrilla" "kedpm" "keepass" "keepass2csv"
-			"keepassx" "kwallet" "lastpass" "password-exporter" "pwsafe" 
-			"revelation" "roboform")
+
+# Dependencies list
+P2="python2"; P3="python3"; PERL="perl"; BASH="bash"; RUBY="ruby"
+
+typeset -A IMPORTERS
+IMPORTERS=( ["1password"]="$RUBY" ["fpm"]="$PERL" ["gorilla"]="$RUBY" ["kedpm"]="$P2"
+			["keepass"]="$P2" ["keepass2csv"]="$P3" ["keepassx"]="$P2" ["kwallet"]="$P2"
+			["lastpass"]="$RUBY" ["password-exporter"]="$P2" ["pwsafe"]="$BASH"
+			["revelation"]="$P2" ["roboform"]="$RUBY")
+
 #
 # Commons color and functions
 #
@@ -29,6 +36,12 @@ Bred='\e[1;31m'
 reset='\e[0m'
 _error() { echo -e " ${Bred}[*]${reset}${bold} Error :${reset} ${*}"; }
 _die() { _error "${@}" && exit 1; }
+# Check importers dependencies
+#
+_ensure_dependencies() {
+	local importer="$1";
+	command -v "${IMPORTERS[$importer]}" &>/dev/null || _die "$PROGRAM $COMMAND $importer requires ${IMPORTERS[$importer]}"
+}
 
 in_array() {
 	local needle=$1; shift
@@ -66,13 +79,15 @@ cmd_import_usage() {
 }
 
 cmd_import() {
-	if in_array "$1" "${IMPORTERS[@]}"; then
-		importer=$(find "$IMPORTER_DIR/${1}2pass".*)
-		[[ ! -x "$importer" ]] && die "Unable to find $importer"
-		"$importer" "$@"
 	local importer_path importer="$1"; shift;
 	[[ -z "$importer" ]] && _die "$PROGRAM $COMMAND <importer> [ARG]"
+	
 	check_sneaky_paths "$importer"
+	if in_array "$importer" "${!IMPORTERS[@]}"; then
+		importer_path=$(find "$IMPORTER_DIR/${importer}2pass".* 2> /dev/null)
+		[[ -x "$importer_path" ]] || _die "Unable to find $importer_path"
+		_ensure_dependencies "$importer"
+		"${IMPORTERS[$importer]}" "$importer_path" "$@"
 	else
 		_die "$importer is not a supported importer"
 	fi
