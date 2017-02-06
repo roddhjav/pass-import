@@ -1,3 +1,4 @@
+PROG ?= import
 PREFIX ?= /usr
 DESTDIR ?=
 LIBDIR ?= $(PREFIX)/lib
@@ -6,23 +7,33 @@ IMPORTERS_DIR ?= $(LIBDIR)/password-store/importers
 MANDIR ?= $(PREFIX)/share/man
 
 all:
-	@echo "Pass Import is a shell script, so there is nothing to do. Try \"make install\" instead."
+	@echo "pass-$(PROG) is a shell script and does not need compilation, it can be simply executed."
+	@echo
+	@echo "To install it try \"make install\" instead."
+	@echo
+	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
+	@echo "     password store"
 
-install-common:
-	@install -v -d "$(DESTDIR)$(MANDIR)/man1" && install -m 0644 -v pass-import.1 "$(DESTDIR)$(MANDIR)/man1/pass-import.1"
-
-install-importers:
-	@install -v -d "$(DESTDIR)$(IMPORTERS_DIR)/"
-	@install -Dm0755 -t "$(DESTDIR)$(IMPORTERS_DIR)/" importers/*
-
-install: install-common install-importers
+install:
+	@install -v -d "$(DESTDIR)$(MANDIR)/man1" && install -m 0644 -v pass-$(PROG).1 "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
 	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
-	@install -Dm0755 import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
+	@install -v -d "$(DESTDIR)$(IMPORTERS_DIR)/"
+	@install -Dm0755 $(PROG).bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
+	@install -Dm0755 -t "$(DESTDIR)$(IMPORTERS_DIR)/" importers/*
+	@echo
+	@echo "pass-$(PROG) is installed succesfully"
+	@echo
 
 uninstall:
 	@rm -vrf \
-		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash" \
+		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
 		"$(DESTDIR)$(IMPORTERS_DIR)/" \
-		"$(DESTDIR)$(MANDIR)/man1/pass-import.1" \
+		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
-.PHONY: install uninstall install-common install-importers
+test:
+	make -C tests
+
+lint:
+	shellcheck -s bash $(PROG).bash
+
+.PHONY: install uninstall test lint
