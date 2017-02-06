@@ -31,29 +31,54 @@ in_array() {
 	return 1
 }
 
+cmd_import_verion() {
+	cat <<-_EOF
+	$PROGRAM $COMMAND - A generic importer extension for pass
+	
+	Vesion: 0.2
+	_EOF
+}
+
 cmd_import_usage() {
+	cmd_import_verion
+	echo
 	cat <<-_EOF
 	Usage:
-	    $PROGRAM import <importer> [ARG] 
+	    $PROGRAM $COMMAND <importer> [ARG] 
 	        Import data to a password store repository.
 	        ARG depends of the importer script.
-	        <importer> can be: ${IMPORTERS[@]}
+	        <importer> can be: ${!IMPORTERS[@]}
 
+	Options:
+	    -v, --version  Show version information.
+	    -h, --help	   Print this help message and exit.
+	    
 	More information may be found in the pass-import(1) man page.
 	_EOF
 }
 
 cmd_import() {
-	check_sneaky_paths "$1"
-	local importer
 	if in_array "$1" "${IMPORTERS[@]}"; then
 		importer=$(find "$IMPORTER_DIR/${1}2pass".*)
 		[[ ! -x "$importer" ]] && die "Unable to find $importer"
-		shift
 		"$importer" "$@"
+	local importer_path importer="$1"; shift;
+	[[ -z "$importer" ]] && _die "$PROGRAM $COMMAND <importer> [ARG]"
+	check_sneaky_paths "$importer"
 	else
-		cmd_import_usage
+		_die "$importer is not a supported importer"
 	fi
 }
 
+# Global options
+opts="$($GETOPT -o vh -l version,help -n "$PROGRAM $COMMAND" -- "$@")"
+err=$?
+eval set -- "$opts"
+while true; do case $1 in
+	-h|--help) shift; cmd_import_usage; exit 0 ;;
+	-V|--version) shift; cmd_import_verion; exit 0 ;;
+	--) shift; break ;;
+esac done
+
+[[ $err -ne 0 ]] && cmd_import_usage && exit 1
 cmd_import "$@"
