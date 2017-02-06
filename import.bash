@@ -6,21 +6,9 @@
 # Import manager - Password Store Extenssion (https://www.passwordstore.org/)
 
 IMPORTER_DIR="${PASSWORD_STORE_IMPORTER_DIR:-/usr/lib/password-store/importers}"
-
-IMPORTERS=(
-	"1password"
-	"fpm"
-	"gorrilla"
-	"kedpm"
-	"keepass"
-	"keepass2csv"
-	"keepassx"
-	"kwallet"
-	"lastpass"
-	"password-exporter"
-	"pwsafe"
-	"revelation"
-	"roboform")
+IMPORTERS=( "1password" "fpm" "gorrilla" "kedpm" "keepass" "keepass2csv"
+			"keepassx" "kwallet" "lastpass" "password-exporter" "pwsafe" 
+			"revelation" "roboform")
 
 in_array() {
 	local needle=$1; shift
@@ -50,7 +38,7 @@ cmd_import() {
 		importer=$(find "$IMPORTER_DIR/${1}2pass".*)
 		[[ ! -x "$importer" ]] && die "Unable to find $importer"
 		shift
-		"$importer" "$@"
+		"$importer" $@
 	else
 		cmd_import_usage
 	fi
