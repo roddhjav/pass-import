@@ -21,6 +21,14 @@ IMPORTER_DIR="${PASSWORD_STORE_IMPORTER_DIR:-/usr/lib/password-store/importers}"
 IMPORTERS=( "1password" "fpm" "gorrilla" "kedpm" "keepass" "keepass2csv"
 			"keepassx" "kwallet" "lastpass" "password-exporter" "pwsafe" 
 			"revelation" "roboform")
+#
+# Commons color and functions
+#
+bold='\e[1m'
+Bred='\e[1;31m'
+reset='\e[0m'
+_error() { echo -e " ${Bred}[*]${reset}${bold} Error :${reset} ${*}"; }
+_die() { _error "${@}" && exit 1; }
 
 in_array() {
 	local needle=$1; shift
