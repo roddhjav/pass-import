@@ -26,7 +26,7 @@ in_array() {
 	local needle=$1; shift
 	local item
 	for item in "${@}"; do
-		[[ ${item} == ${needle} ]] && return 0
+		[[ "${item}" == "${needle}" ]] && return 0
 	done
 	return 1
 }
@@ -46,11 +46,11 @@ cmd_import_usage() {
 cmd_import() {
 	check_sneaky_paths "$1"
 	local importer
-	if in_array "$1" ${IMPORTERS[@]}; then
+	if in_array "$1" "${IMPORTERS[@]}"; then
 		importer=$(find "$IMPORTER_DIR/${1}2pass".*)
 		[[ ! -x "$importer" ]] && die "Unable to find $importer"
 		shift
-		"$importer" $@
+		"$importer" "$@"
 	else
 		cmd_import_usage
 	fi
