@@ -1,14 +1,13 @@
 # pass import
 
-A generic importer extension for the standard unix password manager `pass`
-(https://www.passwordstore.org/).
-
+A generic importer extension for the standard unix password manager
+[pass](https://www.passwordstore.org/).
 
 ## Description
 **pass-import** is a password store extension allowing you to conveniently
 import your password database to a password store repository.
 
-It support importation of data from the following password manager:
+It supports importation of data from the following password manager:
 * 1password
 * fpm
 * gorrilla
@@ -26,7 +25,23 @@ It support importation of data from the following password manager:
 
 ## Usage
 
-		pass import <importer> [args]
+		pass import - A generic importer extension for pass
+
+		Vesion: 0.2
+
+		Usage:
+		    pass import <importer> [ARG]
+			Import data to a password store repository.
+			ARG depends of the importer script.
+			<importer> can be: keepassx, revelation, roboform, pwsafe
+			fpm, kwallet, kedpm, keepass, password-exporter, 1password
+			lastpass, keepass2csv, gorilla
+
+		Options:
+		    -v, --version  Show version information.
+		    -h, --help	   Print this help message and exit.
+
+		More information may be found in the pass-import(1) man page.
 
 See `man pass-import` for more information on import process
 
@@ -39,7 +54,7 @@ See `man pass-import` for more information on import process
 
 **Other linux**
 
-		git clone https://github.com/alexandrepujol/pass-import/
+		git clone https://github.com/roddhjav/pass-import/
 		cd pass-import
 		sudo make install
 
