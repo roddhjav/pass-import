@@ -60,7 +60,27 @@ clean() { rm -rvf "$PASSWORD_STORE_DIR"; }
 # Test suite config
 #
 GLOBAL_RESULT=0
+typeset -A results importers
 tests=(pass-import-opt)
+importers=( # [importer name]=importer arg
+	["1password"]="$DB/1password"
+	["fpm"]="$DB/fpm"
+	["kedpm"]="$DB/kedpm"
+	["keepass"]="$DB/keepass"
+	["keepass2csv"]="$DB/keepass2csv"
+	["keepassx"]="$DB/keepassx"
+	["kwallet"]="$DB/kwallet"
+	["lastpass"]="$DB/lastpass"
+	["password-exporter"]="$DB/password-exporter"
+	["pwsafe"]="$DB/pwsafe"
+	["revelation"]="$DB/revelation"
+	["roboform"]="$DB/roboform"
+)
+
+for importer in "${!importers[@]}"; do
+	tests+=("import-$importer")
+done
+
 
 #
 # GnuPG Conf.
@@ -79,6 +99,37 @@ KEY5="4D2AFBDE67C60F5999D143AFA6E073D439E5020C"
 # Test Suite
 #
 notice "Loading test suite"
+
+pass_import() {
+	local res
+
+	for importer in "${!importers[@]}"; do
+		notice "Testing import '$importer' database"
+		clean
+		pass import "$importer" "${importers[$importer]}"
+		test $? = 0 && results["import-$importer"]=SUCCESS
+	done
+}
+
+pass_import_opt() {
+
+	notice "Test - Bad options"
+	res=0
+	pass import &> /dev/null
+	test $? = 1 || res=1
+	pass import not_an_importer &> /dev/null
+	test $? = 1 || res=1
+	pass import --help &> /dev/null
+	test $? = 0 || res=1
+	test $res = 0 && results[pass-import-opt]=SUCCESS
+
+	notice "Work In Progress"
+}
+
+
+pass_import
+pass_import_opt
+
 
 #
 # Units Test Results
