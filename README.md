@@ -9,6 +9,7 @@ import your password database to a password store repository.
 
 It supports importation of data from the following password manager:
 * 1password
+* chrome
 * fpm
 * gorrilla
 * kedpm
@@ -35,7 +36,7 @@ It supports importation of data from the following password manager:
 			ARG depends of the importer script.
 			<importer> can be: keepassx, revelation, roboform, pwsafe
 			fpm, kwallet, kedpm, keepass, password-exporter, 1password
-			lastpass, keepass2csv, gorilla
+			lastpass, keepass2csv, gorilla, chrome
 
 		Options:
 		    -v, --version  Show version information.

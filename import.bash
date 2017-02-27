@@ -26,7 +26,7 @@ typeset -A IMPORTERS
 IMPORTERS=( ["1password"]="$RUBY" ["fpm"]="$PERL" ["gorilla"]="$RUBY" ["kedpm"]="$P2"
 			["keepass"]="$P2" ["keepass2csv"]="$P3" ["keepassx"]="$P2" ["kwallet"]="$P2"
 			["lastpass"]="$RUBY" ["password-exporter"]="$P2" ["pwsafe"]="$BASH"
-			["revelation"]="$P2" ["roboform"]="$RUBY")
+			["revelation"]="$P2" ["roboform"]="$RUBY" ["chrome"]="$P3")
 
 #
 # Commons color and functions
