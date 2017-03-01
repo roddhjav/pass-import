@@ -74,7 +74,7 @@ end
 entries = []
 entry = ""
 begin
-  file = File.open(filename)
+  file = File.open(filename,'r:UTF-8')
   file.each do |line|
     if line =~ /^(http|ftp|ssh)/
       entries.push(entry)
