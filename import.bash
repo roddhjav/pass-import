@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# 
+#
 
 IMPORTER_DIR="${PASSWORD_STORE_IMPORTER_DIR:-/usr/lib/password-store/importers}"
 
@@ -36,6 +36,7 @@ Bred='\e[1;31m'
 reset='\e[0m'
 _error() { echo -e " ${Bred}[*]${reset}${bold} Error :${reset} ${*}"; }
 _die() { _error "${@}" && exit 1; }
+
 # Check importers dependencies
 #
 _ensure_dependencies() {
@@ -55,7 +56,7 @@ in_array() {
 cmd_import_verion() {
 	cat <<-_EOF
 	$PROGRAM $COMMAND - A generic importer extension for pass
-	
+
 	Vesion: 0.2
 	_EOF
 }
@@ -65,15 +66,15 @@ cmd_import_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-	    $PROGRAM $COMMAND <importer> [ARG] 
-	        Import data to a password store repository.
+	    $PROGRAM $COMMAND <importer> [ARG]
+	        Import data to a password store.
 	        ARG depends of the importer script.
 	        <importer> can be: ${!IMPORTERS[@]}
 
 	Options:
 	    -v, --version  Show version information.
 	    -h, --help	   Print this help message and exit.
-	    
+
 	More information may be found in the pass-import(1) man page.
 	_EOF
 }
@@ -81,7 +82,7 @@ cmd_import_usage() {
 cmd_import() {
 	local importer_path importer="$1"; shift;
 	[[ -z "$importer" ]] && _die "$PROGRAM $COMMAND <importer> [ARG]"
-	
+
 	check_sneaky_paths "$importer"
 	if in_array "$importer" "${!IMPORTERS[@]}"; then
 		importer_path=$(find "$IMPORTER_DIR/${importer}2pass".* 2> /dev/null)

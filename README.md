@@ -32,7 +32,7 @@ It supports importation of data from the following password manager:
 
 		Usage:
 		    pass import <importer> [ARG]
-			Import data to a password store repository.
+			Import data to a password store.
 			ARG depends of the importer script.
 			<importer> can be: keepassx, revelation, roboform, pwsafe
 			fpm, kwallet, kedpm, keepass, password-exporter, 1password
@@ -44,7 +44,7 @@ It supports importation of data from the following password manager:
 
 		More information may be found in the pass-import(1) man page.
 
-See `man pass-import` for more information on import process
+See `man pass-import` for more information.
 
 
 ## Installation
@@ -53,26 +53,19 @@ See `man pass-import` for more information on import process
 
 		pacaur -S pass-import
 
-**Other linux**
+**Other linuxes**
 
 		git clone https://github.com/roddhjav/pass-import/
 		cd pass-import
 		sudo make install
 
-**Requirments**
+**Requirements**
 
-In order to use extension with `pass`, you need:
-* `pass 1.7.0` or greater. As of today this version has not been released yet.
-Therefore you need to install it by hand from zx2c4.com:
+* `pass 1.7.0` or greater.
 
-		git clone https://git.zx2c4.com/password-store
-		cd password-store
-		sudo make install
-
-* You need to enable the extensions in pass: `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`.
-You can create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
-
-
+* If you do not want to install this extension as system extension, you need to
+enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
+create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
 
 ## Contribution
 Feedback, contributors, pull requests are all very welcome.
@@ -93,4 +86,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
