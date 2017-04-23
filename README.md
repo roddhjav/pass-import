@@ -10,6 +10,7 @@ import your password database to a password store repository.
 It supports importation of data from the following password manager:
 * 1password
 * chrome
+* enpass
 * fpm
 * gorrilla
 * kedpm
