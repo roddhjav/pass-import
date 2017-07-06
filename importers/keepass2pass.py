@@ -39,7 +39,7 @@ def get_value(elements, node_text):
 def path_for(element, path=''):
     """ Generate path name from elements title and current path """
     if element.tag == 'Entry':
-        title = get_value(element.findall("String"), "Title")
+        title = get_value(element.findall("String"), "Title") or ''
     elif element.tag == 'Group':
         title = element.find('Name').text
     else: title = ''
