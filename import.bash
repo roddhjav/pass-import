@@ -17,6 +17,7 @@
 #
 #
 
+readonly VERSION="2.0"
 readonly PASSWORDS_MANAGERS=("1password" "chrome" "dashlane" "enpass" "fpm"
 	"gorilla" "kedpm" "keepass" "keepass2csv" "keepassx" "kwallet" "lastpass"
 	"password-exporter" "pwsafe" "revelation" "roboform")
@@ -46,9 +47,7 @@ _ensure_dependencies() {
 
 cmd_import_verion() {
 	cat <<-_EOF
-	$PROGRAM $COMMAND - A generic importer extension for pass
-
-	Vesion: 0.2
+	$PROGRAM tomb $VERSION - A generic importer extension for pass.
 	_EOF
 }
 
@@ -57,13 +56,15 @@ cmd_import_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-	    $PROGRAM $COMMAND <importer> [ARG]
+	    $PROGRAM $COMMAND <manager> <file>
 	        Import data to a password store.
-	        ARG depends of the importer script.
-	        <importer> can be: ${!IMPORTERS[@]}
+	        <file> is the path to the file that contains the data to import.
+	        <manager> can be: ${PASSWORDS_MANAGERS[@]}
 
 	Options:
-	    -v, --version  Show version information.
+	    -q, --quiet    Be quiet
+	    -v, --verbose  Be verbose
+	    -V, --version  Show version information.
 	    -h, --help	   Print this help message and exit.
 
 	More information may be found in the pass-import(1) man page.
