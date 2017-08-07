@@ -95,10 +95,18 @@ cmd_import() {
 }
 
 # Global options
-opts="$($GETOPT -o vh -l version,help -n "$PROGRAM $COMMAND" -- "$@")"
+VERBOSE=0
+QUIET=0
+
+# Getopt options
+small_arg="vhVq"
+long_arg="verbose,help,version,quiet"
+opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
 while true; do case $1 in
+	-q|--quiet) QUIET=1; VERBOSE=0; shift ;;
+	-v|--verbose) VERBOSE=1; shift ;;
 	-h|--help) shift; cmd_import_usage; exit 0 ;;
 	-V|--version) shift; cmd_import_verion; exit 0 ;;
 	--) shift; break ;;
