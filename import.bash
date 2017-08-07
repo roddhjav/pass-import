@@ -54,6 +54,9 @@ cmd_import_usage() {
 	        <manager> can be: ${PASSWORDS_MANAGERS[@]}
 
 	Options:
+	    -p, --path     Import the passwords to a specific subfolder
+	    -c, --cleanup  Clean imported data
+	    -l, --list     List the supported password managers
 	    -q, --quiet    Be quiet
 	    -v, --verbose  Be verbose
 	    -V, --version  Show version information.
@@ -70,6 +73,13 @@ in_array() {
 		[[ "${item}" == "${needle}" ]] && return 0
 	done
 	return 1
+}
+
+cmd_import_list() {
+	_success "The supported password managers are:"
+	for manager in "${PASSWORDS_MANAGERS[@]}"; do
+		_message "$manager"
+	done
 }
 
 cmd_import() {
@@ -93,14 +103,21 @@ _ensure_dependencies
 # Global options
 VERBOSE=0
 QUIET=0
+CLEANUP=0
+FORCE=0
+path=""
 
 # Getopt options
-small_arg="vhVq"
-long_arg="verbose,help,version,quiet"
+small_arg="vhVqp:lcf"
+long_arg="verbose,help,version,quiet,path:,list,cleanup,force"
 opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
 while true; do case $1 in
+	-p|--path) path="$2"; shift 2 ;;
+	-c|--cleanup) CLEANUP=1; shift ;;
+	-f|--force) FORCE=1; shift ;;
+	-l|--list) shift; cmd_import_list; exit 0 ;;
 	-q|--quiet) QUIET=1; VERBOSE=0; shift ;;
 	-v|--verbose) VERBOSE=1; shift ;;
 	-h|--help) shift; cmd_import_usage; exit 0 ;;
@@ -109,4 +126,4 @@ while true; do case $1 in
 esac done
 
 [[ $err -ne 0 ]] && cmd_import_usage && exit 1
-cmd_import "$@"
+cmd_import "$path" "$@"
