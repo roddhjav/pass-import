@@ -50,20 +50,30 @@ See `man pass-import` for more information.
 
 ## Installation
 
+**From git**
+```sh
+git clone https://github.com/roddhjav/pass-import/
+cd pass-import
+sudo make install
+```
+
+**Generic Linux**
+```sh
+wget https://github.com/roddhjav/pass-import/archive/v2.0.tar.gz
+tar xzf v1.0.tar.gz
+cd pass-import-2.0
+sudo make install
+```
+
 **ArchLinux**
 
-		pacaur -S pass-import
-
-**Other linuxes**
-
-		git clone https://github.com/roddhjav/pass-import/
-		cd pass-import
-		sudo make install
+`pass-import` is available in the [Arch User Repository][aur].
+```sh
+pacaur -S pass-import
+```
 
 **Requirements**
-
 * `pass 1.7.0` or greater.
-
 * If you do not want to install this extension as system extension, you need to
 enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
 create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
