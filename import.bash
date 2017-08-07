@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Import manager - Password Store Extension (https://www.passwordstore.org/)
+# pass import - Password Store Extension (https://www.passwordstore.org/)
 # Copyright (C) 2017 Alexandre PUJOL <alexandre@pujol.io>.
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -14,7 +14,6 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 #
 
 readonly VERSION="2.0"
@@ -38,18 +37,18 @@ _ensure_dependencies() {
 	command -v "${LIBDIR}/import.py" &>/dev/null || _die "$PROGRAM $COMMAND requires ${LIBDIR}/import.py"
 }
 
-cmd_import_verion() {
+cmd_import_version() {
 	cat <<-_EOF
-	$PROGRAM tomb $VERSION - A generic importer extension for pass.
+	$PROGRAM $COMMAND $VERSION - A generic importer extension for pass.
 	_EOF
 }
 
 cmd_import_usage() {
-	cmd_import_verion
+	cmd_import_version
 	echo
 	cat <<-_EOF
 	Usage:
-	    $PROGRAM $COMMAND <manager> <file>
+	    $PROGRAM $COMMAND [options] <manager> <file>
 	        Import data to a password store.
 	        <file> is the path to the file that contains the data to import.
 	        <manager> can be: ${PASSWORDS_MANAGERS[@]}
@@ -63,10 +62,6 @@ cmd_import_usage() {
 	More information may be found in the pass-import(1) man page.
 	_EOF
 }
-
-#
-# Helpers tools and fucntions
-#
 
 in_array() {
 	local needle=$1; shift
@@ -109,7 +104,7 @@ while true; do case $1 in
 	-q|--quiet) QUIET=1; VERBOSE=0; shift ;;
 	-v|--verbose) VERBOSE=1; shift ;;
 	-h|--help) shift; cmd_import_usage; exit 0 ;;
-	-V|--version) shift; cmd_import_verion; exit 0 ;;
+	-V|--version) shift; cmd_import_version; exit 0 ;;
 	--) shift; break ;;
 esac done
 
