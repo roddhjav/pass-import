@@ -29,16 +29,24 @@ IMPORTERS=( ["1password"]="$RUBY" ["fpm"]="$PERL" ["gorilla"]="$RUBY" ["kedpm"]=
 			["revelation"]="$P2" ["roboform"]="$RUBY" ["chrome"]="$P3" ["enpass"]="$RUBY")
 
 #
-# Commons color and functions
+# Common colors and functions
 #
-bold='\e[1m'
-Bred='\e[1;31m'
-reset='\e[0m'
-_error() { echo -e " ${Bred}[*]${reset}${bold} Error :${reset} ${*}"; }
+readonly green='\e[0;32m'
+readonly yellow='\e[0;33m'
+readonly magenta='\e[0;35m'
+readonly Bold='\e[1m'
+readonly Bred='\e[1;31m'
+readonly Bgreen='\e[1;32m'
+readonly Byellow='\e[1;33m'
+readonly Bmagenta='\e[1;35m'
+readonly reset='\e[0m'
+_message() { [ "$QUIET" = 0 ] && echo -e " ${Bold} . ${reset} ${*}" >&2; }
+_warning() { [ "$QUIET" = 0 ] && echo -e " ${Byellow} w ${reset} ${yellow}${*}${reset}" >&2; }
+_success() { [ "$QUIET" = 0 ] && echo -e " ${Bgreen}(*)${reset} ${green}${*}${reset}" >&2; }
+_error() { echo -e " ${Bred}[x]${reset} ${Bold}Error :${reset} ${*}" >&2; }
 _die() { _error "${@}" && exit 1; }
+_verbose() { [ "$VERBOSE" = 0 ] || echo -e " ${Bmagenta} . ${reset} ${magenta}pass${reset} ${*}" >&2; }
 
-# Check importers dependencies
-#
 _ensure_dependencies() {
 	local importer="$1";
 	command -v "${IMPORTERS[$importer]}" &>/dev/null || _die "$PROGRAM $COMMAND $importer requires ${IMPORTERS[$importer]}"
