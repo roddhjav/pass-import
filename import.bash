@@ -17,16 +17,9 @@
 #
 #
 
-IMPORTER_DIR="${PASSWORD_STORE_IMPORTER_DIR:-/usr/lib/password-store/importers}"
-
-# Dependencies list
-P2="python2"; P3="python3"; PERL="perl"; BASH="bash"; RUBY="ruby"
-
-typeset -A IMPORTERS
-IMPORTERS=( ["1password"]="$RUBY" ["fpm"]="$PERL" ["gorilla"]="$RUBY" ["kedpm"]="$P2"
-			["keepass"]="$P2" ["keepass2csv"]="$P3" ["keepassx"]="$P2" ["kwallet"]="$P2"
-			["lastpass"]="$RUBY" ["password-exporter"]="$P2" ["pwsafe"]="$BASH"
-			["revelation"]="$P2" ["roboform"]="$RUBY" ["chrome"]="$P3" ["enpass"]="$RUBY")
+readonly PASSWORDS_MANAGERS=("1password" "chrome" "dashlane" "enpass" "fpm"
+	"gorilla" "kedpm" "keepass" "keepass2csv" "keepassx" "kwallet" "lastpass"
+	"password-exporter" "pwsafe" "revelation" "roboform")
 
 #
 # Common colors and functions
@@ -48,17 +41,7 @@ _die() { _error "${@}" && exit 1; }
 _verbose() { [ "$VERBOSE" = 0 ] || echo -e " ${Bmagenta} . ${reset} ${magenta}pass${reset} ${*}" >&2; }
 
 _ensure_dependencies() {
-	local importer="$1";
-	command -v "${IMPORTERS[$importer]}" &>/dev/null || _die "$PROGRAM $COMMAND $importer requires ${IMPORTERS[$importer]}"
-}
-
-in_array() {
-	local needle=$1; shift
-	local item
-	for item in "${@}"; do
-		[[ "${item}" == "${needle}" ]] && return 0
-	done
-	return 1
+	command -v "xpath" &>/dev/null || _die "$PROGRAM $COMMAND requires xpath"
 }
 
 cmd_import_verion() {
@@ -87,6 +70,19 @@ cmd_import_usage() {
 	_EOF
 }
 
+#
+# Helpers tools and fucntions
+#
+
+in_array() {
+	local needle=$1; shift
+	local item
+	for item in "${@}"; do
+		[[ "${item}" == "${needle}" ]] && return 0
+	done
+	return 1
+}
+
 cmd_import() {
 	local importer_path importer="$1"; shift;
 	[[ -z "$importer" ]] && _die "$PROGRAM $COMMAND <importer> [ARG]"
@@ -101,6 +97,9 @@ cmd_import() {
 		_die "$importer is not a supported importer"
 	fi
 }
+
+# Check dependencies are present or bail out
+_ensure_dependencies
 
 # Global options
 VERBOSE=0
