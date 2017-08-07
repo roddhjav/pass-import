@@ -1,0 +1,6 @@
+engines:
+  shellcheck:
+    enabled: true
+ratings:
+  paths:
+  - "import.bash"
