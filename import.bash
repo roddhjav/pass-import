@@ -82,18 +82,26 @@ cmd_import_list() {
 	done
 }
 
+# Import core function
+# $1: Root path in the password store
+# $2: Password manager name
+# $3: File to import
 cmd_import() {
-	local importer_path importer="$1"; shift;
-	[[ -z "$importer" ]] && _die "$PROGRAM $COMMAND <importer> [ARG]"
+	local path="$1" manager="$2" file="$3"
+	[[ -z "$manager" ]] && _die "$PROGRAM $COMMAND [options] <manager> <file>"
+	[[ -e "$file" ]] || _die "$PROGRAM $COMMAND [options] <manager> <file>"
 
-	check_sneaky_paths "$importer"
-	if in_array "$importer" "${!IMPORTERS[@]}"; then
-		importer_path=$(find "$IMPORTER_DIR/${importer}2pass".* 2> /dev/null)
-		[[ -x "$importer_path" ]] || _die "Unable to find $importer_path"
-		_ensure_dependencies "$importer"
-		"${IMPORTERS[$importer]}" "$importer_path" "$@"
+	check_sneaky_paths "$path" "$file"
+	if in_array "$manager" "${PASSWORDS_MANAGERS[@]}"; then
+		export PREFIX PASSWORD_STORE_KEY GIT_DIR PASSWORD_STORE_GPG_OPTS
+		export X_SELECTION CLIP_TIME PASSWORD_STORE_UMASK GENERATED_LENGTH
+		export CHARACTER_SET CHARACTER_SET_NO_SYMBOLS EXTENSIONS
+		export PASSWORD_STORE_ENABLE_EXTENSIONS  PASSWORD_STORE_SIGNING_KEY
+		export GNUPGHOME LIBDIR VERBOSE QUIET
+		python3 "${LIBDIR}/import.py" "$manager" "$file" "$path" "$CLEANUP" "$FORCE"
+		[ $? = 0 ] || _die "importing data from $manager"
 	else
-		_die "$importer is not a supported importer"
+		_die "$manager is not a supported password manager"
 	fi
 }
 
