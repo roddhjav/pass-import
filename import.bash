@@ -112,18 +112,20 @@ _ensure_dependencies
 VERBOSE=0
 QUIET=0
 CLEANUP=0
+EXTRA=0
 FORCE=0
 path=""
 
 # Getopt options
-small_arg="vhVqp:lcf"
-long_arg="verbose,help,version,quiet,path:,list,cleanup,force"
+small_arg="vhVqp:lcfe"
+long_arg="verbose,help,version,quiet,path:,list,cleanup,force,extra"
 opts="$($GETOPT -o $small_arg -l $long_arg -n "$PROGRAM $COMMAND" -- "$@")"
 err=$?
 eval set -- "$opts"
 while true; do case $1 in
 	-p|--path) path="$2"; shift 2 ;;
 	-c|--cleanup) CLEANUP=1; shift ;;
+	-e|--extra) EXTRA=1; shift ;;
 	-f|--force) FORCE=1; shift ;;
 	-l|--list) shift; cmd_import_list; exit 0 ;;
 	-q|--quiet) QUIET=1; VERBOSE=0; shift ;;
