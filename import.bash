@@ -48,17 +48,27 @@ cmd_import_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-	    $PROGRAM $COMMAND [options] <manager> <file>
-	        Import data to a password store.
-	        <file> is the path to the file that contains the data to import.
-	        <manager> can be: ${PASSWORDS_MANAGERS[@]}
+	    $PROGRAM $COMMAND [[-p folder] [-c] [-e] [-f] | -l] <manager> <file>
+	        Import data from most of the password manager. Passwords
+	        are imported in the existing default password store, therefore
+	        the password store must has been initialized before with 'pass init'
+
+	        <file> is the path to the file that contains the data to import, if
+	        empty read the data from stdin.
+
+	        <manager> can be:
+	        	onepassword chrome dashlane enpass fpm gorilla
+	        	kedpm keepass keepasscsv keepassx kwallet lastpass
+	        	passwordexporter pwsafe revelation roboform
 
 	Options:
-	    -p, --path     Import the passwords to a specific subfolder
-	    -c, --cleanup  Clean imported data
-	    -l, --list     List the supported password managers
-	    -q, --quiet    Be quiet
-	    -v, --verbose  Be verbose
+	    -p, --path     Import the passwords to a specific subfolder.
+	    -c, --clean    Clean data before import.
+	    -e, --extra    Also import all the extra data present.
+	    -l, --list     List the supported password managers.
+	    -f, --force    Overwrite existing path.
+	    -q, --quiet    Be quiet.
+	    -v, --verbose  Be verbose.
 	    -V, --version  Show version information.
 	    -h, --help	   Print this help message and exit.
 
