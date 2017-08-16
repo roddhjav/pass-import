@@ -98,17 +98,25 @@ cmd_import_list() {
 # $3: File to import
 cmd_import() {
 	local path="$1" manager="$2" file="$3"
-	[[ -z "$manager" ]] && _die "$PROGRAM $COMMAND [options] <manager> <file>"
-	[[ -e "$file" ]] || _die "$PROGRAM $COMMAND [options] <manager> <file>"
-
 	check_sneaky_paths "$path" "$file"
+	[[ -z "$manager" ]] && _die "password manager not present. See '$PROGRAM $COMMAND -h'"
+	[[ -e "$PREFIX/$path/.gpg-id" ]] || _die "password store not initialized"
+	if [[ -z "$file" ]]; then
+		DATA="$(cat)"
+	elif [[ -e "$file" ]]; then
+		DATA="$(cat "$file")"
+	else
+		_die "$file to import does not exist"
+	fi
+
 	if in_array "$manager" "${PASSWORDS_MANAGERS[@]}"; then
 		export PREFIX PASSWORD_STORE_KEY GIT_DIR PASSWORD_STORE_GPG_OPTS
 		export X_SELECTION CLIP_TIME PASSWORD_STORE_UMASK GENERATED_LENGTH
 		export CHARACTER_SET CHARACTER_SET_NO_SYMBOLS EXTENSIONS
-		export PASSWORD_STORE_ENABLE_EXTENSIONS  PASSWORD_STORE_SIGNING_KEY
+		export PASSWORD_STORE_ENABLE_EXTENSIONS PASSWORD_STORE_SIGNING_KEY
 		export GNUPGHOME LIBDIR VERBOSE QUIET
-		python3 "${LIBDIR}/import.py" "$manager" "$file" "$path" "$CLEANUP" "$FORCE"
+		echo "$DATA" | python3 "${LIBDIR}/import.py" "$manager" "$file" \
+						"$path" "$CLEANUP" "$FORCE" "$EXTRA"
 		[ $? = 0 ] || _die "importing data from $manager"
 	else
 		_die "$manager is not a supported password manager"
