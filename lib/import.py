@@ -92,7 +92,6 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_SIGNING_KEY')
         self._setenv('GNUPGHOME')
         self.prefix = self.env['PASSWORD_STORE_DIR']
-        self.exist = True  # FIXME
 
     def _setenv(self, var, env = None):
         """ Add var in the environnement variables directory.
