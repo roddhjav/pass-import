@@ -1,0 +1,39 @@
+dist: trusty
+sudo: required
+
+language: bash
+
+env:
+  global:
+    - PASS_VERSION=1.7 KCOV_VERSION=33
+
+addons:
+  apt:
+    packages:
+      - python3
+      - tree
+      - xclip
+      - shellcheck
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - cmake
+
+before_script:
+  - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
+  - tar -xf password-store-$PASS_VERSION.tar.xz
+  - sudo make --directory=password-store-$PASS_VERSION install
+  - wget https://github.com/SimonKagstrom/kcov/archive/v$KCOV_VERSION.tar.gz
+  - tar xzf v$KCOV_VERSION.tar.gz
+  - mkdir kcov-$KCOV_VERSION/build
+  - cmake kcov-$KCOV_VERSION/build
+  - make --directory=kcov-$KCOV_VERSION/build
+  - sudo make install --directory=kcov-$KCOV_VERSION/build
+  - rm -rf kcov-$KCOV_VERSION
+
+script:
+  - make lint
+  - make test
+
+notifications:
+  email: false
