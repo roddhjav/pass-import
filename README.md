@@ -1,7 +1,7 @@
-# pass import
+# pass import [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![climate][clima-img]][clima-url]
 
-A generic importer extension for the standard unix password manager
-[pass](https://www.passwordstore.org/).
+A [pass][pass] extension for importing data from most of the existing
+password manager.
 
 ## Description
 **pass-import** is a password store extension allowing you to conveniently
@@ -97,3 +97,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+[build-img]: https://travis-ci.org/roddhjav/pass-import.svg?branch=master
+[build-url]: https://travis-ci.org/roddhjav/pass-import
+[cover-img]: https://coveralls.io/repos/github/roddhjav/pass-import/badge.svg?branch=master
+[cover-url]: https://coveralls.io/github/roddhjav/pass-import?branch=master
+[clima-img]: https://codeclimate.com/github/roddhjav/pass-import/badges/gpa.svg
+[clima-url]: https://codeclimate.com/github/roddhjav/pass-import
+
+[pass]: https://www.passwordstore.org/
