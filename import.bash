@@ -16,6 +16,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# shellcheck disable=SC2181
+
 readonly VERSION="2.0"
 readonly LIBDIR="${PASSWORD_STORE_LIBDIR:-/usr/lib/password-store/import}"
 readonly PASSWORDS_MANAGERS=("onepassword" "chrome" "dashlane" "enpass" "fpm"
@@ -117,7 +119,7 @@ cmd_import() {
 		export GNUPGHOME LIBDIR VERBOSE QUIET
 		echo "$DATA" | python3 "${LIBDIR}/import.py" "$manager" "$file" \
 						"$path" "$CLEANUP" "$FORCE" "$EXTRA"
-		[ $? = 0 ] || _die "importing data from $manager"
+		[[ $? = 0 ]] || _die "importing data from $manager"
 	else
 		_die "$manager is not a supported password manager"
 	fi
