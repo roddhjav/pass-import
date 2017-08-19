@@ -132,3 +132,66 @@ class PasswordStore():
         arg.append(path)
         return self._pass(arg, data)
 
+class PasswordManager():
+
+    def __init__(self, all):
+        self.data = []
+        self.all = all
+
+    def get(self, password):
+        """ Return the content of a password entry in a password-store format.
+        """
+        entry = password.copy()
+        string = entry['password'] + '\n'
+        entry.pop('password', None)
+        entry.pop('path', None)
+        for key, value in entry.items():
+            string += "%s: %s\n" % (key, value)
+        return string
+
+    def satanize(self, clean):
+        """ Clean parsed data in order to be imported to a store """
+        for entry in self.data:
+            # Remove the protocol prefix for the title
+            entry['title'] = entry['title'].replace('https://', '')
+            entry['title'] = entry['title'].replace('http://', '')
+
+            # Make the title more command line friendly
+            if clean:
+                title = entry['title'].replace(" ", "_").replace("&", "and")
+                title = title.replace('/', '-').replace('\\', '-')
+                title = title.replace("@", "At").replace("'", "")
+                entry['title'] = title.replace("[", "").replace("]", "")
+
+            # Create path from title and group
+            path = ''
+            if 'group' in entry:
+                path = entry['group'].replace('\\', '/')
+                entry.pop('group', None)
+            entry['path'] = os.path.join(path, entry['title'])
+            entry.pop('title', None)
+
+            # Remove the protocol prefix for the url
+            if 'url' in entry:
+                entry['url'] = entry['url'].replace('https://', '')
+                entry['url'] = entry['url'].replace('http://', '')
+
+            # Rough protection for fancy username/hostname like “; rm -Rf /\n”
+
+            # Remove unused keys
+            empty = [k for k, v in entry.items() if not v]
+            for key in empty:
+                entry.pop(key, None)
+
+        # Detecting duplicate paths
+        seen = []
+        for entry in self.data:
+            path = entry['path']
+            if path in seen:
+                while path in seen:
+                    path += '0'
+                seen.append(path)
+                entry['path'] = path
+            else:
+                seen.append(path)
+
