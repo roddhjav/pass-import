@@ -240,3 +240,42 @@ class passwordexporter(PasswordManagerCSV):
                 die('Input format not supported')
         super(passwordexporter, self).parse(file)
 
+if __name__ == "__main__":
+    # 'import.bash' did the sanity checks all these data are valid.
+    try:
+        manager = str(sys.argv[1])
+        path = str(sys.argv[2])
+        root = str(sys.argv[3])
+        clean = bool(int(sys.argv[4]))
+        force = bool(int(sys.argv[5]))
+        extra = bool(int(sys.argv[6]))
+    except Exception:
+        die("This program should only be called by 'pass import'.")
+
+    # Import and clean data
+    ImporterClass = getattr(__import__('import'), manager)
+    importer = ImporterClass(extra)
+    importer.parse(sys.stdin)
+    importer.satanize(clean)
+
+    # Insert data into the password store
+    store = PasswordStore()
+    for entry in importer.data:
+        passpath = os.path.join(root, entry['path'])
+        store.insert(passpath, importer.get(entry), force)
+
+    # Success!
+    success("Importing passwords from %s" % manager)
+    if path is '':
+        path = 'read from stdin'
+    message("File: %s" % path)
+    if root is not '':
+        message("Root path: %s" % root)
+    message("Number of password imported: %s" % len(importer.data))
+    if clean:
+        message("Imported data cleaned")
+    if extra:
+        message("Extra data conserved")
+    message("Passwords imported:")
+    for entry in importer.data:
+        msg(entry['path'])
