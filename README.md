@@ -57,26 +57,41 @@ cd pass-import
 sudo make install
 ```
 
-**Generic Linux**
+**OS X**
 ```sh
-wget https://github.com/roddhjav/pass-import/archive/v2.0.tar.gz
-tar xzf v1.0.tar.gz
+git clone https://github.com/roddhjav/pass-import/
+cd pass-import
+make install PREFIX=/usr/local
+```
+
+**Stable version**
+```sh
+wget https://github.com/roddhjav/pass-import/releases/download/v2.0/pass-import-2.0.tar.gz
+tar xzf pass-import-2.0.tar.gz
 cd pass-import-2.0
 sudo make install
+```
+
+Releases and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
+You should verify the signature:
+```sh
+gpg --verify pass-import-2.0.tar.gz.sig
 ```
 
 **ArchLinux**
 
 `pass-import` is available in the [Arch User Repository][aur].
 ```sh
-pacaur -S pass-import
+pacaur -S pass-import # or your preferred AUR install method
 ```
 
 **Requirements**
 * `pass 1.7.0` or greater.
+* `python 3`
 * If you do not want to install this extension as system extension, you need to
 enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
 create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
+
 
 ## Contribution
 Feedback, contributors, pull requests are all very welcome.
@@ -106,3 +121,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 [clima-url]: https://codeclimate.com/github/roddhjav/pass-import
 
 [pass]: https://www.passwordstore.org/
+[keys]: https://pujol.io/keys
+[aur]: https://aur.archlinux.org/packages/pass-import
+
