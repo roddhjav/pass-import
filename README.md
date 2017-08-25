@@ -4,28 +4,38 @@ A [pass][pass] extension for importing data from most of the existing
 password manager.
 
 ## Description
-**pass-import** is a password store extension allowing you to conveniently
-import your password database to a password store repository.
+`pass import` is a password store extension allowing you to conveniently
+import your password database to a password store repository. It natively
+supports import from 15 differents password managers. More manager support can
+easily be added.
 
-It supports importation of data from the following password manager:
-* 1password
-* chrome
-* enpass
-* fpm
-* gorrilla
-* kedpm
-* keepass
-* keepass2csv
-* keepassx
-* kwallet
-* lastpass
-* password-exporter
-* pwsafe
-* revelation
-* roboform
+Passwords are imported in the existing default password store, therefore
+the password store must has been initialized before with `pass init`.
 
+By default pass, import entries at the root of the password store and only keeps
+the main data (password, login, email, url, group). This behavior can be changed
+using the provided options.
 
-## Usage
+The following password managers are supported:
+
+|          **Password Manager**          |         **How to export Data**         |             **Command line**            |
+|:--------------------------------------:|:--------------------------------------:|:---------------------------------------:|
+|         [1password][1password]         |                   * *                  |    `pass import onepassword file.xml`   |
+|            [chrome][chrome]            |                   * *                  |      `pass import chrome file.xml`      |
+|            [enpass][enpass]            |        *File > Export > As CSV*        |      `pass import enpass file.csv`      |
+|               [fpm][fpm]               |  *File > Export Passwords: Plain XML*  |        `pass import fpm file.xml`       |
+|          [gorrilla][gorrilla]          |     *File > Export: Yes: CSV Files*    |     `pass import gorrilla file.xml`     |
+|             [kedpm][kedpm]             |                   * *                  |       `pass import kedpm file.xml`      |
+|           [keepass][keepass]           |    *File > Export > Keepass2 (XML)*    |      `pass import keepass file.xml`     |
+|         [keepass2csv][keepass]         |     *File > Export > Keepass (CSV)*    |    `pass import keepasscsv file.csv`    |
+|          [keepassx][keepassx]          |  *File > Export to > Keepass XML File* |     `pass import keepassx file.xml`     |
+|           [kwallet][kwallet]           |                   * *                  |      `pass import kwallet file.xml`     |
+|          [lastpass][lastpass]          |   *More Options > Advanced > Export*   |     `pass import lastpass file.csv`     |
+| [password-exporter][password-exporter] | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
+|            [pwsafe][pwsafe]            |     *File > Export To > XML Format*    |      `pass import pwsafe file.xml`      |
+|        [revelation][revelation]        |          *File > Export: XML*          |    `pass import revelation file.xml`    |
+|          [roboform][roboform]          |                   * *                  |     `pass import roboform file.xml`     |
+
 
 		pass import - A generic importer extension for pass
 
@@ -124,3 +134,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-import
 
+[1password]: https://1password.com/
+[chrome]: https://support.google.com/chrome
+[enpass]: https://www.enpass.io/
+[fpm]: http://fpm.sourceforge.net/
+[gorrilla]: https://github.com/zdia/gorilla/wiki
+[kedpm]: http://kedpm.sourceforge.net/
+[keepass]: keepass.info
+[keepassx]: https://www.keepassx.org/
+[kwallet]: https://utils.kde.org/projects/kwalletmanager/
+[lastpass]: https://www.lastpass.com/
+[password-exporter]: https://addons.mozilla.org/en-US/firefox/addon/password-exporter/
+[pwsafe]: https://pwsafe.org/
+[revelation]: https://revelation.olasagasti.info/
+[roboform]: https://www.roboform.com/
