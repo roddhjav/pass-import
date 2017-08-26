@@ -37,23 +37,43 @@ The following password managers are supported:
 |          [roboform][roboform]          |                   * *                  |     `pass import roboform file.xml`     |
 
 
-		pass import - A generic importer extension for pass
 
-		Vesion: 0.2
 
-		Usage:
-		    pass import <importer> [ARG]
-			Import data to a password store.
-			ARG depends of the importer script.
-			<importer> can be: keepassx, revelation, roboform, pwsafe
-			fpm, kwallet, kedpm, keepass, password-exporter, 1password
-			lastpass, keepass2csv, gorilla, chrome
 
-		Options:
-		    -v, --version  Show version information.
-		    -h, --help	   Print this help message and exit.
 
-		More information may be found in the pass-import(1) man page.
+
+## Usage
+
+```
+pass import 2.0 - A generic importer extension for pass.
+
+Usage:
+    pass import [[-p folder] [-c] [-e] [-f] | -l] <manager> <file>
+        Import data from most of the password manager. Passwords
+        are imported in the existing default password store, therefore
+        the password store must has been initialized before with 'pass init'
+
+        <file> is the path to the file that contains the data to import, if
+        empty read the data from stdin.
+
+        <manager> can be:
+        	onepassword chrome dashlane enpass fpm gorilla
+        	kedpm keepass keepasscsv keepassx kwallet lastpass
+        	passwordexporter pwsafe revelation roboform
+
+Options:
+    -p, --path     Import the passwords to a specific subfolder.
+    -c, --clean    Clean data before import.
+    -e, --extra    Also import all the extra data present.
+    -l, --list     List the supported password managers.
+    -f, --force    Overwrite existing path.
+    -q, --quiet    Be quiet.
+    -v, --verbose  Be verbose.
+    -V, --version  Show version information.
+    -h, --help	   Print this help message and exit.
+
+More information may be found in the pass-import(1) man page.
+```
 
 See `man pass-import` for more information.
 
