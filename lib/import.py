@@ -93,7 +93,7 @@ class PasswordStore():
         self._setenv('GNUPGHOME')
         self.prefix = self.env['PASSWORD_STORE_DIR']
 
-    def _setenv(self, var, env = None):
+    def _setenv(self, var, env=None):
         """ Add var in the environnement variables directory.
             env must be an existing os environnement variables.
         """
@@ -102,14 +102,14 @@ class PasswordStore():
         if env in os.environ:
             self.env[var] = os.environ[env]
 
-    def _pass(self, arg = None, data = None):
+    def _pass(self, arg=None, data=None):
         """ Call to password store """
         command = [self.passbinary]
         if arg is not None:
             command.extend(arg)
 
-        process = Popen(command, universal_newlines = True, env = self.env,
-                        stdin = PIPE, stdout = PIPE, stderr = PIPE)
+        process = Popen(command, universal_newlines=True, env=self.env,
+                        stdin=PIPE, stdout=PIPE, stderr=PIPE)
         (stdout, stderr) = process.communicate(data)
         res = process.wait()
         if res:
@@ -117,14 +117,14 @@ class PasswordStore():
 
         return stdout
 
-    def _add_to(self, arg, option, optname, boolean = False):
+    def _add_to(self, arg, option, optname, boolean=False):
         if option:
             if boolean is False:
                 optname += '=' + option
             arg.append(optname)
         return arg
 
-    def insert(self, path, data, force = False):
+    def insert(self, path, data, force=False):
         """ Multiline insertion into the password store. """
         arg = ['insert']
         arg = self._add_to(arg, True, '--multiline', True)
