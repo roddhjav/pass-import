@@ -20,7 +20,7 @@ import os
 import sys
 import csv
 from xml.etree import ElementTree
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, list2cmdline
 from collections import OrderedDict
 
 if 'VERBOSE' not in os.environ or 'QUIET' not in os.environ:
@@ -113,22 +113,15 @@ class PasswordStore():
         (stdout, stderr) = process.communicate(data)
         res = process.wait()
         if res:
-            raise PasswordStoreError("%s %s %s" % (command, stdout, stderr))
-
+            raise PasswordStoreError("%s: %s %s" % (list2cmdline(command),
+                                     stdout, stderr))
         return stdout
-
-    def _add_to(self, arg, option, optname, boolean=False):
-        if option:
-            if boolean is False:
-                optname += '=' + option
-            arg.append(optname)
-        return arg
 
     def insert(self, path, data, force=False):
         """ Multiline insertion into the password store. """
-        arg = ['insert']
-        arg = self._add_to(arg, True, '--multiline', True)
-        arg = self._add_to(arg, force, '--force', True)
+        arg = ['insert', '--multiline']
+        if force:
+            arg.append('--force')
         arg.append(path)
         return self._pass(arg, data)
 
@@ -261,8 +254,11 @@ if __name__ == "__main__":
     # Insert data into the password store
     store = PasswordStore()
     for entry in importer.data:
-        passpath = os.path.join(root, entry['path'])
-        store.insert(passpath, importer.get(entry), force)
+        try:
+            passpath = os.path.join(root, entry['path'])
+            store.insert(passpath, importer.get(entry), force)
+        except PasswordStoreError as e:
+            die(e)
 
     # Success!
     success("Importing passwords from %s" % manager)
