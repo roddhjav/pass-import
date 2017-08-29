@@ -39,6 +39,25 @@ BMAGENTA = '\033[95m'
 BOLD = '\033[1m'
 END = '\033[0m'
 
+importer_map = {
+    '1password': 'OnePassword',
+    'chrome': 'Chrome',
+    'dashlane': 'Dashlane',
+    'enpass': 'Enpass',
+    'fpm': 'FigaroPM',
+    'gorilla': 'Gorilla',
+    'kedpm': 'Kedpm',
+    'keepass': 'Keepass',
+    'keepasscsv': 'KeepassCSV',
+    'keepassx': 'KeepassX',
+    'kwallet': 'Kwallet',
+    'lastpass': 'Lastpass',
+    'passwordexporter': 'PasswordExporter',
+    'pwsafe': 'Pwsafe',
+    'revelation': 'Revelation',
+    'roboform': 'Roboform'
+}
+
 def verbose(msg):
     if VERBOSE:
         print("%s  .  %s%s" % (BMAGENTA, END, msg))
