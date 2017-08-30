@@ -151,11 +151,11 @@ class PasswordManager():
         self.all = all
 
     def get(self, password):
-        """ Return the content of a password entry in a password-store format.
-        """
+        """ Return the content of an entry in a password-store format. """
         entry = password.copy()
-        string = entry['password'] + '\n'
-        entry.pop('password', None)
+        string = ''
+        if 'password' in entry:
+            string = entry.pop('password', None) + '\n'
         entry.pop('path', None)
         for key, value in entry.items():
             string += "%s: %s\n" % (key, value)
@@ -178,10 +178,8 @@ class PasswordManager():
             # Create path from title and group
             path = ''
             if 'group' in entry:
-                path = entry['group'].replace('\\', '/')
-                entry.pop('group', None)
-            entry['path'] = os.path.join(path, entry['title'])
-            entry.pop('title', None)
+                path = entry.pop('group', None).replace('\\', '/')
+            entry['path'] = os.path.join(path, entry.pop('title', None))
 
             # Remove the protocol prefix for the url
             if 'url' in entry:
@@ -208,16 +206,14 @@ class PasswordManager():
                 seen.append(path)
 
 class PasswordManagerCSV(PasswordManager):
-    delimiter = ','
-
     def parse(self, file):
-        reader = csv.DictReader(file, delimiter=self.delimiter, quotechar='"')
+        reader = csv.DictReader(file, delimiter=',', quotechar='"')
         for row in reader:
             entry = OrderedDict()
-            for key, xmlkey in self.keys.items():
-                if xmlkey is not '':
-                    entry[key] = row[xmlkey]
-                    row.pop(xmlkey, None)
+            for key, csvkey in self.keys.items():
+                if csvkey is not '':
+                    entry[key] = row[csvkey]
+                    row.pop(csvkey, None)
 
             if self.all:
                 for col in row:
