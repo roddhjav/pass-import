@@ -88,6 +88,9 @@ def die(msg):
 class PasswordStoreError(Exception):
     pass
 
+class FormatError(Exception):
+    pass
+
 class PasswordStore():
     """ Simple Password Store for python, only able to insert password.
         Supports all the environnement variables.
@@ -266,8 +269,11 @@ if __name__ == "__main__":
     # Import and clean data
     ImporterClass = getattr(__import__('import'), importer_map[manager])
     importer = ImporterClass(extra)
-    importer.parse(sys.stdin)
-    importer.satanize(clean)
+    try:
+        importer.parse(sys.stdin)
+        importer.satanize(clean)
+    except FormatError:
+        die("%s is not a exported %s file" % (path, manager))
 
     # Insert data into the password store
     store = PasswordStore()
