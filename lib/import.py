@@ -164,12 +164,17 @@ class PasswordManager():
             string += "%s: %s\n" % (key, value)
         return string
 
+    def _clean_protocol(self, entry, key):
+        """ Remove the protocol prefix for the value """
+        if key in entry:
+            entry[key] = entry[key].replace('https://', '')
+            entry[key] = entry[key].replace('http://', '')
+
     def satanize(self, clean):
         """ Clean parsed data in order to be imported to a store """
         for entry in self.data:
-            # Remove the protocol prefix for the title
-            entry['title'] = entry['title'].replace('https://', '')
-            entry['title'] = entry['title'].replace('http://', '')
+            self._clean_protocol(entry, 'title')
+            self._clean_protocol(entry, 'url')
 
             # Make the title more command line friendly
             if clean:
@@ -182,14 +187,14 @@ class PasswordManager():
             path = ''
             if 'group' in entry:
                 path = entry.pop('group', None).replace('\\', '/')
-            entry['path'] = os.path.join(path, entry.pop('title', None))
-
-            # Remove the protocol prefix for the url
-            if 'url' in entry:
-                entry['url'] = entry['url'].replace('https://', '')
-                entry['url'] = entry['url'].replace('http://', '')
-
-            # Rough protection for fancy username/hostname like “; rm -Rf /\n”
+            if 'title' in entry:
+                entry['path'] = os.path.join(path, entry.pop('title', None))
+            elif 'url' in entry:
+                entry['path'] = os.path.join(path, entry['url'])
+            elif 'login' in entry:
+                entry['path'] = os.path.join(path, entry['login'])
+            else:
+                entry['path'] = os.path.join(path, 'notitle')
 
             # Remove unused keys
             empty = [k for k, v in entry.items() if not v]
