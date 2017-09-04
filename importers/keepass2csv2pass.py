@@ -43,8 +43,9 @@ def prepareForInsertion(row):
 	
 	path = keyFolder+"/"+keyName+"/"+username
 	data = password + "\n" if password else "\n"
-	data = "%s%s: %s\n" % (data, "url:", url+"\n")
-	data = "%s%s: %s\n" % (data, "notes:", notes+"\n")
+	data = "%s%s: %s\n" % (data, "Username", username)
+	data = "%s%s: %s\n" % (data, "URL", url)
+	data = "%s%s: %s\n" % (data, "Notes", notes)
 	pass_import_entry(path,data) 
 	print(path+" imported!")
 
