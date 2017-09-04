@@ -46,7 +46,7 @@ importer_map = {
     'enpass': 'Enpass',
     'fpm': 'FigaroPM',
     'gorilla': 'Gorilla',
-    'kedpm': 'Kedpm',
+    'kedpm': 'FigaroPM',
     'keepass': 'Keepass',
     'keepasscsv': 'KeepassCSV',
     'keepassx': 'KeepassX',
