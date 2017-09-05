@@ -229,9 +229,45 @@ class PasswordManagerCSV(PasswordManager):
 
             self.data.append(entry)
 
-class Gorilla(PasswordManagerCSV):
+class PasswordManagerXML(PasswordManager):
+
+    def _checkformat(self, tree):
+        if tree.tag != self.format:
+            raise FormatError()
+
+    def _getroot(self, tree):
+        return tree
+
+    def _getvalue(self, element, xmlkey):
+        return element.find(xmlkey).text
+
+    def _getentry(self, element):
+        entry = OrderedDict()
+        for key, xmlkey in self.keys.items():
+            if xmlkey is not '':
+                value = self._getvalue(element, xmlkey)
+                if value is not None and not len(value) == 0:
+                    entry[key] = value
+        return entry
+
+    def parse(self, file):
+        tree = ElementTree.XML(file.read())
+        self._checkformat(tree)
+        root = self._getroot(tree)
+        self._import(root)
+
+class FigaroPM(PasswordManagerXML):
+    format = 'FPM'
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'category'}
+
+    def _getroot(self, tree):
+        return tree.find('PasswordList')
+
+    def _import(self, element, path='', npath=None):
+        for xmlentry in element.findall('PasswordItem'):
+            entry = self._getentry(xmlentry)
+            self.data.append(entry)
 
 
 class KeepassCSV(PasswordManagerCSV):
