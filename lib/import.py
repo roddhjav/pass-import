@@ -256,6 +256,10 @@ class PasswordManagerXML(PasswordManager):
         root = self._getroot(tree)
         self._import(root)
 
+class OnePassword(PasswordManagerCSV):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'url', 'comments': 'notes'}
+
 class FigaroPM(PasswordManagerXML):
     format = 'FPM'
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
@@ -268,6 +272,10 @@ class FigaroPM(PasswordManagerXML):
         for xmlentry in element.findall('PasswordItem'):
             entry = self._getentry(xmlentry)
             self.data.append(entry)
+
+class Gorilla(PasswordManagerCSV):
+    keys = {'title': 'title', 'password': 'password', 'login': 'user',
+            'url': 'url', 'comments': 'notes', 'group': 'group'}
 
 
 class KeepassCSV(PasswordManagerCSV):
