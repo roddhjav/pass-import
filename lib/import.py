@@ -293,7 +293,7 @@ class PasswordExporter(PasswordManagerCSV):
     def parse(self, file):
         line = file.readline()
         if not line.startswith(self.firstline):
-                die('Input format not supported')
+            raise FormatError()
         super(PasswordExporter, self).parse(file)
 
 if __name__ == "__main__":
