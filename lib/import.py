@@ -260,6 +260,37 @@ class OnePassword(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'notes'}
 
+class Enpass(PasswordManagerCSV):
+    firstline = '"Title","Field","Value","Field","Value",.........,"Note"'
+    keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
+            'url': 'URL', 'comments': 'notes', 'group': 'group'}
+
+    def parse(self, file):
+        line = file.readline()
+        if not line.startswith(self.firstline):
+            raise FormatError()
+
+        reader = csv.reader(file)
+        for row in reader:
+            entry = OrderedDict()
+            entry['title'] = row.pop(0)
+            comments = row.pop()
+            for key, csvkey in self.keys.items():
+                if csvkey in row:
+                    index = row.index(csvkey)
+                    entry[key] = row[index+1]
+                    row.pop(index+1)
+                    row.pop(index)
+            entry['comments'] = comments
+
+            if self.all:
+                index = 0
+                while index < len(row):
+                    entry[row[index]] = row[index+1]
+                    index += 2
+
+            self.data.append(entry)
+
 class FigaroPM(PasswordManagerXML):
     format = 'FPM'
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
