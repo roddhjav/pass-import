@@ -20,7 +20,7 @@
 
 readonly VERSION="2.0"
 readonly LIBDIR="${PASSWORD_STORE_LIBDIR:-/usr/lib/password-store/import}"
-readonly PASSWORDS_MANAGERS=("onepassword" "chrome" "dashlane" "enpass" "fpm"
+readonly PASSWORDS_MANAGERS=("1password" "chrome" "dashlane" "enpass" "fpm"
 	"gorilla" "kedpm" "keepass" "keepasscsv" "keepassx" "kwallet" "lastpass"
 	"passwordexporter" "pwsafe" "revelation" "roboform")
 
