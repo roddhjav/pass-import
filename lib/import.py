@@ -260,6 +260,10 @@ class OnePassword(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'notes'}
 
+class Chrome(PasswordManagerCSV):
+    keys = {'title': 'name', 'password': 'password', 'login': 'username',
+            'url': 'url', 'group': 'group'}
+
 class Enpass(PasswordManagerCSV):
     firstline = '"Title","Field","Value","Field","Value",.........,"Note"'
     keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
