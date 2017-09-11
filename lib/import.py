@@ -20,7 +20,7 @@ import os
 import sys
 import csv
 from xml.etree import ElementTree
-from subprocess import Popen, PIPE, list2cmdline
+from subprocess import Popen, PIPE
 from collections import OrderedDict
 
 if 'VERBOSE' not in os.environ or 'QUIET' not in os.environ:
@@ -135,8 +135,7 @@ class PasswordStore():
         (stdout, stderr) = process.communicate(data)
         res = process.wait()
         if res:
-            raise PasswordStoreError("%s: %s %s" % (list2cmdline(command),
-                                     stdout, stderr))
+            raise PasswordStoreError("%s %s" % (stderr, stdout))
         return stdout
 
     def insert(self, path, data, force=False):
@@ -361,7 +360,7 @@ if __name__ == "__main__":
             passpath = os.path.join(root, entry['path'])
             store.insert(passpath, importer.get(entry), force)
         except PasswordStoreError as e:
-            die(e)
+            die("Adding data to the store %s" % e)
 
     # Success!
     success("Importing passwords from %s" % manager)
