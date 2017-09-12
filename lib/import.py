@@ -238,7 +238,11 @@ class PasswordManagerXML(PasswordManager):
         return tree
 
     def _getvalue(self, element, xmlkey):
-        return element.find(xmlkey).text
+        value = element.find(xmlkey)
+        if value is None:
+            return ''
+        else:
+            return value.text
 
     def _getentry(self, element):
         entry = OrderedDict()
@@ -329,6 +333,18 @@ class PasswordExporter(PasswordManagerCSV):
         if not line.startswith(self.firstline):
             raise FormatError()
         super(PasswordExporter, self).parse(file)
+
+class Pwsafe(PasswordManagerXML):
+    format = 'passwordsafe'
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'url', 'comments': 'notes', 'group': 'group'}
+
+    def _import(self, element):
+        for xmlentry in element.findall('entry'):
+            entry = self._getentry(xmlentry)
+            if 'group' in entry:
+                entry['group'] = entry['group'].replace('.', '/')
+            self.data.append(entry)
 
 if __name__ == "__main__":
     # 'import.bash' did the sanity checks all these data are valid.
