@@ -315,6 +315,56 @@ class Gorilla(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'group'}
 
+class KeepassX(PasswordManagerXML):
+    group = 'group'
+    entry = 'entry'
+    format = 'database'
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'url', 'comments': 'comment'}
+
+    def _getpath(self, element, path=''):
+        if element.tag == 'database':
+            return ''
+        else:
+            return os.path.join(path, element.find('title').text)
+
+    def _import(self, element, path=''):
+        path = self._getpath(element, path)
+        for group in element.findall(self.group):
+            self._import(group, path)
+        for xmlentry in element.findall(self.entry):
+            entry = self._getentry(xmlentry)
+            entry['title'] = self._getpath(xmlentry)
+            entry['group'] = path
+            self.data.append(entry)
+
+class Keepass(KeepassX):
+    group = 'Group'
+    entry = 'Entry'
+    format = 'KeePassFile'
+    keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
+            'url': 'URL', 'comments': 'Notes'}
+
+    def _getroot(self, tree):
+        root = tree.find('Root')
+        return root.find('Group')
+
+    def _getvalue(self, elements, text):
+        for element in elements:
+            for child in element.findall('Key'):
+                if child.text == text:
+                    return element.find('Value').text
+        return ''
+
+    def _getpath(self, element, path=''):
+        """ Generate path name from elements title and current path """
+        if element.tag == 'Entry':
+            title = self._getvalue(element.findall('String'), 'Title') or ''
+        elif element.tag == 'Group':
+            title = element.find('Name').text
+        else:
+            title = ''
+        return os.path.join(path, title)
 
 class KeepassCSV(PasswordManagerCSV):
     keys = {'title': 'Account', 'password': 'Password', 'login': 'Login Name',
