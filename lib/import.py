@@ -306,7 +306,7 @@ class FigaroPM(PasswordManagerXML):
     def _getroot(self, tree):
         return tree.find('PasswordList')
 
-    def _import(self, element, path='', npath=None):
+    def _import(self, element):
         for xmlentry in element.findall('PasswordItem'):
             entry = self._getentry(xmlentry)
             self.data.append(entry)
