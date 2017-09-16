@@ -396,6 +396,33 @@ class Pwsafe(PasswordManagerXML):
                 entry['group'] = entry['group'].replace('.', '/')
             self.data.append(entry)
 
+class Revelation(PasswordManagerXML):  # WIP
+    format = 'revelationdata'
+    keys = {'title': 'name', 'password': 'generic-password',
+            'login': 'generic-username', 'url': 'generic-hostname',
+            'comments': 'notes', 'group': '', 'description': 'description'}
+
+    def _getvalue(self, element, xmlkey):
+        fieldkeys = ['generic-hostname', 'generic-username', 'generic-password']
+        if xmlkey in fieldkeys:
+            for field in element.findall('field'):
+                if xmlkey == field.attrib['id']:
+                    return field.text
+        else:
+            return element.find(xmlkey).text
+
+    def _import(self, element, path=''):
+        for xmlentry in element.findall('entry'):
+            if xmlentry.attrib['type'] == 'folder':
+                if path != xmlentry.find('name').text:
+                    path = ''
+                path = os.path.join(path, xmlentry.find('name').text)
+                self._import(xmlentry, path)
+            else:
+                entry = self._getentry(xmlentry)
+                entry['group'] = path
+                self.data.append(entry)
+
 if __name__ == "__main__":
     # 'import.bash' did the sanity checks all these data are valid.
     try:
