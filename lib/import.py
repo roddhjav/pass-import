@@ -451,6 +451,8 @@ if __name__ == "__main__":
     for entry in importer.data:
         try:
             passpath = os.path.join(root, entry['path'])
+            verbose("Path: %s" % passpath)
+            verbose("Data: %s" % importer.get(entry).replace('\n', '\n           '))
             store.insert(passpath, importer.get(entry), force)
         except PasswordStoreError as e:
             die("Adding data to the store %s" % e)
