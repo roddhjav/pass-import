@@ -32,10 +32,11 @@ QUIET = bool(int(os.environ['QUIET']))
 
 GREEN = '\033[32m'
 YELLOW = '\033[33m'
-BRED = '\033[91m'
-BGREEN = '\033[92m'
-BYELLOW = '\033[93m'
-BMAGENTA = '\033[95m'
+MAGENTA = '\033[35m'
+BRED = '\033[1m\033[91m'
+BGREEN = '\033[1m\033[92m'
+BYELLOW = '\033[1m\033[93m'
+BMAGENTA = '\033[1m\033[95m'
 BOLD = '\033[1m'
 END = '\033[0m'
 
@@ -58,9 +59,9 @@ importer_map = {
     'roboform': 'Roboform'
 }
 
-def verbose(msg):
+def verbose(title, msg):
     if VERBOSE:
-        print("%s  .  %s%s" % (BMAGENTA, END, msg))
+        print("%s  .  %s%s%s: %s%s" % (BMAGENTA, END, MAGENTA, title, END, msg))
 
 def message(msg):
     if not QUIET:
@@ -451,11 +452,12 @@ if __name__ == "__main__":
     for entry in importer.data:
         try:
             passpath = os.path.join(root, entry['path'])
-            verbose("Path: %s" % passpath)
-            verbose("Data: %s" % importer.get(entry).replace('\n', '\n           '))
-            store.insert(passpath, importer.get(entry), force)
+            data = importer.get(entry)
+            verbose("Path", passpath)
+            verbose("Data", data.replace('\n', '\n           '))
+            store.insert(passpath, data, force)
         except PasswordStoreError as e:
-            die("Adding data to the store %s" % e)
+            warning("Imposible to insert %s into the store: %s" % (passpath, e))
 
     # Success!
     success("Importing passwords from %s" % manager)
