@@ -42,6 +42,7 @@ END = '\033[0m'
 
 importer_map = {
     '1password': 'OnePassword',
+    '1password4': 'OnePassword4',
     'chrome': 'Chrome',
     'dashlane': 'Dashlane',
     'enpass': 'Enpass',
@@ -260,9 +261,13 @@ class PasswordManagerXML(PasswordManager):
         root = self._getroot(tree)
         self._import(root)
 
-class OnePassword(PasswordManagerCSV):
+class OnePassword4(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'notes'}
+
+class OnePassword(PasswordManagerCSV):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'urls', 'comments': 'notesPlain', 'group': 'tags'}
 
 class Chrome(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
