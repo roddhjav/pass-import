@@ -174,6 +174,12 @@ class PasswordManager():
     def satanize(self, clean):
         """ Clean parsed data in order to be imported to a store """
         for entry in self.data:
+            # Remove unused keys
+            empty = [k for k, v in entry.items() if not v]
+            for key in empty:
+                entry.pop(key, None)
+
+            # Cleaning protocol prefix
             self._clean_protocol(entry, 'title')
             self._clean_protocol(entry, 'url')
 
@@ -196,11 +202,6 @@ class PasswordManager():
                 entry['path'] = os.path.join(path, entry['login'])
             else:
                 entry['path'] = os.path.join(path, 'notitle')
-
-            # Remove unused keys
-            empty = [k for k, v in entry.items() if not v]
-            for key in empty:
-                entry.pop(key, None)
 
         # Detecting duplicate paths
         seen = []
