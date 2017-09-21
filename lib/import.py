@@ -403,7 +403,7 @@ class Pwsafe(PasswordManagerXML):
                 entry['group'] = entry['group'].replace('.', '/')
             self.data.append(entry)
 
-class Revelation(PasswordManagerXML):  # WIP
+class Revelation(PasswordManagerXML):
     format = 'revelationdata'
     keys = {'title': 'name', 'password': 'generic-password',
             'login': 'generic-username', 'url': 'generic-hostname',
