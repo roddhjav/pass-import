@@ -216,8 +216,11 @@ class PasswordManager():
                 seen.append(path)
 
 class PasswordManagerCSV(PasswordManager):
+    fieldnames = None
+
     def parse(self, file):
-        reader = csv.DictReader(file, delimiter=',', quotechar='"')
+        reader = csv.DictReader(file, fieldnames=self.fieldnames,
+                                delimiter=',', quotechar='"')
         for row in reader:
             entry = OrderedDict()
             for key, csvkey in self.keys.items():
@@ -273,6 +276,11 @@ class OnePassword(PasswordManagerCSV):
 class Chrome(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url', 'group': 'group'}
+
+class Dashlane(PasswordManagerCSV):
+    fieldnames = ['title', 'url', 'login', 'password', 'comments']
+    keys = {'title': 'title', 'password': 'password', 'login': 'login',
+            'url': 'url', 'comments': 'comments'}
 
 class Enpass(PasswordManagerCSV):
     firstline = '"Title","Field","Value","Field","Value",.........,"Note"'
