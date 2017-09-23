@@ -438,6 +438,11 @@ class Revelation(PasswordManagerXML):
                 entry['group'] = path
                 self.data.append(entry)
 
+class Roboform(PasswordManagerCSV):
+    keys = {'title': 'Name', 'password': 'Pwd', 'login': 'Login', 'url': 'Url',
+            'comments': 'Note', 'group': 'Folder'}
+
+
 if __name__ == "__main__":
     # 'import.bash' did the sanity checks all these data are valid.
     try:
