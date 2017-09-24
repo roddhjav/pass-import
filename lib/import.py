@@ -274,8 +274,8 @@ class OnePassword(PasswordManagerCSV):
             'url': 'urls', 'comments': 'notesPlain', 'group': 'tags'}
 
 class Chrome(PasswordManagerCSV):
-    keys = {'title': 'name', 'password': 'password', 'login': 'username',
-            'url': 'url', 'group': 'group'}
+    keys = {'title': 'origin_url', 'password': 'password_value',
+            'login': 'username_value'}
 
 class Dashlane(PasswordManagerCSV):
     fieldnames = ['title', 'url', 'login', 'password', 'comments']
