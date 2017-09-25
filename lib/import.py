@@ -374,7 +374,7 @@ class Keepass(KeepassX):
     def _getpath(self, element, path=''):
         """ Generate path name from elements title and current path """
         if element.tag == 'Entry':
-            title = self._getvalue(element.findall('String'), 'Title') or ''
+            title = self._getvalue(element.findall('String'), 'Title')
         elif element.tag == 'Group':
             title = element.find('Name').text
         else:
