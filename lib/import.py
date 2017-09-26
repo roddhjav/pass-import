@@ -19,16 +19,11 @@
 import os
 import sys
 import csv
+import argparse
 from xml.etree import ElementTree
 from subprocess import Popen, PIPE
 from collections import OrderedDict
 
-if 'VERBOSE' not in os.environ or 'QUIET' not in os.environ:
-    print("This program should only be called by 'pass import'.")
-    exit(1)
-
-VERBOSE = bool(int(os.environ['VERBOSE']))
-QUIET = bool(int(os.environ['QUIET']))
 
 GREEN = '\033[32m'
 YELLOW = '\033[33m'
@@ -60,30 +55,31 @@ importer_map = {
     'roboform': 'Roboform'
 }
 
-def verbose(title, msg):
-    if VERBOSE:
+
+def verbose(title='', msg=''):
+    if arg.verbose:
         print("%s  .  %s%s%s: %s%s" % (BMAGENTA, END, MAGENTA, title, END, msg))
 
-def message(msg):
-    if not QUIET:
+def message(msg=''):
+    if not arg.quiet:
         print("%s  .  %s%s" % (BOLD, END, msg))
 
-def msg(msg):
-    if not QUIET:
+def msg(msg=''):
+    if not arg.quiet:
         print("       %s" % msg)
 
-def success(msg):
-    if not QUIET:
+def success(msg=''):
+    if not arg.quiet:
         print("%s (*) %s%s%s%s" % (BGREEN, END, GREEN, msg, END))
 
-def warning(msg):
-    if not QUIET:
+def warning(msg=''):
+    if not arg.quiet:
         print("%s  w  %s%s%s%s" % (BYELLOW, END, YELLOW, msg, END))
 
-def error(msg):
+def error(msg=''):
     print("%s [x] %s%sError: %s%s" % (BRED, END, BOLD, END, msg))
 
-def die(msg):
+def die(msg=''):
     error(msg)
     exit(1)
 
@@ -444,18 +440,6 @@ class Roboform(PasswordManagerCSV):
 
 
 if __name__ == "__main__":
-    # 'import.bash' did the sanity checks all these data are valid.
-    try:
-        manager = str(sys.argv[1])
-        if manager not in importer_map:
-            raise Exception()
-        path = str(sys.argv[2])
-        root = str(sys.argv[3])
-        clean = bool(int(sys.argv[4]))
-        force = bool(int(sys.argv[5]))
-        extra = bool(int(sys.argv[6]))
-    except Exception:
-        die("This program should only be called by 'pass import'.")
 
     # Import and clean data
     ImporterClass = getattr(__import__('import'), importer_map[manager])
