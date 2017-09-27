@@ -440,6 +440,41 @@ class Roboform(PasswordManagerCSV):
 
 
 if __name__ == "__main__":
+    # Geting arguments for 'pass import'
+    parser = argparse.ArgumentParser(prog='pass import', description="""
+  Import data from most of the password manager. Passwords
+  are imported in the existing default password store, therefore
+  the password store must has been initialized before with 'pass init'""",
+    usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog="More information may be found in the pass-import(1) man page.")
+
+    parser.add_argument('manager', type=str, nargs='?',
+                        help="Can be: %s" % list_importers())
+    parser.add_argument('file', type=str, nargs='?',
+                        help="""File is the path to the file that contains the
+                        data to import, if empty read the data from stdin.""")
+
+    parser.add_argument('-p', '--path', action='store', dest='root', default='',
+                        help='Import the passwords to a specific subfolder.')
+    parser.add_argument('-c', '--clean', action='store_true',
+                        help='Clean data before import.')
+    parser.add_argument('-e', '--extra', action='store_true',
+                        help='Also import all the extra data present.')
+    parser.add_argument('-l', '--list', action='store_true',
+                        help='List the supported password managers.')
+    parser.add_argument('-f', '--force', action='store_true',
+                        help='Overwrite existing path.')
+    parser.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
+    parser.add_argument('-v', '--verbose', action='store_true', help='Be verbose.')
+    parser.add_argument('-V', '--version', action='version',
+                        version='%(prog)s 2.0',
+                        help='Show the program version and exit.')
+
+    arg = parser.parse_args()
+    if arg.quiet:
+        arg.verbose = False
+
 
     # Import and clean data
     ImporterClass = getattr(__import__('import'), importer_map[manager])
