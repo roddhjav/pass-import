@@ -475,40 +475,60 @@ if __name__ == "__main__":
     if arg.quiet:
         arg.verbose = False
 
+    if arg.list:
+        # List supported password managers
+        success("The %s supported password managers are:" % len(importers))
+    else:
+        # Sanity checks
+        if arg.manager is None:
+            die("password manager not present. See 'pass import -h'")
+        if arg.manager not in importers:
+            die("%s is not a supported password manager" % arg.manager)
+        if arg.file is None:
+            file = sys.stdin
+        elif os.path.isfile(arg.file):
+            file = open(arg.file, 'r', encoding='utf-8')
+        else:
+            die("%s is not a file" % arg.file)
 
-    # Import and clean data
-    ImporterClass = getattr(__import__('import'), importer_map[manager])
-    importer = ImporterClass(extra)
-    try:
-        importer.parse(sys.stdin)
-        importer.satanize(clean)
-    except FormatError:
-        die("%s is not a exported %s file" % (path, manager))
-
-    # Insert data into the password store
-    store = PasswordStore()
-    for entry in importer.data:
+        # Import and clean data
+        ImporterClass = getattr(__import__('import'), importers[arg.manager][0])
+        importer = ImporterClass(arg.extra)
         try:
-            passpath = os.path.join(root, entry['path'])
-            data = importer.get(entry)
-            verbose("Path", passpath)
-            verbose("Data", data.replace('\n', '\n           '))
-            store.insert(passpath, data, force)
-        except PasswordStoreError as e:
-            warning("Imposible to insert %s into the store: %s" % (passpath, e))
+            importer.parse(file)
+            importer.satanize(arg.clean)
+        except FormatError:
+            die("%s is not a exported %s file" % (arg.file, arg.manager))
+        finally:
+            file.close()
 
-    # Success!
-    success("Importing passwords from %s" % manager)
-    if path is '':
-        path = 'read from stdin'
-    message("File: %s" % path)
-    if root is not '':
-        message("Root path: %s" % root)
-    message("Number of password imported: %s" % len(importer.data))
-    if clean:
-        message("Imported data cleaned")
-    if extra:
-        message("Extra data conserved")
-    message("Passwords imported:")
-    for entry in importer.data:
-        msg(entry['path'])
+        # Insert data into the password store
+        store = PasswordStore()
+        if not store.exist():
+            die("password store not initialized")
+        for entry in importer.data:
+            try:
+                passpath = os.path.join(arg.root, entry['path'])
+                data = importer.get(entry)
+                verbose("Path", passpath)
+                verbose("Data", data.replace('\n', '\n           '))
+                store.insert(passpath, data, arg.force)
+            except PasswordStoreError as e:
+                warning("Imposible to insert %s into the store: %s"
+                        % (passpath, e))
+
+        # Success!
+        success("Importing passwords from %s" % arg.manager)
+        if arg.file is None:
+            arg.file = 'read from stdin'
+        message("File: %s" % arg.file)
+        if arg.root is not '':
+            message("Root path: %s" % arg.root)
+        message("Number of password imported: %s" % len(importer.data))
+        if arg.clean:
+            message("Imported data cleaned")
+        if arg.extra:
+            message("Extra data conserved")
+        message("Passwords imported:")
+        for entry in importer.data:
+            msg(entry['path'])
