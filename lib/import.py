@@ -35,26 +35,31 @@ BMAGENTA = '\033[1m\033[95m'
 BOLD = '\033[1m'
 END = '\033[0m'
 
-importer_map = {
-    '1password': 'OnePassword',
-    '1password4': 'OnePassword4',
-    'chrome': 'Chrome',
-    'dashlane': 'Dashlane',
-    'enpass': 'Enpass',
-    'fpm': 'FigaroPM',
-    'gorilla': 'Gorilla',
-    'kedpm': 'FigaroPM',
-    'keepass': 'Keepass',
-    'keepasscsv': 'KeepassCSV',
-    'keepassx': 'KeepassX',
-    'kwallet': 'Kwallet',
-    'lastpass': 'Lastpass',
-    'passwordexporter': 'PasswordExporter',
-    'pwsafe': 'Pwsafe',
-    'revelation': 'Revelation',
-    'roboform': 'Roboform'
+importers = {
+    '1password': ['OnePassword', 'https://1password.com/'],
+    '1password4': ['OnePassword4', 'https://1password.com/'],
+    'chrome': ['Chrome', 'https://support.google.com/chrome'],
+    'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
+    'enpass': ['Enpass', 'https://www.enpass.io/'],
+    'fpm': ['FigaroPM', 'http://fpm.sourceforge.net/'],
+    'gorilla': ['Gorilla', 'https://github.com/zdia/gorilla/wiki'],
+    'kedpm': ['FigaroPM', 'http://kedpm.sourceforge.net/'],
+    'keepass': ['Keepass', 'https://www.keepass.info'],
+    'keepasscsv': ['KeepassCSV', 'https://www.keepass.info'],
+    'keepassx': ['KeepassX', 'https://www.keepassx.org/'],
+    'kwallet': ['Kwallet', 'https://utils.kde.org/projects/kwalletmanager/'],
+    'lastpass': ['Lastpass', 'https://www.lastpass.com/'],
+    'passwordexporter': ['PasswordExporter', 'https://addons.mozilla.org/en-US/firefox/addon/password-exporter/'],
+    'pwsafe': ['Pwsafe', 'https://pwsafe.org/'],
+    'revelation': ['Revelation', 'https://revelation.olasagasti.info/'],
+    'roboform': ['Roboform', 'https://www.roboform.com/'],
 }
 
+def list_importers():
+    res = ''
+    for key in importers:
+        res += key + ' '
+    return res
 
 def verbose(title='', msg=''):
     if arg.verbose:
@@ -478,6 +483,8 @@ if __name__ == "__main__":
     if arg.list:
         # List supported password managers
         success("The %s supported password managers are:" % len(importers))
+        for name, value in importers.items():
+            message("%s%s%s - %s" % (BOLD, name, END, value[1]))
     else:
         # Sanity checks
         if arg.manager is None:
