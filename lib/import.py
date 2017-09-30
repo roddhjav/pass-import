@@ -149,6 +149,10 @@ class PasswordStore():
         arg.append(path)
         return self._pass(arg, data)
 
+    def exist(self):
+        """ Return True if the password store is initialized """
+        return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
+
 class PasswordManager():
 
     def __init__(self, all):
