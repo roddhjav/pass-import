@@ -22,11 +22,11 @@ def insert_data(path,text):
     global HEAD
     if path.startswith(HEAD):
         path = path[len(HEAD):]
-    
+
     if not text.endswith('\n'):
         text = text + '\n'
     text = text.encode('utf8')
-    
+
     #print "Import: " + path + ": " + text
     proc = Popen(['pass', 'insert', '--multiline', '--force', path],
                  stdin=PIPE, stdout=PIPE)
@@ -70,13 +70,13 @@ def import_map(element, path):
     for child in element:
         if child.tag == 'mapentry':
             name = child.attrib['name']
-            text = text + '\n\n' + name + '\n' + str(child.text)
+            text = text + '\n\n' + name + '\n' + unicode(child.text)
             nEntries += 1
             for child2 in child:
                 unexpected(child, path_for(child, npath))
         else:
             unexpected(child, npath)
-    
+
     insert_data(npath, text)
     print "Map " + npath + " [" + str(nEntries) + " entries]"
 
@@ -107,7 +107,7 @@ def import_folder(element, path=''):
             import_map(child, npath)
         else:
             unexpected(child, npath)
-    
+
     if nPasswords > 0:
         print "[" + str(nPasswords) + " passwords]"
 
@@ -118,4 +118,7 @@ def main(xml_file):
     import_folder(element)
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    try:
+        main(sys.argv[1])
+    except IndexError:
+        print 'ERROR! Missing file argument: exported kdewallet xml file'
