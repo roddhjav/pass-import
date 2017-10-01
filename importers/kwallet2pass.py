@@ -70,7 +70,7 @@ def import_map(element, path):
     for child in element:
         if child.tag == 'mapentry':
             name = child.attrib['name']
-            text = text + '\n\n' + name + '\n' + str(child.text)
+            text = text + '\n\n' + name + '\n' + unicode(child.text)
             nEntries += 1
             for child2 in child:
                 unexpected(child, path_for(child, npath))
