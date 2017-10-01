@@ -118,4 +118,7 @@ def main(xml_file):
     import_folder(element)
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    try:
+        main(sys.argv[1])
+    except IndexError:
+        print 'ERROR! Missing file argument: exported kdewallet xml file'
