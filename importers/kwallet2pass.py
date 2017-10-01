@@ -22,11 +22,11 @@ def insert_data(path,text):
     global HEAD
     if path.startswith(HEAD):
         path = path[len(HEAD):]
-    
+
     if not text.endswith('\n'):
         text = text + '\n'
     text = text.encode('utf8')
-    
+
     #print "Import: " + path + ": " + text
     proc = Popen(['pass', 'insert', '--multiline', '--force', path],
                  stdin=PIPE, stdout=PIPE)
@@ -76,7 +76,7 @@ def import_map(element, path):
                 unexpected(child, path_for(child, npath))
         else:
             unexpected(child, npath)
-    
+
     insert_data(npath, text)
     print "Map " + npath + " [" + str(nEntries) + " entries]"
 
@@ -107,7 +107,7 @@ def import_folder(element, path=''):
             import_map(child, npath)
         else:
             unexpected(child, npath)
-    
+
     if nPasswords > 0:
         print "[" + str(nPasswords) + " passwords]"
 
