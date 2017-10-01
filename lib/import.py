@@ -99,7 +99,6 @@ class PasswordStore():
         Supports all the environnement variables.
     """
     def __init__(self):
-        self.passbinary = "/usr/bin/pass"
         self.env = dict(**os.environ)
         self._setenv('PASSWORD_STORE_DIR', 'PREFIX')
         self._setenv('PASSWORD_STORE_KEY')
@@ -116,7 +115,9 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_EXTENSIONS_DIR', 'EXTENSIONS')
         self._setenv('PASSWORD_STORE_SIGNING_KEY')
         self._setenv('GNUPGHOME')
+        self._setenv('PASSWORD_STORE_BIN')
         self.prefix = self.env['PASSWORD_STORE_DIR']
+        self.passbinary = self.env['PASSWORD_STORE_BIN']
 
     def _setenv(self, var, env=None):
         """ Add var in the environnement variables directory.
