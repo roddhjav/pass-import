@@ -116,6 +116,10 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_SIGNING_KEY')
         self._setenv('GNUPGHOME')
         self._setenv('PASSWORD_STORE_BIN')
+
+        mandatory = ['PASSWORD_STORE_DIR', 'PASSWORD_STORE_BIN']
+        if not all(x in self.env for x in mandatory):
+            raise PasswordStoreError("pass prefix or binary unknown")
         self.prefix = self.env['PASSWORD_STORE_DIR']
         self.passbinary = self.env['PASSWORD_STORE_BIN']
 
