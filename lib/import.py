@@ -148,9 +148,10 @@ class PasswordStore():
 
     def insert(self, path, data, force=False):
         """ Multiline insertion into the password store. """
+        if not force:
+            if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
+                raise PasswordStoreError("An entry already exists for %s." % path)
         arg = ['insert', '--multiline']
-        if force:
-            arg.append('--force')
         arg.append(path)
         return self._pass(arg, data)
 
