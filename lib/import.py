@@ -320,14 +320,13 @@ class Enpass(PasswordManagerCSV):
             for key, csvkey in self.keys.items():
                 if csvkey in row:
                     index = row.index(csvkey)
-                    entry[key] = row[index+1]
-                    row.pop(index+1)
+                    entry[key] = row.pop(index+1)
                     row.pop(index)
             entry['comments'] = comments
 
             if self.all:
                 index = 0
-                while index < len(row):
+                while index+2 <= len(row):
                     entry[row[index]] = row[index+1]
                     index += 2
 
