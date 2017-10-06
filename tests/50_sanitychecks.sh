@@ -10,7 +10,11 @@ test_expect_success "Testing store not initialized" "
 
 test_init "sanitychecks" &> /dev/null
 test_expect_success "Testing import from stdin" "
-    cat $PLAIN_DB/lastpass | _pass import lastpass --verbose
+    cat $PLAIN_DB/lastpass | _pass import dashlane
+    "
+
+test_expect_success "Testing import from not a file" "
+    test_must_fail _pass import lastpass ImNotAFile
     "
 
 test_expect_success 'Testing corner cases' '
@@ -20,8 +24,8 @@ test_expect_success 'Testing corner cases' '
     '
 
 test_expect_success 'Testing help message' '
-    _pass import --help | grep "pass import" &&
-    _pass import --version | grep "A generic importer extension for pass."
+    _pass import --help | grep "[manager] [file]" &&
+    _pass import --version | grep "pass import 2.0"
     '
 
 test_done
