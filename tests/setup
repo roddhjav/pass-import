@@ -58,7 +58,7 @@ fi
 
 # sharness config
 source ./sharness
-export TMP="/tmp/pass-import"
+export TMP="/tmp/pass-import/bash"
 
 
 #  Prepare pass config vars

@@ -1,3 +1,5 @@
 gnupg/
 password-store/
 test-results/
+htmlcov/
+.coverage

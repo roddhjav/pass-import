@@ -27,10 +27,12 @@ DEFAULT_TEST_TARGET ?= test
 TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
 
 T = $(sort $(wildcard *.sh))
+P = $(sort $(wildcard *.py))
 
 all: $(DEFAULT_TEST_TARGET)
 
 test: pre-clean
+	$(MAKE) python-test
 	$(MAKE) aggregate-results-and-cleanup
 
 prove: pre-clean
@@ -49,6 +51,9 @@ clean-except-prove-cache:
 clean: clean-except-prove-cache
 	$(RM) .prove
 
+python-test:
+	green $(P) -vvv --run-coverage
+
 aggregate-results-and-cleanup: $(T)
 	$(MAKE) aggregate-results
 	$(MAKE) clean
@@ -57,6 +62,7 @@ aggregate-results:
 	for f in test-results/*.counts; do \
 		echo "$$f"; \
 	done | '$(SHELL_PATH_SQ)' '$(AGGREGATE_SCRIPT)'
+	coverage html
 
-.PHONY: all test prove $(T) pre-clean clean
+.PHONY: all test python-test prove $(T) pre-clean clean
 .PHONY: aggregate-results-and-cleanup aggregate-results
