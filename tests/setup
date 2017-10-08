@@ -39,7 +39,7 @@ export PLAIN_DB="$TEST_HOME/exporteddb"
 
 # Check dependencies
 _die() { echo "${@}" && exit 1; }
-PASS="$(which pass)"; GPG="$(which gpg)"; COVERAGE=false; GIT=true
+PASS="$(which pass)"; GPG="$(which gpg)"; GIT=true
 [[ -e "$PASS" ]] || _die "Could not find pass command"
 if [[ ! -e "$GPG" ]]; then
 	if which gpg2 &>/dev/null; then
@@ -48,12 +48,7 @@ if [[ ! -e "$GPG" ]]; then
 		_die "Could not find gpg command"
 	fi
 fi
-if [[ $COVERAGE == true ]]; then
-	KCOV="$(which kcov)"; [[ -e "$KCOV" ]] || _die "Could not find kcov command"
-	_pass() { "$KCOV" --exclude-path="$PASS" "$TMP/$0" "$PASS" "${@}"; }
-else
-	_pass() { "$PASS" "${@}"; }
-fi
+_pass() { "$PASS" "${@}"; }
 
 
 # sharness config
@@ -111,4 +106,3 @@ test_init() {
 	pass init "$KEY1"
 	[[ $GIT == true ]] && pass git init
 }
-

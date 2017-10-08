@@ -16,19 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/ .
 
-COVERAGE="false"
-if [[ "$COVERAGE" == "true" ]]; then
-	KCOV="$(which kcov)"
-	if [[ ! -e "$KCOV" ]]; then
-		echo "Could not find kcov command"
-		exit 1
-	fi
-	TMP="/tmp/pass-import"
-	COVERED=($(find $TMP/*.sh -maxdepth 0 -type d))
-	[[ -z "$TRAVIS_JOB_ID" ]] || TRAVIS="--coveralls-id=$TRAVIS_JOB_ID"
-	"$KCOV" $TRAVIS --merge "$TMP/kcov" "${COVERED[@]}"
-fi
-
 failed_tests=
 fixed=0
 success=0
