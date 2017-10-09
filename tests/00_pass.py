@@ -29,8 +29,62 @@ except Exception as e:
 
 TMP = "/tmp/pass-import/python/pass"
 
+def password_store_init(store):
+    with open(os.path.join(store.prefix, '.gpg-id'), 'w') as file:
+        file.write("%s\n" % KEY1)
 
 class TestPassStore(unittest.TestCase):
+
+    def setUp(self):
+        if 'GPG_AGENT_INFO' in os.environ:
+            os.environ.pop('GPG_AGENT_INFO', None)
+        os.environ['PASSWORD_STORE_BIN'] = '/usr/bin/pass'
+        os.environ['GNUPGHOME'] = os.path.join(os.path.expanduser('~'), '.gnupg')
+        os.environ['PASSWORD_STORE_DIR'] = os.path.join(TMP, 'pass')
+        shutil.rmtree(TMP, ignore_errors=True)
+        os.makedirs(TMP, exist_ok=True)
+        os.makedirs(os.environ['PASSWORD_STORE_DIR'])
+        self.store = passimport.PasswordStore()
+
+    def test_environnement_no_prefix(self):
+        """ Testing: no prefix & binary """
+        os.environ.pop('PASSWORD_STORE_DIR', None)
+        os.environ.pop('PASSWORD_STORE_BIN', None)
+        with self.assertRaises(passimport.PasswordStoreError):
+            passimport.PasswordStore()
+
+    def test_environnement_variables(self):
+        """ Testing: environnement variables """
+        self.assertEqual(self.store.env['PASSWORD_STORE_DIR'], os.environ['PASSWORD_STORE_DIR'])
+        self.assertEqual(self.store.env['PASSWORD_STORE_BIN'], os.environ['PASSWORD_STORE_BIN'])
+        self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])
+
+    def test_exist(self):
+        """ Testing: store not initialized """
+        self.assertFalse(self.store.exist())
+        with self.assertRaises(passimport.PasswordStoreError):
+            self.store.insert("Test/test", "dummy")
+        password_store_init(self.store)
+        self.assertTrue(self.store.exist())
+
+    def test_insert(self):
+        """ Testing: pass insert """
+        password_store_init(self.store)
+        path = "Test/test"
+        entry = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a comment\n"
+        self.store.insert(path, entry)
+        self.assertEqual(self.store._pass(['show', path]), entry)
+
+    def test_insert_force(self):
+        """ Testing: pass insert --force """
+        self.test_insert()
+        path = "Test/test"
+        entry2 = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a second comment\n"
+        with self.assertRaises(passimport.PasswordStoreError):
+            self.store.insert(path, entry2, force=False)
+        self.store.insert(path, entry2, force=True)
+        self.assertEqual(self.store._pass(['show', path]), entry2)
+
 
 if __name__ == '__main__':
     unittest.main()
