@@ -30,6 +30,25 @@ except Exception as e:
 PLAIN_DB = "exporteddb/"
 
 class TestImporters(unittest.TestCase):
+    xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation']
+
+    def test_importers_check_format(self):
+        """ Testing: importer file format """
+        passimport.importers.pop('dashlane', None)
+        for manager in passimport.importers:
+            with self.subTest(manager):
+                # Load importer class, fike to test and parse the file
+                ImporterClass = getattr(passimport,
+                                        passimport.importers[manager][0])
+                importer = ImporterClass()
+                if manager in self.xml:
+                    testfile = os.path.join(PLAIN_DB, '.dummy.xml')
+                else:
+                    testfile = os.path.join(PLAIN_DB, '.dummy.csv')
+
+                with self.assertRaises(passimport.FormatError):
+                    with open(testfile, 'r', encoding='utf-8') as file:
+                        importer.parse(file)
 
 
 if __name__ == '__main__':
