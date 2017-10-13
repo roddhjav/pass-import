@@ -34,6 +34,8 @@ BYELLOW = '\033[1m\033[93m'
 BMAGENTA = '\033[1m\033[95m'
 BOLD = '\033[1m'
 END = '\033[0m'
+VERBOSE = False
+QUIET = False
 
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
@@ -62,23 +64,23 @@ def list_importers():
     return res
 
 def verbose(title='', msg=''):
-    if arg.verbose:
+    if VERBOSE:
         print("%s  .  %s%s%s: %s%s" % (BMAGENTA, END, MAGENTA, title, END, msg))
 
 def message(msg=''):
-    if not arg.quiet:
+    if not QUIET:
         print("%s  .  %s%s" % (BOLD, END, msg))
 
 def msg(msg=''):
-    if not arg.quiet:
+    if not QUIET:
         print("       %s" % msg)
 
 def success(msg=''):
-    if not arg.quiet:
+    if not QUIET:
         print("%s (*) %s%s%s%s" % (BGREEN, END, GREEN, msg, END))
 
 def warning(msg=''):
-    if not arg.quiet:
+    if not QUIET:
         print("%s  w  %s%s%s%s" % (BYELLOW, END, YELLOW, msg, END))
 
 def error(msg=''):
@@ -465,7 +467,7 @@ class Roboform(PasswordManagerCSV):
             'comments': 'Note', 'group': 'Folder'}
 
 
-if __name__ == "__main__":
+def main(argv):
     # Geting arguments for 'pass import'
     parser = argparse.ArgumentParser(prog='pass import', description="""
   Import data from most of the password manager. Passwords
@@ -497,9 +499,15 @@ if __name__ == "__main__":
                         version='%(prog)s 2.0',
                         help='Show the program version and exit.')
 
-    arg = parser.parse_args()
+    arg = parser.parse_args(argv)
+
+    # Manage verbose & quiet messages
     if arg.quiet:
         arg.verbose = False
+    global VERBOSE
+    global QUIET
+    VERBOSE = arg.verbose
+    QUIET = arg.quiet
 
     if arg.list:
         # List supported password managers
@@ -560,3 +568,8 @@ if __name__ == "__main__":
         message("Passwords imported:")
         for entry in importer.data:
             msg(entry['path'])
+
+
+if __name__ == "__main__":
+    sys.argv.pop(0)
+    main(sys.argv)
