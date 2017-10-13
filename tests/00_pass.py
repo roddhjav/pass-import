@@ -29,22 +29,25 @@ except Exception as e:
 
 TMP = "/tmp/pass-import/python/pass"
 
-def password_store_init(store):
-    with open(os.path.join(store.prefix, '.gpg-id'), 'w') as file:
-        file.write("%s\n" % KEY1)
-
 class TestPassStore(unittest.TestCase):
-
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         if 'GPG_AGENT_INFO' in os.environ:
             os.environ.pop('GPG_AGENT_INFO', None)
         os.environ['PASSWORD_STORE_BIN'] = '/usr/bin/pass'
         os.environ['GNUPGHOME'] = os.path.join(os.path.expanduser('~'), '.gnupg')
-        os.environ['PASSWORD_STORE_DIR'] = os.path.join(TMP, 'pass')
         shutil.rmtree(TMP, ignore_errors=True)
         os.makedirs(TMP, exist_ok=True)
+
+    def setUp(self):
+        testname = self.id().split('_').pop()
+        os.environ['PASSWORD_STORE_DIR'] = os.path.join(TMP, testname + '-store')
         os.makedirs(os.environ['PASSWORD_STORE_DIR'])
         self.store = passimport.PasswordStore()
+
+    def _pass_init(self):
+        with open(os.path.join(self.store.prefix, '.gpg-id'), 'w') as file:
+            file.write("%s\n" % KEY1)
 
     def test_environnement_no_prefix(self):
         """ Testing: no prefix & binary """
@@ -52,6 +55,7 @@ class TestPassStore(unittest.TestCase):
         os.environ.pop('PASSWORD_STORE_BIN', None)
         with self.assertRaises(passimport.PasswordStoreError):
             passimport.PasswordStore()
+        os.environ['PASSWORD_STORE_BIN'] = '/usr/bin/pass'
 
     def test_environnement_variables(self):
         """ Testing: environnement variables """
@@ -64,12 +68,12 @@ class TestPassStore(unittest.TestCase):
         self.assertFalse(self.store.exist())
         with self.assertRaises(passimport.PasswordStoreError):
             self.store.insert("Test/test", "dummy")
-        password_store_init(self.store)
+        self._pass_init()
         self.assertTrue(self.store.exist())
 
     def test_insert(self):
         """ Testing: pass insert """
-        password_store_init(self.store)
+        self._pass_init()
         path = "Test/test"
         entry = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a comment\n"
         self.store.insert(path, entry)
