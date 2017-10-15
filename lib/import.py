@@ -408,6 +408,11 @@ class KeepassCSV(PasswordManagerCSV):
     keys = {'title': 'Account', 'password': 'Password', 'login': 'Login Name',
             'url': 'Web Site', 'comments': 'Comments'}
 
+class KeepassXC(PasswordManagerCSV):
+    format = '"Group","Title","Username","Password","URL","Notes"'
+    keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
+            'url': 'URL', 'comments': 'Notes', 'group': 'Group'}
+
 class Lastpass(PasswordManagerCSV):
     format = 'url,username,password,extra,name,grouping,fav'
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
