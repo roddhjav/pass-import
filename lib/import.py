@@ -59,9 +59,9 @@ importers = {
 
 def list_importers():
     res = ''
-    for key in importers:
-        res += key + ' '
-    return res
+    for key in importers.keys():
+        res += key + ', '
+    return res[:-2] + '.'
 
 def verbose(title='', msg=''):
     if VERBOSE:
@@ -483,7 +483,8 @@ def main(argv):
                         help="""File is the path to the file that contains the
                         data to import, if empty read the data from stdin.""")
 
-    parser.add_argument('-p', '--path', action='store', dest='root', default='',
+    parser.add_argument('-p', '--path', action='store', dest='root',
+                        default='', metavar='PATH',
                         help='Import the passwords to a specific subfolder.')
     parser.add_argument('-c', '--clean', action='store_true',
                         help='Clean data before import.')
