@@ -17,36 +17,31 @@
 #
 
 import os
-import sys
+import setup
 import unittest
 from collections import OrderedDict
-try:
-    sys.path.append('../lib')
-    passimport = __import__('import')
-except Exception as e:
-    print("Unable to find import.py: %s", e)
-    exit(1)
 
-PLAIN_DB = "exporteddb/"
 
-class TestImporters(unittest.TestCase):
+
+class TestImporters(setup.TestPassSimple):
     xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation']
 
-    def test_importers_check_format(self):
+
+    def test_importers_format(self):
         """ Testing: importer file format """
         passimport.importers.pop('dashlane', None)
-        for manager in passimport.importers:
+        for manager in self.passimport.importers:
             with self.subTest(manager):
-                # Load importer class, fike to test and parse the file
-                ImporterClass = getattr(passimport,
-                                        passimport.importers[manager][0])
+                # Load importer class, file to test and parse the file
+                ImporterClass = getattr(self.passimport,
+                                        self.passimport.importers[manager][0])
                 importer = ImporterClass()
                 if manager in self.xml:
-                    testfile = os.path.join(PLAIN_DB, '.dummy.xml')
+                    testfile = os.path.join(self.db, '.dummy.xml')
                 else:
-                    testfile = os.path.join(PLAIN_DB, '.dummy.csv')
+                    testfile = os.path.join(self.db, '.dummy.csv')
 
-                with self.assertRaises(passimport.FormatError):
+                with self.assertRaises(self.passimport.FormatError):
                     with open(testfile, 'r', encoding='utf-8') as file:
                         importer.parse(file)
 

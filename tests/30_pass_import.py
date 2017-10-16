@@ -17,122 +17,100 @@
 #
 
 import os
-import sys
-import shutil
+import setup
 import unittest
-try:
-    sys.path.append('../lib')
-    passimport = __import__('import')
-except Exception as e:
-    print("Unable to find import.py: %s", e)
-    exit(1)
 
-PLAIN_DB = "exporteddb/"
-TMP = "/tmp/pass-import/python/import"
-
-class TestPassImport(unittest.TestCase):
-    @classmethod
-    def setUpClass(self):
-        if 'GPG_AGENT_INFO' in os.environ:
-            os.environ.pop('GPG_AGENT_INFO', None)
-        os.environ['PASSWORD_STORE_BIN'] = '/usr/bin/pass'
-        os.environ['GNUPGHOME'] = os.path.join(os.path.expanduser('~'), '.gnupg')
-        shutil.rmtree(TMP, ignore_errors=True)
-        os.makedirs(TMP, exist_ok=True)
-
+class TestPassImport(setup.TestPass):
     def setUp(self):
-        testname = self.id().split('_').pop()
-        os.environ['PASSWORD_STORE_DIR'] = os.path.join(TMP, testname + '-store')
-        os.makedirs(os.environ['PASSWORD_STORE_DIR'])
-        self.store = passimport.PasswordStore()
-        self._pass_init()
+        super(TestPassImport, self).setUp()
+        self._passinit()
 
-    def _pass_init(self):
-        with open(os.path.join(self.store.prefix, '.gpg-id'), 'w') as file:
-            file.write("%s\n" % KEY1)
-
-    def _pass_import_exit(self, cmd, code):
-        with self.assertRaises(SystemExit) as cm:
-            passimport.main(cmd)
-        self.assertEqual(cm.exception.code, code)
+    def _passimport(self, cmd, code=None):
+        if code is None:
+            self.passimport.main(cmd)
+        else:
+            with self.assertRaises(SystemExit) as cm:
+                self.passimport.main(cmd)
+            self.assertEqual(cm.exception.code, code)
 
     def test_pass_import_list(self):
         """ Testing: pass import --list """
-        passimport.main(['-l'])
+        cmd = ['--list']
+        self._passimport(cmd)
 
     def test_pass_import_help(self):
         """ Testing: pass import --help """
         cmd = ['--help']
-        self._pass_import_exit(cmd, 0)
+        self._passimport(cmd, 0)
 
     def test_pass_import_version(self):
         """ Testing: pass import --version """
         cmd = ['--version']
-        self._pass_import_exit(cmd, 0)
+        self._passimport(cmd, 0)
 
     def test_pass_import_ManagerNotPresent(self):
         """ Testing: password manager not present """
         cmd = []
-        self._pass_import_exit(cmd, 1)
+        self._passimport(cmd, 1)
 
     def test_pass_import_NotAManager(self):
         """ Testing: pass import not-a-manager """
         cmd = ['not-a-manager']
-        self._pass_import_exit(cmd, 1)
+        self._passimport(cmd, 1)
 
     def test_pass_import_NotAnOption(self):
         """ Testing: pass import --not-an-option """
         cmd = ['--not-an-option']
-        self._pass_import_exit(cmd, 2)
+        self._passimport(cmd, 2)
 
     def test_pass_import_NotAFile(self):
         """ Testing: pass import 1password not_a_file """
         cmd = ['1password', 'not_a_file']
-        self._pass_import_exit(cmd, 1)
+        self._passimport(cmd, 1)
 
     def test_pass_import_StoreNotInitialized(self):
         """ Testing: store not initialized """
-        cmd = ['1password', PLAIN_DB + '1password']
+        cmd = ['1password', self.db + '1password']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
-        self._pass_import_exit(cmd, 1)
+        self._passimport(cmd, 1)
 
     def test_pass_import_FromFile(self):
         """ Testing: pass import 1password db/1password -v"""
-        cmd = ['1password', PLAIN_DB + '1password', '--verbose']
-        passimport.main(cmd)
+        cmd = ['1password', self.db + '1password', '--verbose']
+        self._passimport(cmd)
 
     def test_pass_import_FromStdin(self):
         """ Testing: pass import 1password """
         cmd = ['dashlane', '--quiet']
-        passimport.main(cmd)
+        self._passimport(cmd)
 
     def test_pass_import_root(self):
         """ Testing: pass import 1password db/1password --path root """
-        cmd = ['1password', PLAIN_DB + '1password', '--path', 'root']
-        passimport.main(cmd)
+        cmd = ['1password', self.db + '1password', '--path', 'root']
+        self._passimport(cmd)
 
     def test_pass_import_clean(self):
         """ Testing: pass import 1password db/1password --clean """
-        cmd = ['1password', PLAIN_DB + '1password', '--clean', '--quiet']
-        passimport.main(cmd)
+        cmd = ['1password', self.db + '1password', '--clean', '--quiet']
+        self._passimport(cmd)
 
     def test_pass_import_extra(self):
         """ Testing: pass import 1password db/1password --extra """
-        cmd = ['1password', PLAIN_DB + '1password', '--extra', '--quiet']
-        passimport.main(cmd)
+        cmd = ['1password', self.db + '1password', '--extra', '--quiet']
+        self._passimport(cmd)
 
     def test_pass_import_force(self):
         """ Testing: pass import 1password db/1password --force """
-        cmd = ['1password', PLAIN_DB + '1password']
-        passimport.main(cmd)
-        passimport.main(cmd)
+        cmd = ['1password', self.db + '1password']
+        self._passimport(cmd)
+        self._passimport(cmd)
         cmd.append('--force')
-        passimport.main(cmd)
+        self._passimport(cmd)
 
     def test_pass_import_format(self):
         """ Testing: pass import passwordexporter db/lastpass """
-        cmd = ['passwordexporter', PLAIN_DB + 'lastpass']
-        self._pass_import_exit(cmd, 1)
+        cmd = ['passwordexporter', self.db + 'lastpass']
+        self._passimport(cmd, 1)
 
 
 if __name__ == '__main__':

@@ -16,21 +16,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-import sys
+import setup
 import unittest
-try:
-    sys.path.append('../lib')
-    passimport = __import__('import')
-except Exception as e:
-    print("Unable to find import.py: %s", e)
-    exit(1)
 
-
-class TestPasswordManager(unittest.TestCase):
+class TestPasswordManager(setup.TestPassSimple):
 
     def setUp(self):
-        self.importer = passimport.PasswordManager()
+        self.importer = self.passimport.PasswordManager()
 
     def test_get_data(self):
         """ Testing: convert dict to password entry """
