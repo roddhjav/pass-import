@@ -23,6 +23,7 @@ import unittest
 
 class TestPassSimple(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
+    gpgid = "D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
     db = "exporteddb/"
 
     @classmethod
@@ -47,7 +48,7 @@ class TestPass(TestPassSimple):
         # GPG Config
         if 'GPG_AGENT_INFO' in os.environ:
             os.environ.pop('GPG_AGENT_INFO', None)
-        os.environ['GNUPGHOME'] = os.path.join(os.path.expanduser('~'), '.gnupg')
+        os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), 'gnupg')
 
         # Tests directories
         self.tmp = os.path.join(self.tmp, self.__name__[8:].lower())
