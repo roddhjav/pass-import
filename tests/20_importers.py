@@ -29,8 +29,9 @@ class TestImporters(setup.TestPassSimple):
 
     def test_importers_format(self):
         """ Testing: importer file format """
-        passimport.importers.pop('dashlane', None)
         for manager in self.passimport.importers:
+            if manager == 'dashlane':
+                continue
             with self.subTest(manager):
                 # Load importer class, file to test and parse the file
                 ImporterClass = getattr(self.passimport,
