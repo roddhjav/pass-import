@@ -10,7 +10,7 @@ test_expect_success "Testing store not initialized" "
 
 test_init "sanitychecks" &> /dev/null
 test_expect_success "Testing import from stdin" "
-    cat $PLAIN_DB/lastpass | _pass import dashlane
+    cat $PLAIN_DB/keepass | _pass import keepass
     "
 
 test_expect_success "Testing import from not a file" "
