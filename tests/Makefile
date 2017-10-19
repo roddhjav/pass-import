@@ -20,6 +20,7 @@
 SHELL := /bin/bash
 SHELL_PATH ?= $(SHELL)
 SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
+NPROC = $(shell nproc)
 RM ?= rm -f
 PROVE ?= prove
 AGGREGATE_SCRIPT ?= aggregate-results
@@ -52,7 +53,7 @@ clean: clean-except-prove-cache
 	$(RM) .prove
 
 python-test:
-	green $(P) -vvv --run-coverage
+	green $(P) -vvv --run-coverage --termcolor --processes $(NPROC)
 
 aggregate-results-and-cleanup: $(T)
 	$(MAKE) aggregate-results
