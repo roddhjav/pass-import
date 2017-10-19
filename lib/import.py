@@ -20,6 +20,7 @@ import os
 import sys
 import csv
 import argparse
+import importlib
 from xml.etree import ElementTree
 from subprocess import Popen, PIPE
 from collections import OrderedDict
@@ -534,7 +535,8 @@ def main(argv):
             die("%s is not a file" % arg.file)
 
         # Import and clean data
-        ImporterClass = getattr(__import__('import'), importers[arg.manager][0])
+        ImporterClass = getattr(importlib.import_module('import'),
+                                importers[arg.manager][0])
         importer = ImporterClass(arg.extra)
         try:
             importer.parse(file)

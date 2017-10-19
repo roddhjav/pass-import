@@ -20,6 +20,7 @@ import os
 import sys
 import shutil
 import unittest
+import importlib
 
 class TestPassSimple(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
@@ -31,7 +32,7 @@ class TestPassSimple(unittest.TestCase):
         # Getting pass-import module
         try:
             sys.path.append('../lib')
-            self.passimport = __import__('import')
+            self.passimport = importlib.import_module('import')
         except Exception as e:
             print("Unable to find import.py: %s", e)
             exit(1)
