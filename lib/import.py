@@ -163,8 +163,13 @@ class PasswordStore():
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
 
 class PasswordManager():
+    """ Common structure and methods for all password manager supported.
 
-    def __init__(self, all):
+        Please read CONTRIBUTION.md for more details regarding data structure
+        in pass-import.
+    """
+
+    def __init__(self, all=False):
         self.data = []
         self.all = all
 
