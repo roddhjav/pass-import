@@ -190,39 +190,15 @@ class PasswordManager():
             entry[key] = entry[key].replace('https://', '')
             entry[key] = entry[key].replace('http://', '')
 
-    def satanize(self, clean):
-        """ Clean parsed data in order to be imported to a store """
-        for entry in self.data:
-            # Remove unused keys
-            empty = [k for k, v in entry.items() if not v]
-            for key in empty:
-                entry.pop(key, None)
+    def _clean_cmdline(self, string):
+        """ Make the string more command line friendly """
+        string = string.replace(" ", "_").replace("&", "and")
+        string = string.replace('/', '-').replace('\\', '-')
+        string = string.replace("@", "At").replace("'", "")
+        return string.replace("[", "").replace("]", "")
 
-            # Cleaning protocol prefix
-            self._clean_protocol(entry, 'title')
-            self._clean_protocol(entry, 'url')
-
-            # Make the title more command line friendly
-            if clean:
-                title = entry['title'].replace(" ", "_").replace("&", "and")
-                title = title.replace('/', '-').replace('\\', '-')
-                title = title.replace("@", "At").replace("'", "")
-                entry['title'] = title.replace("[", "").replace("]", "")
-
-            # Create path from title and group
-            path = ''
-            if 'group' in entry:
-                path = entry.pop('group', None).replace('\\', '/')
-            if 'title' in entry:
-                entry['path'] = os.path.join(path, entry.pop('title', None))
-            elif 'url' in entry:
-                entry['path'] = os.path.join(path, entry['url'])
-            elif 'login' in entry:
-                entry['path'] = os.path.join(path, entry['login'])
-            else:
-                entry['path'] = os.path.join(path, 'notitle')
-
-        # Detecting duplicate paths
+    def _duplicate_paths(self):
+        """ Detecting duplicate paths """
         seen = []
         for entry in self.data:
             path = entry['path']
@@ -233,6 +209,37 @@ class PasswordManager():
                 entry['path'] = path
             else:
                 seen.append(path)
+
+    def _create_path(self, entry):
+        """ Create path from title and group """
+        path = ''
+        if 'group' in entry:
+            path = entry.pop('group', None).replace('\\', '/')
+        if 'title' in entry:
+            path = os.path.join(path, entry.pop('title', None))
+        elif 'url' in entry:
+            path = os.path.join(path, entry['url'])
+        elif 'login' in entry:
+            path = os.path.join(path, entry['login'])
+        else:
+            path = os.path.join(path, 'notitle')
+        return path
+
+    def satanize(self, clean):
+        """ Clean parsed data in order to be imported to a store """
+        for entry in self.data:
+            # Remove unused keys
+            empty = [k for k, v in entry.items() if not v]
+            for key in empty:
+                entry.pop(key, None)
+
+            self._clean_protocol(entry, 'title')
+            self._clean_protocol(entry, 'url')
+            if clean:
+                entry['title'] = self._clean_cmdline(entry['title'])
+            entry['path'] = self._create_path(entry)
+
+        self._duplicate_paths()
 
 class PasswordManagerCSV(PasswordManager):
     format = None
