@@ -264,8 +264,7 @@ class PasswordManagerCSV(PasswordManager):
             entry = OrderedDict()
             for key, csvkey in self.keys.items():
                 if csvkey is not '':
-                    entry[key] = row[csvkey]
-                    row.pop(csvkey, None)
+                    entry[key] = row.pop(csvkey, None)
 
             if self.all:
                 for col in row:
