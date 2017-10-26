@@ -1,6 +1,9 @@
 engines:
   shellcheck:
     enabled: true
+  radon:
+    enabled: true
 ratings:
   paths:
   - "import.bash"
+  - "lib/import.py"
