@@ -1,7 +1,7 @@
 engines:
   shellcheck:
     enabled: true
-  radon:
+  pep8:
     enabled: true
 ratings:
   paths:
