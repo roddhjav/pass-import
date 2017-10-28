@@ -20,6 +20,7 @@ import os
 import setup
 import unittest
 
+
 class TestPassStore(setup.TestPass):
 
     def test_environnement_no_prefix(self):

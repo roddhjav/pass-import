@@ -102,10 +102,12 @@ def die(msg=''):
 
 
 class PasswordStoreError(Exception):
-    pass
+    """ Error in the execution of password store """
+
 
 class FormatError(Exception):
-    pass
+    """ Password importer format (XML or CSV) not recognized """
+
 
 class PasswordStore():
     """ Simple Password Store for python, only able to insert password.

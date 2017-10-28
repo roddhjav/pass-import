@@ -19,6 +19,7 @@
 import setup
 import unittest
 
+
 class TestPasswordManager(setup.TestPassSimple):
 
     def setUp(self):

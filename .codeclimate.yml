@@ -10,3 +10,6 @@ ratings:
   paths:
   - "import.bash"
   - "lib/import.py"
+exclude_paths:
+- "tests/sharness"
+- "tests/aggregate-results"
