@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dummyformat>
+ <group>
+  <title>Homebanking</title>
+  <icon>0</icon>
+  <entry>
+   <title>aib</title>
+   <username>ziFVNrOTH</username>
+   <password>(iAyJ)RNg>j]7M+/IUKL1#y3l</password>
+   <url>onlinebanking.aib.ie</url>
+   <comment></comment>
+   <icon>0</icon>
+   <creation>2017-09-07T19:37:12</creation>
+   <lastaccess>2017-09-07T19:37:33</lastaccess>
+   <lastmod>2017-09-07T19:37:33</lastmod>
+   <expire>Never</expire>
+  </entry>
+ </group>
+</dummyformat>
