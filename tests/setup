@@ -34,7 +34,7 @@ EXT_HOME="$(dirname "$TEST_HOME")"
 # Databases settings
 export MASTERPASSWORD="correct horse battery staple"
 export ENCRYPTED_DB="$TEST_HOME/database"
-export PLAIN_DB="$TEST_HOME/exporteddb"
+export PLAIN_DB="$TEST_HOME/db"
 
 
 # Check dependencies
