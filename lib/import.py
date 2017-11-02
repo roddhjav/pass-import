@@ -341,7 +341,7 @@ class Dashlane(PasswordManagerCSV):
 
 class Enpass(PasswordManagerCSV):
     format = '"Title","Field","Value","Field","Value",.........,"Note"'
-    keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
+    keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'notes', 'group': 'group'}
 
     def parse(self, file):
