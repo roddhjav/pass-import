@@ -33,15 +33,14 @@ class TestImporters(setup.TestPassSimple):
             if manager == 'dashlane':
                 continue
             with self.subTest(manager):
-                # Load importer class, file to test and parse the file
+                # Load importer class & file to test.
                 ImporterClass = getattr(self.passimport,
                                         self.passimport.importers[manager][0])
                 importer = ImporterClass()
-                if manager in self.xml:
-                    testfile = os.path.join(self.db, '.dummy.xml')
-                else:
-                    testfile = os.path.join(self.db, '.dummy.csv')
+                path = '.dummy.xml' if manager in self.xml else '.dummy.csv'
+                testfile = os.path.join(self.db, path)
 
+                # Parse the file
                 with self.assertRaises(self.passimport.FormatError):
                     with open(testfile, 'r', encoding='utf-8') as file:
                         importer.parse(file)

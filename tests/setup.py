@@ -25,6 +25,7 @@ import importlib
 class TestPassSimple(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
     gpgid = "D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
+    xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation', 'kedpm']
     db = "db/"
 
     @classmethod
