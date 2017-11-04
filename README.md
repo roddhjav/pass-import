@@ -6,77 +6,116 @@ password manager.
 ## Description
 `pass import` is a password store extension allowing you to conveniently
 import your password database to a password store repository. It natively
-supports import from 15 differents password managers. More manager support can
+supports import from 17 differents password managers. More manager support can
 easily be added.
 
 Passwords are imported in the existing default password store, therefore
 the password store must has been initialized before with `pass init`.
 
-By default pass, import entries at the root of the password store and only keeps
+By default pass, imports entries at the root of the password store and only keeps
 the main data (password, login, email, url, group). This behavior can be changed
 using the provided options.
 
-The following password managers are supported:
+Pass import handles duplicates and is compatible with [browserpass][bp].
 
-|          **Password Manager**          |         **How to export Data**         |             **Command line**            |
-|:--------------------------------------:|:--------------------------------------:|:---------------------------------------:|
-|         [1password][1password]         |                   * *                  |    `pass import onepassword file.xml`   |
-|            [chrome][chrome]            |                   * *                  |      `pass import chrome file.xml`      |
-|            [enpass][enpass]            |        *File > Export > As CSV*        |      `pass import enpass file.csv`      |
-|               [fpm][fpm]               |  *File > Export Passwords: Plain XML*  |        `pass import fpm file.xml`       |
-|          [gorrilla][gorrilla]          |     *File > Export: Yes: CSV Files*    |     `pass import gorrilla file.xml`     |
-|             [kedpm][kedpm]             |                   * *                  |       `pass import kedpm file.xml`      |
-|           [keepass][keepass]           |    *File > Export > Keepass2 (XML)*    |      `pass import keepass file.xml`     |
-|         [keepass2csv][keepass]         |     *File > Export > Keepass (CSV)*    |    `pass import keepasscsv file.csv`    |
-|          [keepassx][keepassx]          |  *File > Export to > Keepass XML File* |     `pass import keepassx file.xml`     |
-|           [kwallet][kwallet]           |                   * *                  |      `pass import kwallet file.xml`     |
-|          [lastpass][lastpass]          |   *More Options > Advanced > Export*   |     `pass import lastpass file.csv`     |
+**The following password managers are supported:**
+
+| **Password Manager** | **How to export Data** | **Command line** |
+|:--------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------:|
+| [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.xml` |
+| [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.xml` |
+| [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.xml` |
+| [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
+| [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
+| [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
+| [gorrilla][gorrilla] | *File > Export: Yes: CSV Files* | `pass import gorrilla file.xml` |
+| [kedpm][kedpm] | *File > Export Passwords: Plain XML* | `pass import kedpm file.xml` |
+| [keepass][keepass] | *File > Export > Keepass2 (XML)* | `pass import keepass file.xml` |
+| [keepass2csv][keepass] | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
+| [keepassx][keepassx] | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
+| [keepassxc][keepassxc] | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
+| [lastpass][lastpass] | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
 | [password-exporter][password-exporter] | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
-|            [pwsafe][pwsafe]            |     *File > Export To > XML Format*    |      `pass import pwsafe file.xml`      |
-|        [revelation][revelation]        |          *File > Export: XML*          |    `pass import revelation file.xml`    |
-|          [roboform][roboform]          |                   * *                  |     `pass import roboform file.xml`     |
-
-
-
-
-
+| [pwsafe][pwsafe] | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
+| [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
+| [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.xml` |
 
 
 ## Usage
 
 ```
-pass import 2.0 - A generic importer extension for pass.
+usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
-Usage:
-    pass import [[-p folder] [-c] [-e] [-f] | -l] <manager> <file>
-        Import data from most of the password manager. Passwords
-        are imported in the existing default password store, therefore
-        the password store must has been initialized before with 'pass init'
+  Import data from most of the password manager. Passwords
+  are imported in the existing default password store, therefore
+  the password store must has been initialized before with 'pass init'
 
-        <file> is the path to the file that contains the data to import, if
-        empty read the data from stdin.
+positional arguments:
+  manager               Can be: 1password, 1password4, chrome, dashlane,
+                        enpass, fpm, gorilla, kedpm, keepass, keepasscsv,
+                        keepassx, keepassxc, lastpass, passwordexporter,
+                        pwsafe, revelation, roboform.
+  file                  File is the path to the file that contains the data to
+                        import, if empty read the data from stdin.
 
-        <manager> can be:
-        	onepassword chrome dashlane enpass fpm gorilla
-        	kedpm keepass keepasscsv keepassx kwallet lastpass
-        	passwordexporter pwsafe revelation roboform
-
-Options:
-    -p, --path     Import the passwords to a specific subfolder.
-    -c, --clean    Clean data before import.
-    -e, --extra    Also import all the extra data present.
-    -l, --list     List the supported password managers.
-    -f, --force    Overwrite existing path.
-    -q, --quiet    Be quiet.
-    -v, --verbose  Be verbose.
-    -V, --version  Show version information.
-    -h, --help	   Print this help message and exit.
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PATH, --path PATH  Import the passwords to a specific subfolder.
+  -c, --clean           Clean data before import.
+  -e, --extra           Also import all the extra data present.
+  -l, --list            List the supported password managers.
+  -f, --force           Overwrite existing path.
+  -q, --quiet           Be quiet.
+  -v, --verbose         Be verbose.
+  -V, --version         Show the program version and exit.
 
 More information may be found in the pass-import(1) man page.
 ```
 
 See `man pass-import` for more information.
 
+## Examples
+**Import password from KeepPass**
+```
+pass import keepass keepass.xml
+(*) Importing passwords from keepass
+ .  File: keepass.xml
+ .  Number of password imported: 10
+ .  Passwords imported:
+       Social/mastodon.social
+       Social/twitter.com
+       Social/news.ycombinator.com
+       Servers/ovh.com
+       Servers/ovh.com0
+       Bank/aib
+```
+
+**Import password to a different password strore**
+```
+export PASSWORD_STORE_DIR="~/.mypassword-store"
+pass init <gpg-id>
+pass import keepass keepass.csv
+```
+
+**Import password to a subfolder**
+```
+pass import keepass keepass.csv -p import/
+```
+
+## Security consideration
+
+Passwords should generaly not be written in a plain text form on the drive.
+Therefore when possible you should pipe your passwords to pass import:
+```sh
+my_password_manger_export_cmd | pass import keepass
+```
+
+Otherwise, if your password manager does not have this command line option, you
+should take care of securely removing the plain text password database:
+```sh
+pass import enpass data.xml
+srm data.xml
+```
 
 ## Installation
 
@@ -102,10 +141,12 @@ cd pass-import-2.0
 sudo make install
 ```
 
-Releases and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
-You should verify the signature:
+[Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
+You should check the key's fingerprint and verify the signature:
 ```sh
-gpg --verify pass-import-2.0.tar.gz.sig
+wget https://github.com/roddhjav/pass-import/releases/download/v2.0/pass-import-2.0.tar.gz.asc
+gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
+gpg --verify pass-import-2.0.tar.gz.asc
 ```
 
 **ArchLinux**
@@ -129,19 +170,20 @@ Feedback, contributors, pull requests are all very welcome.
 
 ## License
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+    Copyright (C) 2017  Alexandre PUJOL
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [build-img]: https://travis-ci.org/roddhjav/pass-import.svg?branch=master
 [build-url]: https://travis-ci.org/roddhjav/pass-import
@@ -153,18 +195,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-import
+[releases]: https://github.com/roddhjav/pass-import/releases
 
 [1password]: https://1password.com/
 [chrome]: https://support.google.com/chrome
+[dashlane]: https://www.dashlane.com/
 [enpass]: https://www.enpass.io/
 [fpm]: http://fpm.sourceforge.net/
 [gorrilla]: https://github.com/zdia/gorilla/wiki
 [kedpm]: http://kedpm.sourceforge.net/
 [keepass]: keepass.info
 [keepassx]: https://www.keepassx.org/
+[keepassxc]: https://keepassxc.org/
 [kwallet]: https://utils.kde.org/projects/kwalletmanager/
 [lastpass]: https://www.lastpass.com/
 [password-exporter]: https://addons.mozilla.org/en-US/firefox/addon/password-exporter/
 [pwsafe]: https://pwsafe.org/
 [revelation]: https://revelation.olasagasti.info/
 [roboform]: https://www.roboform.com/
+
+[bp]: https://github.com/dannyvankooten/browserpass
+[export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
