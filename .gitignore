@@ -105,3 +105,4 @@ venv.bak/
 # pass tests
 tests/gnupg/
 tests/test-results/
+tests/database
