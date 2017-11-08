@@ -45,7 +45,7 @@ class TestPass(TestPassSimple):
         super(TestPass, self).setUpClass()
 
         # Pass binary
-        os.environ['PASSWORD_STORE_BIN'] = "/usr/bin/pass"
+        os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
         # GPG Config
         if 'GPG_AGENT_INFO' in os.environ:
@@ -57,8 +57,10 @@ class TestPass(TestPassSimple):
         shutil.rmtree(self.tmp, ignore_errors=True)
         os.makedirs(self.tmp, exist_ok=True)
 
-    def setUp(self):
-        testname = self.id().split('_').pop() + 'store'
+    def setUp(self, manager=None):
+        if manager is None:
+            manager = self.id().split('_').pop()
+        testname = manager + '-store'
         os.environ['PASSWORD_STORE_DIR'] = os.path.join(self.tmp, testname)
         os.makedirs(os.environ['PASSWORD_STORE_DIR'], exist_ok=True)
         self.store = self.passimport.PasswordStore()

@@ -18,6 +18,7 @@
 
 import os
 import setup
+import shutil
 import unittest
 
 
@@ -29,7 +30,7 @@ class TestPassStore(setup.TestPass):
         os.environ.pop('PASSWORD_STORE_BIN', None)
         with self.assertRaises(self.passimport.PasswordStoreError):
             self.passimport.PasswordStore()
-        os.environ['PASSWORD_STORE_BIN'] = '/usr/bin/pass'
+        os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
     def test_environnement_variables(self):
         """ Testing: environnement variables """

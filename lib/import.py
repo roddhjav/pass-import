@@ -50,7 +50,6 @@ importers = {
     'keepass': ['Keepass', 'https://www.keepass.info'],
     'keepasscsv': ['KeepassCSV', 'https://www.keepass.info'],
     'keepassx': ['KeepassX', 'https://www.keepassx.org/'],
-    'kwallet': ['Kwallet', 'https://utils.kde.org/projects/kwalletmanager/'],
     'keepassxc': ['KeepassXC', 'https://keepassxc.org/'],
     'lastpass': ['Lastpass', 'https://www.lastpass.com/'],
     'passwordexporter': ['PasswordExporter', 'https://addons.mozilla.org/en-US/firefox/addon/password-exporter/'],

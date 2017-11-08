@@ -70,13 +70,13 @@ class TestPassImport(setup.TestPass):
 
     def test_pass_import_StoreNotInitialized(self):
         """ Testing: store not initialized """
-        cmd = ['1password', self.db + '1password']
+        cmd = ['1password', self.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
         self._passimport(cmd, 1)
 
     def test_pass_import_FromFile(self):
-        """ Testing: pass import 1password db/1password -v"""
-        cmd = ['1password', self.db + '1password', '--verbose']
+        """ Testing: pass import 1password db/1password.csv -v"""
+        cmd = ['1password', self.db + '1password.csv', '--verbose']
         self._passimport(cmd)
 
     def test_pass_import_FromStdin(self):
@@ -85,31 +85,31 @@ class TestPassImport(setup.TestPass):
         self._passimport(cmd)
 
     def test_pass_import_root(self):
-        """ Testing: pass import 1password db/1password --path root """
-        cmd = ['1password', self.db + '1password', '--path', 'root']
+        """ Testing: pass import 1password db/1password.csv --path root """
+        cmd = ['1password', self.db + '1password.csv', '--path', 'root']
         self._passimport(cmd)
 
     def test_pass_import_clean(self):
-        """ Testing: pass import 1password db/1password --clean """
-        cmd = ['1password', self.db + '1password', '--clean', '--quiet']
+        """ Testing: pass import 1password db/1password.csv --clean """
+        cmd = ['1password', self.db + '1password.csv', '--clean', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_extra(self):
-        """ Testing: pass import 1password db/1password --extra """
-        cmd = ['1password', self.db + '1password', '--extra', '--quiet']
+        """ Testing: pass import 1password db/1password.csv --extra """
+        cmd = ['1password', self.db + '1password.csv', '--extra', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_force(self):
-        """ Testing: pass import 1password db/1password --force """
-        cmd = ['1password', self.db + '1password']
+        """ Testing: pass import 1password db/1password.csv --force """
+        cmd = ['1password', self.db + '1password.csv']
         self._passimport(cmd)
         self._passimport(cmd)
         cmd.append('--force')
         self._passimport(cmd)
 
     def test_pass_import_format(self):
-        """ Testing: pass import passwordexporter db/lastpass """
-        cmd = ['passwordexporter', self.db + 'lastpass']
+        """ Testing: pass import passwordexporter db/lastpass.csv """
+        cmd = ['passwordexporter', self.db + '1password.csv']
         self._passimport(cmd, 1)
 
 
