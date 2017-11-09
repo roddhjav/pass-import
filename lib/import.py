@@ -114,7 +114,7 @@ class PasswordStore():
     """
     def __init__(self):
         self.env = dict(**os.environ)
-        self._setenv('PASSWORD_STORE_DIR', 'PREFIX')
+        self._setenv('PASSWORD_STORE_DIR')
         self._setenv('PASSWORD_STORE_KEY')
         self._setenv('PASSWORD_STORE_GIT', 'GIT_DIR')
         self._setenv('PASSWORD_STORE_GPG_OPTS')
@@ -153,7 +153,7 @@ class PasswordStore():
             command.extend(arg)
 
         process = Popen(command, universal_newlines=True, env=self.env,
-                        stdin=PIPE, stdout=PIPE, stderr=PIPE)
+                        stdin=PIPE, stdout=PIPE, stderr=PIPE)  # nosec
         (stdout, stderr) = process.communicate(data)
         res = process.wait()
         if res:
@@ -196,13 +196,15 @@ class PasswordManager():
             string += "%s: %s\n" % (key, value)
         return string
 
-    def _clean_protocol(self, entry, key):
+    @staticmethod
+    def _clean_protocol(entry, key):
         """ Remove the protocol prefix for the value """
         if key in entry:
             entry[key] = entry[key].replace('https://', '')
             entry[key] = entry[key].replace('http://', '')
 
-    def _clean_cmdline(self, string):
+    @staticmethod
+    def _clean_cmdline(string):
         """ Make the string more command line friendly """
         string = string.replace(" ", "_").replace("&", "and")
         string = string.replace('/', '-').replace('\\', '-')
@@ -222,7 +224,8 @@ class PasswordManager():
             else:
                 seen.append(path)
 
-    def _create_path(self, entry):
+    @staticmethod
+    def _create_path(entry):
         """ Create path from title and group """
         path = ''
         if 'group' in entry:
