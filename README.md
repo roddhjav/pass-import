@@ -1,4 +1,4 @@
-# pass import [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![climate][clima-img]][clima-url]
+# pass import [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![codacy][codac-img]][codac-url]
 
 A [pass][pass] extension for importing data from most of the existing
 password manager.
@@ -189,8 +189,8 @@ Feedback, contributors, pull requests are all very welcome.
 [build-url]: https://travis-ci.org/roddhjav/pass-import
 [cover-img]: https://coveralls.io/repos/github/roddhjav/pass-import/badge.svg?branch=master
 [cover-url]: https://coveralls.io/github/roddhjav/pass-import?branch=master
-[clima-img]: https://codeclimate.com/github/roddhjav/pass-import/badges/gpa.svg
-[clima-url]: https://codeclimate.com/github/roddhjav/pass-import
+[codac-img]: https://api.codacy.com/project/badge/Grade/783d8cf291434d2b8f1c063b51cfebbb
+[codac-url]: https://www.codacy.com/app/roddhjav/pass-import
 
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
