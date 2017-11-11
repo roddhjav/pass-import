@@ -21,7 +21,7 @@ import sys
 import csv
 import argparse
 import importlib
-from xml.etree import ElementTree
+from defusedxml import ElementTree
 from subprocess import Popen, PIPE
 from collections import OrderedDict
 
