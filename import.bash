@@ -22,14 +22,14 @@ _error() { echo -e " ${Bred}[x]${reset} ${Bold}Error:${reset} ${*}" >&2; }
 _die() { _error "${@}" && exit 1; }
 _ensure_dependencies() {
 	command -v "python3" &>/dev/null || _die "$PROGRAM $COMMAND requires python3"
-	command -v "${LIBDIR}/import.py" &>/dev/null || _die "$PROGRAM $COMMAND requires ${LIBDIR}/import.py"
+	[[ -f "${LIBDIR}/import.py" ]] || _die "$PROGRAM $COMMAND requires ${LIBDIR}/import.py"
 }
 
 cmd_import() {
 	local ret=0
-	export PREFIX PASSWORD_STORE_KEY GIT_DIR PASSWORD_STORE_GPG_OPTS
+	export PASSWORD_STORE_DIR=$PREFIX GIT_DIR PASSWORD_STORE_GPG_OPTS
 	export X_SELECTION CLIP_TIME PASSWORD_STORE_UMASK GENERATED_LENGTH
-	export CHARACTER_SET CHARACTER_SET_NO_SYMBOLS EXTENSIONS
+	export CHARACTER_SET CHARACTER_SET_NO_SYMBOLS EXTENSIONS PASSWORD_STORE_KEY
 	export PASSWORD_STORE_ENABLE_EXTENSIONS PASSWORD_STORE_SIGNING_KEY
 	export GNUPGHOME LIBDIR PYTHONIOENCODING="UTF-8" PASSWORD_STORE_BIN="$0"
 	if [[ -t 0 ]]; then
