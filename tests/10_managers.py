@@ -24,6 +24,22 @@ class TestPasswordManager(setup.TestPassSimple):
 
     def setUp(self):
         self.importer = self.passimport.PasswordManager()
+        self.importer.data = [{'title': 'twitter.com',
+                               'password': 'UuQHzvv6IHRIJGjwKru7',
+                               'login': 'lnqYm3ZWtm',
+                               'url': 'https://twitter.com',
+                               'comments': '',
+                               'group': 'Social',
+                               'address': '',
+                               'sex': '',
+                               'website': 'https://pujol.io',
+                               'uuid': '44jle5q3fdvrprmaahozexy2pi'}]
+        self.data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
+                               'login': 'lnqYm3ZWtm',
+                               'url': 'twitter.com',
+                               'website': 'https://pujol.io',
+                               'uuid': '44jle5q3fdvrprmaahozexy2pi',
+                               'path': 'Social/twitter.com'}]
 
     def test_get_data(self):
         """ Testing: convert dict to password entry """
@@ -40,45 +56,15 @@ class TestPasswordManager(setup.TestPassSimple):
 
     def test_satanize_data(self):
         """ Testing: satanize data """
-        self.importer.data = [{'title': 'twitter.com',
-                               'password': 'UuQHzvv6IHRIJGjwKru7',
-                               'login': 'lnqYm3ZWtm',
-                               'url': 'https://twitter.com',
-                               'comments': '',
-                               'group': 'Social',
-                               'address': '',
-                               'sex': '',
-                               'website': 'https://pujol.io',
-                               'uuid': '44jle5q3fdvrprmaahozexy2pi'}]
-        data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                          'login': 'lnqYm3ZWtm',
-                          'url': 'twitter.com',
-                          'website': 'https://pujol.io',
-                          'uuid': '44jle5q3fdvrprmaahozexy2pi',
-                          'path': 'Social/twitter.com'}]
-        self.importer.satanize(False)
-        self.assertTrue(self.importer.data == data_expected)
+        self.importer.satanize(clean=False)
+        self.assertTrue(self.importer.data == self.data_expected)
 
     def test_satanize_clean(self):  # Works with MORE fake test data
         """ Testing: satanize and clean data """
-        self.importer.data = [{'title': 'https://twitter@com',
-                               'password': 'UuQHzvv6IHRIJGjwKru7',
-                               'login': 'lnqYm3ZWtm',
-                               'url': 'https://twitter.com',
-                               'comments': '',
-                               'group': 'Social',
-                               'address': '',
-                               'sex': '',
-                               'website': 'https://pujol.io',
-                               'uuid': '44jle5q3fdvrprmaahozexy2pi'}]
-        data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                          'login': 'lnqYm3ZWtm',
-                          'url': 'twitter.com',
-                          'website': 'https://pujol.io',
-                          'uuid': '44jle5q3fdvrprmaahozexy2pi',
-                          'path': 'Social/twitterAtcom'}]
-        self.importer.satanize(True)
-        self.assertTrue(self.importer.data == data_expected)
+        self.importer.data[0]['title'] = 'https://twitter@com'
+        self.data_expected[0]['path'] = 'Social/twitterAtcom'
+        self.importer.satanize(clean=True)
+        self.assertTrue(self.importer.data == self.data_expected)
 
     def test_satanize_path(self):
         """ Testing: satanize data & generate password path"""
@@ -90,7 +76,7 @@ class TestPasswordManager(setup.TestPassSimple):
                           'login': 'lnqYm3ZWtm',
                           'url': 'twitter.com',
                           'path': 'twitter.com'}]
-        self.importer.satanize(False)
+        self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
         # Test login as path name
@@ -99,14 +85,14 @@ class TestPasswordManager(setup.TestPassSimple):
         data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
                           'login': 'lnqYm3ZWtm',
                           'path': 'lnqYm3ZWtm'}]
-        self.importer.satanize(False)
+        self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
         # Test notitle as path name
         self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7'}]
         data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
                           'path': 'notitle'}]
-        self.importer.satanize(False)
+        self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
     def test_satanize_duplicate_paths(self):
@@ -123,7 +109,7 @@ class TestPasswordManager(setup.TestPassSimple):
                          {'password': 'VRiplZSniSBlHNnQvc9e',
                           'login': 'lnqYm3ZWtm',
                           'path': 'ovh.com0'}]
-        self.importer.satanize(False)
+        self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
 

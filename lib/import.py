@@ -185,7 +185,8 @@ class PasswordManager():
         self.data = []
         self.all = all
 
-    def get(self, password):
+    @staticmethod
+    def get(password):
         """ Return the content of an entry in a password-store format. """
         entry = password.copy()
         string = ''
