@@ -295,9 +295,11 @@ class PasswordManagerXML(PasswordManager):
         if tree.tag != self.format:
             raise FormatError()
 
+    @classmethod
     def _getroot(self, tree):
         return tree
 
+    @classmethod
     def _getvalue(self, element, xmlkey):
         value = element.find(xmlkey)
         if value is None:
@@ -375,6 +377,7 @@ class FigaroPM(PasswordManagerXML):
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'category'}
 
+    @classmethod
     def _getroot(self, tree):
         return tree.find('PasswordList')
 
@@ -396,6 +399,7 @@ class KeepassX(PasswordManagerXML):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'comment'}
 
+    @classmethod
     def _getpath(self, element, path=''):
         if element.tag == 'database':
             return ''
@@ -420,17 +424,20 @@ class Keepass(KeepassX):
     keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
             'url': 'URL', 'comments': 'Notes'}
 
+    @classmethod
     def _getroot(self, tree):
         root = tree.find('Root')
         return root.find('Group')
 
-    def _getvalue(self, elements, text):
+    @classmethod
+    def _getvalue(self, elements, xmlkey):
         for element in elements:
             for child in element.findall('Key'):
-                if child.text == text:
+                if child.text == xmlkey:
                     return element.find('Value').text
         return ''
 
+    @classmethod
     def _getpath(self, element, path=''):
         """ Generate path name from elements title and current path """
         if element.tag == 'Entry':
@@ -489,6 +496,7 @@ class Revelation(PasswordManagerXML):
             'login': 'generic-username', 'url': 'generic-hostname',
             'comments': 'notes', 'group': '', 'description': 'description'}
 
+    @classmethod
     def _getvalue(self, element, xmlkey):
         fieldkeys = ['generic-hostname', 'generic-username', 'generic-password']
         if xmlkey in fieldkeys:
