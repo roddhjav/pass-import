@@ -300,8 +300,8 @@ class PasswordManagerXML(PasswordManager):
         return tree
 
     @classmethod
-    def _getvalue(self, element, xmlkey):
-        value = element.find(xmlkey)
+    def _getvalue(self, elements, xmlkey):
+        value = elements.find(xmlkey)
         if value is None:
             return ''
         else:
@@ -497,14 +497,14 @@ class Revelation(PasswordManagerXML):
             'comments': 'notes', 'group': '', 'description': 'description'}
 
     @classmethod
-    def _getvalue(self, element, xmlkey):
+    def _getvalue(self, elements, xmlkey):
         fieldkeys = ['generic-hostname', 'generic-username', 'generic-password']
         if xmlkey in fieldkeys:
-            for field in element.findall('field'):
+            for field in elements.findall('field'):
                 if xmlkey == field.attrib['id']:
                     return field.text
         else:
-            return element.find(xmlkey).text
+            return elements.find(xmlkey).text
 
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
