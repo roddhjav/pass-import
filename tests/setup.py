@@ -18,9 +18,12 @@
 
 import os
 import sys
+import csv
 import shutil
 import unittest
 import importlib
+from collections import OrderedDict
+
 
 class TestPassSimple(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
@@ -37,6 +40,39 @@ class TestPassSimple(unittest.TestCase):
         except Exception as e:
             print("Unable to find import.py: %s", e)
             exit(1)
+
+    def _get_refdata(self):
+        refdata = []
+        reffile = os.path.join(self.db, '.template.csv')
+        with open(reffile, 'r', encoding='utf-8') as file:
+            reader = csv.DictReader(file, delimiter=',', quotechar='"')
+            for row in reader:
+                entry = OrderedDict()
+                for col in row:
+                    value = row[col]
+                    if value is not None and not len(value) == 0:
+                        entry[col] = value
+                refdata.append(entry)
+        return refdata
+
+    @staticmethod
+    def _clean(keys, data):
+        """ Clean data from unwanted keys and weird formating """
+        for entry in data:
+            delete = [k for k in entry.keys() if k not in keys]
+            for key in delete:
+                entry.pop(key, None)
+
+            delete = []
+            for key in entry:
+                entry[key] = entry[key].replace('https://', '')
+                entry[key] = entry[key].replace('http://', '')
+                if entry[key] is None or entry[key] == '':
+                    delete.append(key)
+            for key in delete:
+                print(key)
+                entry.pop(key, None)
+
 
 class TestPass(TestPassSimple):
     @classmethod
@@ -57,10 +93,8 @@ class TestPass(TestPassSimple):
         shutil.rmtree(self.tmp, ignore_errors=True)
         os.makedirs(self.tmp, exist_ok=True)
 
-    def setUp(self, manager=None):
-        if manager is None:
-            manager = self.id().split('_').pop()
-        testname = manager + '-store'
+    def setUp(self):
+        testname = self.id().split('_').pop() + '-store'
         os.environ['PASSWORD_STORE_DIR'] = os.path.join(self.tmp, testname)
         os.makedirs(os.environ['PASSWORD_STORE_DIR'], exist_ok=True)
         self.store = self.passimport.PasswordStore()

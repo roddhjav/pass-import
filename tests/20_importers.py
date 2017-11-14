@@ -19,13 +19,31 @@
 import os
 import setup
 import unittest
-from collections import OrderedDict
-
 
 
 class TestImporters(setup.TestPassSimple):
-    xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation']
 
+    def test_importers(self):
+        """ Testing: importer parse method using real data. """
+        self.refdata = self._get_refdata()
+        for manager in self.passimport.importers:
+            with self.subTest(manager):
+                # Load importer class, file to test and parse the file
+                ImporterClass = getattr(self.passimport,
+                                        self.passimport.importers[manager][0])
+                importer = ImporterClass(all=True)
+                ext = '.xml' if manager in self.xml else '.csv'
+                testfile = os.path.join(self.db, manager + ext)
+                with open(testfile, 'r', encoding='utf-8') as file:
+                    importer.parse(file)
+
+                # Check the data parsed
+                keys = ['title', 'password', 'login']
+                refdata = self.refdata.copy()
+                self._clean(keys, refdata)
+                self._clean(keys, importer.data)
+                for entry in importer.data:
+                    self.assertIn(entry, refdata)
 
     def test_importers_format(self):
         """ Testing: importer file format """
