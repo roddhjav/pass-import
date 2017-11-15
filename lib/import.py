@@ -280,11 +280,15 @@ class PasswordManagerCSV(PasswordManager):
             entry = OrderedDict()
             for key, csvkey in self.keys.items():
                 if csvkey is not '':
-                    entry[key] = row.pop(csvkey, None)
+                    value = row.pop(csvkey, None)
+                    if value is not None and not len(value) == 0:
+                        entry[key] = value
 
             if self.all:
                 for col in row:
-                    entry[col] = row[col]
+                    value = row[col]
+                    if value is not None and not len(value) == 0:
+                        entry[col] = value
 
             self.data.append(entry)
 

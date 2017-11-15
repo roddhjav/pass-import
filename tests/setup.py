@@ -67,7 +67,7 @@ class TestPassSimple(unittest.TestCase):
             for key in entry:
                 entry[key] = entry[key].replace('https://', '')
                 entry[key] = entry[key].replace('http://', '')
-                if entry[key] is None or entry[key] == '':
+                if entry[key] is None or len(entry[key]) == 0:
                     delete.append(key)
             for key in delete:
                 print(key)
