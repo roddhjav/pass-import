@@ -1,4 +1,4 @@
-# pass import [![build][build-img]][build-url] [![coverage][cover-img]][cover-url] [![codacy][codac-img]][codac-url]
+# pass import [![build][build-img]][build-url] [![coverage][cover-img]][codac-url] [![codacy][codac-img]][codac-url]
 
 A [pass][pass] extension for importing data from most of the existing
 password manager.
@@ -159,6 +159,7 @@ pacaur -S pass-import # or your preferred AUR install method
 **Requirements**
 * `pass 1.7.0` or greater.
 * `python 3`
+* `python-defusedxml`
 * If you do not want to install this extension as system extension, you need to
 enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
 create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
@@ -187,8 +188,7 @@ Feedback, contributors, pull requests are all very welcome.
 
 [build-img]: https://travis-ci.org/roddhjav/pass-import.svg?branch=master
 [build-url]: https://travis-ci.org/roddhjav/pass-import
-[cover-img]: https://coveralls.io/repos/github/roddhjav/pass-import/badge.svg?branch=master
-[cover-url]: https://coveralls.io/github/roddhjav/pass-import?branch=master
+[cover-img]: https://api.codacy.com/project/badge/Coverage/783d8cf291434d2b8f1c063b51cfebbb
 [codac-img]: https://api.codacy.com/project/badge/Grade/783d8cf291434d2b8f1c063b51cfebbb
 [codac-url]: https://www.codacy.com/app/roddhjav/pass-import
 
