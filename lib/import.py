@@ -630,7 +630,7 @@ def main(argv):
             message("Extra data conserved")
         message("Passwords imported:")
         for entry in importer.data:
-            msg(entry['path'])
+            msg(os.path.join(arg.root, entry['path']))
 
 
 if __name__ == "__main__":
