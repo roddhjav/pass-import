@@ -186,10 +186,10 @@ Feedback, contributors, pull requests are all very welcome.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-[build-img]: https://travis-ci.org/roddhjav/pass-import.svg?branch=master
+[build-img]: https://img.shields.io/travis/roddhjav/pass-import/master.svg
 [build-url]: https://travis-ci.org/roddhjav/pass-import
-[cover-img]: https://api.codacy.com/project/badge/Coverage/783d8cf291434d2b8f1c063b51cfebbb
-[codac-img]: https://api.codacy.com/project/badge/Grade/783d8cf291434d2b8f1c063b51cfebbb
+[cover-img]: https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg
+[codac-img]: https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg
 [codac-url]: https://www.codacy.com/app/roddhjav/pass-import
 
 [pass]: https://www.passwordstore.org/
