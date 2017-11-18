@@ -70,8 +70,21 @@ class TestPassSimple(unittest.TestCase):
                 if entry[key] is None or len(entry[key]) == 0:
                     delete.append(key)
             for key in delete:
-                print(key)
                 entry.pop(key, None)
+
+    def _get_testpath(self, manager):
+        """ Get database file to test """
+        ext = '.xml' if manager in self.xml else '.csv'
+        return os.path.join(self.db, manager + ext)
+
+    def _check_imported_data(self, data):
+        """ Compare imported data with the reference data """
+        keys = ['title', 'password', 'login']
+        refdata = self.refdata.copy()
+        self._clean(keys, refdata)
+        self._clean(keys, data)
+        for entry in data:
+            self.assertIn(entry, refdata)
 
 
 class TestPass(TestPassSimple):

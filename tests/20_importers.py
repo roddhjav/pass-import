@@ -23,27 +23,24 @@ import unittest
 
 class TestImporters(setup.TestPassSimple):
 
+    def _load_import(self, manager):
+        """ Load importer class """
+        ImporterClass = getattr(self.passimport,
+                                self.passimport.importers[manager][0])
+        importer = ImporterClass(all=True)
+        return importer
+
     def test_importers(self):
         """ Testing: importer parse method using real data. """
         self.refdata = self._get_refdata()
         for manager in self.passimport.importers:
             with self.subTest(manager):
-                # Load importer class, file to test and parse the file
-                ImporterClass = getattr(self.passimport,
-                                        self.passimport.importers[manager][0])
-                importer = ImporterClass(all=True)
-                ext = '.xml' if manager in self.xml else '.csv'
-                testfile = os.path.join(self.db, manager + ext)
-                with open(testfile, 'r', encoding='utf-8') as file:
+                importer = self._load_import(manager)
+                testpath = self._get_testpath(manager)
+                with open(testpath, 'r', encoding='utf-8') as file:
                     importer.parse(file)
 
-                # Check the data parsed
-                keys = ['title', 'password', 'login']
-                refdata = self.refdata.copy()
-                self._clean(keys, refdata)
-                self._clean(keys, importer.data)
-                for entry in importer.data:
-                    self.assertIn(entry, refdata)
+                self._check_imported_data(importer.data)
 
     def test_importers_format(self):
         """ Testing: importer file format """
@@ -51,16 +48,12 @@ class TestImporters(setup.TestPassSimple):
             if manager == 'dashlane':
                 continue
             with self.subTest(manager):
-                # Load importer class & file to test.
-                ImporterClass = getattr(self.passimport,
-                                        self.passimport.importers[manager][0])
-                importer = ImporterClass()
-                path = '.dummy.xml' if manager in self.xml else '.dummy.csv'
-                testfile = os.path.join(self.db, path)
+                importer = self._load_import(manager)
+                ext = '.xml' if manager in self.xml else '.csv'
+                testpath = os.path.join(self.db, '.dummy' + ext)
 
-                # Parse the file
                 with self.assertRaises(self.passimport.FormatError):
-                    with open(testfile, 'r', encoding='utf-8') as file:
+                    with open(testpath, 'r', encoding='utf-8') as file:
                         importer.parse(file)
 
 
