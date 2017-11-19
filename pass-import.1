@@ -1,135 +1,307 @@
-.TH MARK 1 "January 2017" "pass-import"
+.TH MARK 1 "January 2018" "pass-import"
 
 .SH NAME
-pass import - A generic importer extension for the standard unix password
-manager \fIpass\fP(1).
+\fBpass import\fP - A \fIpass\fP(1) extension for importing data from most of
+the existing password manager.
 
 
 .SH SYNOPSIS
-\fBpass import\fP <importer> [args]
+\fBpass import\fP [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
 .SH DESCRIPTION
-\fBpass import\fP is a small password store extension allowing you to
-conveniently import your password database to a password store repository.
+\fBpass import\fP is a password store extension allowing you to conveniently
+import your password database to a password store repository. It natively
+supports import from 17 differents password managers. More manager support can
+easily be added.
+
+Passwords are imported in the existing default password store, therefore
+the password store must has been initialized before with `pass init`.
+
+By default pass, imports entries at the root of the password store and only keeps
+the main data (password, login, email, url, group). This behavior can be changed
+using the provided options.
+
+Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
+
+.SH COMMAND
+.TP
+\fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--clean\fP, \fI-c\fP ]
+     [ \fI--extra\fP, \fI-e\fP ] [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ]
+     [ \fI--quiet\fP, \fI-q\fP ] [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
+
+Import data from most of the password manager. Passwords are imported in the
+existing default password store, therefore the password store must has been
+initialized before with \fIpass init\fP.
+
+.I manager
+refer to one of the supported password manager from which you want to import
+your data. The complete list of supported manager can be found in the section
+\fISUPPORTED MANAGERS\fP.
+
+.I file
+is the path to the file that contains the data to import. If file is not
+present, pass-import will read the data from stdin.
+
+Specific root directory to use in the password store can be given using
+\fI--path\fP or \fI-p\fP is specified, along with a argument.
+
+If \fI--clean\fP or \fI-c\fP is specified, clean the password path in order to
+be more command line friendly.
+
+If \fI--extra\fP or \fI-e\fP is specified, conserve and import all the data
+present in the backup file. Otherwise, only title, password, login, url,
+comments and group data are imported.
+
+If \fI--list\fP or \fI-l\fP is specified, print the list of the available
+password manager.
+
+If \fI--force\fP or \fI-f\fP is specified, the import process will overwrite
+existing password entry if it already exist.
 
 
-.SH SUPPORTED IMPORTERS
+.SH OPTIONS
 
+.TP
+\fB\-p <path>\fB, \-\-path=<path>\fR
+Import the passwords to a specific subfolder.
+
+.TP
+\fB\-c\fB, \-\-clean\fR
+Clean data before import.
+
+.TP
+\fB\-e\fB, \-\-extra\fR
+Also import all the extra data present.
+
+.TP
+\fB\-l\fB, \-\-list\fR
+List the supported password managers.
+
+.TP
+\fB\-f\fB, \-\-force\fR
+Overwrite existing path.
+
+.TP
+\fB\-q\fB, \-\-quiet\fR
+Be quiet.
+
+.TP
+\fB\-v\fB, \-\-verbose\fR
+Be verbose.
+
+.TP
+\fB\-V\fB, \-\-version\fR
+Show the program version and exit.
+
+.TP
+\fB\-h\fB, \-\-help\fR
+Show usage message.
+
+
+.SH SUPPORTED MANAGERS
 .TP
 \fB1password\fP
-Reads files exported from 1Password and imports them into pass. Supports comma
-and tab delimited text files, as well as logins (but not other items) stored
-in the 1Password Interchange File (1PIF) format.
+Website: \fIhttps://1password.com/\fP
 
-Supports using the title (default) or URL as pass-name, depending on your
-preferred organization. Also supports importing metadata, adding them with
-\fBpass insert --multiline\fP; the username and URL are compatible with
-https://github.com/jvenant/passff.
+Export: Select all items [Ctrl+A]: Click Right> Settings> Export: CSV
+
+Command: pass import 1password file.xml
 
 .TP
-\fBfpm\fP [\fI--help\fP] [\fI--man\fP] <xml>
-Imports an .xml exported by \fBfpm2\fP into \fBpass\fP.
+\fB1password4\fP
+Website: \fIhttps://1password.com/\fP
 
+Export: File > Export: CSV
+
+Command: pass import 1password4 file.xml
 
 .TP
-\fBgorrilla\fP
+\fBchrome\fP
+Website: \fIhttps://support.google.com/chrome\fP
+
+Export: See \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
+
+Command: pass import chrome file.xml
+
+.TP
+\fBdashlane\fP
+Website: \fIhttps://www.dashlane.com/\fP
+
+Export: File > Export > Unsecured Archive in CSV
+
+Command: pass import dashlane file.csv
+
+.TP
+\fBenpass\fP
+Website: \fIhttps://www-enpass.io/\fP
+
+Export: File > Export > As CSV
+
+Command: pass import enpass file.csv
+
+.TP
+\fBfpm\fP
+Website: \fIhttp://fpm.sourceforge.net/\fP
+
+Export: File > Export Passwords: Plain XML
+
+Command: pass import fpm file.xml
+
+.TP
+\fBgorilla\fP
+Website: \fIhttps://github.com/zdia/gorilla/wiki\fP
+
+Export: File > Export: Yes: CSV Files
+
+Command: pass import gorrilla file.xml
 
 .TP
 \fBkedpm\fP
+Website: \fIhttp://kedpm.sourceforge.net/\fP
 
+Export: File > Export Passwords: Plain XML
 
-.TP
-\fBkeepass\fP export.xml
-This script can handle duplicates and will merge them. Besides the password, the
-fields \fI"UserName"\fP, \fI"URL"\fP and \fI"Notes"\fP (comment) will be inserted.
-You get a warning if an entry has no password, but it will still insert it.
-
-\fIUsage:\fP
-.br
-By default, takes the name of the root element and puts all passwords in there,
-but you can disable this:
-.br
-\fBpass import keepass\fP -f export.xml -r ""
-.br
-Or you can use another root folder:
-.br
-\fBpass import keepass\fP -f export.xml -r foo
-
+Command: pass import kedpm file.xml
 
 .TP
-\fBkeepass2csv\fP
-KeePassX 2+ on Mac allows export to CSV. The CSV contains the following headers :
-\fI"Group"\fP, \fI"Title"\fP, \fI"Username"\fP, \fI"Password"\fP, \fI"URL"\fP,
-\fI"Notes"\fP. Group and Title are used to build the path.
-Password is the first line and the url and the notes are appended after
+\fBkeepass\fP
+Website: \fIhttps://www.keepass.info\fP
 
-\fIUsage:\fP
-.br
-\fBpass import keepass2csv\fP <csv>
+Export: File > Export > Keepass2 (XML)
 
+Command: pass import keepass file.xml
 
+.TP
+\fBkeepasscsv\fP
+Website: \fIhttps://www.keepass.info\fP
+
+Export: File > Export > Keepass (CSV)
+
+Command: pass import keepasscsv file.csv
 
 .TP
 \fBkeepassx\fP
+Website: \fIhttps://www.keepassx.org/\fP
+
+Export: File > Export to > Keepass XML File
+
+Command: pass import keepassx file.xml
 
 .TP
-\fBkwallet\fP
+\fBkeepassxc\fP
+Website: \fIhttps://keepassxc.org/\fP
+
+Export: Database > Export to CSV File
+
+Command: pass import keepassxc file.csv
 
 .TP
 \fBlastpass\fP
-Reads CSV files exported from LastPass and imports them into pass.
+Website: \fIhttps://www.lastpass.com/\fP
 
-Usage:
-Go to lastpass.com and sign in. Next click on your username in the top-right
-corner. In the drop-down meny that appears, click \fI"Export"\fP. After filling in
-your details again, copy the text and save it somewhere on your disk. Make sure
-you copy the whole thing, and resist the temptation to \fI"Save Page As"\fP - the
-script doesn't like HTML.
+Export: More Options > Advanced > Export
 
-Fire up a terminal and run the script, passing the file you saved as an argument.
-It should look something like this:
-
-\fBpass import lastpass\fP <path/to/passwords_file.csv>
-
+Command: pass import lastpass file.csv
 
 .TP
-\fBpassword-exporter\fP
-Import password(s) exported by Password Exporter for Firefox in
-csv format to pass format. Supports Password Exporter format 1.1.
+\fBpasswordexporter\fP
+Website: \fIhttps://addons.mozilla.org/en-US/firefox/addon/password-exporter/\fP
 
-Check the first line of your exported file. It must start with:
+Export: Add-ons Prefs: Export Passwords: CSV
 
-        # Generated by Password Exporter; Export format 1.1;
-
-Support obfuscated export (wrongly called encrypted by Password Exporter).
-
-It should help you to migrate from the default Firefox password
-store to passff.
-
-Please note that Password Exporter or passff may have problem with
-fields containing characters like " or :.
-
-More info at:
-.br
-<https://addons.mozilla.org/en-US/firefox/addon/password-exporter>
-.br
-<https://addons.mozilla.org/en-US/firefox/addon/passff>
-
+Command: pass import passwordexporter file.csv
 
 .TP
 \fBpwsafe\fP
+Website: \fIhttps://pwsafe.org/\fP
+
+Export: File > Export To > XML Format
+
+Command: pass import pwsafe file.xml
 
 .TP
 \fBrevelation\fP
+Website: \fIhttps://revelation.olasagasti.info/\fP
+
+Export: File > Export: XML
+
+Command: pass import revelation file.xml
 
 .TP
 \fBroboform\fP
-Save roboform print lists (like File > Print lists > Logins) to ~/roboform_print_lists.
+Website: \fIhttps://www.roboform.com/\fP
+
+Export: Roboform > Options > Data & Sync > Export To: CSV file
+
+Command: pass import roboform file.xml
+
+
+.SH EXAMPLES
+
+.TP
+Import password from KeepPass
+.B zx2c4@laptop ~ $ pass import keepass keepass.xml
 .br
-Run import: \fBpass import roboform\fP ~/roboform_print_lists
+(*) Importing passwords from keepass
+.br
+ .  File: keepass.xml
+.br
+ .  Number of password imported: 6
+.br
+ .  Passwords imported:
+.br
+       Social/mastodon.social
+.br
+       Social/twitter.com
+.br
+       Social/news.ycombinator.com
+.br
+       Servers/ovh.com
+.br
+       Servers/ovh.com0
+.br
+       Bank/aib
+
+.TP
+Import password to a different password strore
+.B zx2c4@laptop ~ $ export PASSWORD_STORE_DIR="~/.mypassword-store"
+.br
+.B zx2c4@laptop ~ $ pass init <gpg-id>
+.br
+.B zx2c4@laptop ~ $ pass import keepass keepass.xml
+
+.TP
+Import password to a subfolder
+.B zx2c4@laptop ~ $ pass import keepass keepass.xml -p Import/
+.br
+(*) Importing passwords from keepass
+.br
+ .  File: keepass.xml
+.br
+ .  Root path: Import
+.br
+ .  Number of password imported: 6
+.br
+ .  Passwords imported:
+.br
+      Import/Social/mastodon.social
+.br
+      Import/Social/twitter.com
+.br
+      Import/Social/news.ycombinator.com
+.br
+      Import/Servers/ovh.com
+.br
+      Import/Servers/ovh.com0
+.br
+      Import/Bank/aib
+
 
 .SH SEE ALSO
-.BR pass (1),
+.BR pass(1),
+.BR pass-tomb(1),
+.BR pass-update(1),
+.BR pass-otp(1)
 
 
 .SH AUTHORS
@@ -139,91 +311,6 @@ was written by
 Alexandre Pujol
 .ME .
 
-.B 1Password
-importer script was written by
-.MT tobias@langhoff.no
-Tobias V. Langhoff
-.ME .
-
-.B fpm
-importer script was written by
-.MT jeffrey.ratcliffe@gmail.com
-Jeffrey Ratcliffe
-.ME .
-
-.B gorilla
-importer script was written by
-.MT david.sklar@gmail.com
-David Sklar
-.ME .
-
-.B kedpm
-importer script was written by
-.MT anarcat@orangeseeds.org
-Antoine Beaupré
-.ME .
-
-.B keepass2csv
-importer script was written by
-.MT dfrancoeur04@gmail.com
-David Francoeur
-.ME .
-
-.B keepass
-importer script was written by
-.MT stefan.simroth@gmail.com
-Stefan Simroth
-.ME .
-
-.B keepassx
-importer script was written by
-.MT iiska@iki.fi
-Juhamatti Niemelä
-.ME .
-
-.B kwallet
-importer script was written by
-.MT iiska@iki.fi
-Juhamatti Niemelä
-.ME
-and by
-.MT diggory.hardy@gmail.com
-Diggory Hardy
-.ME .
-
-.B lastpass
-importer script was written by
-.MT alex.sayers@gmail.com
-Alex Sayers
-.ME .
-
-.B password-exporter
-importer script was written by
-.MT daniele.pizzolli@create-net.org
-Daniele Pizzolli
-.ME .
-
-.B pwsafe
-importer script was written by
-.MT tom@whyscream.net
-Tom Hendrikx
-.ME .
-
-.B revelation
-importer script was written by
-.MT em@nerd.ocracy.org
-Emanuele Aina
-.ME
-and by
-Toni Corvera
-
-.B roboform
-importer script was written by
-.MT sergey@makridenkov.com
-Sergey Makridenkov
-.ME .
-
-The importers script are under they own license.
 
 .SH COPYING
 This program is free software: you can redistribute it and/or modify
