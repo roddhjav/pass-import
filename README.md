@@ -24,7 +24,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 |:--------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------:|
 | [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.xml` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.xml` |
-| [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.xml` |
+| [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
 | [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
@@ -80,7 +80,7 @@ See `man pass-import` for more information.
 pass import keepass keepass.xml
 (*) Importing passwords from keepass
  .  File: keepass.xml
- .  Number of password imported: 10
+ .  Number of password imported: 6
  .  Passwords imported:
        Social/mastodon.social
        Social/twitter.com
@@ -94,12 +94,23 @@ pass import keepass keepass.xml
 ```
 export PASSWORD_STORE_DIR="~/.mypassword-store"
 pass init <gpg-id>
-pass import keepass keepass.csv
+pass import keepass keepass.xml
 ```
 
 **Import password to a subfolder**
 ```
-pass import keepass keepass.csv -p import/
+pass import keepass keepass.xml -p Import/
+(*) Importing passwords from keepass
+ .  File: db/keepass.xml
+ .  Root path: Import
+ .  Number of password imported: 6
+ .  Passwords imported:
+      Import/Social/mastodon.social
+      Import/Social/twitter.com
+      Import/Social/news.ycombinator.com
+      Import/Servers/ovh.com
+      Import/Servers/ovh.com0
+      Import/Bank/aib
 ```
 
 ## Security consideration
@@ -113,8 +124,8 @@ my_password_manger_export_cmd | pass import keepass
 Otherwise, if your password manager does not have this command line option, you
 should take care of securely removing the plain text password database:
 ```sh
-pass import enpass data.xml
-srm data.xml
+pass import lastpass data.csv
+srm data.csv
 ```
 
 ## Installation
