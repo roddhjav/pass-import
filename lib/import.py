@@ -46,7 +46,7 @@ importers = {
     'enpass': ['Enpass', 'https://www.enpass.io/'],
     'fpm': ['FigaroPM', 'http://fpm.sourceforge.net/'],
     'gorilla': ['Gorilla', 'https://github.com/zdia/gorilla/wiki'],
-    # 'kedpm': ['FigaroPM', 'http://kedpm.sourceforge.net/'],
+    'kedpm': ['FigaroPM', 'http://kedpm.sourceforge.net/'],
     'keepass': ['Keepass', 'https://www.keepass.info'],
     'keepasscsv': ['KeepassCSV', 'https://www.keepass.info'],
     'keepassx': ['KeepassX', 'https://www.keepassx.org/'],

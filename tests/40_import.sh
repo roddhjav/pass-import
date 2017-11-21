@@ -6,7 +6,7 @@ source ./setup
 test_cleanup
 
 PASSWORDS_MANAGERS=("1password" "1password4" "chrome" "dashlane" "enpass"
-    "fpm" "gorilla" "keepass" "keepassx" "keepassxc" "keepasscsv"
+    "fpm" "gorilla" "kedpm" "keepass" "keepassx" "keepassxc" "keepasscsv"
     "lastpass" "passwordexporter" "pwsafe" "revelation" "roboform")
 
 XML="fpm keepassx keepass pwsafe revelation kedpm"
