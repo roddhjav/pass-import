@@ -1,0 +1,6 @@
+[paths]
+source = ../lib/import.py
+
+[report]
+exclude_lines =
+    if __name__ == .__main__.:

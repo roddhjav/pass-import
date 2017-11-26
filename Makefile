@@ -3,7 +3,7 @@ PREFIX ?= /usr
 DESTDIR ?=
 LIBDIR ?= $(PREFIX)/lib
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
-IMPORTERS_DIR ?= $(LIBDIR)/password-store/importers
+EXTENSION_LIB ?= $(LIBDIR)/password-store/$(PROG)
 MANDIR ?= $(PREFIX)/share/man
 
 all:
@@ -13,13 +13,17 @@ all:
 	@echo
 	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
 	@echo "     password store"
+	@echo "     pyhton3"
 
 install:
-	@install -v -d "$(DESTDIR)$(MANDIR)/man1" && install -m 0644 -v pass-$(PROG).1 "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
+	@trap 'rm -f .$(PROG).bash' EXIT;
+	@sed "s|/usr/lib/password-store/import|$(EXTENSION_LIB)|" $(PROG).bash > .$(PROG).bash
+	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
 	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
-	@install -v -d "$(DESTDIR)$(IMPORTERS_DIR)/"
-	@install -Dm0755 $(PROG).bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
-	@install -Dm0755 -t "$(DESTDIR)$(IMPORTERS_DIR)/" importers/*
+	@install -v -d "$(DESTDIR)$(EXTENSION_LIB)/"
+	@install -v -m 0755 .$(PROG).bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
+	@install -v -m 0755 lib/$(PROG).py "$(EXTENSION_LIB)/$(PROG).py"
+	@install -v -m 0644 pass-$(PROG).1 "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
 	@echo
 	@echo "pass-$(PROG) is installed succesfully"
 	@echo
@@ -27,7 +31,7 @@ install:
 uninstall:
 	@rm -vrf \
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
-		"$(DESTDIR)$(IMPORTERS_DIR)/" \
+		"$(DESTDIR)$(EXTENSION_LIB)" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
 test:
@@ -36,4 +40,7 @@ test:
 lint:
 	shellcheck -s bash $(PROG).bash
 
-.PHONY: install uninstall test lint
+clean:
+	@rm -vrf tests/test-results/ tests/gnupg/random_seed
+
+.PHONY: install uninstall test lint clean
