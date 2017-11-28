@@ -8,15 +8,6 @@ env:
   global:
     - PASS_VERSION=1.7
 
-addons:
-  apt:
-    packages:
-      - tree
-      - xclip
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
-      - cmake
 
 before_script:
   - export PREFIX=$HOME/.bin/usr PATH="$PATH:$HOME/.bin/usr/bin"
