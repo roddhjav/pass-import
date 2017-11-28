@@ -5,12 +5,12 @@ export test_description="Testing 'pass import'"
 source ./setup
 
 test_expect_success "Testing store not initialized" "
-    test_must_fail _pass import keepass $PLAIN_DB/keepass.xml
+    test_must_fail _pass import keepass $DB/keepass.xml
     "
 
 test_init "sanitychecks" &> /dev/null
 test_expect_success "Testing import from stdin" "
-    cat $PLAIN_DB/keepass.xml | _pass import keepass
+    cat $DB/keepass.xml | _pass import keepass
     "
 
 test_expect_success "Testing import from not a file" "
