@@ -28,4 +28,14 @@ test_expect_success 'Testing help message' '
     _pass import --version | grep "pass import 2.0"
     '
 
+if test_have_prereq TRAVIS; then
+    export PASSWORD_STORE_ENABLE_EXTENSIONS=''
+    export PASSWORD_STORE_EXTENSIONS_DIR=''
+    test_expect_success 'Testing extension installation' '
+        make --directory=$EXT_HOME install &&
+        _pass import --version | grep "pass import 2.0" &&
+        make --directory=$EXT_HOME uninstall
+        '
+fi
+
 test_done

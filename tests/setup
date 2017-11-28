@@ -54,6 +54,7 @@ _pass() { "$PASS" "${@}"; }
 # sharness config
 source ./sharness
 export TMP="/tmp/pass-import/bash"
+[[ -z "$TRAVIS_JOB_ID" ]] || test_set_prereq TRAVIS
 
 
 #  Prepare pass config vars
