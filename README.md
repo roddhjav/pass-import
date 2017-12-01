@@ -185,7 +185,8 @@ create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
 
 ## Contribution
-Feedback, contributors, pull requests are all very welcome.
+Feedback, contributors, pull requests are all very welcome. Please read the
+[`CONTRIBUTING.md`](CONTRIBUTING.md) file for more details on the contribution process.
 
 
 ## License
