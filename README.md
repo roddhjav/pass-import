@@ -1,7 +1,15 @@
-# pass import [![build][build-img]][build-url] [![coverage][cover-img]][codac-url] [![codacy][codac-img]][codac-url]
+<h1 align="center">pass import</h1>
 
-A [pass][pass] extension for importing data from most of the existing
-password manager.
+<p align="center">
+<a href="https://travis-ci.org/roddhjav/pass-import"><img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg" alt="Build Status" /></a>
+<a href="https://www.codacy.com/app/roddhjav/pass-import"><img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg" alt="Code Coverage" /></a>
+<a href="https://www.codacy.com/app/roddhjav/pass-import"><img src="https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg" alt="Code Quality" /></a>
+<a href="https://github.com/roddhjav/pass-import/releases/latest"><img src="https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600" alt="Last Release" /></a>
+</p>
+
+<p align="center">
+A <a href="https://www.passwordstore.org/">pass</a> extension for importing data from most of the existing password manager.
+</p>
 
 ## Description
 `pass import` is a password store extension allowing you to conveniently
@@ -197,13 +205,6 @@ Feedback, contributors, pull requests are all very welcome.
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-[build-img]: https://img.shields.io/travis/roddhjav/pass-import/master.svg
-[build-url]: https://travis-ci.org/roddhjav/pass-import
-[cover-img]: https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg
-[codac-img]: https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg
-[codac-url]: https://www.codacy.com/app/roddhjav/pass-import
-
-[pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-import
 [releases]: https://github.com/roddhjav/pass-import/releases
