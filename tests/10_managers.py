@@ -18,39 +18,41 @@
 
 import setup
 import unittest
+from collections import OrderedDict as Odict
 
 
 class TestPasswordManager(setup.TestPassSimple):
 
     def setUp(self):
         self.importer = self.passimport.PasswordManager()
-        self.importer.data = [{'title': 'twitter.com',
-                               'password': 'UuQHzvv6IHRIJGjwKru7',
-                               'login': 'lnqYm3ZWtm',
-                               'url': 'https://twitter.com',
-                               'comments': '',
-                               'group': 'Social',
-                               'address': '',
-                               'sex': '',
-                               'website': 'https://pujol.io',
-                               'uuid': '44jle5q3fdvrprmaahozexy2pi'}]
-        self.data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                               'login': 'lnqYm3ZWtm',
-                               'url': 'twitter.com',
-                               'website': 'https://pujol.io',
-                               'uuid': '44jle5q3fdvrprmaahozexy2pi',
-                               'path': 'Social/twitter.com'}]
+        self.importer.data = [Odict([('title', 'twitter.com'),
+                                     ('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'https://twitter.com'),
+                                     ('comments', ''),
+                                     ('group', 'Social'),
+                                     ('address', ''),
+                                     ('sex', ''),
+                                     ('website', 'https://pujol.io'),
+                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi')])]
+        self.data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'twitter.com'),
+                                     ('website', 'https://pujol.io'),
+                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi'),
+                                     ('path', 'Social/twitter.com')])]
 
     def test_get_data(self):
         """ Testing: convert dict to password entry """
-        entry = {'password': 'EaP:bCmLZliqa|]WR/#HZP-aa', 'login': 'roddhjav',
-                 'comments': 'This is a comment'}
+        entry = Odict([('password', 'EaP:bCmLZliqa|]WR/#HZP-aa'),
+                       ('login', 'roddhjav'),
+                       ('comments', 'This is a comment')])
         entry_expected = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a comment\n"
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
     def test_get_empty(self):
         """ Testing: convert empty dict to password entry """
-        entry = dict()
+        entry = Odict()
         entry_expected = ""
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
@@ -59,7 +61,7 @@ class TestPasswordManager(setup.TestPassSimple):
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == self.data_expected)
 
-    def test_satanize_clean(self):  # Works with MORE fake test data
+    def test_satanize_clean(self):
         """ Testing: satanize and clean data """
         self.importer.data[0]['title'] = 'https://twitter@com'
         self.data_expected[0]['path'] = 'Social/twitterAtcom'
@@ -69,46 +71,46 @@ class TestPasswordManager(setup.TestPassSimple):
     def test_satanize_path(self):
         """ Testing: satanize data & generate password path"""
         # Test url as path name
-        self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                               'login': 'lnqYm3ZWtm',
-                               'url': 'twitter.com'}]
-        data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                          'login': 'lnqYm3ZWtm',
-                          'url': 'twitter.com',
-                          'path': 'twitter.com'}]
+        self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'twitter.com')])]
+        data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                ('login', 'lnqYm3ZWtm'),
+                                ('url', 'twitter.com'),
+                                ('path', 'twitter.com')])]
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
         # Test login as path name
-        self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                               'login': 'lnqYm3ZWtm'}]
-        data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                          'login': 'lnqYm3ZWtm',
-                          'path': 'lnqYm3ZWtm'}]
+        self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm')])]
+        data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                ('login', 'lnqYm3ZWtm'),
+                                ('path', 'lnqYm3ZWtm')])]
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
         # Test notitle as path name
-        self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7'}]
-        data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
-                          'path': 'notitle'}]
+        self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7')])]
+        data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                ('path', 'notitle')])]
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
     def test_satanize_duplicate_paths(self):
         """ Testing: satanize duplicate paths """
-        self.importer.data = [{'title': 'ovh.com',
-                               'password': 'AGJjkMPsRUqDXyUdLbC4',
-                               'login': 'lnqYm3ZWtm'},
-                              {'title': 'ovh.com',
-                               'password': 'VRiplZSniSBlHNnQvc9e',
-                               'login': 'lnqYm3ZWtm'}]
-        data_expected = [{'password': 'AGJjkMPsRUqDXyUdLbC4',
-                          'login': 'lnqYm3ZWtm',
-                          'path': 'ovh.com'},
-                         {'password': 'VRiplZSniSBlHNnQvc9e',
-                          'login': 'lnqYm3ZWtm',
-                          'path': 'ovh.com0'}]
+        self.importer.data = [Odict([('title', 'ovh.com'),
+                                     ('password', 'AGJjkMPsRUqDXyUdLbC4'),
+                                     ('login', 'lnqYm3ZWtm')]),
+                              Odict([('title', 'ovh.com'),
+                                     ('password', 'VRiplZSniSBlHNnQvc9e'),
+                                     ('login', 'lnqYm3ZWtm')])]
+        data_expected = [Odict([('password', 'AGJjkMPsRUqDXyUdLbC4'),
+                                ('login', 'lnqYm3ZWtm'),
+                                ('path', 'ovh.com')]),
+                         Odict([('password', 'VRiplZSniSBlHNnQvc9e'),
+                                ('login', 'lnqYm3ZWtm'),
+                                ('path', 'ovh.com0')])]
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
