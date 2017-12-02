@@ -186,14 +186,14 @@ class PasswordManager():
         self.all = all
 
     @staticmethod
-    def get(password):
+    def get(entry):
         """ Return the content of an entry in a password-store format. """
-        entry = password.copy()
         string = ''
         if 'password' in entry:
             string = entry.pop('password', None) + '\n'
-        entry.pop('path', None)
         for key, value in entry.items():
+            if key == 'path':
+                continue
             string += "%s: %s\n" % (key, value)
         return string
 
