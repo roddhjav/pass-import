@@ -189,6 +189,15 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [`CONTRIBUTING.md`](CONTRIBUTING.md) file for more details on the contribution process.
 
 
+## Donations
+If you really like this software and would like to donate, you can send donations using one of the following currencies:
+* In Bitcoin: `1HQaENhbThLHYzgjzmRpVMT7ErTSGzHEzq` (see [proof][keybase])
+* In Etherium: `0x4296ee83cd0d66e1cb3e0622c8f8fef82532c968`
+* In Zcash: `t1StE9pbFvep296pdQmKVdaBaRkvnXBKkR1` (see [proof][keybase])
+* In Litecoin: `LTjxtZhkYHT31aveumozMd7bCKJ5uymMAC`
+* In Bitcoin Cash: `1FCEjKXUGXYctHt53EYifSm4XeQgC1piis`
+
+
 ## License
 
     Copyright (C) 2017  Alexandre PUJOL
@@ -209,6 +218,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-import
 [releases]: https://github.com/roddhjav/pass-import/releases
+[keybase]: https://keybase.io/roddhjav
 
 [1password]: https://1password.com/
 [chrome]: https://support.google.com/chrome
