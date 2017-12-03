@@ -180,6 +180,7 @@ class PasswordManager():
         Please read CONTRIBUTION.md for more details regarding data structure
         in pass-import.
     """
+    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
     def __init__(self, all=False):
         self.data = []
@@ -278,8 +279,9 @@ class PasswordManagerCSV(PasswordManager):
 
         for row in reader:
             entry = OrderedDict()
-            for key, csvkey in self.keys.items():
-                if csvkey is not '':
+            for key in self.keyslist:
+                if key in self.keys:
+                    csvkey = self.keys[key]
                     value = row.pop(csvkey, None)
                     if value is not None and not len(value) == 0:
                         entry[key] = value
@@ -313,11 +315,13 @@ class PasswordManagerXML(PasswordManager):
 
     def _getentry(self, element):
         entry = OrderedDict()
-        for key, xmlkey in self.keys.items():
-            if xmlkey is not '':
-                value = self._getvalue(element, xmlkey)
-                if value is not None and not len(value) == 0:
-                    entry[key] = value
+        for key in self.keyslist:
+            if key in self.keys:
+                xmlkey = self.keys[key]
+                if xmlkey is not '':
+                    value = self._getvalue(element, xmlkey)
+                    if value is not None and not len(value) == 0:
+                        entry[key] = value
         return entry
 
     def parse(self, file):
@@ -360,7 +364,8 @@ class Enpass(PasswordManagerCSV):
             entry = OrderedDict()
             entry['title'] = row.pop(0)
             comments = row.pop()
-            for key, csvkey in self.keys.items():
+            for key in self.keyslist:
+                csvkey = self.keys[key]
                 if csvkey in row:
                     index = row.index(csvkey)
                     entry[key] = row.pop(index+1)

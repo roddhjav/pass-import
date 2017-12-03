@@ -32,7 +32,6 @@ class TestImporters(setup.TestPassSimple):
 
     def test_importers(self):
         """ Testing: importer parse method using real data. """
-        self.refdata = self._get_refdata()
         for manager in self.passimport.importers:
             with self.subTest(manager):
                 importer = self._load_import(manager)

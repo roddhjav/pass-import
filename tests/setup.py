@@ -41,17 +41,17 @@ class TestPassSimple(unittest.TestCase):
             print("Unable to find import.py: %s", e)
             exit(1)
 
-    def _get_refdata(self):
+    def _get_refdata(self, keys):
         refdata = []
         reffile = os.path.join(self.db, '.template.csv')
         with open(reffile, 'r', encoding='utf-8') as file:
             reader = csv.DictReader(file, delimiter=',', quotechar='"')
             for row in reader:
                 entry = OrderedDict()
-                for col in row:
-                    value = row[col]
+                for key in keys:
+                    value = row[key]
                     if value is not None and not len(value) == 0:
-                        entry[col] = value
+                        entry[key] = value
                 refdata.append(entry)
         return refdata
 
@@ -80,7 +80,7 @@ class TestPassSimple(unittest.TestCase):
     def _check_imported_data(self, data):
         """ Compare imported data with the reference data """
         keys = ['title', 'password', 'login']
-        refdata = self.refdata.copy()
+        refdata = self._get_refdata(keys)
         self._clean(keys, refdata)
         self._clean(keys, data)
         for entry in data:
