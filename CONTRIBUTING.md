@@ -93,6 +93,5 @@ contain the following standard keys:
 
 [mt]: https://en.wikipedia.org/wiki/Mutation_testing
 [pgreen]: https://github.com/CleanCut/green
-[pcoverage]: fuck
-[pmut]: fuck
+[pcoverage]: http://nedbatchelder.com/code/coverage/
 [git]: https://help.github.com/articles/set-up-git/
