@@ -136,7 +136,7 @@ pass import lastpass data.csv
 srm data.csv
 ```
 
-You might also want to update the password imported using [`pass-update`][updte].
+You might also want to update the passwords imported using [`pass-update`][updte].
 
 ## Installation
 
@@ -179,7 +179,7 @@ pacaur -S pass-import # or your preferred AUR install method
 
 **Requirements**
 * `pass 1.7.0` or greater.
-* `python 3`
+* `python3` (python 3.4, 3.5 and 3.6 are supported)
 * `python-defusedxml`
 * If you do not want to install this extension as system extension, you need to
 enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
@@ -230,7 +230,7 @@ If you really like this software and would like to donate, you can send donation
 [fpm]: http://fpm.sourceforge.net/
 [gorrilla]: https://github.com/zdia/gorilla/wiki
 [kedpm]: http://kedpm.sourceforge.net/
-[keepass]: keepass.info
+[keepass]: https://keepass.info/
 [keepassx]: https://www.keepassx.org/
 [keepassxc]: https://keepassxc.org/
 [kwallet]: https://utils.kde.org/projects/kwalletmanager/
