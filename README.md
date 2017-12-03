@@ -136,6 +136,8 @@ pass import lastpass data.csv
 srm data.csv
 ```
 
+You might also want to update the password imported using [`pass-update`][updte].
+
 ## Installation
 
 **From git**
@@ -192,7 +194,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 ## Donations
 If you really like this software and would like to donate, you can send donations using one of the following currencies:
 * In Bitcoin: `1HQaENhbThLHYzgjzmRpVMT7ErTSGzHEzq` (see [proof][keybase])
-* In Etherium: `0x4296ee83cd0d66e1cb3e0622c8f8fef82532c968`
+* In Ethereum: `0x4296ee83cd0d66e1cb3e0622c8f8fef82532c968`
 * In Zcash: `t1StE9pbFvep296pdQmKVdaBaRkvnXBKkR1` (see [proof][keybase])
 * In Litecoin: `LTjxtZhkYHT31aveumozMd7bCKJ5uymMAC`
 * In Bitcoin Cash: `1FCEjKXUGXYctHt53EYifSm4XeQgC1piis`
@@ -219,6 +221,7 @@ If you really like this software and would like to donate, you can send donation
 [aur]: https://aur.archlinux.org/packages/pass-import
 [releases]: https://github.com/roddhjav/pass-import/releases
 [keybase]: https://keybase.io/roddhjav
+[updte]: https://github.com/roddhjav/pass-update
 
 [1password]: https://1password.com/
 [chrome]: https://support.google.com/chrome
