@@ -1,5 +1,6 @@
 # Run tests
 #
+# Copyright (c) 2017-2018 Alexandre Pujol
 # Copyright (c) 2011-2012 Mathias Lafeldt
 # Copyright (c) 2005-2012 Git project
 # Copyright (c) 2005-2012 Junio C Hamano
@@ -20,7 +21,6 @@
 SHELL := /bin/bash
 SHELL_PATH ?= $(SHELL)
 SHELL_PATH_SQ = $(subst ','\'',$(SHELL_PATH))
-NPROC = $(shell nproc)
 RM ?= rm -f
 PROVE ?= prove
 AGGREGATE_SCRIPT ?= aggregate-results
@@ -53,7 +53,7 @@ clean: clean-except-prove-cache
 	$(RM) .prove
 
 python-test:
-	green $(P) -vvv --run-coverage --termcolor --processes $(NPROC)
+	green $(P) -vvv --run-coverage --termcolor --processes 4
 
 aggregate-results-and-cleanup: $(T)
 	$(MAKE) aggregate-results
