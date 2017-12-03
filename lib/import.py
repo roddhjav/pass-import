@@ -177,7 +177,7 @@ class PasswordStore():
 class PasswordManager():
     """ Common structure and methods for all password manager supported.
 
-        Please read CONTRIBUTION.md for more details regarding data structure
+        Please read CONTRIBUTING.md for more details regarding data structure
         in pass-import.
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
