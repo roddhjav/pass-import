@@ -14,7 +14,7 @@ A <a href="https://www.passwordstore.org/">pass</a> extension for importing data
 ## Description
 `pass import` is a password store extension allowing you to conveniently
 import your password database to a password store repository. It natively
-supports import from 17 differents password managers. More manager support can
+supports import from 18 differents password managers. More manager support can
 easily be added.
 
 Passwords are imported in the existing default password store, therefore
@@ -32,6 +32,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 |:--------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------:|
 | [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.csv` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
+| [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
@@ -224,6 +225,7 @@ If you really like this software and would like to donate, you can send donation
 [updte]: https://github.com/roddhjav/pass-update
 
 [1password]: https://1password.com/
+[bitwarden]: https://bitwarden.com/
 [chrome]: https://support.google.com/chrome
 [dashlane]: https://www.dashlane.com/
 [enpass]: https://www.enpass.io/
