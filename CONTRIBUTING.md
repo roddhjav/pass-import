@@ -42,7 +42,7 @@ git push origin my_contribution
 you'll see a Compare & pull request button, fill and submit the pull request.
 
 
-## How to a the support for a new password manager?
+## How to add the support for a new password manager?
 
 1. Add your importer name and details in the following files:
   * In `lib/import.py`:
@@ -67,10 +67,10 @@ class MyManager(PasswordManagerCSV):
             'url': 'url', 'comments': 'comments', 'group': 'group'}
 ```
 
-3. Add a file named `tests/exporteddb/mymanager`. **No Contribution will be
-accepted without this file.** This file must contain the exported data from
-*your manager*. It has to be the exact export of the main test password
-repository. This test data can be found in the file `tests/exporteddb/.template.csv`.
+3. Add a file named `tests/exporteddb/mymanager[.csv,.xml]`. **No Contribution
+will be accepted without this file.** This file must contain the exported data
+from *your manager*. It has to be the exact export of the main test password
+repository. This test data can be found in the `tests/exporteddb/.template.csv`.
 
 4. Check the tests success, the coverage does not decrease and the code health.
 

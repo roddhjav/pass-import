@@ -30,13 +30,13 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 
 | **Password Manager** | **How to export Data** | **Command line** |
 |:--------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------:|
-| [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.xml` |
-| [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.xml` |
+| [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.csv` |
+| [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
 | [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
-| [gorrilla][gorrilla] | *File > Export: Yes: CSV Files* | `pass import gorrilla file.xml` |
+| [gorrilla][gorrilla] | *File > Export: Yes: CSV Files* | `pass import gorrilla file.csv` |
 | [kedpm][kedpm] | *File > Export Passwords: Plain XML* | `pass import kedpm file.xml` |
 | [keepass][keepass] | *File > Export > Keepass2 (XML)* | `pass import keepass file.xml` |
 | [keepass2csv][keepass] | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
@@ -46,7 +46,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [password-exporter][password-exporter] | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
 | [pwsafe][pwsafe] | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
-| [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.xml` |
+| [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
 
 
 ## Usage
