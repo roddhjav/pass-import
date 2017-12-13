@@ -5,9 +5,9 @@ export test_description="Testing 'pass import'"
 source ./setup
 test_cleanup
 
-PASSWORDS_MANAGERS=("1password" "1password4" "chrome" "dashlane" "enpass"
-    "fpm" "gorilla" "kedpm" "keepass" "keepassx" "keepassxc" "keepasscsv"
-    "lastpass" "passwordexporter" "pwsafe" "revelation" "roboform")
+PASSWORDS_MANAGERS=("1password" "1password4" "bitwarden" "chrome" "dashlane"
+    "enpass" "fpm" "gorilla" "kedpm" "keepass" "keepassx" "keepassxc"
+    "keepasscsv" "lastpass" "passwordexporter" "pwsafe" "revelation" "roboform")
 
 XML="fpm keepassx keepass pwsafe revelation kedpm"
 

@@ -41,6 +41,7 @@ QUIET = False
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
+    'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
     'enpass': ['Enpass', 'https://www.enpass.io/'],
@@ -339,6 +340,11 @@ class OnePassword4(PasswordManagerCSV):
 class OnePassword(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'urls', 'comments': 'notesPlain', 'group': 'tags'}
+
+
+class Bitwarden(PasswordManagerCSV):
+    keys = {'title': 'name', 'password': 'login_password', 'login': 'login_username',
+            'url': 'login_uri', 'comments': 'notes'}
 
 
 class Chrome(PasswordManagerCSV):
