@@ -344,7 +344,7 @@ class OnePassword(PasswordManagerCSV):
 
 class Bitwarden(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'login_password', 'login': 'login_username',
-            'url': 'login_uri', 'comments': 'notes'}
+            'url': 'login_uri', 'comments': 'notes', 'group': 'folder'}
 
 
 class Chrome(PasswordManagerCSV):
