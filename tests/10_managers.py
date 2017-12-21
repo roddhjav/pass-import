@@ -16,9 +16,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import setup
 import unittest
 from collections import OrderedDict as Odict
+import setup
 
 
 class TestPasswordManager(setup.TestPassSimple):
@@ -43,7 +43,7 @@ class TestPasswordManager(setup.TestPassSimple):
                                      ('path', 'Social/twitter.com')])]
 
     def test_get_data(self):
-        """ Testing: convert dict to password entry """
+        """Testing: convert dict to password entry."""
         entry = Odict([('password', 'EaP:bCmLZliqa|]WR/#HZP-aa'),
                        ('login', 'roddhjav'),
                        ('comments', 'This is a comment')])
@@ -51,25 +51,25 @@ class TestPasswordManager(setup.TestPassSimple):
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
     def test_get_empty(self):
-        """ Testing: convert empty dict to password entry """
+        """Testing: convert empty dict to password entry."""
         entry = Odict()
         entry_expected = ""
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
     def test_satanize_data(self):
-        """ Testing: satanize data """
+        """Testing: satanize data."""
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == self.data_expected)
 
     def test_satanize_clean(self):
-        """ Testing: satanize and clean data """
+        """Testing: satanize and clean data."""
         self.importer.data[0]['title'] = 'https://twitter@com'
         self.data_expected[0]['path'] = 'Social/twitterAtcom'
         self.importer.satanize(clean=True)
         self.assertTrue(self.importer.data == self.data_expected)
 
     def test_satanize_path(self):
-        """ Testing: satanize data & generate password path"""
+        """Testing: satanize data & generate password path."""
         # Test url as path name
         self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                      ('login', 'lnqYm3ZWtm'),
@@ -98,7 +98,7 @@ class TestPasswordManager(setup.TestPassSimple):
         self.assertTrue(self.importer.data == data_expected)
 
     def test_satanize_duplicate_paths(self):
-        """ Testing: satanize duplicate paths """
+        """Testing: satanize duplicate paths."""
         self.importer.data = [Odict([('title', 'ovh.com'),
                                      ('password', 'AGJjkMPsRUqDXyUdLbC4'),
                                      ('login', 'lnqYm3ZWtm')]),

@@ -21,9 +21,9 @@ import sys
 import csv
 import argparse
 import importlib
-from defusedxml import ElementTree
 from subprocess import Popen, PIPE
 from collections import OrderedDict
+from defusedxml import ElementTree
 
 
 GREEN = '\033[32m'
@@ -62,7 +62,7 @@ importers = {
 
 def list_importers():
     res = ''
-    for key in importers.keys():
+    for key in importers:
         res += key + ', '
     return res[:-2] + '.'
 
@@ -102,16 +102,16 @@ def die(msg=''):
 
 
 class PasswordStoreError(Exception):
-    """ Error in the execution of password store """
+    """Error in the execution of password store."""
 
 
 class FormatError(Exception):
-    """ Password importer format (XML or CSV) not recognized """
+    """Password importer format (XML or CSV) not recognized."""
 
 
 class PasswordStore():
-    """ Simple Password Store for python, only able to insert password.
-        Supports all the environnement variables.
+    """Simple Password Store for python, only able to insert password.
+    Supports all the environnement variables.
     """
     def __init__(self):
         self.env = dict(**os.environ)
@@ -139,16 +139,14 @@ class PasswordStore():
         self.passbinary = self.env['PASSWORD_STORE_BIN']
 
     def _setenv(self, var, env=None):
-        """ Add var in the environnement variables directory.
-            env must be an existing os environnement variables.
-        """
+        """Add var in the environnement variables directory."""
         if env is None:
             env = var
         if env in os.environ:
             self.env[var] = os.environ[env]
 
     def _pass(self, arg=None, data=None):
-        """ Call to password store """
+        """Call to password store."""
         command = [self.passbinary]
         if arg is not None:
             command.extend(arg)
@@ -162,7 +160,7 @@ class PasswordStore():
         return stdout
 
     def insert(self, path, data, force=False):
-        """ Multiline insertion into the password store. """
+        """Multiline insertion into the password store."""
         if not force:
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
                 raise PasswordStoreError("An entry already exists for %s." % path)
@@ -171,25 +169,25 @@ class PasswordStore():
         return self._pass(arg, data)
 
     def exist(self):
-        """ Return True if the password store is initialized """
+        """Return True if the password store is initialized."""
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
 
 
 class PasswordManager():
-    """ Common structure and methods for all password manager supported.
+    """Common structure and methods for all password manager supported.
 
-        Please read CONTRIBUTING.md for more details regarding data structure
-        in pass-import.
+    Please read CONTRIBUTING.md for more details regarding data structure
+    in pass-import.
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
-    def __init__(self, all=False):
+    def __init__(self, extra=False):
         self.data = []
-        self.all = all
+        self.all = extra
 
     @staticmethod
     def get(entry):
-        """ Return the content of an entry in a password-store format. """
+        """Return the content of an entry in a password-store format."""
         string = ''
         if 'password' in entry:
             string = entry.pop('password', None) + '\n'
@@ -201,21 +199,21 @@ class PasswordManager():
 
     @staticmethod
     def _clean_protocol(entry, key):
-        """ Remove the protocol prefix for the value """
+        """Remove the protocol prefix for the value."""
         if key in entry:
             entry[key] = entry[key].replace('https://', '')
             entry[key] = entry[key].replace('http://', '')
 
     @staticmethod
     def _clean_cmdline(string):
-        """ Make the string more command line friendly """
+        """Make the string more command line friendly."""
         string = string.replace(" ", "_").replace("&", "and")
         string = string.replace('/', '-').replace('\\', '-')
         string = string.replace("@", "At").replace("'", "")
         return string.replace("[", "").replace("]", "")
 
     def _duplicate_paths(self):
-        """ Detecting duplicate paths """
+        """Detect duplicate paths."""
         seen = []
         for entry in self.data:
             path = entry['path']
@@ -229,7 +227,7 @@ class PasswordManager():
 
     @staticmethod
     def _create_path(entry):
-        """ Create path from title and group """
+        """Create path from title and group."""
         path = ''
         if 'group' in entry:
             path = entry.pop('group', None).replace('\\', '/')
@@ -244,7 +242,7 @@ class PasswordManager():
         return path
 
     def satanize(self, clean):
-        """ Clean parsed data in order to be imported to a store """
+        """Clean parsed data in order to be imported to a store."""
         for entry in self.data:
             # Remove unused keys
             empty = [k for k, v in entry.items() if not v]
@@ -303,23 +301,23 @@ class PasswordManagerXML(PasswordManager):
             raise FormatError()
 
     @classmethod
-    def _getroot(self, tree):
+    def _getroot(cls, tree):
         return tree
 
     @classmethod
-    def _getvalue(self, elements, xmlkey):
+    def _getvalue(cls, elements, xmlkey):
         value = elements.find(xmlkey)
-        if value is None:
-            return ''
-        else:
-            return value.text
+        res = ''
+        if value is not None:
+            res = value.text
+        return res
 
     def _getentry(self, element):
         entry = OrderedDict()
         for key in self.keyslist:
             if key in self.keys:
                 xmlkey = self.keys[key]
-                if xmlkey is not '':
+                if xmlkey != '':
                     value = self._getvalue(element, xmlkey)
                     if value is not None and not len(value) == 0:
                         entry[key] = value
@@ -393,7 +391,7 @@ class FigaroPM(PasswordManagerXML):
             'url': 'url', 'comments': 'notes', 'group': 'category'}
 
     @classmethod
-    def _getroot(self, tree):
+    def _getroot(cls, tree):
         return tree.find('PasswordList')
 
     def _import(self, element):
@@ -415,11 +413,11 @@ class KeepassX(PasswordManagerXML):
             'url': 'url', 'comments': 'comment'}
 
     @classmethod
-    def _getpath(self, element, path=''):
-        if element.tag == 'database':
-            return ''
-        else:
-            return os.path.join(path, element.find('title').text)
+    def _getpath(cls, element, path=''):
+        res = ''
+        if element.tag != 'database':
+            res = os.path.join(path, element.find('title').text)
+        return res
 
     def _import(self, element, path=''):
         path = self._getpath(element, path)
@@ -440,12 +438,12 @@ class Keepass(KeepassX):
             'url': 'URL', 'comments': 'Notes'}
 
     @classmethod
-    def _getroot(self, tree):
+    def _getroot(cls, tree):
         root = tree.find('Root')
         return root.find('Group')
 
     @classmethod
-    def _getvalue(self, elements, xmlkey):
+    def _getvalue(cls, elements, xmlkey):
         for element in elements:
             for child in element.findall('Key'):
                 if child.text == xmlkey:
@@ -453,10 +451,10 @@ class Keepass(KeepassX):
         return ''
 
     @classmethod
-    def _getpath(self, element, path=''):
-        """ Generate path name from elements title and current path """
+    def _getpath(cls, element, path=''):
+        """Generate path name from elements title and current path."""
         if element.tag == 'Entry':
-            title = self._getvalue(element.findall('String'), 'Title')
+            title = cls._getvalue(element.findall('String'), 'Title')
         elif element.tag == 'Group':
             title = element.find('Name').text
         else:
@@ -512,7 +510,7 @@ class Revelation(PasswordManagerXML):
             'comments': 'notes', 'group': '', 'description': 'description'}
 
     @classmethod
-    def _getvalue(self, elements, xmlkey):
+    def _getvalue(cls, elements, xmlkey):
         fieldkeys = ['generic-hostname', 'generic-username', 'generic-password']
         if xmlkey in fieldkeys:
             for field in elements.findall('field'):
@@ -632,7 +630,7 @@ def main(argv):
         if arg.file is None:
             arg.file = 'read from stdin'
         message("File: %s" % arg.file)
-        if arg.root is not '':
+        if arg.root != '':
             message("Root path: %s" % arg.root)
         message("Number of password imported: %s" % len(importer.data))
         if arg.clean:

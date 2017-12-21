@@ -17,15 +17,15 @@
 #
 
 import os
-import setup
 import shutil
 import unittest
+import setup
 
 
 class TestPassStore(setup.TestPass):
 
     def test_environnement_no_prefix(self):
-        """ Testing: no prefix & binary """
+        """Testing: no prefix & binary."""
         os.environ.pop('PASSWORD_STORE_DIR', None)
         os.environ.pop('PASSWORD_STORE_BIN', None)
         with self.assertRaises(self.passimport.PasswordStoreError):
@@ -33,13 +33,13 @@ class TestPassStore(setup.TestPass):
         os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
     def test_environnement_variables(self):
-        """ Testing: environnement variables """
+        """Testing: environnement variables."""
         self.assertEqual(self.store.env['PASSWORD_STORE_DIR'], os.environ['PASSWORD_STORE_DIR'])
         self.assertEqual(self.store.env['PASSWORD_STORE_BIN'], os.environ['PASSWORD_STORE_BIN'])
         self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])
 
     def test_exist(self):
-        """ Testing: store not initialized """
+        """Testing: store not initialized."""
         self.assertFalse(self.store.exist())
         with self.assertRaises(self.passimport.PasswordStoreError):
             self.store.insert("Test/test", "dummy")
@@ -47,7 +47,7 @@ class TestPassStore(setup.TestPass):
         self.assertTrue(self.store.exist())
 
     def test_insert(self):
-        """ Testing: pass insert """
+        """Testing: pass insert."""
         self._passinit()
         path = "Test/test"
         entry = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a comment\n"
@@ -55,7 +55,7 @@ class TestPassStore(setup.TestPass):
         self.assertEqual(self.store._pass(['show', path]), entry)
 
     def test_insert_force(self):
-        """ Testing: pass insert --force """
+        """Testing: pass insert --force."""
         self.test_insert()
         path = "Test/test"
         entry2 = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a second comment\n"

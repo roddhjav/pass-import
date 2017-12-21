@@ -17,8 +17,9 @@
 #
 
 import os
-import setup
 import unittest
+import setup
+
 
 class TestPassImport(setup.TestPass):
     def setUp(self):
@@ -34,73 +35,73 @@ class TestPassImport(setup.TestPass):
             self.assertEqual(cm.exception.code, code)
 
     def test_pass_import_list(self):
-        """ Testing: pass import --list """
+        """Testing: pass import --list."""
         cmd = ['--list']
         self._passimport(cmd)
 
     def test_pass_import_help(self):
-        """ Testing: pass import --help """
+        """Testing: pass import --help."""
         cmd = ['--help']
         self._passimport(cmd, 0)
 
     def test_pass_import_version(self):
-        """ Testing: pass import --version """
+        """Testing: pass import --version."""
         cmd = ['--version']
         self._passimport(cmd, 0)
 
     def test_pass_import_ManagerNotPresent(self):
-        """ Testing: password manager not present """
+        """Testing: password manager not present."""
         cmd = []
         self._passimport(cmd, 1)
 
     def test_pass_import_NotAManager(self):
-        """ Testing: pass import not-a-manager """
+        """Testing: pass import not-a-manager."""
         cmd = ['not-a-manager']
         self._passimport(cmd, 1)
 
     def test_pass_import_NotAnOption(self):
-        """ Testing: pass import --not-an-option """
+        """Testing: pass import --not-an-option."""
         cmd = ['--not-an-option']
         self._passimport(cmd, 2)
 
     def test_pass_import_NotAFile(self):
-        """ Testing: pass import 1password not_a_file """
+        """Testing: pass import 1password not_a_file."""
         cmd = ['1password', 'not_a_file']
         self._passimport(cmd, 1)
 
     def test_pass_import_StoreNotInitialized(self):
-        """ Testing: store not initialized """
+        """Testing: store not initialized."""
         cmd = ['1password', self.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
         self._passimport(cmd, 1)
 
     def test_pass_import_FromFile(self):
-        """ Testing: pass import 1password db/1password.csv -v"""
+        """Testing: pass import 1password db/1password.csv -v."""
         cmd = ['1password', self.db + '1password.csv', '--verbose']
         self._passimport(cmd)
 
     def test_pass_import_FromStdin(self):
-        """ Testing: pass import 1password """
+        """Testing: pass import 1password."""
         cmd = ['dashlane', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_root(self):
-        """ Testing: pass import 1password db/1password.csv --path root """
+        """Testing: pass import 1password db/1password.csv --path root."""
         cmd = ['1password', self.db + '1password.csv', '--path', 'root']
         self._passimport(cmd)
 
     def test_pass_import_clean(self):
-        """ Testing: pass import 1password db/1password.csv --clean """
+        """Testing: pass import 1password db/1password.csv --clean."""
         cmd = ['1password', self.db + '1password.csv', '--clean', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_extra(self):
-        """ Testing: pass import 1password db/1password.csv --extra """
+        """Testing: pass import 1password db/1password.csv --extra."""
         cmd = ['1password', self.db + '1password.csv', '--extra', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_force(self):
-        """ Testing: pass import 1password db/1password.csv --force """
+        """Testing: pass import 1password db/1password.csv --force."""
         cmd = ['1password', self.db + '1password.csv']
         self._passimport(cmd)
         self._passimport(cmd)
@@ -108,7 +109,7 @@ class TestPassImport(setup.TestPass):
         self._passimport(cmd)
 
     def test_pass_import_format(self):
-        """ Testing: pass import passwordexporter db/lastpass.csv """
+        """Testing: pass import passwordexporter db/lastpass.csv."""
         cmd = ['passwordexporter', self.db + '1password.csv']
         self._passimport(cmd, 1)
 

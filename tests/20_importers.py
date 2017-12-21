@@ -17,21 +17,21 @@
 #
 
 import os
-import setup
 import unittest
+import setup
 
 
 class TestImporters(setup.TestPassSimple):
 
     def _load_import(self, manager):
-        """ Load importer class """
+        """Load importer class."""
         ImporterClass = getattr(self.passimport,
                                 self.passimport.importers[manager][0])
-        importer = ImporterClass(all=True)
+        importer = ImporterClass(extra=True)
         return importer
 
     def test_importers(self):
-        """ Testing: importer parse method using real data. """
+        """Testing: importer parse method using real data."""
         for manager in self.passimport.importers:
             with self.subTest(manager):
                 importer = self._load_import(manager)
@@ -42,7 +42,7 @@ class TestImporters(setup.TestPassSimple):
                 self._check_imported_data(importer.data)
 
     def test_importers_format(self):
-        """ Testing: importer file format """
+        """Testing: importer file format."""
         for manager in self.passimport.importers:
             if manager == 'dashlane':
                 continue
