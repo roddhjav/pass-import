@@ -127,7 +127,7 @@ pass import keepass keepass.xml -p Import/
 Passwords should generaly not be written in a plain text form on the drive.
 Therefore when possible you should pipe your passwords to pass import:
 ```sh
-my_password_manger_export_cmd | pass import keepass
+my_password_manager_export_cmd | pass import keepass
 ```
 
 Otherwise, if your password manager does not have this command line option, you
@@ -141,6 +141,16 @@ You might also want to update the passwords imported using [`pass-update`][updte
 
 ## Installation
 
+**Requirements**
+* `pass 1.7.0` or greater.
+* `python3` (python 3.4, 3.5 and 3.6 are supported)
+* `python-defusedxml`
+  - Debian/Ubuntu: `sudo apt-get install python3-defusedxml`
+  - OSX: `pip3 install python-defusedxml`
+* If you do not want to install this extension as system extension, you need to
+enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
+create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
+
 **From git**
 ```sh
 git clone https://github.com/roddhjav/pass-import/
@@ -153,6 +163,13 @@ sudo make install
 git clone https://github.com/roddhjav/pass-import/
 cd pass-import
 make install PREFIX=/usr/local
+```
+
+**ArchLinux**
+
+`pass-import` is available in the [Arch User Repository][aur].
+```sh
+pacaur -S pass-import # or your preferred AUR install method
 ```
 
 **Stable version**
@@ -170,21 +187,6 @@ wget https://github.com/roddhjav/pass-import/releases/download/v2.0/pass-import-
 gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
 gpg --verify pass-import-2.0.tar.gz.asc
 ```
-
-**ArchLinux**
-
-`pass-import` is available in the [Arch User Repository][aur].
-```sh
-pacaur -S pass-import # or your preferred AUR install method
-```
-
-**Requirements**
-* `pass 1.7.0` or greater.
-* `python3` (python 3.4, 3.5 and 3.6 are supported)
-* `python-defusedxml`
-* If you do not want to install this extension as system extension, you need to
-enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
-create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
 
 
 ## Contribution
