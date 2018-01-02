@@ -14,7 +14,7 @@ A <a href="https://www.passwordstore.org/">pass</a> extension for importing data
 ## Description
 `pass import` is a password store extension allowing you to conveniently
 import your password database to a password store repository. It natively
-supports import from 18 differents password managers. More manager support can
+supports import from 18 different password managers. More manager support can
 easily be added.
 
 Passwords are imported in the existing default password store, therefore
@@ -37,7 +37,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
 | [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
-| [gorrilla][gorrilla] | *File > Export: Yes: CSV Files* | `pass import gorrilla file.csv` |
+| [gorilla][gorilla] | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
 | [kedpm][kedpm] | *File > Export Passwords: Plain XML* | `pass import kedpm file.xml` |
 | [keepass][keepass] | *File > Export > Keepass2 (XML)* | `pass import keepass file.xml` |
 | [keepass2csv][keepass] | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
@@ -84,7 +84,7 @@ More information may be found in the pass-import(1) man page.
 See `man pass-import` for more information.
 
 ## Examples
-**Import password from KeepPass**
+**Import password from KeePass**
 ```
 pass import keepass keepass.xml
 (*) Importing passwords from keepass
@@ -99,7 +99,7 @@ pass import keepass keepass.xml
        Bank/aib
 ```
 
-**Import password to a different password strore**
+**Import password to a different password store**
 ```
 export PASSWORD_STORE_DIR="~/.mypassword-store"
 pass init <gpg-id>
@@ -124,7 +124,7 @@ pass import keepass keepass.xml -p Import/
 
 ## Security consideration
 
-Passwords should generaly not be written in a plain text form on the drive.
+Passwords should generally not be written in a plain text form on the drive.
 Therefore when possible you should pipe your passwords to pass import:
 ```sh
 my_password_manager_export_cmd | pass import keepass
@@ -137,7 +137,7 @@ pass import lastpass data.csv
 srm data.csv
 ```
 
-You might also want to update the passwords imported using [`pass-update`][updte].
+You might also want to update the passwords imported using [`pass-update`][update].
 
 ## Installation
 

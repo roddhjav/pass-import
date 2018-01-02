@@ -24,7 +24,7 @@ import setup
 
 class TestPassStore(setup.TestPass):
 
-    def test_environnement_no_prefix(self):
+    def test_environment_no_prefix(self):
         """Testing: no prefix & binary."""
         os.environ.pop('PASSWORD_STORE_DIR', None)
         os.environ.pop('PASSWORD_STORE_BIN', None)
@@ -32,8 +32,8 @@ class TestPassStore(setup.TestPass):
             self.passimport.PasswordStore()
         os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
-    def test_environnement_variables(self):
-        """Testing: environnement variables."""
+    def test_environment_variables(self):
+        """Testing: environment variables."""
         self.assertEqual(self.store.env['PASSWORD_STORE_DIR'], os.environ['PASSWORD_STORE_DIR'])
         self.assertEqual(self.store.env['PASSWORD_STORE_BIN'], os.environ['PASSWORD_STORE_BIN'])
         self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])

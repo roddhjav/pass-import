@@ -111,7 +111,7 @@ class FormatError(Exception):
 
 class PasswordStore():
     """Simple Password Store for python, only able to insert password.
-    Supports all the environnement variables.
+    Supports all the environment variables.
     """
     def __init__(self):
         self.env = dict(**os.environ)
@@ -139,7 +139,7 @@ class PasswordStore():
         self.passbinary = self.env['PASSWORD_STORE_BIN']
 
     def _setenv(self, var, env=None):
-        """Add var in the environnement variables directory."""
+        """Add var in the environment variables directory."""
         if env is None:
             env = var
         if env in os.environ:
@@ -622,7 +622,7 @@ def main(argv):
                 verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
             except PasswordStoreError as e:
-                warning("Imposible to insert %s into the store: %s"
+                warning("Impossible to insert %s into the store: %s"
                         % (passpath, e))
 
         # Success!
