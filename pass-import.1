@@ -11,7 +11,7 @@ the existing password manager.
 .SH DESCRIPTION
 \fBpass import\fP is a password store extension allowing you to conveniently
 import your password database to a password store repository. It natively
-supports import from 18 differents password managers. More manager support can
+supports import from 18 different password managers. More manager support can
 easily be added.
 
 Passwords are imported in the existing default password store, therefore
@@ -161,7 +161,7 @@ Website: \fIhttps://github.com/zdia/gorilla/wiki\fP
 
 Export: File > Export: Yes: CSV Files
 
-Command: pass import gorrilla file.xml
+Command: pass import gorilla file.xml
 
 .TP
 \fBkedpm\fP
@@ -247,7 +247,7 @@ Command: pass import roboform file.xml
 .SH EXAMPLES
 
 .TP
-Import password from KeepPass
+Import password from KeePass
 .B zx2c4@laptop ~ $ pass import keepass keepass.xml
 .br
 (*) Importing passwords from keepass
@@ -271,7 +271,7 @@ Import password from KeepPass
        Bank/aib
 
 .TP
-Import password to a different password strore
+Import password to a different password store
 .B zx2c4@laptop ~ $ export PASSWORD_STORE_DIR="~/.mypassword-store"
 .br
 .B zx2c4@laptop ~ $ pass init <gpg-id>
@@ -308,7 +308,7 @@ Import password to a subfolder
 .SH SECURITY CONSIDERATION
 
 .TP
-Passwords should generaly not be written in a plain text form on the drive. Therefore when possible you should pipe your passwords to pass import:
+Passwords should generally not be written in a plain text form on the drive. Therefore when possible you should pipe your passwords to pass import:
 
 .B zx2c4@laptop ~ $ my_password_manger_export_cmd | pass import keepass
 

@@ -1,11 +1,11 @@
 <h1 align="center">Contribution</h1>
 
 You want to contribute to `pass import`, **thank a lot for this.** You will find
-in this page all the usefull information needed to contribute to `pass-import`.
+in this page all the useful information needed to contribute to `pass-import`.
 
 ## How to run the tests?
 
-`pass-import` has a complete test suite that provide functionnal and unit tests
+`pass-import` has a complete test suite that provide functional and unit tests
 for all the parts of the program. Moreover, it provides test coverage and code
 health reports.
 
@@ -58,9 +58,9 @@ importers = {
 PASSWORDS_MANAGERS=(... "mymanager" ...)
 ```
 
-2. Add a `MyManager` class that herrits from one of the main importer class
+2. Add a `MyManager` class that inherits from one of the main importer class
 `PasswordManagerXML` or `PasswordManagerCSV` (either you need to read XML or CSV
-file) and write the necessery code and variables.
+file) and write the necessary code and variables.
 ```python
 class MyManager(PasswordManagerCSV):
       keys = {'title': 'title', 'password': 'password', 'login': 'login',
@@ -79,11 +79,11 @@ repository. This test data can be found in the `tests/exporteddb/.template.csv`.
 
 `PasswordManager` is the main class that manage import from all the supported
 password manager. `PasswordManagerXML` or `PasswordManagerCSV` inherit from it.
-It manages data formating from all the password manager.
+It manages data formatting from all the password manager.
 
 Data are imported in PasswordManager.data, this is a list of ordered dict. Each
-entry is a dictionnary that contain the data for a password store entry. The
-dictionnary's key are divided in two sets:
+entry is a dictionary that contain the data for a password store entry. The
+dictionary's key are divided in two sets:
 1. The *standard keys*: `title`, `password`, `login`, `url`, `comments` and
 `group`.
 2. The *extra* keys that differ from password managers and contain the

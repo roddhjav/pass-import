@@ -57,7 +57,7 @@ class TestPassSimple(unittest.TestCase):
 
     @staticmethod
     def _clean(keys, data):
-        """ Clean data from unwanted keys and weird formating """
+        """ Clean data from unwanted keys and weird formatting """
         for entry in data:
             delete = [k for k in entry.keys() if k not in keys]
             for key in delete:
