@@ -224,7 +224,7 @@ If you really like this software and would like to donate, you can send donation
 [aur]: https://aur.archlinux.org/packages/pass-import
 [releases]: https://github.com/roddhjav/pass-import/releases
 [keybase]: https://keybase.io/roddhjav
-[updte]: https://github.com/roddhjav/pass-update
+[update]: https://github.com/roddhjav/pass-update
 
 [1password]: https://1password.com/
 [bitwarden]: https://bitwarden.com/
