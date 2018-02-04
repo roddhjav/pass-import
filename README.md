@@ -146,7 +146,7 @@ You might also want to update the passwords imported using [`pass-update`][updat
 * `python3` (python 3.4, 3.5 and 3.6 are supported)
 * `python-defusedxml`
   - Debian/Ubuntu: `sudo apt-get install python3-defusedxml`
-  - OSX: `pip3 install python-defusedxml`
+  - OSX: `pip3 install defusedxml`
 * If you do not want to install this extension as system extension, you need to
 enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
 create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
@@ -232,7 +232,7 @@ If you really like this software and would like to donate, you can send donation
 [dashlane]: https://www.dashlane.com/
 [enpass]: https://www.enpass.io/
 [fpm]: http://fpm.sourceforge.net/
-[gorrilla]: https://github.com/zdia/gorilla/wiki
+[gorilla]: https://github.com/zdia/gorilla/wiki
 [kedpm]: http://kedpm.sourceforge.net/
 [keepass]: https://keepass.info/
 [keepassx]: https://www.keepassx.org/
