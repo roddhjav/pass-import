@@ -13,7 +13,7 @@ all:
 	@echo
 	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
 	@echo "     password store"
-	@echo "     pyhton3"
+	@echo "     python3"
 	@echo "     python-defusedxml"
 
 install:
