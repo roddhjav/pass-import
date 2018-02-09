@@ -542,7 +542,7 @@ def main(argv):
     parser = argparse.ArgumentParser(prog='pass import', description="""
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
-  the password store must has been initialized before with 'pass init'""",
+  the password store must have been initialised before with 'pass init'""",
     usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]",
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog="More information may be found in the pass-import(1) man page.")

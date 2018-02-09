@@ -17,11 +17,11 @@ import your password database to a password store repository. It natively
 supports import from 18 different password managers. More manager support can
 easily be added.
 
-Passwords are imported in the existing default password store, therefore
-the password store must has been initialized before with `pass init`.
+Passwords are imported into the existing default password store, therefore
+the password store must have been initialised before with `pass init`.
 
-By default pass, imports entries at the root of the password store and only keeps
-the main data (password, login, email, url, group). This behavior can be changed
+By default, pass imports entries at the root of the password store and only keeps
+the main data (password, login, email, URL, group). This behaviour can be changed
 using the provided options.
 
 Pass import handles duplicates and is compatible with [browserpass][bp].
@@ -56,8 +56,8 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
   Import data from most of the password manager. Passwords
-  are imported in the existing default password store, therefore
-  the password store must has been initialized before with 'pass init'
+  are imported into the existing default password store, therefore
+  the password store must have been initialized before with 'pass init'
 
 positional arguments:
   manager               Can be: 1password, 1password4, chrome, dashlane,

@@ -14,11 +14,11 @@ import your password database to a password store repository. It natively
 supports import from 18 different password managers. More manager support can
 easily be added.
 
-Passwords are imported in the existing default password store, therefore
-the password store must has been initialized before with \fBpass init\fP.
+Passwords are imported into the existing default password store, therefore
+the password store must have been initialised before with \fBpass init\fP.
 
-By default pass, imports entries at the root of the password store and only keeps
-the main data (password, login, email, url, group). This behavior can be changed
+By default, pass imports entries at the root of the password store and only keeps
+the main data (password, login, email, URL, group). This behaviour can be changed
 using the provided options.
 
 Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
@@ -30,11 +30,11 @@ Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
      [ \fI--quiet\fP, \fI-q\fP ] [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
 
 Import data from most of the password manager. Passwords are imported in the
-existing default password store, therefore the password store must has been
-initialized before with \fIpass init\fP.
+existing default password store, therefore the password store must have been
+initialised before with \fIpass init\fP.
 
 .I manager
-refer to one of the supported password manager from which you want to import
+refer to one of the supported password managers from which you want to import
 your data. The complete list of supported manager can be found in the section
 \fISUPPORTED MANAGERS\fP.
 
@@ -49,14 +49,14 @@ If \fI--clean\fP or \fI-c\fP is specified, clean the password path in order to
 be more command line friendly.
 
 If \fI--extra\fP or \fI-e\fP is specified, conserve and import all the data
-present in the backup file. Otherwise, only title, password, login, url,
+present in the backup file. Otherwise, only title, password, login, URL,
 comments and group data are imported.
 
 If \fI--list\fP or \fI-l\fP is specified, print the list of the available
 password manager.
 
 If \fI--force\fP or \fI-f\fP is specified, the import process will overwrite
-existing password entry if it already exist.
+existing password entry if it already exists.
 
 
 .SH OPTIONS
