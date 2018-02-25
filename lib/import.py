@@ -336,8 +336,8 @@ class OnePassword4(PasswordManagerCSV):
 
 
 class OnePassword(PasswordManagerCSV):
-    keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'urls', 'comments': 'notesPlain', 'group': 'tags'}
+    keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
+            'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
 
 
 class Bitwarden(PasswordManagerCSV):
