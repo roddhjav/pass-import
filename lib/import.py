@@ -346,8 +346,8 @@ class Bitwarden(PasswordManagerCSV):
 
 
 class Chrome(PasswordManagerCSV):
-    keys = {'title': 'origin_url', 'password': 'password_value',
-            'login': 'username_value'}
+    keys = {'title': 'name', 'password': 'password', 'login': 'username',
+            'url': 'url'}
 
 
 class Dashlane(PasswordManagerCSV):
