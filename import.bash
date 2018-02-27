@@ -16,13 +16,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-readonly LIBDIR="${PASSWORD_STORE_LIBDIR:-/usr/lib/password-store/import}"
-readonly Bold='\e[1m' Bred='\e[1;31m' reset='\e[0m'
-_error() { echo -e " ${Bred}[x]${reset} ${Bold}Error:${reset} ${*}" >&2; }
-_die() { _error "${@}" && exit 1; }
+readonly CMD="import"
+readonly LIBDIR="${PASSWORD_STORE_LIBDIR:-/usr/lib/password-store/$CMD}"
 _ensure_dependencies() {
-	command -v "python3" &>/dev/null || _die "$PROGRAM $COMMAND requires python3"
-	[[ -f "${LIBDIR}/import.py" ]] || _die "$PROGRAM $COMMAND requires ${LIBDIR}/import.py"
+	command -v "python3" &>/dev/null || die "$PROGRAM $COMMAND requires python3"
+	[[ -f "${LIBDIR}/${CMD}.py" ]] || die "$PROGRAM $COMMAND requires ${LIBDIR}/$CMD.py"
 }
 
 cmd_import() {
@@ -33,10 +31,10 @@ cmd_import() {
 	export PASSWORD_STORE_ENABLE_EXTENSIONS PASSWORD_STORE_SIGNING_KEY
 	export GNUPGHOME LIBDIR PYTHONIOENCODING="UTF-8" PASSWORD_STORE_BIN="$0"
 	if [[ -t 0 ]]; then
-		python3 "${LIBDIR}/import.py" "$@"
+		python3 "${LIBDIR}/${CMD}.py" "$@"
 		ret=$?
 	else
-		cat | python3 "${LIBDIR}/import.py" "$@"
+		cat | python3 "${LIBDIR}/${CMD}.py" "$@"
 		ret=$?
 	fi
 	return $ret
