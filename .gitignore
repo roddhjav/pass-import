@@ -107,3 +107,6 @@ venv.bak/
 tests/gnupg/
 tests/test-results/
 tests/database
+
+# pass install
+.import.bash
