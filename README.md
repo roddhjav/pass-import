@@ -1,21 +1,28 @@
 <h1 align="center">pass import</h1>
-
 <p align="center">
-<a href="https://travis-ci.org/roddhjav/pass-import"><img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg" alt="Build Status" /></a>
-<a href="https://www.codacy.com/app/roddhjav/pass-import"><img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg" alt="Code Coverage" /></a>
-<a href="https://www.codacy.com/app/roddhjav/pass-import"><img src="https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg" alt="Code Quality" /></a>
-<a href="https://github.com/roddhjav/pass-import/releases/latest"><img src="https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600" alt="Last Release" /></a>
+    <a href="https://travis-ci.org/roddhjav/pass-import">
+        <img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg"
+             alt="Build Status" /></a>
+    <a href="https://www.codacy.com/app/roddhjav/pass-import">
+        <img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg"
+             alt="Code Coverage" /></a>
+    <a href="https://www.codacy.com/app/roddhjav/pass-import">
+        <img src="https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg"
+             alt="Code Quality" /></a>
+    <a href="https://github.com/roddhjav/pass-import/releases/latest">
+        <img src="https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600"
+             alt="Last Release" /></a>
 </p>
-
 <p align="center">
-A <a href="https://www.passwordstore.org/">pass</a> extension for importing data from most of the existing password manager.
+    A <a href="https://www.passwordstore.org/">pass</a> extension for importing
+    data from most of the existing password manager.
 </p>
 
 ## Description
-`pass import` is a password store extension allowing you to conveniently
-import your password database to a password store repository. It natively
-supports import from 18 different password managers. More manager support can
-easily be added.
+`pass import` is a password store extension allowing you to import your password
+database to a password store repository conveniently. It natively supports
+import from 18 different password managers. More manager support can easily
+be added.
 
 Passwords are imported into the existing default password store, therefore
 the password store must have been initialised before with `pass init`.
@@ -57,7 +64,7 @@ usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
   Import data from most of the password manager. Passwords
   are imported into the existing default password store, therefore
-  the password store must have been initialized before with 'pass init'
+  the password store must have been initialised before with 'pass init'
 
 positional arguments:
   manager               Can be: 1password, 1password4, chrome, dashlane,
@@ -124,7 +131,7 @@ pass import keepass keepass.xml -p Import/
 
 ## Security consideration
 
-Passwords should generally not be written in a plain text form on the drive.
+Passwords should not be written in plain text form on the drive.
 Therefore when possible you should pipe your passwords to pass import:
 ```sh
 my_password_manager_export_cmd | pass import keepass
@@ -134,7 +141,7 @@ Otherwise, if your password manager does not have this command line option, you
 should take care of securely removing the plain text password database:
 ```sh
 pass import lastpass data.csv
-srm data.csv
+shred -u data.csv
 ```
 
 You might also want to update the passwords imported using [`pass-update`][update].
@@ -147,29 +154,19 @@ You might also want to update the passwords imported using [`pass-update`][updat
 * `python-defusedxml`
   - Debian/Ubuntu: `sudo apt-get install python3-defusedxml`
   - OSX: `pip3 install defusedxml`
-* If you do not want to install this extension as system extension, you need to
-enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can
-create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
 
 **From git**
 ```sh
 git clone https://github.com/roddhjav/pass-import/
 cd pass-import
-sudo make install
-```
-
-**OS X**
-```sh
-git clone https://github.com/roddhjav/pass-import/
-cd pass-import
-make install PREFIX=/usr/local
+sudo make install  # Add: PREFIX=/usr/local for OS X
 ```
 
 **ArchLinux**
 
 `pass-import` is available in the [Arch User Repository][aur].
 ```sh
-pacaur -S pass-import # or your preferred AUR install method
+pacaur -S pass-import  # or your preferred AUR install method
 ```
 
 **Stable version**
