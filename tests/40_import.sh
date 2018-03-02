@@ -15,7 +15,7 @@ for manager in "${PASSWORDS_MANAGERS[@]}"; do
 	test_init "$manager" &> /dev/null
     _in "$XML" "$manager" && ext="xml" || ext="csv"
 	test_expect_success "Testing $manager database" "
-        _pass import $manager $DB/$manager.$ext
+        _pass import $manager $DB/$manager.$ext --extra
     "
 done
 
