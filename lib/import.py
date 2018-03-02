@@ -234,7 +234,7 @@ class PasswordManager():
         if 'title' in entry:
             path = os.path.join(path, entry.pop('title', None))
         elif 'url' in entry:
-            path = os.path.join(path, entry['url'])
+            path = os.path.join(path, entry['url'].replace('http://', '').replace('https://', ''))
         elif 'login' in entry:
             path = os.path.join(path, entry['login'])
         else:
@@ -250,7 +250,6 @@ class PasswordManager():
                 entry.pop(key, None)
 
             self._clean_protocol(entry, 'title')
-            self._clean_protocol(entry, 'url')
             if clean:
                 entry['title'] = self._clean_cmdline(entry['title'])
             entry['path'] = self._create_path(entry)

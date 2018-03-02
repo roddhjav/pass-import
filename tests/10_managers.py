@@ -37,7 +37,7 @@ class TestPasswordManager(setup.TestPassSimple):
                                      ('uuid', '44jle5q3fdvrprmaahozexy2pi')])]
         self.data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                      ('login', 'lnqYm3ZWtm'),
-                                     ('url', 'twitter.com'),
+                                     ('url', 'https://twitter.com'),
                                      ('website', 'https://pujol.io'),
                                      ('uuid', '44jle5q3fdvrprmaahozexy2pi'),
                                      ('path', 'Social/twitter.com')])]
