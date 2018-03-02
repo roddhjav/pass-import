@@ -58,6 +58,25 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<notes><![CDATA[This is a multiline note entry. Cube shank petroleum guacamole dart mower»acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.]]></notes>
 		<uuid><![CDATA[c3053566d75946d04755d8caac43680c]]></uuid>
 		<rmtimex>2017-11-18T19:35:36</rmtimex>
+		<pwhistory>
+			<status>1</status>
+			<max>3</max>
+			<num>3</num>
+			<history_entries>
+				<history_entry num="1">
+					<changedx>2017-03-02T15:55:14</changedx>
+					<oldpassword><![CDATA[123test]]></oldpassword>
+				</history_entry>
+				<history_entry num="2">
+					<changedx>2017-04-02T15:55:59</changedx>
+					<oldpassword><![CDATA[fhZR.aQc)r{!]]></oldpassword>
+				</history_entry>
+				<history_entry num="3">
+					<changedx>2017-05-02T15:56:08</changedx>
+					<oldpassword><![CDATA[&a<H{P*y0,R3]]></oldpassword>
+				</history_entry>
+			</history_entries>
+		</pwhistory>
 	</entry>
 
 	<entry id="5">

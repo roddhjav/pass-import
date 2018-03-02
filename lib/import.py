@@ -503,6 +503,11 @@ class Pwsafe(PasswordManagerXML):
                 entry['group'] = entry['group'].replace('.', '/')
             if 'comments' in entry:
                 entry['comments'] = entry['comments'].replace(delimiter, '\n')
+            if self.all:
+                for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
+                    if not 'Password history' in entry:
+                        entry['Password history'] = ''
+                    entry['Password history'] += '\n' + self._getvalue(historyentry, 'changedx') + ' ' + self._getvalue(historyentry, 'oldpassword')
             self.data.append(entry)
 
 
