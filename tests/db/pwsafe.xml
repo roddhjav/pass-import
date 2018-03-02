@@ -55,7 +55,7 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<group><![CDATA[CornerCases]]></group>
 		<title><![CDATA[note]]></title>
 		<password><![CDATA[]]></password>
-		<notes><![CDATA[This is a multiline note entry. Cube shank petroleum guacamole dart mower acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.]]></notes>
+		<notes><![CDATA[This is a multiline note entry. Cube shank petroleum guacamole dart mower»acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.]]></notes>
 		<uuid><![CDATA[c3053566d75946d04755d8caac43680c]]></uuid>
 		<rmtimex>2017-11-18T19:35:36</rmtimex>
 	</entry>

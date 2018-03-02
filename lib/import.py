@@ -496,10 +496,13 @@ class Pwsafe(PasswordManagerXML):
             'url': 'url', 'comments': 'notes', 'group': 'group'}
 
     def _import(self, element):
+        delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
             if 'group' in entry:
                 entry['group'] = entry['group'].replace('.', '/')
+            if 'comments' in entry:
+                entry['comments'] = entry['comments'].replace(delimiter, '\n')
             self.data.append(entry)
 
 
