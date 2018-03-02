@@ -34,7 +34,7 @@ uninstall:
 		"$(DESTDIR)$(EXTENSION_LIB)" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
-test:
+tests:
 	make -C tests
 
 lint:
@@ -43,4 +43,4 @@ lint:
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed
 
-.PHONY: install uninstall test lint clean
+.PHONY: install uninstall tests lint clean

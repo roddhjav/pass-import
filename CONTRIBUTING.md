@@ -13,7 +13,7 @@ In order to run the tests, you need to install the following programs:
 * [python-green][pgreen] as python test runner.
 * [python-coverage][pcoverage] as code coverage system.
 
-To run the tests, simply run: `make test`
+To run the tests, simply run: `make tests`
 
 
 ## How to contribute?
@@ -67,7 +67,7 @@ class MyManager(PasswordManagerCSV):
             'url': 'url', 'comments': 'comments', 'group': 'group'}
 ```
 
-3. Add a file named `tests/exporteddb/mymanager[.csv,.xml]`. **No Contribution
+3. Add a file named `tests/db/mymanager[.csv,.xml]`. **No Contribution
 will be accepted without this file.** This file must contain the exported data
 from *your manager*. It has to be the exact export of the main test password
 repository. This test data can be found in the `tests/exporteddb/.template.csv`.
