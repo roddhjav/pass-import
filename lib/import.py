@@ -507,7 +507,9 @@ class Pwsafe(PasswordManagerXML):
                 for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
                     if not 'Password history' in entry:
                         entry['Password history'] = ''
-                    entry['Password history'] += '\n' + self._getvalue(historyentry, 'changedx') + ' ' + self._getvalue(historyentry, 'oldpassword')
+                    time = self._getvalue(historyentry, 'changedx')
+                    oldpassword = self._getvalue(historyentry, 'oldpassword')
+                    entry['Password history'] += '\n' + time + ' ' + oldpassword
             self.data.append(entry)
 
 
