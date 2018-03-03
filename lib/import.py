@@ -491,8 +491,9 @@ class PasswordExporter(PasswordManagerCSV):
 
 class Pwsafe(PasswordManagerXML):
     format = 'passwordsafe'
+    keyslist = ['title', 'password', 'login', 'url', 'email', 'comments', 'group']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'url', 'comments': 'notes', 'group': 'group'}
+            'url': 'url', 'email': 'email', 'comments': 'notes', 'group': 'group'}
 
     def _import(self, element):
         delimiter = element.attrib['delimiter']
