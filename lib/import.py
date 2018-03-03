@@ -179,7 +179,7 @@ class PasswordManager():
     Please read CONTRIBUTING.md for more details regarding data structure
     in pass-import.
     """
-    keyslist = ['title', 'password', 'login', 'url', 'email', 'comments', 'group']
+    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
     def __init__(self, extra=False):
         self.data = []
@@ -369,12 +369,11 @@ class Enpass(PasswordManagerCSV):
             entry['title'] = row.pop(0)
             comments = row.pop()
             for key in self.keyslist:
-                if key in self.keys:
-                    csvkey = self.keys[key]
-                    if csvkey in row:
-                        index = row.index(csvkey)
-                        entry[key] = row.pop(index+1)
-                        row.pop(index)
+                csvkey = self.keys[key]
+                if csvkey in row:
+                    index = row.index(csvkey)
+                    entry[key] = row.pop(index+1)
+                    row.pop(index)
             entry['comments'] = comments
 
             if self.all:
@@ -493,6 +492,7 @@ class PasswordExporter(PasswordManagerCSV):
 
 class Pwsafe(PasswordManagerXML):
     format = 'passwordsafe'
+    keyslist = ['title', 'password', 'login', 'url', 'email', 'comments', 'group']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'email': 'email', 'comments': 'notes', 'group': 'group'}
 
