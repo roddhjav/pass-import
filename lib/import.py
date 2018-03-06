@@ -202,10 +202,11 @@ class PasswordManager():
     @staticmethod
     def _clean_cmdline(string):
         """Make the string more command line friendly."""
-        string = string.replace(" ", "_").replace("&", "and")
-        string = string.replace('/', '-').replace('\\', '-')
-        string = string.replace("@", "At").replace("'", "")
-        return string.replace("[", "").replace("]", "")
+        caracters = {" ": "_", "&": "and", '/': '-', '\\': '-', "@": "At",
+                     "'": "", "[": "", "]": ""}
+        for key in caracters:
+            string = string.replace(key, caracters[key])
+        return string
 
     def _duplicate_paths(self):
         """Detect duplicate paths."""
