@@ -61,10 +61,7 @@ importers = {
 
 
 def list_importers():
-    res = ''
-    for key in importers:
-        res += key + ', '
-    return res[:-2] + '.'
+    return ', '.join(list(importers.keys())) + '.'
 
 
 def verbose(title='', msg=''):
