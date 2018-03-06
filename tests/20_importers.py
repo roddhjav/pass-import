@@ -32,6 +32,8 @@ class TestImporters(setup.TestPassSimple):
 
     def test_importers(self):
         """Testing: importer parse method using real data."""
+        keys = ['title', 'password', 'login']
+        refdata = self._get_refdata(keys)
         for manager in self.passimport.importers:
             with self.subTest(manager):
                 importer = self._load_import(manager)
@@ -39,7 +41,7 @@ class TestImporters(setup.TestPassSimple):
                 with open(testpath, 'r', encoding='utf-8') as file:
                     importer.parse(file)
 
-                self._check_imported_data(importer.data)
+                self._check_imported_data(keys, importer.data, refdata)
 
     def test_importers_format(self):
         """Testing: importer file format."""

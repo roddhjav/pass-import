@@ -49,10 +49,9 @@ class TestPassSimple(unittest.TestCase):
             for row in reader:
                 entry = OrderedDict()
                 for key in keys:
-                    value = row[key]
-                    if value is not None and not len(value) == 0:
-                        entry[key] = value
+                    entry[key] = row.get(key, None)
                 refdata.append(entry)
+        self._clean(keys, refdata)
         return refdata
 
     @staticmethod
@@ -60,6 +59,8 @@ class TestPassSimple(unittest.TestCase):
         """Clean data from unwanted keys and weird formatting."""
         for entry in data:
             delete = [k for k in entry.keys() if k not in keys]
+            empty = [k for k, v in entry.items() if not v]
+            delete.extend(empty)
             for key in delete:
                 entry.pop(key, None)
 
@@ -67,7 +68,7 @@ class TestPassSimple(unittest.TestCase):
             for key in entry:
                 entry[key] = entry[key].replace('https://', '')
                 entry[key] = entry[key].replace('http://', '')
-                if entry[key] is None or len(entry[key]) == 0:
+                if not entry[key]:
                     delete.append(key)
             for key in delete:
                 entry.pop(key, None)
