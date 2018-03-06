@@ -185,9 +185,7 @@ class PasswordManager():
     @staticmethod
     def get(entry):
         """Return the content of an entry in a password-store format."""
-        string = ''
-        if 'password' in entry:
-            string = entry.pop('password', None) + '\n'
+        string = entry.pop('password', '') + '\n'
         for key, value in entry.items():
             if key == 'path':
                 continue

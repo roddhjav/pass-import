@@ -53,7 +53,7 @@ class TestPasswordManager(setup.TestPassSimple):
     def test_get_empty(self):
         """Testing: convert empty dict to password entry."""
         entry = Odict()
-        entry_expected = ""
+        entry_expected = '\n'
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
     def test_satanize_data(self):
