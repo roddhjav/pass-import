@@ -443,21 +443,22 @@ class Keepass(KeepassX):
 
     @classmethod
     def _getvalue(cls, elements, xmlkey):
+        value = ''
         for element in elements:
             for child in element.findall('Key'):
                 if child.text == xmlkey:
-                    return element.find('Value').text
-        return ''
+                    value = element.find('Value').text
+                    break
+        return value
 
     @classmethod
     def _getpath(cls, element, path=''):
         """Generate path name from elements title and current path."""
+        title = ''
         if element.tag == 'Entry':
             title = cls._getvalue(element.findall('String'), 'Title')
         elif element.tag == 'Group':
             title = element.find('Name').text
-        else:
-            title = ''
         return os.path.join(path, title)
 
 
