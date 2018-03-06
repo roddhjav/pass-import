@@ -78,10 +78,7 @@ class TestPassSimple(unittest.TestCase):
         ext = '.xml' if manager in self.xml else '.csv'
         return os.path.join(self.db, manager + ext)
 
-    def _check_imported_data(self, data):
-        keys = ['title', 'password', 'login']
-        refdata = self._get_refdata(keys)
-        self._clean(keys, refdata)
+    def _check_imported_data(self, keys, data, refdata):
         """Compare imported data with the reference data."""
         self._clean(keys, data)
         for entry in data:

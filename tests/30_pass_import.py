@@ -82,7 +82,7 @@ class TestPassImport(setup.TestPass):
 
     def test_pass_import_FromStdin(self):
         """Testing: pass import 1password."""
-        cmd = ['1password', '--quiet']
+        cmd = ['dashlane', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_root(self):
