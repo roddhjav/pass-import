@@ -212,7 +212,7 @@ class PasswordManager():
         """Detect duplicate paths."""
         seen = []
         for entry in self.data:
-            path = entry['path']
+            path = entry.get('path', '')
             if path in seen:
                 while path in seen:
                     path += '0'
@@ -224,11 +224,9 @@ class PasswordManager():
     @staticmethod
     def _create_path(entry):
         """Create path from title and group."""
-        path = ''
-        if 'group' in entry:
-            path = entry.pop('group', None).replace('\\', '/')
+        path = entry.pop('group', '').replace('\\', '/')
         if 'title' in entry:
-            path = os.path.join(path, entry.pop('title', None))
+            path = os.path.join(path, entry.pop('title'))
         elif 'url' in entry:
             path = os.path.join(path, entry['url'].replace('http://', '').replace('https://', ''))
         elif 'login' in entry:
@@ -243,7 +241,7 @@ class PasswordManager():
             # Remove unused keys
             empty = [k for k, v in entry.items() if not v]
             for key in empty:
-                entry.pop(key, None)
+                entry.pop(key)
 
             self._clean_protocol(entry, 'title')
             if clean:
@@ -274,17 +272,11 @@ class PasswordManagerCSV(PasswordManager):
         for row in reader:
             entry = OrderedDict()
             for key in self.keyslist:
-                if key in self.keys:
-                    csvkey = self.keys[key]
-                    value = row.pop(csvkey, None)
-                    if value is not None and not len(value) == 0:
-                        entry[key] = value
+                entry[key] = row.pop(self.keys.get(key, ''), None)
 
             if self.all:
                 for col in row:
-                    value = row[col]
-                    if value is not None and not len(value) == 0:
-                        entry[col] = value
+                    entry[col] = row.get(col, None)
 
             self.data.append(entry)
 
@@ -310,12 +302,9 @@ class PasswordManagerXML(PasswordManager):
     def _getentry(self, element):
         entry = OrderedDict()
         for key in self.keyslist:
-            if key in self.keys:
-                xmlkey = self.keys[key]
-                if xmlkey != '':
-                    value = self._getvalue(element, xmlkey)
-                    if value is not None and not len(value) == 0:
-                        entry[key] = value
+            xmlkey = self.keys.get(key, '')
+            if xmlkey != '':
+                entry[key] = self._getvalue(element, xmlkey)
         return entry
 
     def parse(self, file):
@@ -364,7 +353,7 @@ class Enpass(PasswordManagerCSV):
             entry['title'] = row.pop(0)
             comments = row.pop()
             for key in self.keyslist:
-                csvkey = self.keys[key]
+                csvkey = self.keys.get(key, '')
                 if csvkey in row:
                     index = row.index(csvkey)
                     entry[key] = row.pop(index+1)
@@ -496,10 +485,8 @@ class Pwsafe(PasswordManagerXML):
         delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
-            if 'group' in entry:
-                entry['group'] = entry['group'].replace('.', '/')
-            if 'comments' in entry:
-                entry['comments'] = entry['comments'].replace(delimiter, '\n')
+            entry['group'] = entry.get('group', '').replace('.', '/')
+            entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
             if self.all:
                 for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
                     key = 'oldpassword' + historyentry.attrib['num']
@@ -527,7 +514,7 @@ class Revelation(PasswordManagerXML):
 
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
-            if xmlentry.attrib['type'] == 'folder':
+            if xmlentry.attrib.get('type', '') == 'folder':
                 if path != xmlentry.find('name').text:
                     path = ''
                 path = os.path.join(path, xmlentry.find('name').text)
