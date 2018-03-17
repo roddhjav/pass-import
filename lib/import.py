@@ -17,6 +17,7 @@
 #
 
 import os
+import re
 import sys
 import csv
 import argparse
@@ -214,8 +215,13 @@ class PasswordManager():
         for entry in self.data:
             path = entry.get('path', '')
             if path in seen:
+                ii = 0
                 while path in seen:
-                    path += '0'
+                    if re.search('(\d+)$', path) is None:
+                        path += '0'
+                    else:
+                        path = path.replace(str(ii), str(ii + 1))
+                        ii += 1
                 seen.append(path)
                 entry['path'] = path
             else:
