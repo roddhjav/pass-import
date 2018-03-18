@@ -25,7 +25,7 @@ test_expect_success 'Testing corner cases' '
 
 test_expect_success 'Testing help message' '
     _pass import --help | grep "[manager] [file]" &&
-    _pass import --version | grep "pass import 2.0"
+    _pass import --version | grep "pass import 2.2"
     '
 
 if test_have_prereq TRAVIS; then
@@ -33,7 +33,7 @@ if test_have_prereq TRAVIS; then
     export PASSWORD_STORE_EXTENSIONS_DIR=''
     test_expect_success 'Testing extension installation' '
         make --directory=$EXT_HOME install &&
-        _pass import --version | grep "pass import 2.0" &&
+        _pass import --version | grep "pass import 2.2" &&
         make --directory=$EXT_HOME uninstall
         '
 fi
