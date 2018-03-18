@@ -17,7 +17,6 @@
 #
 
 import os
-import json
 import unittest
 import setup
 
@@ -46,8 +45,7 @@ class TestImporters(setup.TestPassSimple):
 
     def test_importers_format(self):
         """Testing: importer file format."""
-        formaterror = (self.passimport.FormatError, AttributeError,
-                       json.decoder.JSONDecodeError)
+        formaterror = (self.passimport.FormatError, AttributeError, ValueError)
         for manager in self.passimport.importers:
             if manager == 'dashlane':
                 continue

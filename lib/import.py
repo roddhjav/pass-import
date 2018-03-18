@@ -670,7 +670,7 @@ def main(argv):
         try:
             importer.parse(file)
             importer.satanize(arg.clean)
-        except (FormatError, AttributeError, json.decoder.JSONDecodeError):
+        except (FormatError, AttributeError, ValueError):
             die("%s is not a exported %s file" % (arg.file, arg.manager))
         finally:
             file.close()
