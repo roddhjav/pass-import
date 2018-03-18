@@ -345,12 +345,25 @@ class PasswordManagerPIF(PasswordManager):
                     break
         return value
 
+    def _sortgroup(self, folders):
+        for folder in folders.values():
+            parent = folder.get('parent', '')
+            groupup = folders.get(parent, {}).get('group', '')
+            folder['group'] = os.path.join(groupup, folder.get('group', ''))
+
+        for entry in self.data:
+            groupid = entry.get('group', '')
+            entry['group'] = folders.get(groupid, {}).get('group', '')
+
     def parse(self, file):
         jsons = self._pif2json(file)
         folders = dict()
         for item in jsons:
             if item.get('typeName', '') == 'system.folder.Regular':
                 key = item.get('uuid', '')
+                folders[key] = {'group': item.get('title', ''),
+                                'parent': item.get('folderUuid', '')}
+
             elif item.get('typeName', '') == 'webforms.WebForm':
                 entry = OrderedDict()
                 scontent = item.pop('secureContents', {})
@@ -368,6 +381,7 @@ class PasswordManagerPIF(PasswordManager):
                             entry[key] = value
 
                 self.data.append(entry)
+        self._sortgroup(folders)
 
 
 class OnePassword4PIF(PasswordManagerPIF):
