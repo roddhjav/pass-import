@@ -20,6 +20,7 @@ import os
 import re
 import sys
 import csv
+import json
 import argparse
 import importlib
 from subprocess import Popen, PIPE
@@ -42,6 +43,7 @@ QUIET = False
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
+    '1password4pif': ['OnePassword4PIF', 'https://1password.com/'],
     'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
@@ -317,6 +319,76 @@ class PasswordManagerXML(PasswordManager):
         self._import(root)
 
 
+class PasswordManagerPIF(PasswordManager):
+    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
+
+    @staticmethod
+    def _pif2json(file):
+        """Convert 1pif to json see https://github.com/eblin/1passpwnedcheck."""
+        data = file.read()
+        cleaned = re.sub('(?m)^\*\*\*.*\*\*\*\s+', '', data)
+        cleaned = cleaned.split('\n')
+        cleaned = ','.join(cleaned).rstrip(',')
+        cleaned = '[%s]' % cleaned
+        return json.loads(cleaned)
+
+    @staticmethod
+    def _getvalue(jsonkey, item, scontent, fields):
+        value = item.pop(jsonkey, None)
+        value = scontent.pop(jsonkey, value)
+        if value is None:
+            for field in fields:
+                if field.get('name', '') == jsonkey:
+                    value = field.get('value', None)
+                    index = fields.index(field)
+                    fields.pop(index)
+                    break
+        return value
+
+    def _sortgroup(self, folders):
+        for folder in folders.values():
+            parent = folder.get('parent', '')
+            groupup = folders.get(parent, {}).get('group', '')
+            folder['group'] = os.path.join(groupup, folder.get('group', ''))
+
+        for entry in self.data:
+            groupid = entry.get('group', '')
+            entry['group'] = folders.get(groupid, {}).get('group', '')
+
+    def parse(self, file):
+        jsons = self._pif2json(file)
+        folders = dict()
+        for item in jsons:
+            if item.get('typeName', '') == 'system.folder.Regular':
+                key = item.get('uuid', '')
+                folders[key] = {'group': item.get('title', ''),
+                                'parent': item.get('folderUuid', '')}
+
+            elif item.get('typeName', '') == 'webforms.WebForm':
+                entry = OrderedDict()
+                scontent = item.pop('secureContents', {})
+                fields = scontent.pop('fields', [])
+                for key in self.keyslist:
+                    jsonkey = self.keys.get(key, '')
+                    entry[key] = self._getvalue(jsonkey, item, scontent, fields)
+
+                if self.all:
+                    for field in fields:
+                        entry[field.get('name', '')] = field.get('value', '')
+                    item.update(scontent)
+                    for key, value in item.items():
+                        if key not in self.ignore:
+                            entry[key] = value
+
+                self.data.append(entry)
+        self._sortgroup(folders)
+
+
+class OnePassword4PIF(PasswordManagerPIF):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
+
+
 class OnePassword4(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'notes'}
@@ -586,7 +658,8 @@ def main(argv):
         if arg.file is None:
             file = sys.stdin
         elif os.path.isfile(arg.file):
-            file = open(arg.file, 'r', encoding='utf-8')
+            encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
+            file = open(arg.file, 'r', encoding=encoding)
         else:
             die("%s is not a file" % arg.file)
 
@@ -597,7 +670,7 @@ def main(argv):
         try:
             importer.parse(file)
             importer.satanize(arg.clean)
-        except FormatError:
+        except (FormatError, AttributeError, ValueError):
             die("%s is not a exported %s file" % (arg.file, arg.manager))
         finally:
             file.close()

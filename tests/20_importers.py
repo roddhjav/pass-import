@@ -37,14 +37,15 @@ class TestImporters(setup.TestPassSimple):
         for manager in self.passimport.importers:
             with self.subTest(manager):
                 importer = self._load_import(manager)
-                testpath = self._get_testpath(manager)
-                with open(testpath, 'r', encoding='utf-8') as file:
+                testpath, encoding = self._get_testpath(manager)
+                with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 
                 self._check_imported_data(keys, importer.data, refdata)
 
     def test_importers_format(self):
         """Testing: importer file format."""
+        formaterror = (self.passimport.FormatError, AttributeError, ValueError)
         for manager in self.passimport.importers:
             if manager == 'dashlane':
                 continue
@@ -53,7 +54,7 @@ class TestImporters(setup.TestPassSimple):
                 ext = '.xml' if manager in self.xml else '.csv'
                 testpath = os.path.join(self.db, '.dummy' + ext)
 
-                with self.assertRaises(self.passimport.FormatError):
+                with self.assertRaises(formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
                         importer.parse(file)
 

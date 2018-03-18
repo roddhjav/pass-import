@@ -76,7 +76,9 @@ class TestPassSimple(unittest.TestCase):
     def _get_testpath(self, manager):
         """Get database file to test."""
         ext = '.xml' if manager in self.xml else '.csv'
-        return os.path.join(self.db, manager + ext)
+        ext = '.1pif' if manager == '1password4pif' else ext
+        encoding = 'utf-8-sig' if manager == '1password4pif' else 'utf-8'
+        return (os.path.join(self.db, manager + ext), encoding)
 
     def _check_imported_data(self, keys, data, refdata):
         """Compare imported data with the reference data."""

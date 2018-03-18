@@ -21,7 +21,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 18 different password managers. More manager support can easily
+import from 19 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -36,9 +36,11 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 **The following password managers are supported:**
 
 | **Password Manager** | **How to export Data** | **Command line** |
-|:--------------------------------------:|:---------------------------------------------------------------:|:---------------------------------------:|
-| [1password][1password] | *Select all items [Ctrl+A]: Click Right> Settings> Export: CSV* | `pass import 1password file.csv` |
+|:--------------------:|:----------------------:|:----------------:|
+
+| [1password][1password] | *See this [guide][export-1password]* | `pass import 1password file.csv` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
+| [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.csv` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
@@ -243,3 +245,4 @@ If you really like this software and would like to donate, you can send donation
 
 [bp]: https://github.com/dannyvankooten/browserpass
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
+[export-1password]: https://support.1password.com/export/
