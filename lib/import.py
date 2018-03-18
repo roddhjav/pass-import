@@ -300,10 +300,7 @@ class PasswordManagerXML(PasswordManager):
     @classmethod
     def _getvalue(cls, elements, xmlkey):
         value = elements.find(xmlkey)
-        res = ''
-        if value is not None:
-            res = value.text
-        return res
+        return '' if value is None else value.text
 
     def _getentry(self, element):
         entry = OrderedDict()
