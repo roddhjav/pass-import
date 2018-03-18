@@ -20,6 +20,7 @@ import os
 import re
 import sys
 import csv
+import json
 import argparse
 import importlib
 from subprocess import Popen, PIPE
@@ -42,6 +43,7 @@ QUIET = False
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
+    '1password4pif': ['OnePassword4PIF', 'https://1password.com/'],
     'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
@@ -317,6 +319,11 @@ class PasswordManagerXML(PasswordManager):
         self._import(root)
 
 
+class OnePassword4PIF(PasswordManagerPIF):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
+
+
 class OnePassword4(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'notes'}
@@ -586,7 +593,8 @@ def main(argv):
         if arg.file is None:
             file = sys.stdin
         elif os.path.isfile(arg.file):
-            file = open(arg.file, 'r', encoding='utf-8')
+            encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
+            file = open(arg.file, 'r', encoding=encoding)
         else:
             die("%s is not a file" % arg.file)
 
