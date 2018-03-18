@@ -460,10 +460,6 @@ class KeepassXC(PasswordManagerCSV):
             'url': 'URL', 'comments': 'Notes', 'group': 'Group'}
 
 
-class Kwallet(PasswordManagerXML):
-    format = 'wallet'
-
-
 class Lastpass(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'extra', 'group': 'grouping'}
