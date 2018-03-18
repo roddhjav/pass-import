@@ -17,6 +17,7 @@
 #
 
 import os
+import re
 import sys
 import csv
 import argparse
@@ -61,10 +62,7 @@ importers = {
 
 
 def list_importers():
-    res = ''
-    for key in importers:
-        res += key + ', '
-    return res[:-2] + '.'
+    return ', '.join(list(importers.keys())) + '.'
 
 
 def verbose(title='', msg=''):
@@ -188,9 +186,7 @@ class PasswordManager():
     @staticmethod
     def get(entry):
         """Return the content of an entry in a password-store format."""
-        string = ''
-        if 'password' in entry:
-            string = entry.pop('password', None) + '\n'
+        string = entry.pop('password', '') + '\n'
         for key, value in entry.items():
             if key == 'path':
                 continue
@@ -207,19 +203,25 @@ class PasswordManager():
     @staticmethod
     def _clean_cmdline(string):
         """Make the string more command line friendly."""
-        string = string.replace(" ", "_").replace("&", "and")
-        string = string.replace('/', '-').replace('\\', '-')
-        string = string.replace("@", "At").replace("'", "")
-        return string.replace("[", "").replace("]", "")
+        caracters = {" ": "_", "&": "and", '/': '-', '\\': '-', "@": "At",
+                     "'": "", "[": "", "]": ""}
+        for key in caracters:
+            string = string.replace(key, caracters[key])
+        return string
 
     def _duplicate_paths(self):
         """Detect duplicate paths."""
         seen = []
         for entry in self.data:
-            path = entry['path']
+            path = entry.get('path', '')
             if path in seen:
+                ii = 0
                 while path in seen:
-                    path += '0'
+                    if re.search('(\d+)$', path) is None:
+                        path += '0'
+                    else:
+                        path = path.replace(str(ii), str(ii + 1))
+                        ii += 1
                 seen.append(path)
                 entry['path'] = path
             else:
@@ -228,11 +230,9 @@ class PasswordManager():
     @staticmethod
     def _create_path(entry):
         """Create path from title and group."""
-        path = ''
-        if 'group' in entry:
-            path = entry.pop('group', None).replace('\\', '/')
+        path = entry.pop('group', '').replace('\\', '/')
         if 'title' in entry:
-            path = os.path.join(path, entry.pop('title', None))
+            path = os.path.join(path, entry.pop('title'))
         elif 'url' in entry:
             path = os.path.join(path, entry['url'].replace('http://', '').replace('https://', ''))
         elif 'login' in entry:
@@ -247,7 +247,7 @@ class PasswordManager():
             # Remove unused keys
             empty = [k for k, v in entry.items() if not v]
             for key in empty:
-                entry.pop(key, None)
+                entry.pop(key)
 
             self._clean_protocol(entry, 'title')
             if clean:
@@ -278,17 +278,11 @@ class PasswordManagerCSV(PasswordManager):
         for row in reader:
             entry = OrderedDict()
             for key in self.keyslist:
-                if key in self.keys:
-                    csvkey = self.keys[key]
-                    value = row.pop(csvkey, None)
-                    if value is not None and not len(value) == 0:
-                        entry[key] = value
+                entry[key] = row.pop(self.keys.get(key, ''), None)
 
             if self.all:
                 for col in row:
-                    value = row[col]
-                    if value is not None and not len(value) == 0:
-                        entry[col] = value
+                    entry[col] = row.get(col, None)
 
             self.data.append(entry)
 
@@ -306,20 +300,14 @@ class PasswordManagerXML(PasswordManager):
     @classmethod
     def _getvalue(cls, elements, xmlkey):
         value = elements.find(xmlkey)
-        res = ''
-        if value is not None:
-            res = value.text
-        return res
+        return '' if value is None else value.text
 
     def _getentry(self, element):
         entry = OrderedDict()
         for key in self.keyslist:
-            if key in self.keys:
-                xmlkey = self.keys[key]
-                if xmlkey != '':
-                    value = self._getvalue(element, xmlkey)
-                    if value is not None and not len(value) == 0:
-                        entry[key] = value
+            xmlkey = self.keys.get(key, '')
+            if xmlkey != '':
+                entry[key] = self._getvalue(element, xmlkey)
         return entry
 
     def parse(self, file):
@@ -368,7 +356,7 @@ class Enpass(PasswordManagerCSV):
             entry['title'] = row.pop(0)
             comments = row.pop()
             for key in self.keyslist:
-                csvkey = self.keys[key]
+                csvkey = self.keys.get(key, '')
                 if csvkey in row:
                     index = row.index(csvkey)
                     entry[key] = row.pop(index+1)
@@ -472,10 +460,6 @@ class KeepassXC(PasswordManagerCSV):
             'url': 'URL', 'comments': 'Notes', 'group': 'Group'}
 
 
-class Kwallet(PasswordManagerXML):
-    format = 'wallet'
-
-
 class Lastpass(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'extra', 'group': 'grouping'}
@@ -500,10 +484,8 @@ class Pwsafe(PasswordManagerXML):
         delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
-            if 'group' in entry:
-                entry['group'] = entry['group'].replace('.', '/')
-            if 'comments' in entry:
-                entry['comments'] = entry['comments'].replace(delimiter, '\n')
+            entry['group'] = entry.get('group', '').replace('.', '/')
+            entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
             if self.all:
                 for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
                     key = 'oldpassword' + historyentry.attrib['num']
@@ -531,7 +513,7 @@ class Revelation(PasswordManagerXML):
 
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
-            if xmlentry.attrib['type'] == 'folder':
+            if xmlentry.attrib.get('type', '') == 'folder':
                 if path != xmlentry.find('name').text:
                     path = ''
                 path = os.path.join(path, xmlentry.find('name').text)

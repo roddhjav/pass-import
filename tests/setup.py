@@ -32,11 +32,11 @@ class TestPassSimple(unittest.TestCase):
     db = "db/"
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         # Getting pass-import module
         try:
             sys.path.append('../lib')
-            self.passimport = importlib.import_module('import')
+            cls.passimport = importlib.import_module('import')
         except Exception as e:
             print("Unable to find import.py: %s", e)
             exit(1)
@@ -49,17 +49,18 @@ class TestPassSimple(unittest.TestCase):
             for row in reader:
                 entry = OrderedDict()
                 for key in keys:
-                    value = row[key]
-                    if value is not None and not len(value) == 0:
-                        entry[key] = value
+                    entry[key] = row.get(key, None)
                 refdata.append(entry)
+        self._clean(keys, refdata)
         return refdata
 
     @staticmethod
     def _clean(keys, data):
-        """ Clean data from unwanted keys and weird formatting """
+        """Clean data from unwanted keys and weird formatting."""
         for entry in data:
             delete = [k for k in entry.keys() if k not in keys]
+            empty = [k for k, v in entry.items() if not v]
+            delete.extend(empty)
             for key in delete:
                 entry.pop(key, None)
 
@@ -67,21 +68,18 @@ class TestPassSimple(unittest.TestCase):
             for key in entry:
                 entry[key] = entry[key].replace('https://', '')
                 entry[key] = entry[key].replace('http://', '')
-                if entry[key] is None or len(entry[key]) == 0:
+                if not entry[key]:
                     delete.append(key)
             for key in delete:
                 entry.pop(key, None)
 
     def _get_testpath(self, manager):
-        """ Get database file to test """
+        """Get database file to test."""
         ext = '.xml' if manager in self.xml else '.csv'
         return os.path.join(self.db, manager + ext)
 
-    def _check_imported_data(self, data):
-        """ Compare imported data with the reference data """
-        keys = ['title', 'password', 'login']
-        refdata = self._get_refdata(keys)
-        self._clean(keys, refdata)
+    def _check_imported_data(self, keys, data, refdata):
+        """Compare imported data with the reference data."""
         self._clean(keys, data)
         for entry in data:
             self.assertIn(entry, refdata)
@@ -89,9 +87,9 @@ class TestPassSimple(unittest.TestCase):
 
 class TestPass(TestPassSimple):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         # Getting pass-import module
-        super(TestPass, self).setUpClass()
+        super(TestPass, cls).setUpClass()
 
         # Pass binary
         os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
@@ -102,9 +100,9 @@ class TestPass(TestPassSimple):
         os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), 'gnupg')
 
         # Tests directories
-        self.tmp = os.path.join(self.tmp, self.__name__[8:].lower())
-        shutil.rmtree(self.tmp, ignore_errors=True)
-        os.makedirs(self.tmp, exist_ok=True)
+        cls.tmp = os.path.join(cls.tmp, cls.__name__[8:].lower())
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+        os.makedirs(cls.tmp, exist_ok=True)
 
     def setUp(self):
         testname = self.id().split('_').pop() + '-store'

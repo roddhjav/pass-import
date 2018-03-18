@@ -137,7 +137,7 @@ Therefore when possible you should pipe your passwords to pass import:
 my_password_manager_export_cmd | pass import keepass
 ```
 
-Otherwise, if your password manager does not have this command line option, you
+Otherwise, if your password manager lacks this command line option, you
 should take care of securely removing the plain text password database:
 ```sh
 pass import lastpass data.csv
@@ -159,7 +159,7 @@ You might also want to update the passwords imported using [`pass-update`][updat
 ```sh
 git clone https://github.com/roddhjav/pass-import/
 cd pass-import
-sudo make install  # Add: PREFIX=/usr/local for OS X
+sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
 **ArchLinux**
@@ -174,7 +174,7 @@ pacaur -S pass-import  # or your preferred AUR install method
 wget https://github.com/roddhjav/pass-import/releases/download/v2.1/pass-import-2.1.tar.gz
 tar xzf pass-import-2.1.tar.gz
 cd pass-import-2.1
-sudo make install
+sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
