@@ -319,6 +319,57 @@ class PasswordManagerXML(PasswordManager):
         self._import(root)
 
 
+class PasswordManagerPIF(PasswordManager):
+    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
+
+    @staticmethod
+    def _pif2json(file):
+        """Convert 1pif to json see https://github.com/eblin/1passpwnedcheck."""
+        data = file.read()
+        cleaned = re.sub('(?m)^\*\*\*.*\*\*\*\s+', '', data)
+        cleaned = cleaned.split('\n')
+        cleaned = ','.join(cleaned).rstrip(',')
+        cleaned = '[%s]' % cleaned
+        return json.loads(cleaned)
+
+    @staticmethod
+    def _getvalue(jsonkey, item, scontent, fields):
+        value = item.pop(jsonkey, None)
+        value = scontent.pop(jsonkey, value)
+        if value is None:
+            for field in fields:
+                if field.get('name', '') == jsonkey:
+                    value = field.get('value', None)
+                    index = fields.index(field)
+                    fields.pop(index)
+                    break
+        return value
+
+    def parse(self, file):
+        jsons = self._pif2json(file)
+        folders = dict()
+        for item in jsons:
+            if item.get('typeName', '') == 'system.folder.Regular':
+                key = item.get('uuid', '')
+            elif item.get('typeName', '') == 'webforms.WebForm':
+                entry = OrderedDict()
+                scontent = item.pop('secureContents', {})
+                fields = scontent.pop('fields', [])
+                for key in self.keyslist:
+                    jsonkey = self.keys.get(key, '')
+                    entry[key] = self._getvalue(jsonkey, item, scontent, fields)
+
+                if self.all:
+                    for field in fields:
+                        entry[field.get('name', '')] = field.get('value', '')
+                    item.update(scontent)
+                    for key, value in item.items():
+                        if key not in self.ignore:
+                            entry[key] = value
+
+                self.data.append(entry)
+
+
 class OnePassword4PIF(PasswordManagerPIF):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
