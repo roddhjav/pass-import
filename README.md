@@ -39,7 +39,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 |:--------------------:|:----------------------:|:----------------:|
 | [1password][1password] | *See this [guide][export-1password]* | `pass import 1password file.csv` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
-| [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.csv` |
+| [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
