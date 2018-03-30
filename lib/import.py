@@ -463,6 +463,12 @@ class Gorilla(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'group'}
 
+    def parse(self, file):
+        super(Gorilla, self).parse(file)
+        for entry in self.data:
+            entry['group'] = re.sub('(?<=[^\\\])\.', '/', entry['group'])
+            entry['group'] = re.sub('\\\.', '.', entry['group'])
+
 
 class KeepassX(PasswordManagerXML):
     group = 'group'
