@@ -1,0 +1,20 @@
+[connection]
+id=Open Wireless
+uuid=479f19b6-2e11-429b-adde-9b40acfa8ae8
+type=wifi
+permissions=
+
+[wifi]
+mac-address=F3:C1:3F:D7:3C:9F
+mac-address-blacklist=
+mode=infrastructure
+ssid=Open Wireless
+
+[ipv4]
+dns-search=
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
