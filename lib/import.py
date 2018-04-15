@@ -549,6 +549,7 @@ class Lastpass(PasswordManagerCSV):
 
 class NetworkManager(PasswordManager):
     etc = '/etc/NetworkManager/system-connections'
+    keyslist = ['title', 'password', 'login', 'ssid']
     keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
             'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
 
@@ -562,7 +563,7 @@ class NetworkManager(PasswordManager):
         for file in files:
             ini = configparser.ConfigParser()
             ini.read_file(file)
-
+            self.keys['password'] = '802-1x.password' if '802-1x' in ini else 'wifi-security.psk'
             entry = OrderedDict()
             for key in self.keyslist:
                 sect, option = self.keys.get(key, '.').split('.')
@@ -712,7 +713,8 @@ def main(argv):
         try:
             importer.parse(file)
             importer.satanize(arg.clean)
-        except (FormatError, AttributeError, ValueError):
+        except (FormatError, AttributeError, ValueError) as e:
+            print(e)
             die("%s is not a exported %s file" % (arg.file, arg.manager))
         finally:
             if arg.manager != 'networkmanager':
