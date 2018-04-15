@@ -549,7 +549,8 @@ class Lastpass(PasswordManagerCSV):
 
 class NetworkManager(PasswordManager):
     etc = '/etc/NetworkManager/system-connections'
-    keys = {'title': 'connection.id', 'password': 'wifi-security.psk'}
+    keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
+            'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
 
     def parse(self, file):
         if isinstance(file, io.IOBase):
