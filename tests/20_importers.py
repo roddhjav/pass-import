@@ -32,9 +32,12 @@ class TestImporters(setup.TestPassSimple):
 
     def test_importers(self):
         """Testing: importer parse method using real data."""
-        keys = ['title', 'password', 'login']
+        keys = ['title', 'password', 'login', 'ssid']
         refdata = self._get_refdata(keys)
+        ignore = ['networkmanager']
         for manager in self.passimport.importers:
+            if manager in ignore:
+                continue
             with self.subTest(manager):
                 importer = self._load_import(manager)
                 testpath, encoding = self._get_testpath(manager)
@@ -43,11 +46,21 @@ class TestImporters(setup.TestPassSimple):
 
                 self._check_imported_data(keys, importer.data, refdata)
 
+    def test_importers_networkmanager(self):
+        """Testing: importer parse method from Network Manager settings."""
+        keys = ['title', 'password']
+        testpath = os.path.join(self.db, 'networkmanager')
+        refdata = self._get_refdata(keys, '.template-wifi.csv')
+        importer = self._load_import('networkmanager')
+        importer.parse(testpath)
+        self._check_imported_data(keys, importer.data, refdata)
+
     def test_importers_format(self):
         """Testing: importer file format."""
         formaterror = (self.passimport.FormatError, AttributeError, ValueError)
+        ignore = ['dashlane', 'networkmanager']
         for manager in self.passimport.importers:
-            if manager == 'dashlane':
+            if manager in ignore:
                 continue
             with self.subTest(manager):
                 importer = self._load_import(manager)

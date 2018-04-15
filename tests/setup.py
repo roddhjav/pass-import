@@ -19,6 +19,7 @@
 import os
 import sys
 import csv
+import glob
 import shutil
 import unittest
 import importlib
@@ -41,10 +42,11 @@ class TestPassSimple(unittest.TestCase):
             print("Unable to find import.py: %s", e)
             exit(1)
 
-    def _get_refdata(self, keys):
+    def _get_refdata(self, keys, path='.template.csv'):
         refdata = []
-        reffile = os.path.join(self.db, '.template.csv')
+        reffile = os.path.join(self.db, path)
         with open(reffile, 'r', encoding='utf-8') as file:
+            print(file.name)
             reader = csv.DictReader(file, delimiter=',', quotechar='"')
             for row in reader:
                 entry = OrderedDict()
