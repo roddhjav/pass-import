@@ -19,7 +19,6 @@
 import os
 import sys
 import csv
-import glob
 import shutil
 import unittest
 import importlib
