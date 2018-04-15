@@ -565,14 +565,15 @@ class NetworkManager(PasswordManager):
             entry = OrderedDict()
             for key in self.keyslist:
                 sect, option = self.keys.get(key, '.').split('.')
-                entry[key] = ini.get(sect, option, fallback='')
+                entry[key] = ini.get(sect, option, fallback=None)
 
             if self.all:
                 for section in ini.sections():
                     for option in ini.options(section):
-                        entry[option] = ini.get(section, option, fallback='')
+                        entry[option] = ini.get(section, option, fallback=None)
 
-            self.data.append(entry)
+            if entry.get('password', None) is not None:
+                self.data.append(entry)
 
 
 class PasswordExporter(PasswordManagerCSV):
