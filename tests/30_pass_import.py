@@ -113,6 +113,11 @@ class TestPassImport(setup.TestPass):
         cmd = ['passwordexporter', self.db + '1password.csv']
         self._passimport(cmd, 1)
 
+    def test_pass_import_networkmanager(self):
+        """Testing: pass import networkmanager db/networkmanager/eduroam."""
+        cmd = ['networkmanager', self.db + 'networkmanager/eduroam']
+        self._passimport(cmd)
+
 
 if __name__ == '__main__':
     unittest.main()
