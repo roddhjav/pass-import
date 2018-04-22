@@ -714,8 +714,9 @@ def main(argv):
             importer.parse(file)
             importer.satanize(arg.clean)
         except (FormatError, AttributeError, ValueError) as e:
-            print(e)
             die("%s is not a exported %s file" % (arg.file, arg.manager))
+        except PermissionError as e:
+            die(e)
         finally:
             if arg.manager != 'networkmanager':
                 file.close()
