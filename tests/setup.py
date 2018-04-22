@@ -45,7 +45,6 @@ class TestPassSimple(unittest.TestCase):
         refdata = []
         reffile = os.path.join(self.db, path)
         with open(reffile, 'r', encoding='utf-8') as file:
-            print(file.name)
             reader = csv.DictReader(file, delimiter=',', quotechar='"')
             for row in reader:
                 entry = OrderedDict()
