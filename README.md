@@ -21,7 +21,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 19 different password managers. More manager support can easily
+import from 20 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -52,6 +52,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [keepassx][keepassx] | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
 | [keepassxc][keepassxc] | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
 | [lastpass][lastpass] | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
+| [networkmanager][networkmanager] | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
 | [password-exporter][password-exporter] | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
 | [pwsafe][pwsafe] | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
@@ -64,14 +65,15 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
   Import data from most of the password manager. Passwords
-  are imported into the existing default password store, therefore
+  are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'
 
 positional arguments:
-  manager               Can be: 1password, 1password4, chrome, dashlane,
-                        enpass, fpm, gorilla, kedpm, keepass, keepasscsv,
-                        keepassx, keepassxc, lastpass, passwordexporter,
-                        pwsafe, revelation, roboform.
+  manager               Can be: 1password, 1password4, 1password4pif,
+                        bitwarden, chrome, dashlane, enpass, fpm, gorilla,
+                        kedpm, keepass, keepasscsv, keepassx, keepassxc,
+                        lastpass, networkmanager, passwordexporter, pwsafe,
+                        revelation, roboform.
   file                  File is the path to the file that contains the data to
                         import, if empty read the data from stdin.
 
@@ -228,6 +230,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [keepassxc]: https://keepassxc.org/
 [kwallet]: https://utils.kde.org/projects/kwalletmanager/
 [lastpass]: https://www.lastpass.com/
+[networkmanager]: https://wiki.gnome.org/Projects/NetworkManager
 [password-exporter]: https://addons.mozilla.org/en-US/firefox/addon/password-exporter/
 [pwsafe]: https://pwsafe.org/
 [revelation]: https://revelation.olasagasti.info/
