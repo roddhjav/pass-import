@@ -59,7 +59,7 @@ importers = {
     'keepassx': ['KeepassX', 'https://www.keepassx.org/'],
     'keepassxc': ['KeepassXC', 'https://keepassxc.org/'],
     'lastpass': ['Lastpass', 'https://www.lastpass.com/'],
-    'networkmanager': ['NetworkManager', ''],
+    'networkmanager': ['NetworkManager', 'https://wiki.gnome.org/Projects/NetworkManager'],
     'passwordexporter': ['PasswordExporter', 'https://addons.mozilla.org/en-US/firefox/addon/password-exporter/'],
     'pwsafe': ['Pwsafe', 'https://pwsafe.org/'],
     'revelation': ['Revelation', 'https://revelation.olasagasti.info/'],
