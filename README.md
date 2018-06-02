@@ -231,7 +231,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [kwallet]: https://utils.kde.org/projects/kwalletmanager/
 [lastpass]: https://www.lastpass.com/
 [networkmanager]: https://wiki.gnome.org/Projects/NetworkManager
-[password-exporter]: https://addons.mozilla.org/en-US/firefox/addon/password-exporter/
+[password-exporter]: https://github.com/kspearrin/ff-password-exporter
 [pwsafe]: https://pwsafe.org/
 [revelation]: https://revelation.olasagasti.info/
 [roboform]: https://www.roboform.com/
