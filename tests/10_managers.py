@@ -104,13 +104,25 @@ class TestPasswordManager(setup.TestPassSimple):
                                      ('login', 'lnqYm3ZWtm')]),
                               Odict([('title', 'ovh.com'),
                                      ('password', 'VRiplZSniSBlHNnQvc9e'),
-                                     ('login', 'lnqYm3ZWtm')])]
+                                     ('login', 'lnqYm3ZWtm')]),
+                              Odict([('title', 'ovh.com'),
+                                     ('password', '[Q&$\fd]!`vKA&b'),
+                                     ('login', 'fmmhpvity')]),
+                              Odict([('title', 'ovh.com'),
+                                     ('password', 'DQm_Y+a(sDC)[1|U-S<8Dq!A'),
+                                     ('login', 'ptfzlnvmj')])]
         data_expected = [Odict([('password', 'AGJjkMPsRUqDXyUdLbC4'),
                                 ('login', 'lnqYm3ZWtm'),
                                 ('path', 'ovh.com')]),
                          Odict([('password', 'VRiplZSniSBlHNnQvc9e'),
                                 ('login', 'lnqYm3ZWtm'),
-                                ('path', 'ovh.com0')])]
+                                ('path', 'ovh.com0')]),
+                         Odict([('password', '[Q&$\fd]!`vKA&b'),
+                                ('login', 'fmmhpvity'),
+                                ('path', 'ovh.com1')]),
+                         Odict([('password', 'DQm_Y+a(sDC)[1|U-S<8Dq!A'),
+                                ('login', 'ptfzlnvmj'),
+                                ('path', 'ovh.com2')])]
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
