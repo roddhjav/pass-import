@@ -57,6 +57,7 @@ importers = {
     'keepass': ['Keepass', 'https://www.keepass.info'],
     'keepasscsv': ['KeepassCSV', 'https://www.keepass.info'],
     'keepassx': ['KeepassX', 'https://www.keepassx.org/'],
+    'keepassx2': ['KeepassX2', 'https://www.keepassx.org/'],
     'keepassxc': ['KeepassXC', 'https://keepassxc.org/'],
     'lastpass': ['Lastpass', 'https://www.lastpass.com/'],
     'networkmanager': ['NetworkManager', 'https://wiki.gnome.org/Projects/NetworkManager'],
@@ -537,9 +538,13 @@ class KeepassCSV(PasswordManagerCSV):
             'url': 'Web Site', 'comments': 'Comments'}
 
 
-class KeepassXC(PasswordManagerCSV):
+class KeepassX2(PasswordManagerCSV):
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'Notes', 'group': 'Group'}
+
+
+class KeepassXC(KeepassX2):
+    pass
 
 
 class Lastpass(PasswordManagerCSV):

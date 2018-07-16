@@ -21,7 +21,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 20 different password managers. More manager support can easily
+import from 21 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -50,6 +50,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [keepass][keepass] | *File > Export > Keepass2 (XML)* | `pass import keepass file.xml` |
 | [keepass2csv][keepass] | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
 | [keepassx][keepassx] | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
+| [keepassx2][keepassx] | *Database > Export to CSV File* | `pass import keepassx2 file.csv` |
 | [keepassxc][keepassxc] | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
 | [lastpass][lastpass] | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
 | [networkmanager][networkmanager] | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
