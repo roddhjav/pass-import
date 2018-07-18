@@ -48,6 +48,7 @@ importers = {
     '1password4pif': ['OnePassword4PIF', 'https://1password.com/'],
     'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
+    'chromesqlite': ['ChromeSQLite', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
     'enpass': ['Enpass', 'https://www.enpass.io/'],
     'fpm': ['FigaroPM', 'http://fpm.sourceforge.net/'],
@@ -419,6 +420,11 @@ class Bitwarden(PasswordManagerCSV):
 class Chrome(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url'}
+
+
+class ChromeSQLite(PasswordManagerCSV):
+    keys = {'title': 'display_name', 'password': 'password_value',
+            'login': 'username_value', 'url': 'origin_url'}
 
 
 class Dashlane(PasswordManagerCSV):

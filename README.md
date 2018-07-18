@@ -21,7 +21,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 21 different password managers. More manager support can easily
+import from 22 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -42,6 +42,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
+| [chromesqlite][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
 | [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |

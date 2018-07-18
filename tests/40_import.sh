@@ -6,9 +6,9 @@ source ./setup
 test_cleanup
 
 PASSWORDS_MANAGERS=("1password" "1password4" "1password4pif" "bitwarden"
-    "chrome" "dashlane" "enpass" "fpm" "gorilla" "kedpm" "keepass" "keepassx"
-    "keepassx2" "keepassxc" "keepasscsv" "lastpass" "networkmanager"
-    "passwordexporter" "pwsafe" "revelation" "roboform")
+    "chrome" "chromesqlite" "dashlane" "enpass" "fpm" "gorilla" "kedpm"
+    "keepass" "keepassx" "keepassx2" "keepassxc" "keepasscsv" "lastpass"
+    "networkmanager" "passwordexporter" "pwsafe" "revelation" "roboform")
 
 XML="fpm keepassx keepass pwsafe revelation kedpm"
 
