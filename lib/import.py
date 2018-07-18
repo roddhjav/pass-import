@@ -28,7 +28,6 @@ import importlib
 import configparser
 from subprocess import Popen, PIPE
 from collections import OrderedDict
-from defusedxml import ElementTree
 
 
 GREEN = '\033[32m'
@@ -104,6 +103,14 @@ def error(msg=''):
 def die(msg=''):
     error(msg)
     exit(1)
+
+
+try:
+    from defusedxml import ElementTree
+except ImportError:
+    die("""defusedxml is not present, you can install it with
+     'sudo apt-get install python3-defusedxml', or
+     'pip3 install defusedxml'""")
 
 
 class PasswordStoreError(Exception):
