@@ -14,7 +14,7 @@ all:
 	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
 	@echo "     password store"
 	@echo "     python3"
-	@echo "     python-defusedxml"
+	@echo "     python3-defusedxml"
 
 install:
 	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
