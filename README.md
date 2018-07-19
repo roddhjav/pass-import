@@ -1,16 +1,16 @@
 <h1 align="center">pass import</h1>
 <p align="center">
     <a href="https://travis-ci.org/roddhjav/pass-import">
-        <img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg"
+        <img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg?style=flat-square"
              alt="Build Status" /></a>
     <a href="https://www.codacy.com/app/roddhjav/pass-import">
-        <img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg"
+        <img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg?style=flat-square"
              alt="Code Coverage" /></a>
     <a href="https://www.codacy.com/app/roddhjav/pass-import">
-        <img src="https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg"
+        <img src="https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg?style=flat-square"
              alt="Code Quality" /></a>
     <a href="https://github.com/roddhjav/pass-import/releases/latest">
-        <img src="https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600"
+        <img src="https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600&style=flat-square"
              alt="Last Release" /></a>
 </p>
 <p align="center">
