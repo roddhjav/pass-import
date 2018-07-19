@@ -3,4 +3,8 @@ source = ../lib/import.py
 
 [report]
 exclude_lines =
+    except ImportError:
+
+    except PermissionError as e:
+
     if __name__ == .__main__.:

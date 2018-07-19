@@ -118,6 +118,11 @@ class TestPassImport(setup.TestPass):
         cmd = ['networkmanager', self.db + 'networkmanager/eduroam']
         self._passimport(cmd)
 
+    def test_pass_import_networkmanager_dir(self):
+        """Testing: pass import networkmanager db/networkmanager/."""
+        cmd = ['networkmanager', self.db + 'networkmanager/']
+        self._passimport(cmd)
+
 
 if __name__ == '__main__':
     unittest.main()
