@@ -1,7 +1,8 @@
 # Changes By Release
 
 All the releases are signed using the GPG key
-[`06A26D531D56C42D66805049C5469996F0DF68EC`](https://pujol.io/keys/). You should check the key's fingerprint and verify the signature:
+[`06A26D531D56C42D66805049C5469996F0DF68EC`](https://pujol.io/keys/). You should
+check the key's fingerprint and verify the signature:
 
 ##### Donwload and verify the release
 ```sh
@@ -19,6 +20,16 @@ cd pass-import-$VERSION
 sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
+## 2.3 - 2018-07-19
+
+* Add support for the following importers:
+  - KeepassX 2 (`keepassx2`) [#45](https://github.com/roddhjav/pass-import/issues/45)
+  - Chrome with sqlite3 (`chromesqlite`) [#42](https://github.com/roddhjav/pass-import/issues/42)
+  - NetworkManager to import wifi passwords (`networkmanager`) [#39](https://github.com/roddhjav/pass-import/pull/39)
+* Firefox: support FF-Password-Exporter instead of Password Exporter. [#40](https://github.com/roddhjav/pass-import/issues/40)
+* Add a nice error if defusedxml is not present [#24](https://github.com/roddhjav/pass-import/issues/24)
+* Add the few missing unit tests
+* Add changelog
 
 ## 2.2 - 2018-03-18
 
