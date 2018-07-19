@@ -72,10 +72,10 @@ usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
 positional arguments:
   manager               Can be: 1password, 1password4, 1password4pif,
-                        bitwarden, chrome, dashlane, enpass, fpm, gorilla,
-                        kedpm, keepass, keepasscsv, keepassx, keepassxc,
-                        lastpass, networkmanager, passwordexporter, pwsafe,
-                        revelation, roboform.
+                        bitwarden, chrome, chromesqlite, dashlane, enpass,
+                        fpm, gorilla, kedpm, keepass, keepasscsv, keepassx,
+                        keepassx2, keepassxc, lastpass, networkmanager,
+                        passwordexporter, pwsafe, revelation, roboform.
   file                  File is the path to the file that contains the data to
                         import, if empty read the data from stdin.
 

@@ -1,4 +1,4 @@
-.TH MARK 1 "January 2018" "pass-import"
+.TH MARK 1 "July 2018" "pass-import"
 
 .SH NAME
 \fBpass import\fP - A \fIpass\fP(1) extension for importing data from most of
@@ -9,17 +9,17 @@ the existing password manager.
 \fBpass import\fP [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
 
 .SH DESCRIPTION
-\fBpass import\fP is a password store extension allowing you to conveniently
-import your password database to a password store repository. It natively
-supports import from 18 different password managers. More manager support can
+\fBpass import\fP is a password store extension allowing you to import your
+password database to a password store repository conveniently. It natively
+supports import from 22 different password managers. More manager support can
 easily be added.
 
 Passwords are imported into the existing default password store, therefore
 the password store must have been initialised before with \fBpass init\fP.
 
-By default, pass imports entries at the root of the password store and only keeps
-the main data (password, login, email, URL, group). This behaviour can be changed
-using the provided options.
+By default, pass imports entries at the root of the password store and only
+keeps the main data (password, login, email, URL, group). This behaviour can be
+changed using the provided options.
 
 Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
 
@@ -103,7 +103,7 @@ Show usage message.
 \fB1password\fP
 Website: \fIhttps://1password.com/\fP
 
-Export: Select all items [Ctrl+A]: Click Right> Settings> Export: CSV
+Export: See \fIhttps://support.1password.com/export/\fP
 
 Command: pass import 1password file.xml
 
@@ -114,6 +114,14 @@ Website: \fIhttps://1password.com/\fP
 Export: File > Export: CSV
 
 Command: pass import 1password4 file.xml
+
+.TP
+\fB1password4pif\fP
+Website: \fIhttps://1password.com/\fP
+
+Export: File > Export: 1PIF
+
+Command: pass import 1password4pif file.1pif
 
 .TP
 \fBbitwarden\fP
@@ -129,7 +137,15 @@ Website: \fIhttps://support.google.com/chrome\fP
 
 Export: See \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
 
-Command: pass import chrome file.xml
+Command: pass import chrome file.csv
+
+.TP
+\fBchromesqlite\fP
+Website: \fIhttps://support.google.com/chrome\fP
+
+Export: See \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
+
+Command: pass import chrome file.csv
 
 .TP
 \fBdashlane\fP
@@ -196,6 +212,14 @@ Export: File > Export to > Keepass XML File
 Command: pass import keepassx file.xml
 
 .TP
+\fBkeepassx2\fP
+Website: \fIhttps://www.keepassx.org/\fP
+
+Export: Database > Export to CSV File
+
+Command: pass import keepassx2 file.csv
+
+.TP
 \fBkeepassxc\fP
 Website: \fIhttps://keepassxc.org/\fP
 
@@ -212,10 +236,23 @@ Export: More Options > Advanced > Export
 Command: pass import lastpass file.csv
 
 .TP
-\fBpasswordexporter\fP
-Website: \fIhttps://addons.mozilla.org/en-US/firefox/addon/password-exporter/\fP
+\fBnetworkmanager\fP
+Website: \fIhttps://wiki.gnome.org/Projects/NetworkManager\fP
 
-Export: Add-ons Prefs: Export Passwords: CSV
+Support import from the installed network configuration but also from specific
+directory of networkmanger configuration file and from given file.
+
+Command: pass import networkmanager
+
+From directory of ini file: pass import networkmanager dir/
+
+From ini file: pass import networkmanager file.ini
+
+.TP
+\fBpasswordexporter\fP
+Website: \fIhttps://github.com/kspearrin/ff-password-exporter\fP
+
+Export: Export File Format > CSV
 
 Command: pass import passwordexporter file.csv
 
@@ -320,14 +357,15 @@ Otherwise, if your password manager does not have this command line option, you 
 .B zx2c4@laptop ~ $ srm data.csv
 
 .TP
-You might also want to update the passwords imported using \fBpass update\fP.
+You might also want to update the passwords imported using \fBpass update(1)\fP.
 
 
 .SH SEE ALSO
 .BR pass(1),
 .BR pass-tomb(1),
 .BR pass-update(1),
-.BR pass-otp(1)
+.BR pass-otp(1),
+.BR pass-audit(1).
 
 
 .SH AUTHORS
