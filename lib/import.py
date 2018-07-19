@@ -726,7 +726,7 @@ def main(argv):
         try:
             importer.parse(file)
             importer.satanize(arg.clean)
-        except (FormatError, AttributeError, ValueError) as e:
+        except (FormatError, AttributeError, ValueError):
             die("%s is not a exported %s file" % (arg.file, arg.manager))
         except PermissionError as e:
             die(e)
