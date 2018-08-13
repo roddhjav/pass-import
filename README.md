@@ -21,7 +21,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 22 different password managers. More manager support can easily
+import from 23 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -59,6 +59,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [pwsafe][pwsafe] | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
 | [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
+| [upm][upm] | *Database > Export* | `pass import upm file.csv` |
 
 
 ## Usage
@@ -237,6 +238,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [pwsafe]: https://pwsafe.org/
 [revelation]: https://revelation.olasagasti.info/
 [roboform]: https://www.roboform.com/
+[upm]: http://upm.sourceforge.net/
 
 [bp]: https://github.com/dannyvankooten/browserpass
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/

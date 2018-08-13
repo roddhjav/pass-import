@@ -58,7 +58,7 @@ class TestImporters(setup.TestPassSimple):
     def test_importers_format(self):
         """Testing: importer file format."""
         formaterror = (self.passimport.FormatError, AttributeError, ValueError)
-        ignore = ['dashlane', 'networkmanager']
+        ignore = ['dashlane', 'networkmanager', 'upm']
         for manager in self.passimport.importers:
             if manager in ignore:
                 continue

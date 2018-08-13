@@ -65,6 +65,7 @@ importers = {
     'pwsafe': ['Pwsafe', 'https://pwsafe.org/'],
     'revelation': ['Revelation', 'https://revelation.olasagasti.info/'],
     'roboform': ['Roboform', 'https://www.roboform.com/'],
+    'upm': ['UPM', 'http://upm.sourceforge.net/'],
 }
 
 
@@ -653,6 +654,11 @@ class Revelation(PasswordManagerXML):
 class Roboform(PasswordManagerCSV):
     keys = {'title': 'Name', 'password': 'Pwd', 'login': 'Login', 'url': 'Url',
             'comments': 'Note', 'group': 'Folder'}
+
+class UPM(PasswordManagerCSV):
+    fieldnames = ['title', 'login', 'password', 'url', 'comments']
+    keys = {'title': 'title', 'password': 'password', 'login': 'login',
+            'url': 'url', 'comments': 'comments'}
 
 
 def main(argv):
