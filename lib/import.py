@@ -500,7 +500,10 @@ class KeepassX(PasswordManagerXML):
     def _getpath(cls, element, path=''):
         res = ''
         if element.tag != 'database':
-            res = os.path.join(path, element.find('title').text)
+	    if element.find('title').text:
+                res = os.path.join(path, element.find('title').text)
+            else:
+                res = os.path.join(path, 'untitled')
         return res
 
     def _import(self, element, path=''):
