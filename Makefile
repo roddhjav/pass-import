@@ -6,6 +6,9 @@ SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 EXTENSION_LIB ?= $(LIBDIR)/password-store/$(PROG)
 MANDIR ?= $(PREFIX)/share/man
 
+BASHCOMPDIR ?= /etc/bash_completion.d
+ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
+
 all:
 	@echo "pass-$(PROG) is a shell script and does not need compilation, it can be simply executed."
 	@echo
@@ -20,10 +23,13 @@ install:
 	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
 	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
 	@install -v -d "$(DESTDIR)$(EXTENSION_LIB)/"
+	@install -v -d "$(DESTDIR)$(BASHCOMPDIR)" "$(DESTDIR)$(ZSHCOMPDIR)"
 	@trap 'rm -f .import.bash' EXIT; sed "s|/usr/lib|$(LIBDIR)|" "$(PROG).bash" > ".$(PROG).bash" && \
 	install -v -m 0755 ".$(PROG).bash" "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
 	@install -v -m 0755 "lib/$(PROG).py" "$(DESTDIR)$(EXTENSION_LIB)/$(PROG).py"
 	@install -v -m 0644 "pass-$(PROG).1" "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
+	@install -v -m 0644 completion/pass-$(PROG).bash "$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
+	@install -v -m 0644 completion/pass-$(PROG).zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
 	@echo
 	@echo "pass-$(PROG) is installed succesfully"
 	@echo
@@ -33,6 +39,8 @@ uninstall:
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
 		"$(DESTDIR)$(EXTENSION_LIB)" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
+		"$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)" \
+		"$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
 
 tests:
 	make -C tests
