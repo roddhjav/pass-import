@@ -30,18 +30,6 @@ from subprocess import Popen, PIPE
 from collections import OrderedDict
 
 
-GREEN = '\033[32m'
-YELLOW = '\033[33m'
-MAGENTA = '\033[35m'
-BRED = '\033[1m\033[91m'
-BGREEN = '\033[1m\033[92m'
-BYELLOW = '\033[1m\033[93m'
-BMAGENTA = '\033[1m\033[95m'
-BOLD = '\033[1m'
-END = '\033[0m'
-VERBOSE = False
-QUIET = False
-
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
@@ -71,46 +59,61 @@ importers = {
 
 def list_importers():
     return ', '.join(list(importers.keys())) + '.'
+class Msg():
+    """General class to manage output messages."""
+    green = '\033[32m'
+    yellow = '\033[33m'
+    magenta = '\033[35m'
+    Bred = '\033[1m\033[91m'
+    Bgreen = '\033[1m\033[92m'
+    Byellow = '\033[1m\033[93m'
+    Bmagenta = '\033[1m\033[95m'
+    Bold = '\033[1m'
+    end = '\033[0m'
 
+    def __init__(self, verbose=False, quiet=False):
+        self.verb = verbose
+        self.quiet = quiet
+        if self.quiet:
+            self.verb = False
 
-def verbose(title='', msg=''):
-    if VERBOSE:
-        print("%s  .  %s%s%s: %s%s" % (BMAGENTA, END, MAGENTA, title, END, msg))
+    def verbose(self, title='', msg=''):
+        if self.verb:
+            print("%s  .  %s%s%s: %s%s" % (self.Bmagenta, self.end,
+                                           self.magenta, title, self.end, msg))
 
+    def message(self, msg=''):
+        if not self.quiet:
+            print("%s  .  %s%s" % (self.Bold, self.end, msg))
 
-def message(msg=''):
-    if not QUIET:
-        print("%s  .  %s%s" % (BOLD, END, msg))
+    def echo(self, msg=''):
+        if not self.quiet:
+            print("       %s" % msg)
 
+    def success(self, msg=''):
+        if not self.quiet:
+            print("%s (*) %s%s%s%s" % (self.Bgreen, self.end,
+                                       self.green, msg, self.end))
 
-def msg(msg=''):
-    if not QUIET:
-        print("       %s" % msg)
+    def warning(self, msg=''):
+        if not self.quiet:
+            print("%s  w  %s%s%s%s" % (self.Byellow, self.end,
+                                       self.yellow, msg, self.end))
 
+    def error(self, msg=''):
+        print("%s [x] %s%sError: %s%s" % (self.Bred, self.end,
+                                          self.Bold, self.end, msg))
 
-def success(msg=''):
-    if not QUIET:
-        print("%s (*) %s%s%s%s" % (BGREEN, END, GREEN, msg, END))
-
-
-def warning(msg=''):
-    if not QUIET:
-        print("%s  w  %s%s%s%s" % (BYELLOW, END, YELLOW, msg, END))
-
-
-def error(msg=''):
-    print("%s [x] %s%sError: %s%s" % (BRED, END, BOLD, END, msg))
-
-
-def die(msg=''):
-    error(msg)
-    exit(1)
+    def die(self, msg=''):
+        self.error(msg)
+        exit(1)
 
 
 try:
     from defusedxml import ElementTree
-except ImportError:
-    die("""defusedxml is not present, you can install it with
+except (ImportError, ModuleNotFoundError):
+    msg = Msg()
+    msg.die("""defusedxml is not present, you can install it with
      'sudo apt-get install python3-defusedxml', or
      'pip3 install defusedxml'""")
 
@@ -698,26 +701,19 @@ def main(argv):
                         help='Show the program version and exit.')
 
     arg = parser.parse_args(argv)
-
-    # Manage verbose & quiet messages
-    if arg.quiet:
-        arg.verbose = False
-    global VERBOSE
-    global QUIET
-    VERBOSE = arg.verbose
-    QUIET = arg.quiet
+    msg = Msg(arg.verbose, arg.quiet)
 
     if arg.list:
         # List supported password managers
-        success("The %s supported password managers are:" % len(importers))
+        msg.success("The %s supported password managers are:" % len(importers))
         for name, value in importers.items():
-            message("%s%s%s - %s" % (BOLD, name, END, value[1]))
+            msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
     else:
         # Sanity checks
         if arg.manager is None:
-            die("password manager not present. See 'pass import -h'")
+            msg.die("password manager not present. See 'pass import -h'")
         if arg.manager not in importers:
-            die("%s is not a supported password manager" % arg.manager)
+            msg.die("%s is not a supported password manager" % arg.manager)
         if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
             file = arg.file
         elif arg.file is None:
@@ -726,7 +722,7 @@ def main(argv):
             encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
             file = open(arg.file, 'r', encoding=encoding)
         else:
-            die("%s is not a file" % arg.file)
+            msg.die("%s is not a file" % arg.file)
 
         # Import and clean data
         ImporterClass = getattr(importlib.import_module('import'),
@@ -736,9 +732,9 @@ def main(argv):
             importer.parse(file)
             importer.satanize(arg.clean)
         except (FormatError, AttributeError, ValueError):
-            die("%s is not a exported %s file" % (arg.file, arg.manager))
+            msg.die("%s is not a exported %s file" % (arg.file, arg.manager))
         except PermissionError as e:
-            die(e)
+            msg.die(e)
         finally:
             if arg.manager != 'networkmanager':
                 file.close()
@@ -746,33 +742,33 @@ def main(argv):
         # Insert data into the password store
         store = PasswordStore()
         if not store.exist():
-            die("password store not initialized")
+            msg.die("password store not initialized")
         for entry in importer.data:
             try:
                 passpath = os.path.join(arg.root, entry['path'])
                 data = importer.get(entry)
-                verbose("Path", passpath)
-                verbose("Data", data.replace('\n', '\n           '))
+                msg.verbose("Path", passpath)
+                msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
             except PasswordStoreError as e:
                 warning("Impossible to insert %s into the store: %s"
                         % (passpath, e))
 
         # Success!
-        success("Importing passwords from %s" % arg.manager)
+        msg.success("Importing passwords from %s" % arg.manager)
         if arg.file is None:
             arg.file = 'read from stdin'
-        message("File: %s" % arg.file)
+        msg.message("File: %s" % arg.file)
         if arg.root != '':
-            message("Root path: %s" % arg.root)
-        message("Number of password imported: %s" % len(importer.data))
+            msg.message("Root path: %s" % arg.root)
+        msg.message("Number of password imported: %s" % len(importer.data))
         if arg.clean:
-            message("Imported data cleaned")
+            msg.message("Imported data cleaned")
         if arg.extra:
-            message("Extra data conserved")
-        message("Passwords imported:")
+            msg.message("Extra data conserved")
+        msg.message("Passwords imported:")
         for entry in importer.data:
-            msg(os.path.join(arg.root, entry['path']))
+            msg.echo(os.path.join(arg.root, entry['path']))
 
 
 if __name__ == "__main__":
