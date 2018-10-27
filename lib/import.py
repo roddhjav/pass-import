@@ -117,7 +117,7 @@ class Msg():
 
 try:
     from defusedxml import ElementTree
-except (ImportError, ModuleNotFoundError):
+except (ImportError, ModuleNotFoundError):  # pragma: no cover
     msg = Msg()
     msg.die("""defusedxml is not present, you can install it with
      'sudo apt-get install python3-defusedxml', or
