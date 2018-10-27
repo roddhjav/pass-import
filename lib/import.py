@@ -57,6 +57,14 @@ importers = {
 }
 
 
+class PasswordStoreError(Exception):
+    """Error in the execution of password store."""
+
+
+class FormatError(Exception):
+    """Password importer format (XML or CSV) not recognized."""
+
+
 class Msg():
     """General class to manage output messages."""
     green = '\033[32m'
@@ -114,14 +122,6 @@ except (ImportError, ModuleNotFoundError):
     msg.die("""defusedxml is not present, you can install it with
      'sudo apt-get install python3-defusedxml', or
      'pip3 install defusedxml'""")
-
-
-class PasswordStoreError(Exception):
-    """Error in the execution of password store."""
-
-
-class FormatError(Exception):
-    """Password importer format (XML or CSV) not recognized."""
 
 
 class PasswordStore():
