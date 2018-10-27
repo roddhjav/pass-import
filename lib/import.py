@@ -57,8 +57,6 @@ importers = {
 }
 
 
-def list_importers():
-    return ', '.join(list(importers.keys())) + '.'
 class Msg():
     """General class to manage output messages."""
     green = '\033[32m'
@@ -678,7 +676,8 @@ def main(argv):
     epilog="More information may be found in the pass-import(1) man page.")
 
     parser.add_argument('manager', type=str, nargs='?',
-                        help="Can be: %s" % list_importers())
+                        help="Can be: %s"
+                        % ', '.join(list(importers.keys())) + '.')
     parser.add_argument('file', type=str, nargs='?',
                         help="""File is the path to the file that contains the
                         data to import, if empty read the data from stdin.""")
