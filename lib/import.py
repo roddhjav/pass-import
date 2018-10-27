@@ -659,6 +659,7 @@ class Roboform(PasswordManagerCSV):
     keys = {'title': 'Name', 'password': 'Pwd', 'login': 'Login', 'url': 'Url',
             'comments': 'Note', 'group': 'Folder'}
 
+
 class UPM(PasswordManagerCSV):
     fieldnames = ['title', 'login', 'password', 'url', 'comments']
     keys = {'title': 'title', 'password': 'password', 'login': 'login',
@@ -750,8 +751,8 @@ def main(argv):
                 msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
             except PasswordStoreError as e:
-                warning("Impossible to insert %s into the store: %s"
-                        % (passpath, e))
+                msg.warning("Impossible to insert %s into the store: %s"
+                            % (passpath, e))
 
         # Success!
         msg.success("Importing passwords from %s" % arg.manager)
