@@ -80,11 +80,6 @@ class TestPassImport(setup.TestPass):
         cmd = ['1password', self.db + '1password.csv', '--verbose']
         self._passimport(cmd)
 
-    def test_pass_import_FromStdin(self):
-        """Testing: pass import 1password."""
-        cmd = ['dashlane', '--quiet']
-        self._passimport(cmd)
-
     def test_pass_import_root(self):
         """Testing: pass import 1password db/1password.csv --path root."""
         cmd = ['1password', self.db + '1password.csv', '--path', 'root']
