@@ -1,0 +1,3 @@
+include import.bash
+include pass-import.1
+include README.md CHANGELOG.md
