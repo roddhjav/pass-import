@@ -17,12 +17,7 @@ setup(
     description="A pass extension for importing data from most of the existing password manager.",
     license='GPL3',
 
-    py_modules=["lib/import"],
-    data_files=[
-        ('lib/password-store/extensions', ['import.bash']),
-        ('share/man/man1/', ['pass-import.1']),
-        ('share/doc/pass-import', ['README.md', 'CHANGELOG.md']),
-        ],
+    py_modules=['pass_import'],
 
     install_requires=[
         'defusedxml'
