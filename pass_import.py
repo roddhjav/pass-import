@@ -29,6 +29,7 @@ import configparser
 from subprocess import Popen, PIPE
 from collections import OrderedDict
 
+__version__ = '2.4a'
 
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
@@ -697,7 +698,7 @@ def main(argv):
     parser.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Be verbose.')
     parser.add_argument('-V', '--version', action='version',
-                        version='%(prog)s 2.3',
+                        version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
 
     arg = parser.parse_args(argv)

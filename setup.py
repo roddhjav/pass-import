@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
+from pass_import import __version__
 
-VERSION = '2.3'
 URL = 'https://github.com/roddhjav/pass-import'
 
 setup(
     name="pass-import",
-    version=VERSION,
+    version=__version__,
     author="Alexandre Pujol",
     author_email="alexandre@pujol.io",
     url=URL,
     download_url="%s/releases/download/v%s/pass-import-%s.tar.gz"
-                 % (URL, VERSION, VERSION),
+                 % (URL, __version__, __version__),
     description="A pass extension for importing data from most of the existing password manager.",
     license='GPL3',
 
