@@ -20,11 +20,12 @@ import unittest
 from collections import OrderedDict as Odict
 import setup
 
+import pass_import
 
 class TestPasswordManager(setup.TestPassSimple):
 
     def setUp(self):
-        self.importer = self.passimport.PasswordManager()
+        self.importer = pass_import.PasswordManager()
         self.importer.data = [Odict([('title', 'twitter.com'),
                                      ('password', 'UuQHzvv6IHRIJGjwKru7'),
                                      ('login', 'lnqYm3ZWtm'),

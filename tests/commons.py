@@ -17,12 +17,11 @@
 #
 
 import os
-import sys
 import csv
 import shutil
 import unittest
-import importlib
 from collections import OrderedDict
+import pass_import
 
 
 class TestPassSimple(unittest.TestCase):
@@ -30,16 +29,6 @@ class TestPassSimple(unittest.TestCase):
     gpgid = "D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
     xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation', 'kedpm']
     db = "db/"
-
-    @classmethod
-    def setUpClass(cls):
-        # Getting pass-import module
-        try:
-            sys.path.append('../lib')
-            cls.passimport = importlib.import_module('import')
-        except Exception as e:
-            print("Unable to find import.py: %s", e)
-            exit(1)
 
     def _get_refdata(self, keys, path='.template.csv'):
         refdata = []
@@ -90,10 +79,6 @@ class TestPassSimple(unittest.TestCase):
 class TestPass(TestPassSimple):
     @classmethod
     def setUpClass(cls):
-        # Getting pass-import module
-        super(TestPass, cls).setUpClass()
-
-        # Pass binary
         os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
         # GPG Config
@@ -110,7 +95,7 @@ class TestPass(TestPassSimple):
         testname = self.id().split('_').pop() + '-store'
         os.environ['PASSWORD_STORE_DIR'] = os.path.join(self.tmp, testname)
         os.makedirs(os.environ['PASSWORD_STORE_DIR'], exist_ok=True)
-        self.store = self.passimport.PasswordStore()
+        self.store = pass_import.PasswordStore()
 
     def _passinit(self):
         with open(os.path.join(self.store.prefix, '.gpg-id'), 'w') as file:

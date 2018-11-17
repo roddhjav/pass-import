@@ -21,6 +21,7 @@ import unittest
 from io import StringIO
 from contextlib import contextmanager
 import setup
+import pass_import
 
 
 @contextmanager
@@ -37,7 +38,7 @@ def captured_output():
 class TestMsg(setup.TestPassSimple):
 
     def setUp(self):
-        self.msg = self.passimport.Msg(False, False)
+        self.msg = pass_import.Msg(False, False)
 
     def test_verbose(self):
         """Testing: message verbose."""
@@ -46,7 +47,7 @@ class TestMsg(setup.TestPassSimple):
             message = out.getvalue().strip()
         self.assertEqual(message, '')
 
-        msg = self.passimport.Msg(True, False)
+        msg = pass_import.Msg(True, False)
         with captured_output() as (out, err):
             msg.verbose('pass', 'verbose message')
             message = out.getvalue().strip()
@@ -61,7 +62,7 @@ class TestMsg(setup.TestPassSimple):
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
         print(message)
 
-        msg = self.passimport.Msg(True, True)
+        msg = pass_import.Msg(True, True)
         with captured_output() as (out, err):
             msg.message('classic message')
             message = out.getvalue().strip()

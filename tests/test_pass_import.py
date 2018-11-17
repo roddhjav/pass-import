@@ -19,6 +19,7 @@
 import os
 import unittest
 import setup
+import pass_import
 
 
 class TestPassImport(setup.TestPass):
@@ -28,10 +29,10 @@ class TestPassImport(setup.TestPass):
 
     def _passimport(self, cmd, code=None):
         if code is None:
-            self.passimport.main(cmd)
+            pass_import.main(cmd)
         else:
             with self.assertRaises(SystemExit) as cm:
-                self.passimport.main(cmd)
+                pass_import.main(cmd)
             self.assertEqual(cm.exception.code, code)
 
     def test_pass_import_list(self):

@@ -20,6 +20,7 @@ import os
 import shutil
 import unittest
 import setup
+import pass_import
 
 
 class TestPassStore(setup.TestPass):
@@ -28,8 +29,8 @@ class TestPassStore(setup.TestPass):
         """Testing: no prefix & binary."""
         os.environ.pop('PASSWORD_STORE_DIR', None)
         os.environ.pop('PASSWORD_STORE_BIN', None)
-        with self.assertRaises(self.passimport.PasswordStoreError):
-            self.passimport.PasswordStore()
+        with self.assertRaises(pass_import.PasswordStoreError):
+            pass_import.PasswordStore()
         os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
     def test_environment_variables(self):
@@ -41,7 +42,7 @@ class TestPassStore(setup.TestPass):
     def test_exist(self):
         """Testing: store not initialized."""
         self.assertFalse(self.store.exist())
-        with self.assertRaises(self.passimport.PasswordStoreError):
+        with self.assertRaises(pass_import.PasswordStoreError):
             self.store.insert("Test/test", "dummy")
         self._passinit()
         self.assertTrue(self.store.exist())
@@ -59,7 +60,7 @@ class TestPassStore(setup.TestPass):
         self.test_insert()
         path = "Test/test"
         entry2 = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a second comment\n"
-        with self.assertRaises(self.passimport.PasswordStoreError):
+        with self.assertRaises(pass_import.PasswordStoreError):
             self.store.insert(path, entry2, force=False)
         self.store.insert(path, entry2, force=True)
         self.assertEqual(self.store._pass(['show', path]), entry2)
