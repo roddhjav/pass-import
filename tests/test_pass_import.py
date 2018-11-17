@@ -17,12 +17,11 @@
 #
 
 import os
-import unittest
-import setup
 import pass_import
+from tests.commons import TestPass
 
 
-class TestPassImport(setup.TestPass):
+class TestPassImport(TestPass):
     def setUp(self):
         super(TestPassImport, self).setUp()
         self._passinit()
@@ -118,7 +117,3 @@ class TestPassImport(setup.TestPass):
         """Testing: pass import networkmanager db/networkmanager/."""
         cmd = ['networkmanager', self.db + 'networkmanager/']
         self._passimport(cmd)
-
-
-if __name__ == '__main__':
-    unittest.main()

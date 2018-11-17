@@ -16,13 +16,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import unittest
 from collections import OrderedDict as Odict
-import setup
 
 import pass_import
+from tests.commons import TestPassSimple
 
-class TestPasswordManager(setup.TestPassSimple):
+
+class TestPasswordManager(TestPassSimple):
 
     def setUp(self):
         self.importer = pass_import.PasswordManager()
@@ -126,7 +126,3 @@ class TestPasswordManager(setup.TestPassSimple):
                                 ('path', 'ovh.com2')])]
         self.importer.satanize(clean=False)
         self.assertTrue(self.importer.data == data_expected)
-
-
-if __name__ == '__main__':
-    unittest.main()

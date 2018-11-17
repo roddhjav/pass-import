@@ -17,11 +17,11 @@
 #
 
 import sys
-import unittest
 from io import StringIO
 from contextlib import contextmanager
-import setup
+
 import pass_import
+from tests.commons import TestPassSimple
 
 
 @contextmanager
@@ -35,7 +35,7 @@ def captured_output():
         sys.stdout, sys.stderr = old_out, old_err
 
 
-class TestMsg(setup.TestPassSimple):
+class TestMsg(TestPassSimple):
 
     def setUp(self):
         self.msg = pass_import.Msg(False, False)
@@ -109,7 +109,3 @@ class TestMsg(setup.TestPassSimple):
             self.assertEqual(cm.exception.code, 1)
         self.assertEqual(message, '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0mcritical error')
         print(message)
-
-
-if __name__ == '__main__':
-    unittest.main()

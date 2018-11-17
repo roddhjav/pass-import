@@ -17,12 +17,11 @@
 #
 
 import os
-import unittest
-import setup
 import pass_import
+from tests.commons import TestPassSimple
 
 
-class TestImporters(setup.TestPassSimple):
+class TestImporters(TestPassSimple):
 
     def _load_import(self, manager):
         """Load importer class."""
@@ -71,7 +70,3 @@ class TestImporters(setup.TestPassSimple):
                 with self.assertRaises(formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
                         importer.parse(file)
-
-
-if __name__ == '__main__':
-    unittest.main()

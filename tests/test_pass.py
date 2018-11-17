@@ -18,12 +18,11 @@
 
 import os
 import shutil
-import unittest
-import setup
 import pass_import
+from tests.commons import TestPass
 
 
-class TestPassStore(setup.TestPass):
+class TestPassStore(TestPass):
 
     def test_environment_no_prefix(self):
         """Testing: no prefix & binary."""
@@ -64,7 +63,3 @@ class TestPassStore(setup.TestPass):
             self.store.insert(path, entry2, force=False)
         self.store.insert(path, entry2, force=True)
         self.assertEqual(self.store._pass(['show', path]), entry2)
-
-
-if __name__ == '__main__':
-    unittest.main()
