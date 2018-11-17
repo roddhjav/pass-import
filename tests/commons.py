@@ -28,7 +28,7 @@ class TestPassSimple(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
     gpgid = "D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
     xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation', 'kedpm']
-    db = "db/"
+    db = "tests/db/"
 
     def _get_refdata(self, keys, path='.template.csv'):
         refdata = []
@@ -84,7 +84,7 @@ class TestPass(TestPassSimple):
         # GPG Config
         if 'GPG_AGENT_INFO' in os.environ:
             os.environ.pop('GPG_AGENT_INFO', None)
-        os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), 'gnupg')
+        os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), 'tests/gnupg')
 
         # Tests directories
         cls.tmp = os.path.join(cls.tmp, cls.__name__[8:].lower())
