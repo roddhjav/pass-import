@@ -1,0 +1,43 @@
+---
+
+stages:
+  - lint
+  - test
+
+bash:
+  stage: lint
+  image: koalaman/shellcheck-alpine
+  script:
+    - shellcheck --shell=bash import.bash
+
+python:
+  stage: lint
+  image: python:latest
+  before_script:
+    - pip install prospector[with_everything] defusedxml
+  script:
+    - make lint
+
+sast:
+  stage: lint
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:stable-dind
+  script:
+    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+    - docker run
+        --env SAST_CONFIDENCE_LEVEL="${SAST_BRAKEMAN_LEVEL:-1}"
+        --volume "$PWD:/code"
+        --volume /var/run/docker.sock:/var/run/docker.sock
+        "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
+
+tests:
+  stage: test
+  image: archlinux/base
+  before_script:
+    - pacman -Syu --noconfirm --noprogressbar make python-pip pass
+    - pip install green coverage defusedxml
+  script:
+    - make tests
