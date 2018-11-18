@@ -79,8 +79,6 @@ class TestPassSimple(unittest.TestCase):
 class TestPass(TestPassSimple):
     @classmethod
     def setUpClass(cls):
-        os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
-
         # GPG Config
         if 'GPG_AGENT_INFO' in os.environ:
             os.environ.pop('GPG_AGENT_INFO', None)

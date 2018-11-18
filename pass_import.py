@@ -23,6 +23,7 @@ import sys
 import csv
 import json
 import glob
+import shutil
 import argparse
 import importlib
 import configparser
@@ -130,6 +131,7 @@ class PasswordStore():
     Supports all the environment variables.
     """
     def __init__(self):
+        self.passbinary = shutil.which('pass')
         self.env = dict(**os.environ)
         self._setenv('PASSWORD_STORE_DIR')
         self._setenv('PASSWORD_STORE_KEY')
@@ -146,13 +148,10 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_EXTENSIONS_DIR', 'EXTENSIONS')
         self._setenv('PASSWORD_STORE_SIGNING_KEY')
         self._setenv('GNUPGHOME')
-        self._setenv('PASSWORD_STORE_BIN')
 
-        mandatory = ['PASSWORD_STORE_DIR', 'PASSWORD_STORE_BIN']
-        if not all(x in self.env for x in mandatory):
-            raise PasswordStoreError("pass prefix or binary unknown")
+        if 'PASSWORD_STORE_DIR' not in self.env:
+            raise PasswordStoreError("pass prefix unknown")
         self.prefix = self.env['PASSWORD_STORE_DIR']
-        self.passbinary = self.env['PASSWORD_STORE_BIN']
 
     def _setenv(self, var, env=None):
         """Add var in the environment variables dictionary."""

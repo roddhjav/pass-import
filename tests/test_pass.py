@@ -17,7 +17,6 @@
 #
 
 import os
-import shutil
 
 from .. import pass_import
 from tests.commons import TestPass
@@ -26,17 +25,14 @@ from tests.commons import TestPass
 class TestPassStore(TestPass):
 
     def test_environment_no_prefix(self):
-        """Testing: no prefix & binary."""
+        """Testing: no prefix."""
         os.environ.pop('PASSWORD_STORE_DIR', None)
-        os.environ.pop('PASSWORD_STORE_BIN', None)
         with self.assertRaises(pass_import.PasswordStoreError):
             pass_import.PasswordStore()
-        os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
 
     def test_environment_variables(self):
         """Testing: environment variables."""
         self.assertEqual(self.store.env['PASSWORD_STORE_DIR'], os.environ['PASSWORD_STORE_DIR'])
-        self.assertEqual(self.store.env['PASSWORD_STORE_BIN'], os.environ['PASSWORD_STORE_BIN'])
         self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])
 
     def test_exist(self):
