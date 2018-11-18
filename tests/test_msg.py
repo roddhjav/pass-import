@@ -60,6 +60,7 @@ class TestMsg(TestPassSimple):
         with captured_output() as (out, err):
             self.msg.message('classic message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
         print(message)
 
@@ -67,6 +68,7 @@ class TestMsg(TestPassSimple):
         with captured_output() as (out, err):
             msg.message('classic message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '')
 
     def test_echo(self):
@@ -74,6 +76,7 @@ class TestMsg(TestPassSimple):
         with captured_output() as (out, err):
             self.msg.echo('smal echo')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, 'smal echo')
         print(message)
 
@@ -82,6 +85,7 @@ class TestMsg(TestPassSimple):
         with captured_output() as (out, err):
             self.msg.success('success message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[92m (*) \x1b[0m\x1b[32msuccess message\x1b[0m')
         print(message)
 
@@ -90,6 +94,7 @@ class TestMsg(TestPassSimple):
         with captured_output() as (out, err):
             self.msg.warning('warning message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[93m  w  \x1b[0m\x1b[33mwarning message\x1b[0m')
         print(message)
 
@@ -98,6 +103,7 @@ class TestMsg(TestPassSimple):
         with captured_output() as (out, err):
             self.msg.error('error message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0merror message')
         print(message)
 
@@ -108,5 +114,6 @@ class TestMsg(TestPassSimple):
                 self.msg.die('critical error')
             message = out.getvalue().strip()
             self.assertEqual(cm.exception.code, 1)
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0mcritical error')
         print(message)
