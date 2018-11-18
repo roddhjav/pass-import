@@ -37,6 +37,9 @@ mccabe:
     max-complexity: 20
 
 pep8:
+  disable:
+   - W605
+
   options:
     max-line-length: 99
     single-line-if-stmt: n
