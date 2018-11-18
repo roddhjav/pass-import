@@ -30,6 +30,7 @@ uninstall:
 
 tests:
 	@python setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
+	@make -C tests
 
 lint:
 	@prospector --profile .prospector.yaml \

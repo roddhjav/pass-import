@@ -33,11 +33,11 @@ sast:
         --volume /var/run/docker.sock:/var/run/docker.sock
         "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
 
-tests:
+archlinux:
   stage: test
   image: archlinux/base
   before_script:
-    - pacman -Syu --noconfirm --noprogressbar make python-pip pass
+    - pacman -Syu --noconfirm --noprogressbar make python-pip which grep pass
     - pip install green coverage defusedxml
   script:
     - make tests
