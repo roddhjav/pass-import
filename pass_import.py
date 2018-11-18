@@ -577,12 +577,12 @@ class NetworkManager(PasswordManager):
     keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
             'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
 
-    def parse(self, file):
-        if isinstance(file, io.IOBase):
-            files = [file]
+    def parse(self, data):
+        if isinstance(data, io.IOBase):
+            files = [data]
         else:
-            file = self.etc if file is None else file
-            files = [open(path, 'r') for path in glob.glob(file + '/*')]
+            data = self.etc if data is None else data
+            files = [open(path, 'r') for path in glob.glob(data + '/*')]
 
         for file in files:
             ini = configparser.ConfigParser()
