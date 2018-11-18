@@ -155,7 +155,7 @@ class PasswordStore():
         self.passbinary = self.env['PASSWORD_STORE_BIN']
 
     def _setenv(self, var, env=None):
-        """Add var in the environment variables directory."""
+        """Add var in the environment variables dictionary."""
         if env is None:
             env = var
         if env in os.environ:

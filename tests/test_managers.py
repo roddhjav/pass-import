@@ -45,10 +45,10 @@ class TestPasswordManager(TestPassSimple):
 
     def test_get_data(self):
         """Testing: convert dict to password entry."""
-        entry = Odict([('password', 'EaP:bCmLZliqa|]WR/#HZP-aa'),
+        entry = Odict([('password', 'EaP:bCmLZliqa|]WR/#HZP'),
                        ('login', 'roddhjav'),
                        ('comments', 'This is a comment')])
-        entry_expected = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a comment\n"
+        entry_expected = "EaP:bCmLZliqa|]WR/#HZP\nlogin: roddhjav\ncomments: This is a comment\n"
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
     def test_get_empty(self):

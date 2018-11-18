@@ -4,16 +4,16 @@
 from setuptools import setup
 from pass_import import __version__
 
-URL = 'https://github.com/roddhjav/pass-import'
+__url__ = 'https://github.com/roddhjav/pass-import'
 
 setup(
     name="pass-import",
     version=__version__,
     author="Alexandre Pujol",
     author_email="alexandre@pujol.io",
-    url=URL,
+    url=__url__,
     download_url="%s/releases/download/v%s/pass-import-%s.tar.gz"
-                 % (URL, __version__, __version__),
+                 % (__url__, __version__, __version__),
     description="A pass extension for importing data from most of the existing password manager.",
     license='GPL3',
 

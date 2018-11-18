@@ -49,9 +49,10 @@ class TestMsg(TestPassSimple):
 
         msg = pass_import.Msg(True, False)
         with captured_output() as (out, err):
-            msg.verbose('pass', 'verbose message')
+            msg.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
-        self.assertEqual(message, '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass: \x1b[0mverbose message')
+        self.assertEqual(err.getvalue().strip(), '')
+        self.assertEqual(message, '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass: \x1b[0mverbose msg')
         print(message)
 
     def test_message(self):
