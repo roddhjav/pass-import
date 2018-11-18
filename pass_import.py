@@ -644,6 +644,7 @@ class Revelation(PasswordManagerXML):
                     return field.text
         else:
             return elements.find(xmlkey).text
+        return ''
 
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
