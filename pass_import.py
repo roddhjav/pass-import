@@ -729,7 +729,7 @@ def main(argv):
             msg.die("%s is not a file" % arg.file)
 
         # Import and clean data
-        ImporterClass = getattr(importlib.import_module('pass_import'),
+        ImporterClass = getattr(importlib.import_module(__name__),
                                 importers[arg.manager][0])
         importer = ImporterClass(arg.extra)
         try:
