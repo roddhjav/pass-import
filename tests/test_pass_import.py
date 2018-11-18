@@ -17,7 +17,8 @@
 #
 
 import os
-import pass_import
+
+from .. import pass_import
 from tests.commons import TestPass
 
 

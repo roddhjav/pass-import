@@ -20,7 +20,7 @@ import sys
 from io import StringIO
 from contextlib import contextmanager
 
-import pass_import
+from .. import pass_import
 from tests.commons import TestPassSimple
 
 

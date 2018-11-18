@@ -18,7 +18,7 @@
 
 from collections import OrderedDict as Odict
 
-import pass_import
+from .. import pass_import
 from tests.commons import TestPassSimple
 
 
