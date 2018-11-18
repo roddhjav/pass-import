@@ -29,7 +29,7 @@ uninstall:
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
 tests:
-	make -C tests
+	@python setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
 
 lint:
 	@shellcheck -s bash $(PROG).bash
