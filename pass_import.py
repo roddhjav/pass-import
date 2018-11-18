@@ -601,6 +601,8 @@ class NetworkManager(PasswordManager):
             if entry.get('password', None) is not None:
                 self.data.append(entry)
 
+            file.close()
+
 
 class PasswordExporter(PasswordManagerCSV):
     keys = {'title': 'hostname', 'password': 'password', 'login': 'username'}
