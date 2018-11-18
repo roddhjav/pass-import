@@ -30,7 +30,7 @@ import configparser
 from subprocess import Popen, PIPE
 from collections import OrderedDict
 
-__version__ = '2.4a'
+__version__ = '2.3'
 
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
