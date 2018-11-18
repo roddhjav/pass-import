@@ -32,7 +32,15 @@ tests:
 	make -C tests
 
 lint:
-	shellcheck -s bash $(PROG).bash
+	@shellcheck -s bash $(PROG).bash
+	@prospector --profile .prospector.yaml \
+		-t dodgy -t frosted -t mccabe -t mypy -t pep257 -t pep8 \
+		-t profile-validator -t pyflakes -t pylint -t pyroma -t vulture \
+		pass_import.py setup.py
+	@prospector --profile tests/.prospector.yaml \
+		-t dodgy -t frosted -t mccabe -t mypy -t pep257 -t pep8 \
+		-t profile-validator -t pyflakes -t pylint -t pyroma \
+		tests/*.py
 
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed

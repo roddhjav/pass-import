@@ -1,0 +1,52 @@
+---
+
+output-format: text
+
+allow-shorthand: false
+
+ignore-patterns:
+  - (^|/)\..+
+
+pylint:
+  disable:
+    - bad-continuation
+
+  options:
+    max-locals: 15
+    max-returns: 6
+    max-branches: 22
+    max-statements: 70
+    max-parents: 7
+    max-attributes: 7
+    min-public-methods: 2
+    max-public-methods: 20
+    max-module-lines: 1000
+    max-line-length: 99
+
+mypy:
+  options:
+    ignore-missing-imports: true
+    follow-imports: skip
+
+pyroma:
+  disable:
+    - PYR06
+
+mccabe:
+  options:
+    max-complexity: 20
+
+pep8:
+  options:
+    max-line-length: 99
+    single-line-if-stmt: n
+
+pep257:
+  disable:
+    - D000
+    - D107
+    - D104
+    - D203
+    - D204
+    - D205
+    - D213
