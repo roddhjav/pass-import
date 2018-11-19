@@ -44,18 +44,12 @@ you'll see a Compare & pull request button, fill and submit the pull request.
 
 ## How to add the support for a new password manager?
 
-1. Add your importer name and details in the following files:
-  * In `lib/import.py`:
+1. Add your importer name and details in `pass_import.py`:
 ```python
 importers = {
           ...
           'mymanager': ['MyManager', 'https://mymanager.com/'],
 }
-```
-
-  * In `tests/40_import.sh:`
-```sh
-PASSWORDS_MANAGERS=(... "mymanager" ...)
 ```
 
 2. Add a `MyManager` class that inherits from one of the main importer class

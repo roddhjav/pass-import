@@ -711,6 +711,9 @@ def main(argv):
         msg.success("The %s supported password managers are:" % len(importers))
         for name, value in importers.items():
             msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
+        if msg.quiet:
+            for name in importers:
+                print(name)
     else:
         # Sanity checks
         if arg.manager is None:
