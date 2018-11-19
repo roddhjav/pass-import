@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 export test_description="Testing 'pass import'"
-
-source ./setup
+cd tests
+source ./commons.sh
 test_cleanup
 
 mapfile -t PASSWORDS_MANAGERS < <(_pass import --list --quiet)

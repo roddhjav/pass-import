@@ -8,7 +8,7 @@ bash:
   stage: lint
   image: koalaman/shellcheck-alpine
   script:
-    - shellcheck --shell=bash import.bash tests/setup
+    - shellcheck --shell=bash import.bash tests/commons.sh
 
 python:
   stage: lint

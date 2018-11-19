@@ -28,9 +28,18 @@ uninstall:
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
+
+PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
+T = $(sort $(wildcard tests/test_*.sh))
+
 tests:
 	@python setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
-	@make -C tests
+	@make tests_bash
+
+tests_bash: $(T)
+
+$(T):
+	$@ $(PASS_TEST_OPTS)
 
 lint:
 	@prospector --profile .prospector.yaml \
@@ -45,4 +54,4 @@ lint:
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed
 
-.PHONY: install uninstall tests lint clean
+.PHONY: install uninstall tests tests_bash $(T) lint clean
