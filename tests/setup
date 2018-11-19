@@ -24,7 +24,7 @@
 #   $TEST_HOME	This folder
 #
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1091,SC2230
 
 # Project directory
 TEST_HOME="$(pwd)"
