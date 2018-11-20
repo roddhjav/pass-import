@@ -40,6 +40,11 @@ class TestPassImport(TestPass):
         cmd = ['--list']
         self._passimport(cmd)
 
+    def test_pass_import_quietlist(self):
+        """Testing: pass import --list --quiet."""
+        cmd = ['--list', '--quiet']
+        self._passimport(cmd)
+
     def test_pass_import_help(self):
         """Testing: pass import --help."""
         cmd = ['--help']
