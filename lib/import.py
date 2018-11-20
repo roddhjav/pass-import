@@ -753,6 +753,8 @@ def main(argv):
                 msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
             except PasswordStoreError as e:
+                if 'No public key' in str(e):
+                    msg.die('the public key provided in not in the keyring')
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
 
