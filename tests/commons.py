@@ -26,7 +26,7 @@ import pass_import
 
 class TestPassSimple(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
-    gpgid = "D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
+    gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
     xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation', 'kedpm']
     db = "tests/db/"
 
@@ -97,4 +97,4 @@ class TestPass(TestPassSimple):
 
     def _passinit(self):
         with open(os.path.join(self.store.prefix, '.gpg-id'), 'w') as file:
-            file.write("%s\n" % self.gpgid)
+            file.write('\n'.join(self.gpgids))
