@@ -180,6 +180,26 @@ class PasswordStore():
             raise PasswordStoreError("%s %s" % (stderr, stdout))
         return stdout
 
+    def list(self, path=''):
+        """Return a list of paths in the store."""
+        paths = []
+        root = os.path.join(self.prefix, path)
+        if os.path.isfile(root + '.gpg'):
+            paths = [path]
+        else:
+            for rootdir, dirs, files in os.walk(root):
+                if os.path.basename(rootdir).startswith('.'):
+                    continue
+                files = [f for f in files if f.endswith('.gpg')]
+                files = [f for f in files if not f.startswith('.')]
+                prefix = rootdir[len(self.prefix)+1:]
+                for file in files:
+                    file = os.path.splitext(file)[0]
+                    paths.append(os.path.join(prefix, file))
+            paths.sort()
+
+        return paths
+
     def insert(self, path, data, force=False):
         """Multiline insertion into the password store."""
         if not force:
