@@ -132,6 +132,7 @@ class PasswordStore():
     """
     def __init__(self):
         self.passbinary = shutil.which('pass')
+        self.gpgbinary = shutil.which('gpg')
         self.env = dict(**os.environ)
         self._setenv('PASSWORD_STORE_DIR')
         self._setenv('PASSWORD_STORE_KEY')
@@ -160,16 +161,21 @@ class PasswordStore():
         if env in os.environ:
             self.env[var] = os.environ[env]
 
+    def _call(self, command, data=None):
+        """Call to a command."""
+        process = Popen(command, universal_newlines=True, env=self.env,
+                        stdin=PIPE, stdout=PIPE, stderr=PIPE)  # nosec
+        (stdout, stderr) = process.communicate(data)
+        res = process.wait()
+        return res, stdout, stderr
+
     def _pass(self, arg=None, data=None):
         """Call to password store."""
         command = [self.passbinary]
         if arg is not None:
             command.extend(arg)
 
-        process = Popen(command, universal_newlines=True, env=self.env,
-                        stdin=PIPE, stdout=PIPE, stderr=PIPE)  # nosec
-        (stdout, stderr) = process.communicate(data)
-        res = process.wait()
+        res, stdout, stderr = self._call(command, data)
         if res:
             raise PasswordStoreError("%s %s" % (stderr, stdout))
         return stdout
@@ -186,6 +192,27 @@ class PasswordStore():
     def exist(self):
         """Return True if the password store is initialized."""
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
+
+    def is_valid_recipients(self):
+        """Ensure the GPG keyring is usable."""
+        with open(os.path.join(self.prefix, '.gpg-id'), 'r') as file:
+            gpgids = file.read().split('\n')
+            gpgids.pop()
+
+        # All the public gpgids must be present in the keyring.
+        cmd = [self.gpgbinary, '--list-keys']
+        for gpgid in gpgids:
+            res, stdout, stderr = self._call(cmd + [gpgid])
+            if res:
+                return False
+
+        # At least one private key must be present in the keyring.
+        cmd = [self.gpgbinary, '--list-secret-keys']
+        for gpgid in gpgids:
+            res, stdout, stderr = self._call(cmd + [gpgid])
+            if res == 0:
+                return True
+        return False
 
 
 class PasswordManager():
@@ -749,6 +776,8 @@ def main(argv):
         store = PasswordStore()
         if not store.exist():
             msg.die("password store not initialized")
+        if not store.is_valid_recipients():
+            msg.die('invalid user ID, password encryption aborted.')
         for entry in importer.data:
             try:
                 passpath = os.path.join(arg.root, entry['path'])
