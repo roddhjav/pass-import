@@ -187,7 +187,7 @@ class PasswordStore():
         if os.path.isfile(root + '.gpg'):
             paths = [path]
         else:
-            for rootdir, dirs, files in os.walk(root):
+            for rootdir, _, files in os.walk(root):
                 if os.path.basename(rootdir).startswith('.'):
                     continue
                 files = [f for f in files if f.endswith('.gpg')]
@@ -222,14 +222,14 @@ class PasswordStore():
         # All the public gpgids must be present in the keyring.
         cmd = [self.gpgbinary, '--list-keys']
         for gpgid in gpgids:
-            res, stdout, stderr = self._call(cmd + [gpgid])
+            res, _, _ = self._call(cmd + [gpgid])
             if res:
                 return False
 
         # At least one private key must be present in the keyring.
         cmd = [self.gpgbinary, '--list-secret-keys']
         for gpgid in gpgids:
-            res, stdout, stderr = self._call(cmd + [gpgid])
+            res, _, _ = self._call(cmd + [gpgid])
             if res == 0:
                 return True
         return False

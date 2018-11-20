@@ -12,10 +12,10 @@ pylint:
     - bad-continuation
 
   options:
-    max-locals: 15
+    max-locals: 17
     max-returns: 6
-    max-branches: 24
-    max-statements: 71
+    max-branches: 25
+    max-statements: 75
     max-parents: 7
     max-attributes: 7
     min-public-methods: 2
@@ -34,7 +34,7 @@ pyroma:
 
 mccabe:
   options:
-    max-complexity: 22
+    max-complexity: 23
 
 pep8:
   disable:
