@@ -750,6 +750,8 @@ def argumentsparse(argv):
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
 
+    return parser.parse_args(argv)
+
 
 def listimporters(msg):
     """List supported password managers."""
