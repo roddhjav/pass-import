@@ -751,18 +751,22 @@ def argumentsparse(argv):
                         help='Show the program version and exit.')
 
 
+def listimporters(msg):
+    """List supported password managers."""
+    msg.success("The %s supported password managers are:" % len(importers))
+    for name, value in importers.items():
+        msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
+    if msg.quiet:
+        for name in importers:
+            print(name)
+
+
 def main(argv):
     arg = argumentsparse(argv)
     msg = Msg(arg.verbose, arg.quiet)
 
     if arg.list:
-        # List supported password managers
-        msg.success("The %s supported password managers are:" % len(importers))
-        for name, value in importers.items():
-            msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
-        if msg.quiet:
-            for name in importers:
-                print(name)
+        listimporters(msg)
     else:
         # Sanity checks
         if arg.manager is None:
