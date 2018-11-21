@@ -761,6 +761,24 @@ def listimporters(msg):
             print(name)
 
 
+def sanitychecks(arg, msg):
+    """Sanity checks."""
+    if arg.manager is None:
+        msg.die("password manager not present. See 'pass import -h'")
+    if arg.manager not in importers:
+        msg.die("%s is not a supported password manager" % arg.manager)
+    if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
+        file = arg.file
+    elif arg.file is None:
+        file = sys.stdin
+    elif os.path.isfile(arg.file):
+        encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
+        file = open(arg.file, 'r', encoding=encoding)
+    else:
+        msg.die("%s is not a file" % arg.file)
+    return file
+
+
 def main(argv):
     arg = argumentsparse(argv)
     msg = Msg(arg.verbose, arg.quiet)
@@ -768,20 +786,7 @@ def main(argv):
     if arg.list:
         listimporters(msg)
     else:
-        # Sanity checks
-        if arg.manager is None:
-            msg.die("password manager not present. See 'pass import -h'")
-        if arg.manager not in importers:
-            msg.die("%s is not a supported password manager" % arg.manager)
-        if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
-            file = arg.file
-        elif arg.file is None:
-            file = sys.stdin
-        elif os.path.isfile(arg.file):
-            encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
-            file = open(arg.file, 'r', encoding=encoding)
-        else:
-            msg.die("%s is not a file" % arg.file)
+        file = sanitychecks(arg, msg)
 
         # Import and clean data
         ImporterClass = getattr(importlib.import_module(__name__),
