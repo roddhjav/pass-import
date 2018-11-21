@@ -647,10 +647,8 @@ class Revelation(PasswordManagerXML):
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
             if xmlentry.attrib.get('type', '') == 'folder':
-                if path != xmlentry.find('name').text:
-                    path = ''
-                path = os.path.join(path, xmlentry.find('name').text)
-                self._import(xmlentry, path)
+                _path = os.path.join(path, xmlentry.find('name').text)
+                self._import(xmlentry, _path)
             else:
                 entry = self._getentry(xmlentry)
                 entry['group'] = path
