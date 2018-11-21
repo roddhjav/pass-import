@@ -716,8 +716,8 @@ class UPM(PasswordManagerCSV):
             'url': 'url', 'comments': 'comments'}
 
 
-def main(argv):
-    # Geting arguments for 'pass import'
+def argumentsparse(argv):
+    """Geting arguments for 'pass import'."""
     parser = argparse.ArgumentParser(prog='pass import', description="""
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
@@ -750,7 +750,9 @@ def main(argv):
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
 
-    arg = parser.parse_args(argv)
+
+def main(argv):
+    arg = argumentsparse(argv)
     msg = Msg(arg.verbose, arg.quiet)
 
     if arg.list:
