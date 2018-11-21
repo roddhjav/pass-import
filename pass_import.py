@@ -781,6 +781,24 @@ def sanitychecks(arg, msg):
     return file
 
 
+def report(arg, msg, paths):
+    """Print final success report."""
+    msg.success("Importing passwords from %s" % arg.manager)
+    if arg.file is None:
+        arg.file = 'read from stdin'
+    msg.message("File: %s" % arg.file)
+    if arg.root != '':
+        msg.message("Root path: %s" % arg.root)
+    msg.message("Number of password imported: %s" % len(paths))
+    if arg.clean:
+        msg.message("Imported data cleaned")
+    if arg.extra:
+        msg.message("Extra data conserved")
+    msg.message("Passwords imported:")
+    for path in paths:
+        msg.echo(os.path.join(arg.root, path))
+
+
 def main(argv):
     arg = argumentsparse(argv)
     msg = Msg(arg.verbose, arg.quiet)
@@ -824,20 +842,7 @@ def main(argv):
 
         # Success!
         paths = store.list(arg.root)
-        msg.success("Importing passwords from %s" % arg.manager)
-        if arg.file is None:
-            arg.file = 'read from stdin'
-        msg.message("File: %s" % arg.file)
-        if arg.root != '':
-            msg.message("Root path: %s" % arg.root)
-        msg.message("Number of password imported: %s" % len(paths))
-        if arg.clean:
-            msg.message("Imported data cleaned")
-        if arg.extra:
-            msg.message("Extra data conserved")
-        msg.message("Passwords imported:")
-        for path in paths:
-            msg.echo(os.path.join(arg.root, path))
+        report(arg, msg, paths)
 
 
 if __name__ == "__main__":
