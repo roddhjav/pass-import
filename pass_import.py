@@ -131,8 +131,8 @@ class PasswordStore():
     Supports all the environment variables.
     """
     def __init__(self):
-        self.passbinary = shutil.which('pass')
-        self.gpgbinary = shutil.which('gpg')
+        self._passbinary = shutil.which('pass')
+        self._gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
         self.env = dict(**os.environ)
         self._setenv('PASSWORD_STORE_DIR')
         self._setenv('PASSWORD_STORE_KEY')
@@ -171,7 +171,7 @@ class PasswordStore():
 
     def _pass(self, arg=None, data=None):
         """Call to password store."""
-        command = [self.passbinary]
+        command = [self._passbinary]
         if arg is not None:
             command.extend(arg)
 
@@ -220,14 +220,14 @@ class PasswordStore():
             gpgids.pop()
 
         # All the public gpgids must be present in the keyring.
-        cmd = [self.gpgbinary, '--list-keys']
+        cmd = [self._gpgbinary, '--list-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
             if res:
                 return False
 
         # At least one private key must be present in the keyring.
-        cmd = [self.gpgbinary, '--list-secret-keys']
+        cmd = [self._gpgbinary, '--list-secret-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
             if res == 0:
