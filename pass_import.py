@@ -314,7 +314,7 @@ class PasswordManager():
                 entry.pop(key)
 
             self._clean_protocol(entry, 'title')
-            if clean:
+            if clean and 'title' in entry:
                 entry['title'] = self._clean_cmdline(entry['title'])
             entry['path'] = self._create_path(entry)
 

@@ -98,6 +98,11 @@ class TestPasswordManager(TestPassSimple):
         self.importer.clean(clean=False)
         self.assertTrue(self.importer.data == data_expected)
 
+        # Test empty title and clean enabled
+        self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7')])]
+        self.importer.clean(clean=True)
+        self.assertTrue(self.importer.data == data_expected)
+
     def test_clean_duplicate_paths(self):
         """Testing: clean duplicate paths."""
         self.importer.data = [Odict([('title', 'ovh.com'),
