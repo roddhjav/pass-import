@@ -305,7 +305,7 @@ class PasswordManager():
             path = os.path.join(path, 'notitle')
         return path
 
-    def satanize(self, clean):
+    def clean(self, clean):
         """Clean parsed data in order to be imported to a store."""
         for entry in self.data:
             # Remove unused keys
@@ -814,7 +814,7 @@ def main(argv):
         importer = ImporterClass(arg.extra)
         try:
             importer.parse(file)
-            importer.satanize(arg.clean)
+            importer.clean(arg.clean)
         except (FormatError, AttributeError, ValueError):
             msg.die("%s is not a exported %s file" % (arg.file, arg.manager))
         except PermissionError as e:
