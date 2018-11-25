@@ -263,9 +263,10 @@ class PasswordManager():
                 ii = 0
                 while path in seen:
                     if re.search('(\d+)$', path) is None:
-                        path += '0'
+                        path += self.separator + '0'
                     else:
-                        path = path.replace(str(ii), str(ii + 1))
+                        path = path.replace(self.separator + str(ii),
+                                            self.separator + str(ii + 1))
                         ii += 1
                 seen.append(path)
                 entry['path'] = path

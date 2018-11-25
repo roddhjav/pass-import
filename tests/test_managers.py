@@ -122,12 +122,12 @@ class TestPasswordManager(TestPassSimple):
                                 ('path', 'ovh.com')]),
                          Odict([('password', 'VRiplZSniSBlHNnQvc9e'),
                                 ('login', 'lnqYm3ZWtm'),
-                                ('path', 'ovh.com0')]),
+                                ('path', 'ovh.com-0')]),
                          Odict([('password', '[Q&$\fd]!`vKA&b'),
                                 ('login', 'fmmhpvity'),
-                                ('path', 'ovh.com1')]),
+                                ('path', 'ovh.com-1')]),
                          Odict([('password', 'DQm_Y+a(sDC)[1|U-S<8Dq!A'),
                                 ('login', 'ptfzlnvmj'),
-                                ('path', 'ovh.com2')])]
+                                ('path', 'ovh.com-2')])]
         self.importer.clean(clean=False, convert=False)
         self.assertTrue(self.importer.data == data_expected)
