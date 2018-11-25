@@ -274,7 +274,7 @@ class PasswordManager():
     @staticmethod
     def _create_path(entry):
         """Create path from title and group."""
-        path = entry.pop('group', '').replace('\\', '/')
+        path = entry.pop('group', '').replace('\\', os.sep)
         if 'title' in entry:
             path = os.path.join(path, entry.pop('title'))
         elif 'url' in entry:
@@ -513,7 +513,7 @@ class Gorilla(PasswordManagerCSV):
     def parse(self, file):
         super(Gorilla, self).parse(file)
         for entry in self.data:
-            entry['group'] = re.sub('(?<=[^\\\])\.', '/', entry['group'])
+            entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry['group'])
             entry['group'] = re.sub('\\\.', '.', entry['group'])
 
 
@@ -644,7 +644,7 @@ class Pwsafe(PasswordManagerXML):
         delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
-            entry['group'] = entry.get('group', '').replace('.', '/')
+            entry['group'] = entry.get('group', '').replace('.', os.sep)
             entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
             if self.all:
                 for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
