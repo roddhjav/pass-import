@@ -82,36 +82,3 @@ class TestPassStore(TestPass):
         self.gpgids = ['']
         self._passinit()
         self.assertFalse(self.store.is_valid_recipients())
-
-
-class TestPassStoreList(TestPass):
-
-    @classmethod
-    def setUp(self):
-        os.environ['PASSWORD_STORE_DIR'] = os.path.join(os.getcwd(), 'tests/pass-store')
-        self.store = pass_import.PasswordStore()
-
-    def test_listPath(self):
-        """Testing: pass list exact path."""
-        path = 'Social/mastodon.social'
-        ref = ['Social/mastodon.social']
-        self.assertEqual(self.store.list(path), ref)
-
-    def test_list(self):
-        """Testing: pass list."""
-        ref = ['Bank/aib', 'CornerCases/empty entry',
-               'CornerCases/empty password', 'CornerCases/note',
-               'CornerCases/space title', 'Emails/WS/dpbx@fner.ws',
-               'Emails/WS/dpbx@mnyfymt.ws', 'Emails/dpbx@afoqwdr.tx',
-               'Emails/dpbx@klivak.xb', 'Servers/ovh.com', 'Servers/ovh.com0',
-               'Social/mastodon.social', 'Social/news.ycombinator.com',
-               'Social/twitter.com', 'tombpass']
-        self.assertEqual(self.store.list(), ref)
-
-    def test_listRoot(self):
-        """Testing: pass list path."""
-        ref = ['Emails/WS/dpbx@fner.ws', 'Emails/WS/dpbx@mnyfymt.ws',
-               'Emails/dpbx@afoqwdr.tx', 'Emails/dpbx@klivak.xb']
-        self.assertEqual(self.store.list('Emails'), ref)
-        ref = ['Emails/WS/dpbx@fner.ws', 'Emails/WS/dpbx@mnyfymt.ws']
-        self.assertEqual(self.store.list('Emails/WS'), ref)

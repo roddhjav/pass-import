@@ -180,26 +180,6 @@ class PasswordStore():
             raise PasswordStoreError("%s %s" % (stderr, stdout))
         return stdout
 
-    def list(self, path=''):
-        """Return a list of paths in the store."""
-        paths = []
-        root = os.path.join(self.prefix, path)
-        if os.path.isfile(root + '.gpg'):
-            paths = [path]
-        else:
-            for rootdir, _, files in os.walk(root):
-                if os.path.basename(rootdir).startswith('.'):
-                    continue
-                files = [f for f in files if f.endswith('.gpg')]
-                files = [f for f in files if not f.startswith('.')]
-                prefix = rootdir[len(self.prefix)+1:]
-                for file in files:
-                    file = os.path.splitext(file)[0]
-                    paths.append(os.path.join(prefix, file))
-            paths.sort()
-
-        return paths
-
     def insert(self, path, data, force=False):
         """Multiline insertion into the password store."""
         if not force:
@@ -794,9 +774,11 @@ def report(arg, msg, paths):
         msg.message("Imported data cleaned")
     if arg.extra:
         msg.message("Extra data conserved")
-    msg.message("Passwords imported:")
-    for path in paths:
-        msg.echo(os.path.join(arg.root, path))
+    if len(paths) > 0:
+        msg.message("Passwords imported:")
+        paths.sort()
+        for path in paths:
+            msg.echo(os.path.join(arg.root, path))
 
 
 def main(argv):
@@ -824,6 +806,7 @@ def main(argv):
                 file.close()
 
         # Insert data into the password store
+        paths = []
         store = PasswordStore()
         if not store.exist():
             msg.die("password store not initialized")
@@ -839,9 +822,10 @@ def main(argv):
             except PasswordStoreError as e:
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
+            else:
+                paths.append(entry['path'])
 
         # Success!
-        paths = store.list(arg.root)
         report(arg, msg, paths)
 
 
