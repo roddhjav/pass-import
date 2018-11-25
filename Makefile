@@ -39,7 +39,7 @@ tests:
 tests_bash: $(T)
 
 $(T):
-	$@ $(PASS_TEST_OPTS)
+	@$@ $(PASS_TEST_OPTS)
 
 lint:
 	@prospector --profile .prospector.yaml \

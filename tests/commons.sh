@@ -104,6 +104,6 @@ test_init() {
 	if $GIT; then
 		git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com"
 		git config --global user.name "Pass Automated Testing Suite"
-		[[ $GIT == true ]] && pass git init
+		pass git init
 	fi
 }

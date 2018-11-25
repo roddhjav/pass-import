@@ -32,6 +32,7 @@ if test_have_prereq CI; then
     export PASSWORD_STORE_ENABLE_EXTENSIONS=''
     export PASSWORD_STORE_EXTENSIONS_DIR=''
     test_expect_success 'Testing extension installation' '
+        make --directory=$PROJECT_HOME &&
         make --directory=$PROJECT_HOME install &&
         _pass import --version | grep "pass import 2.3" &&
         make --directory=$PROJECT_HOME uninstall
