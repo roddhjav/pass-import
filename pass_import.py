@@ -223,9 +223,10 @@ class PasswordManager():
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
-    def __init__(self, extra=False):
+    def __init__(self, extra=False, separator='-'):
         self.data = []
         self.all = extra
+        self.separator = str(separator)
 
     @staticmethod
     def get(entry):
@@ -285,7 +286,7 @@ class PasswordManager():
             path = os.path.join(path, 'notitle')
         return path
 
-    def clean(self, clean):
+    def clean(self, clean, convert):
         """Clean parsed data in order to be imported to a store."""
         for entry in self.data:
             # Remove unused keys
@@ -716,10 +717,16 @@ def argumentsparse(argv):
     parser.add_argument('-p', '--path', action='store', dest='root',
                         default='', metavar='PATH',
                         help='Import the passwords to a specific subfolder.')
-    parser.add_argument('-c', '--clean', action='store_true',
-                        help='Clean data before import.')
     parser.add_argument('-e', '--extra', action='store_true',
                         help='Also import all the extra data present.')
+    parser.add_argument('-c', '--clean', action='store_true',
+                        help='Make the paths more command line friendly.')
+    parser.add_argument('-C', '--convert', action='store_true',
+                        help='Convert the invalid caracters present in the paths.')
+    parser.add_argument('-s', '--separator', action='store', dest='separator',
+                        metavar='CAR',
+                        help="""Provide a caracter of replacement for the path
+                         separator. Default: '-' """)
     parser.add_argument('-l', '--list', action='store_true',
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
@@ -758,6 +765,18 @@ def sanitychecks(arg, msg):
         file = open(arg.file, 'r', encoding=encoding)
     else:
         msg.die("%s is not a file" % arg.file)
+
+    if arg.separator is None:
+        configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
+                                  arg.root, '.import')
+        if os.path.isfile(configpath):
+            with open(configpath, 'r') as configfile:
+                ini = configparser.ConfigParser()
+                ini.read_file(configfile)
+                arg.separator = ini.get('convert', 'separator', fallback='-')
+        else:
+            arg.separator = '-'
+
     return file
 
 
@@ -770,6 +789,9 @@ def report(arg, msg, paths):
     if arg.root != '':
         msg.message("Root path: %s" % arg.root)
     msg.message("Number of password imported: %s" % len(paths))
+    if arg.convert:
+        msg.message("Forbidden chars converted")
+        msg.message("Path separator used: %s" % arg.separator)
     if arg.clean:
         msg.message("Imported data cleaned")
     if arg.extra:
@@ -793,10 +815,10 @@ def main(argv):
         # Import and clean data
         ImporterClass = getattr(importlib.import_module(__name__),
                                 importers[arg.manager][0])
-        importer = ImporterClass(arg.extra)
+        importer = ImporterClass(arg.extra, arg.separator)
         try:
             importer.parse(file)
-            importer.clean(arg.clean)
+            importer.clean(arg.clean, arg.convert)
         except (FormatError, AttributeError, ValueError):
             msg.die("%s is not a exported %s file" % (arg.file, arg.manager))
         except PermissionError as e:
