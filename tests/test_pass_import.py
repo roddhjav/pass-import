@@ -81,6 +81,14 @@ class TestPassImport(TestPass):
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
         self._passimport(cmd, 1)
 
+    def test_pass_import_InvalidID(self):
+        """Testing: invalid user ID."""
+        cmd = ['1password', self.db + '1password.csv']
+        os.remove(os.path.join(self.store.prefix, '.gpg-id'))
+        self.gpgids = ['']
+        self._passinit()
+        self._passimport(cmd, 1)
+
     def test_pass_import_FromFile(self):
         """Testing: pass import 1password db/1password.csv -v."""
         cmd = ['1password', self.db + '1password.csv', '--verbose']
