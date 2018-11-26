@@ -131,3 +131,18 @@ class TestPassImport(TestPass):
         """Testing: pass import networkmanager db/networkmanager/."""
         cmd = ['networkmanager', self.db + 'networkmanager/']
         self._passimport(cmd)
+
+    def test_pass_import_convert(self):
+        """Testing: pass import --convert db/keepass.xml."""
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert']
+        self._passimport(cmd)
+
+        path = os.path.join(self.store.prefix, '.import')
+        with open(path, 'w') as configfile:
+            configfile.write('[convert]\nseparator = A')
+
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert', '--separator=~']
+        self._passimport(cmd)
+
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert']
+        self._passimport(cmd)
