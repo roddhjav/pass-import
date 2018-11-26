@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
 from collections import OrderedDict as Odict
 
 from .. import pass_import
@@ -43,6 +44,9 @@ class TestPasswordManager(TestPassSimple):
                                      ('uuid', '44jle5q3fdvrprmaahozexy2pi'),
                                      ('path', 'Social/twitter.com')])]
 
+
+class TestPasswordManagerGeneral(TestPasswordManager):
+
     def test_get_data(self):
         """Testing: convert dict to password entry."""
         entry = Odict([('password', 'EaP:bCmLZliqa|]WR/#HZP'),
@@ -57,7 +61,51 @@ class TestPasswordManager(TestPassSimple):
         entry_expected = '\n'
         self.assertTrue(self.importer.get(entry) == entry_expected)
 
-    def test_clean_data(self):
+    def test_replaces(self):
+        """Testing: _replace method."""
+        string = ''
+        string_expected = ''
+        caracters = {}
+        string = self.importer._replaces(caracters, string)
+        self.assertEqual(string, string_expected)
+
+    def test_clean_cmdline(self):
+        """Testing: _clean_cmdline method."""
+        string = 'Root Group&Named@root\'[directory]'
+        string_expected = 'Root_GroupandNamedAtrootdirectory'
+        string = self.importer._clean_cmdline(string)
+        self.assertEqual(string, string_expected)
+
+    def test_clean_protocol(self):
+        """Testing: _clean_protocol method."""
+        string = 'https://duckduckgo.comhttp://google.com'
+        string_expected = 'duckduckgo.comgoogle.com'
+        string = self.importer._clean_protocol(string)
+        self.assertEqual(string, string_expected)
+
+    def test_clean_group(self):
+        """Testing: _clean_group method."""
+        string = 'Root/Group\\Named>root\0directory'
+        string_expected = 'Root%sGroup%sNamed-root-directory' % (os.sep, os.sep)
+        string = self.importer._clean_group(string)
+        self.assertEqual(string, string_expected)
+
+    def test_convert(self):
+        """Testing: _convert method."""
+        string = 'Root/Group\\Named>root\0directory'
+        string_expected = 'Root-Group-Named-root-directory'
+        string = self.importer._convert(string)
+        self.assertEqual(string, string_expected)
+
+    def test_convert_separator(self):
+        """Testing: _convert method with ~ as separator."""
+        string = 'Root/Group\\Named>root\0directory'
+        string_expected = 'Root~Group~Named~root~directory'
+        self.importer.separator = '~'
+        string = self.importer._convert(string)
+        self.assertEqual(string, string_expected)
+
+
         """Testing: clean data."""
         self.assertTrue(self.importer.data == self.data_expected)
         self.importer.clean(clean=False, convert=False)

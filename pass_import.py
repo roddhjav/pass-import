@@ -227,6 +227,9 @@ class PasswordManager():
         self.data = []
         self.all = extra
         self.separator = str(separator)
+        self.cleans = {" ": "_", "&": "and", "@": "At", "'": "", "[": "", "]": ""}
+        self.protocols = ['http://', 'https://']
+        self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
     @staticmethod
     def get(entry):
@@ -239,23 +242,33 @@ class PasswordManager():
         return string
 
     @staticmethod
-    def _clean_protocol(entry, key):
-        """Remove the protocol prefix for the value."""
-        if key in entry:
-            entry[key] = entry[key].replace('https://', '')
-            entry[key] = entry[key].replace('http://', '')
-
-    @staticmethod
-    def _clean_cmdline(string):
-        """Make the string more command line friendly."""
-        caracters = {" ": "_", "&": "and", '/': '-', '\\': '-', "@": "At",
-                     "'": "", "[": "", "]": ""}
+    def _replaces(caracters, string):
+        """Global replace method."""
         for key in caracters:
             string = string.replace(key, caracters[key])
         return string
 
-    def _duplicate_paths(self):
-        """Detect duplicate paths."""
+    def _clean_protocol(self, string):
+        """Remove the protocol prefix in a string."""
+        caracters = dict(zip(self.protocols, ['']*len(self.protocols)))
+        return self._replaces(caracters, string)
+
+    def _clean_group(self, string):
+        """Remove invalids caracters in a group. Convert separator to os.sep."""
+        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        caracters['/'] = os.sep
+        caracters['\\'] = os.sep
+        return self._replaces(caracters, string)
+
+    def _convert(self, string):
+        """Convert invalid caracters by the separator in a string."""
+        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        return self._replaces(caracters, string)
+
+    def _clean_cmdline(self, string):
+        """Make the string more command line friendly."""
+        return self._replaces(self.cleans, string)
+
         seen = []
         for entry in self.data:
             path = entry.get('path', '')
