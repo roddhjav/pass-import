@@ -28,7 +28,7 @@ import argparse
 import importlib
 import configparser
 from subprocess import Popen, PIPE
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 
 __version__ = '2.3'
 
@@ -271,13 +271,10 @@ class PasswordManager():
 
     def _duplicate_paths(self, clean, convert):
         """Create subfolders for duplicated paths."""
-        duplicated = dict()
+        duplicated = defaultdict(list)
         for idx, entry in enumerate(self.data):
             path = entry.get('path', '')
-            if path in duplicated:
-                duplicated[path].append(idx)
-            else:
-                duplicated[path] = [idx]
+            duplicated[path].append(idx)
 
         for path in duplicated:
             if len(duplicated[path]) > 1:
