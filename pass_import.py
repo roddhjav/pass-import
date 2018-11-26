@@ -269,6 +269,24 @@ class PasswordManager():
         """Make the string more command line friendly."""
         return self._replaces(self.cleans, string)
 
+    def _duplicate_paths(self, clean, convert):
+        """Create subfolders for duplicated paths."""
+        duplicated = dict()
+        for idx, entry in enumerate(self.data):
+            path = entry.get('path', '')
+            if path in duplicated:
+                duplicated[path].append(idx)
+            else:
+                duplicated[path] = [idx]
+
+        for path in duplicated:
+            if len(duplicated[path]) > 1:
+                for idx in duplicated[path]:
+                    entry = self.data[idx]
+                    entry['path'] = self._create_path(entry, path, clean, convert)
+
+    def _duplicate_numerise(self):
+        """Add number to the remaining duplicated path."""
         seen = []
         for entry in self.data:
             path = entry.get('path', '')
@@ -315,7 +333,8 @@ class PasswordManager():
             path = self._clean_group(self._clean_protocol(entry.pop('group', '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
-        self._duplicate_paths()
+        self._duplicate_paths(clean, convert)
+        self._duplicate_numerise()
 
 
 class PasswordManagerCSV(PasswordManager):
