@@ -24,7 +24,8 @@ from tests.commons import TestPassSimple
 
 class TestImporters(TestPassSimple):
 
-    def _load_import(self, manager):
+    @staticmethod
+    def _load_import(manager):
         """Load importer class."""
         ImporterClass = getattr(pass_import,
                                 pass_import.importers[manager][0])
