@@ -1,5 +1,5 @@
 [paths]
-source = ../lib/import.py
+source = pass_import.py
 
 [report]
 exclude_lines =

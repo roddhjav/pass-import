@@ -21,40 +21,37 @@
 #   $PASS	Full path to password-store script to test
 #   $GPG	Name of gpg executable
 #   $KEY{1..5}	GPG key ids of testing keys
-#   $TEST_HOME	This folder
+#   $TESTS_HOME	This folder
 #
 
-# shellcheck disable=SC1091
+# shellcheck disable=SC1091,SC2230
 
 # Project directory
-TEST_HOME="$(pwd)"
-EXT_HOME="$(dirname "$TEST_HOME")"
+TESTS_HOME="$(pwd)"
+PROJECT_HOME="$(dirname "$TESTS_HOME")"
 
 
 # Databases settings
 export MASTERPASSWORD="correct horse battery staple"
-export ENCRYPTED_DB="$TEST_HOME/database"
-export DB="$TEST_HOME/db"
+export ENCRYPTED_DB="$TESTS_HOME/database"
+export DB="$TESTS_HOME/db"
 
 
 # Check dependencies
 _die() { echo "${@}" && exit 1; }
 PASS="$(which pass)"; GPG="$(which gpg)"; GIT=true
 [[ -e "$PASS" ]] || _die "Could not find pass command"
-if [[ ! -e "$GPG" ]]; then
-	if which gpg2 &>/dev/null; then
-		GPG="gpg2"
-	else
-		_die "Could not find gpg command"
-	fi
-fi
+[[ -e "$GPG" ]] || _die "Could not find pass command"
 _pass() { "$PASS" "${@}"; }
 
 
 # sharness config
+export SHARNESS_TEST_DIRECTORY="$TESTS_HOME"
+export SHARNESS_TEST_SRCDIR="$PROJECT_HOME"
 source ./sharness
 export TMP="/tmp/pass-import/bash"
-[[ -z "$TRAVIS_JOB_ID" ]] || test_set_prereq TRAVIS
+export PYTHONPATH="$PROJECT_HOME:$PYTHONPATH"
+[[ -z "$CI" ]] || test_set_prereq CI
 
 
 #  Prepare pass config vars
@@ -75,13 +72,12 @@ unset GNUPGHOME
 unset EDITOR
 
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
-export PASSWORD_STORE_EXTENSIONS_DIR="$EXT_HOME"
-export PASSWORD_STORE_LIBDIR="$EXT_HOME/lib"
+export PASSWORD_STORE_EXTENSIONS_DIR="$PROJECT_HOME"
 
 
 # GnuPG config
 unset GPG_AGENT_INFO
-export GNUPGHOME="$TEST_HOME/gnupg/"
+export GNUPGHOME="$TESTS_HOME/gnupg/"
 export KEY1="D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
 export KEY2="70BD448330ACF0653645B8F2B4DDBFF0D774A374"
 export KEY3="62EBE74BE834C2EC71E6414595C4B715EB7D54A8"
@@ -104,8 +100,10 @@ test_init() {
 	export PASSWORD_STORE_DIR="$TMP/${testname}-store"
 	export GIT_DIR="$PASSWORD_STORE_DIR/.git"
 	export GIT_WORK_TREE="$PASSWORD_STORE_DIR"
-	git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com"
-	git config --global user.name "Pass Automated Testing Suite"
 	pass init "$KEY1"
-	[[ $GIT == true ]] && pass git init
+	if $GIT; then
+		git config --global user.email "Pass-Automated-Testing-Suite@zx2c4.com"
+		git config --global user.name "Pass Automated Testing Suite"
+		pass git init
+	fi
 }

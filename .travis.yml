@@ -29,7 +29,7 @@ script:
   - make tests
 
 after_success:
-  - cd tests && coverage xml
+  - coverage xml
   - python-codacy-coverage -r coverage.xml
 
 notifications:

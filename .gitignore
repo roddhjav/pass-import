@@ -35,7 +35,7 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit test / coverage reports
-tests/htmlcov/
+htmlcov/
 .tox/
 .coverage
 .coverage.*
@@ -107,6 +107,3 @@ venv.bak/
 tests/gnupg/
 tests/test-results/
 tests/database
-
-# pass install
-.import.bash

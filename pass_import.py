@@ -23,12 +23,14 @@ import sys
 import csv
 import json
 import glob
+import shutil
 import argparse
 import importlib
 import configparser
 from subprocess import Popen, PIPE
 from collections import OrderedDict
 
+__version__ = '2.3'
 
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
@@ -129,6 +131,8 @@ class PasswordStore():
     Supports all the environment variables.
     """
     def __init__(self):
+        self._passbinary = shutil.which('pass')
+        self._gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
         self.env = dict(**os.environ)
         self._setenv('PASSWORD_STORE_DIR')
         self._setenv('PASSWORD_STORE_KEY')
@@ -145,31 +149,33 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_EXTENSIONS_DIR', 'EXTENSIONS')
         self._setenv('PASSWORD_STORE_SIGNING_KEY')
         self._setenv('GNUPGHOME')
-        self._setenv('PASSWORD_STORE_BIN')
 
-        mandatory = ['PASSWORD_STORE_DIR', 'PASSWORD_STORE_BIN']
-        if not all(x in self.env for x in mandatory):
-            raise PasswordStoreError("pass prefix or binary unknown")
+        if 'PASSWORD_STORE_DIR' not in self.env:
+            raise PasswordStoreError("pass prefix unknown")
         self.prefix = self.env['PASSWORD_STORE_DIR']
-        self.passbinary = self.env['PASSWORD_STORE_BIN']
 
     def _setenv(self, var, env=None):
-        """Add var in the environment variables directory."""
+        """Add var in the environment variables dictionary."""
         if env is None:
             env = var
         if env in os.environ:
             self.env[var] = os.environ[env]
 
-    def _pass(self, arg=None, data=None):
-        """Call to password store."""
-        command = [self.passbinary]
-        if arg is not None:
-            command.extend(arg)
-
+    def _call(self, command, data=None):
+        """Call to a command."""
         process = Popen(command, universal_newlines=True, env=self.env,
                         stdin=PIPE, stdout=PIPE, stderr=PIPE)  # nosec
         (stdout, stderr) = process.communicate(data)
         res = process.wait()
+        return res, stdout, stderr
+
+    def _pass(self, arg=None, data=None):
+        """Call to password store."""
+        command = [self._passbinary]
+        if arg is not None:
+            command.extend(arg)
+
+        res, stdout, stderr = self._call(command, data)
         if res:
             raise PasswordStoreError("%s %s" % (stderr, stdout))
         return stdout
@@ -187,6 +193,27 @@ class PasswordStore():
         """Return True if the password store is initialized."""
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
 
+    def is_valid_recipients(self):
+        """Ensure the GPG keyring is usable."""
+        with open(os.path.join(self.prefix, '.gpg-id'), 'r') as file:
+            gpgids = file.read().split('\n')
+            gpgids.pop()
+
+        # All the public gpgids must be present in the keyring.
+        cmd = [self._gpgbinary, '--list-keys']
+        for gpgid in gpgids:
+            res, _, _ = self._call(cmd + [gpgid])
+            if res:
+                return False
+
+        # At least one private key must be present in the keyring.
+        cmd = [self._gpgbinary, '--list-secret-keys']
+        for gpgid in gpgids:
+            res, _, _ = self._call(cmd + [gpgid])
+            if res == 0:
+                return True
+        return False
+
 
 class PasswordManager():
     """Common structure and methods for all password manager supported.
@@ -196,9 +223,13 @@ class PasswordManager():
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
-    def __init__(self, extra=False):
+    def __init__(self, extra=False, separator='-'):
         self.data = []
         self.all = extra
+        self.separator = str(separator)
+        self.cleans = {" ": "_", "&": "and", "@": "At", "'": "", "[": "", "]": ""}
+        self.protocols = ['http://', 'https://']
+        self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
     @staticmethod
     def get(entry):
@@ -211,54 +242,87 @@ class PasswordManager():
         return string
 
     @staticmethod
-    def _clean_protocol(entry, key):
-        """Remove the protocol prefix for the value."""
-        if key in entry:
-            entry[key] = entry[key].replace('https://', '')
-            entry[key] = entry[key].replace('http://', '')
-
-    @staticmethod
-    def _clean_cmdline(string):
-        """Make the string more command line friendly."""
-        caracters = {" ": "_", "&": "and", '/': '-', '\\': '-', "@": "At",
-                     "'": "", "[": "", "]": ""}
+    def _replaces(caracters, string):
+        """Global replace method."""
         for key in caracters:
             string = string.replace(key, caracters[key])
         return string
 
-    def _duplicate_paths(self):
-        """Detect duplicate paths."""
+    def _clean_protocol(self, string):
+        """Remove the protocol prefix in a string."""
+        caracters = dict(zip(self.protocols, ['']*len(self.protocols)))
+        return self._replaces(caracters, string)
+
+    def _clean_group(self, string):
+        """Remove invalids caracters in a group. Convert separator to os.sep."""
+        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        caracters['/'] = os.sep
+        caracters['\\'] = os.sep
+        return self._replaces(caracters, string)
+
+    def _convert(self, string):
+        """Convert invalid caracters by the separator in a string."""
+        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        return self._replaces(caracters, string)
+
+    def _clean_cmdline(self, string):
+        """Make the string more command line friendly."""
+        return self._replaces(self.cleans, string)
+
+    def _duplicate_paths(self, clean, convert):
+        """Create subfolders for duplicated paths."""
+        duplicated = dict()
+        for idx, entry in enumerate(self.data):
+            path = entry.get('path', '')
+            if path in duplicated:
+                duplicated[path].append(idx)
+            else:
+                duplicated[path] = [idx]
+
+        for path in duplicated:
+            if len(duplicated[path]) > 1:
+                for idx in duplicated[path]:
+                    entry = self.data[idx]
+                    entry['path'] = self._create_path(entry, path, clean, convert)
+
+    def _duplicate_numerise(self):
+        """Add number to the remaining duplicated path."""
         seen = []
         for entry in self.data:
             path = entry.get('path', '')
             if path in seen:
-                ii = 0
+                ii = 1
                 while path in seen:
-                    if re.search('(\d+)$', path) is None:
-                        path += '0'
+                    if re.search('%s(\d+)$' % self.separator, path) is None:
+                        path += self.separator + str(ii)
                     else:
-                        path = path.replace(str(ii), str(ii + 1))
+                        path = path.replace(self.separator + str(ii),
+                                            self.separator + str(ii + 1))
                         ii += 1
                 seen.append(path)
                 entry['path'] = path
             else:
                 seen.append(path)
 
-    @staticmethod
-    def _create_path(entry):
+    def _create_path(self, entry, path, clean, convert):
         """Create path from title and group."""
-        path = entry.pop('group', '').replace('\\', '/')
-        if 'title' in entry:
-            path = os.path.join(path, entry.pop('title'))
-        elif 'url' in entry:
-            path = os.path.join(path, entry['url'].replace('http://', '').replace('https://', ''))
-        elif 'login' in entry:
-            path = os.path.join(path, entry['login'])
-        else:
+        title = ''
+        for key in ['title', 'login', 'url']:
+            if key in entry:
+                title = self._clean_protocol(entry[key])
+                if clean:
+                    title = self._clean_cmdline(title)
+                if convert:
+                    title = self._convert(title)
+                path = os.path.join(path, title)
+                break
+
+        if title == '':
             path = os.path.join(path, 'notitle')
+        entry.pop('title', '')
         return path
 
-    def satanize(self, clean):
+    def clean(self, clean, convert):
         """Clean parsed data in order to be imported to a store."""
         for entry in self.data:
             # Remove unused keys
@@ -266,12 +330,11 @@ class PasswordManager():
             for key in empty:
                 entry.pop(key)
 
-            self._clean_protocol(entry, 'title')
-            if clean:
-                entry['title'] = self._clean_cmdline(entry['title'])
-            entry['path'] = self._create_path(entry)
+            path = self._clean_group(self._clean_protocol(entry.pop('group', '')))
+            entry['path'] = self._create_path(entry, path, clean, convert)
 
-        self._duplicate_paths()
+        self._duplicate_paths(clean, convert)
+        self._duplicate_numerise()
 
 
 class PasswordManagerCSV(PasswordManager):
@@ -486,7 +549,7 @@ class Gorilla(PasswordManagerCSV):
     def parse(self, file):
         super(Gorilla, self).parse(file)
         for entry in self.data:
-            entry['group'] = re.sub('(?<=[^\\\])\.', '/', entry['group'])
+            entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry['group'])
             entry['group'] = re.sub('\\\.', '.', entry['group'])
 
 
@@ -578,12 +641,12 @@ class NetworkManager(PasswordManager):
     keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
             'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
 
-    def parse(self, file):
-        if isinstance(file, io.IOBase):
-            files = [file]
+    def parse(self, data):
+        if isinstance(data, io.IOBase):
+            files = [data]
         else:
-            file = self.etc if file is None else file
-            files = [open(path, 'r') for path in glob.glob(file + '/*')]
+            data = self.etc if data is None else data
+            files = [open(path, 'r') for path in glob.glob(data + '/*')]
 
         for file in files:
             ini = configparser.ConfigParser()
@@ -602,6 +665,8 @@ class NetworkManager(PasswordManager):
             if entry.get('password', None) is not None:
                 self.data.append(entry)
 
+            file.close()
+
 
 class PasswordExporter(PasswordManagerCSV):
     keys = {'title': 'hostname', 'password': 'password', 'login': 'username'}
@@ -617,7 +682,7 @@ class Pwsafe(PasswordManagerXML):
         delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
-            entry['group'] = entry.get('group', '').replace('.', '/')
+            entry['group'] = entry.get('group', '').replace('.', os.sep)
             entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
             if self.all:
                 for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
@@ -643,6 +708,7 @@ class Revelation(PasswordManagerXML):
                     return field.text
         else:
             return elements.find(xmlkey).text
+        return ''
 
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
@@ -666,13 +732,13 @@ class UPM(PasswordManagerCSV):
             'url': 'url', 'comments': 'comments'}
 
 
-def main(argv):
-    # Geting arguments for 'pass import'
+def argumentsparse(argv):
+    """Geting arguments for 'pass import'."""
     parser = argparse.ArgumentParser(prog='pass import', description="""
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-    usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]",
+    usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] [manager] [file]",
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog="More information may be found in the pass-import(1) man page.")
 
@@ -686,10 +752,16 @@ def main(argv):
     parser.add_argument('-p', '--path', action='store', dest='root',
                         default='', metavar='PATH',
                         help='Import the passwords to a specific subfolder.')
-    parser.add_argument('-c', '--clean', action='store_true',
-                        help='Clean data before import.')
     parser.add_argument('-e', '--extra', action='store_true',
                         help='Also import all the extra data present.')
+    parser.add_argument('-c', '--clean', action='store_true',
+                        help='Make the paths more command line friendly.')
+    parser.add_argument('-C', '--convert', action='store_true',
+                        help='Convert the invalid caracters present in the paths.')
+    parser.add_argument('-s', '--separator', action='store', dest='separator',
+                        metavar='CAR',
+                        help="""Provide a caracter of replacement for the path
+                         separator. Default: '-' """)
     parser.add_argument('-l', '--list', action='store_true',
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
@@ -697,40 +769,91 @@ def main(argv):
     parser.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
     parser.add_argument('-v', '--verbose', action='store_true', help='Be verbose.')
     parser.add_argument('-V', '--version', action='version',
-                        version='%(prog)s 2.3',
+                        version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
 
-    arg = parser.parse_args(argv)
+    return parser.parse_args(argv)
+
+
+def listimporters(msg):
+    """List supported password managers."""
+    msg.success("The %s supported password managers are:" % len(importers))
+    for name, value in importers.items():
+        msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
+    if msg.quiet:
+        for name in importers:
+            print(name)
+
+
+def sanitychecks(arg, msg):
+    """Sanity checks."""
+    if arg.manager is None:
+        msg.die("password manager not present. See 'pass import -h'")
+    if arg.manager not in importers:
+        msg.die("%s is not a supported password manager" % arg.manager)
+    if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
+        file = arg.file
+    elif arg.file is None:
+        file = sys.stdin
+    elif os.path.isfile(arg.file):
+        encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
+        file = open(arg.file, 'r', encoding=encoding)
+    else:
+        msg.die("%s is not a file" % arg.file)
+
+    if arg.separator is None:
+        configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
+                                  arg.root, '.import')
+        if os.path.isfile(configpath):
+            with open(configpath, 'r') as configfile:
+                ini = configparser.ConfigParser()
+                ini.read_file(configfile)
+                arg.separator = ini.get('convert', 'separator', fallback='-')
+        else:
+            arg.separator = '-'
+
+    return file
+
+
+def report(arg, msg, paths):
+    """Print final success report."""
+    msg.success("Importing passwords from %s" % arg.manager)
+    if arg.file is None:
+        arg.file = 'read from stdin'
+    msg.message("File: %s" % arg.file)
+    if arg.root != '':
+        msg.message("Root path: %s" % arg.root)
+    msg.message("Number of password imported: %s" % len(paths))
+    if arg.convert:
+        msg.message("Forbidden chars converted")
+        msg.message("Path separator used: %s" % arg.separator)
+    if arg.clean:
+        msg.message("Imported data cleaned")
+    if arg.extra:
+        msg.message("Extra data conserved")
+    if paths:
+        msg.message("Passwords imported:")
+        paths.sort()
+        for path in paths:
+            msg.echo(os.path.join(arg.root, path))
+
+
+def main(argv):
+    arg = argumentsparse(argv)
     msg = Msg(arg.verbose, arg.quiet)
 
     if arg.list:
-        # List supported password managers
-        msg.success("The %s supported password managers are:" % len(importers))
-        for name, value in importers.items():
-            msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
+        listimporters(msg)
     else:
-        # Sanity checks
-        if arg.manager is None:
-            msg.die("password manager not present. See 'pass import -h'")
-        if arg.manager not in importers:
-            msg.die("%s is not a supported password manager" % arg.manager)
-        if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
-            file = arg.file
-        elif arg.file is None:
-            file = sys.stdin
-        elif os.path.isfile(arg.file):
-            encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
-            file = open(arg.file, 'r', encoding=encoding)
-        else:
-            msg.die("%s is not a file" % arg.file)
+        file = sanitychecks(arg, msg)
 
         # Import and clean data
-        ImporterClass = getattr(importlib.import_module('import'),
+        ImporterClass = getattr(importlib.import_module(__name__),
                                 importers[arg.manager][0])
-        importer = ImporterClass(arg.extra)
+        importer = ImporterClass(arg.extra, arg.separator)
         try:
             importer.parse(file)
-            importer.satanize(arg.clean)
+            importer.clean(arg.clean, arg.convert)
         except (FormatError, AttributeError, ValueError):
             msg.die("%s is not a exported %s file" % (arg.file, arg.manager))
         except PermissionError as e:
@@ -740,9 +863,12 @@ def main(argv):
                 file.close()
 
         # Insert data into the password store
+        paths = []
         store = PasswordStore()
         if not store.exist():
             msg.die("password store not initialized")
+        if not store.is_valid_recipients():
+            msg.die('invalid user ID, password encryption aborted.')
         for entry in importer.data:
             try:
                 passpath = os.path.join(arg.root, entry['path'])
@@ -755,22 +881,11 @@ def main(argv):
                     msg.die('the public key provided in not in the keyring')
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
+            else:
+                paths.append(entry['path'])
 
         # Success!
-        msg.success("Importing passwords from %s" % arg.manager)
-        if arg.file is None:
-            arg.file = 'read from stdin'
-        msg.message("File: %s" % arg.file)
-        if arg.root != '':
-            msg.message("Root path: %s" % arg.root)
-        msg.message("Number of password imported: %s" % len(importer.data))
-        if arg.clean:
-            msg.message("Imported data cleaned")
-        if arg.extra:
-            msg.message("Extra data conserved")
-        msg.message("Passwords imported:")
-        for entry in importer.data:
-            msg.echo(os.path.join(arg.root, entry['path']))
+        report(arg, msg, paths)
 
 
 if __name__ == "__main__":

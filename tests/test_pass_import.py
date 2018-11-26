@@ -17,26 +17,32 @@
 #
 
 import os
-import unittest
-import setup
+
+from .. import pass_import
+from tests.commons import TestPass
 
 
-class TestPassImport(setup.TestPass):
+class TestPassImport(TestPass):
     def setUp(self):
         super(TestPassImport, self).setUp()
         self._passinit()
 
     def _passimport(self, cmd, code=None):
         if code is None:
-            self.passimport.main(cmd)
+            pass_import.main(cmd)
         else:
             with self.assertRaises(SystemExit) as cm:
-                self.passimport.main(cmd)
+                pass_import.main(cmd)
             self.assertEqual(cm.exception.code, code)
 
     def test_pass_import_list(self):
         """Testing: pass import --list."""
         cmd = ['--list']
+        self._passimport(cmd)
+
+    def test_pass_import_quietlist(self):
+        """Testing: pass import --list --quiet."""
+        cmd = ['--list', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_help(self):
@@ -73,6 +79,14 @@ class TestPassImport(setup.TestPass):
         """Testing: store not initialized."""
         cmd = ['1password', self.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
+        self._passimport(cmd, 1)
+
+    def test_pass_import_InvalidID(self):
+        """Testing: invalid user ID."""
+        cmd = ['1password', self.db + '1password.csv']
+        os.remove(os.path.join(self.store.prefix, '.gpg-id'))
+        self.gpgids = ['']
+        self._passinit()
         self._passimport(cmd, 1)
 
     def test_pass_import_FromFile(self):
@@ -118,6 +132,17 @@ class TestPassImport(setup.TestPass):
         cmd = ['networkmanager', self.db + 'networkmanager/']
         self._passimport(cmd)
 
+    def test_pass_import_convert(self):
+        """Testing: pass import --convert db/keepass.xml."""
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert']
+        self._passimport(cmd)
 
-if __name__ == '__main__':
-    unittest.main()
+        path = os.path.join(self.store.prefix, '.import')
+        with open(path, 'w') as configfile:
+            configfile.write('[convert]\nseparator = A')
+
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert', '--separator=~']
+        self._passimport(cmd)
+
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert']
+        self._passimport(cmd)

@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 
 export test_description="Testing 'pass import'"
-
-source ./setup
+cd tests
+source ./commons.sh
 test_cleanup
 
-PASSWORDS_MANAGERS=("1password" "1password4" "1password4pif" "bitwarden"
-    "chrome" "chromesqlite" "dashlane" "enpass" "fpm" "gorilla" "kedpm"
-    "keepass" "keepassx" "keepassx2" "keepassxc" "keepasscsv" "lastpass"
-    "networkmanager" "passwordexporter" "pwsafe" "revelation" "roboform" "upm")
-
+mapfile -t PASSWORDS_MANAGERS < <(_pass import --list --quiet)
 XML="fpm keepassx keepass pwsafe revelation kedpm"
 
 for manager in "${PASSWORDS_MANAGERS[@]}"; do

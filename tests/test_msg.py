@@ -17,10 +17,11 @@
 #
 
 import sys
-import unittest
 from io import StringIO
 from contextlib import contextmanager
-import setup
+
+from .. import pass_import
+from tests.commons import TestPassSimple
 
 
 @contextmanager
@@ -34,10 +35,10 @@ def captured_output():
         sys.stdout, sys.stderr = old_out, old_err
 
 
-class TestMsg(setup.TestPassSimple):
+class TestMsg(TestPassSimple):
 
     def setUp(self):
-        self.msg = self.passimport.Msg(False, False)
+        self.msg = pass_import.Msg(False, False)
 
     def test_verbose(self):
         """Testing: message verbose."""
@@ -46,11 +47,12 @@ class TestMsg(setup.TestPassSimple):
             message = out.getvalue().strip()
         self.assertEqual(message, '')
 
-        msg = self.passimport.Msg(True, False)
+        msg = pass_import.Msg(True, False)
         with captured_output() as (out, err):
-            msg.verbose('pass', 'verbose message')
+            msg.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
-        self.assertEqual(message, '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass: \x1b[0mverbose message')
+        self.assertEqual(err.getvalue().strip(), '')
+        self.assertEqual(message, '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass: \x1b[0mverbose msg')
         print(message)
 
     def test_message(self):
@@ -58,13 +60,15 @@ class TestMsg(setup.TestPassSimple):
         with captured_output() as (out, err):
             self.msg.message('classic message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
         print(message)
 
-        msg = self.passimport.Msg(True, True)
+        msg = pass_import.Msg(True, True)
         with captured_output() as (out, err):
             msg.message('classic message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '')
 
     def test_echo(self):
@@ -72,6 +76,7 @@ class TestMsg(setup.TestPassSimple):
         with captured_output() as (out, err):
             self.msg.echo('smal echo')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, 'smal echo')
         print(message)
 
@@ -80,6 +85,7 @@ class TestMsg(setup.TestPassSimple):
         with captured_output() as (out, err):
             self.msg.success('success message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[92m (*) \x1b[0m\x1b[32msuccess message\x1b[0m')
         print(message)
 
@@ -88,6 +94,7 @@ class TestMsg(setup.TestPassSimple):
         with captured_output() as (out, err):
             self.msg.warning('warning message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[93m  w  \x1b[0m\x1b[33mwarning message\x1b[0m')
         print(message)
 
@@ -96,6 +103,7 @@ class TestMsg(setup.TestPassSimple):
         with captured_output() as (out, err):
             self.msg.error('error message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0merror message')
         print(message)
 
@@ -106,9 +114,6 @@ class TestMsg(setup.TestPassSimple):
                 self.msg.die('critical error')
             message = out.getvalue().strip()
             self.assertEqual(cm.exception.code, 1)
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0mcritical error')
         print(message)
-
-
-if __name__ == '__main__':
-    unittest.main()

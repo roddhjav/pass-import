@@ -17,16 +17,18 @@
 #
 
 import os
-import unittest
-import setup
+
+from .. import pass_import
+from tests.commons import TestPassSimple
 
 
-class TestImporters(setup.TestPassSimple):
+class TestImporters(TestPassSimple):
 
-    def _load_import(self, manager):
+    @staticmethod
+    def _load_import(manager):
         """Load importer class."""
-        ImporterClass = getattr(self.passimport,
-                                self.passimport.importers[manager][0])
+        ImporterClass = getattr(pass_import,
+                                pass_import.importers[manager][0])
         importer = ImporterClass(extra=True)
         return importer
 
@@ -35,7 +37,7 @@ class TestImporters(setup.TestPassSimple):
         keys = ['title', 'password', 'login', 'ssid']
         refdata = self._get_refdata(keys)
         ignore = ['networkmanager']
-        for manager in self.passimport.importers:
+        for manager in pass_import.importers:
             if manager in ignore:
                 continue
             with self.subTest(manager):
@@ -57,9 +59,9 @@ class TestImporters(setup.TestPassSimple):
 
     def test_importers_format(self):
         """Testing: importer file format."""
-        formaterror = (self.passimport.FormatError, AttributeError, ValueError)
+        formaterror = (pass_import.FormatError, AttributeError, ValueError)
         ignore = ['dashlane', 'networkmanager', 'upm']
-        for manager in self.passimport.importers:
+        for manager in pass_import.importers:
             if manager in ignore:
                 continue
             with self.subTest(manager):
@@ -70,7 +72,3 @@ class TestImporters(setup.TestPassSimple):
                 with self.assertRaises(formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
                         importer.parse(file)
-
-
-if __name__ == '__main__':
-    unittest.main()

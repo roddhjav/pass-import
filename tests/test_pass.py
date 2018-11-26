@@ -17,31 +17,28 @@
 #
 
 import os
-import shutil
-import unittest
-import setup
+
+import pass_import
+from tests.commons import TestPass
 
 
-class TestPassStore(setup.TestPass):
+class TestPassStore(TestPass):
 
     def test_environment_no_prefix(self):
-        """Testing: no prefix & binary."""
+        """Testing: no prefix."""
         os.environ.pop('PASSWORD_STORE_DIR', None)
-        os.environ.pop('PASSWORD_STORE_BIN', None)
-        with self.assertRaises(self.passimport.PasswordStoreError):
-            self.passimport.PasswordStore()
-        os.environ['PASSWORD_STORE_BIN'] = shutil.which("pass")
+        with self.assertRaises(pass_import.PasswordStoreError):
+            pass_import.PasswordStore()
 
     def test_environment_variables(self):
         """Testing: environment variables."""
         self.assertEqual(self.store.env['PASSWORD_STORE_DIR'], os.environ['PASSWORD_STORE_DIR'])
-        self.assertEqual(self.store.env['PASSWORD_STORE_BIN'], os.environ['PASSWORD_STORE_BIN'])
         self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])
 
     def test_exist(self):
         """Testing: store not initialized."""
         self.assertFalse(self.store.exist())
-        with self.assertRaises(self.passimport.PasswordStoreError):
+        with self.assertRaises(pass_import.PasswordStoreError):
             self.store.insert("Test/test", "dummy")
         self._passinit()
         self.assertTrue(self.store.exist())
@@ -59,11 +56,29 @@ class TestPassStore(setup.TestPass):
         self.test_insert()
         path = "Test/test"
         entry2 = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a second comment\n"
-        with self.assertRaises(self.passimport.PasswordStoreError):
+        with self.assertRaises(pass_import.PasswordStoreError):
             self.store.insert(path, entry2, force=False)
         self.store.insert(path, entry2, force=True)
         self.assertEqual(self.store._pass(['show', path]), entry2)
 
+    def test_validRecipients(self):
+        """Testing: valid recipients."""
+        self.gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B',
+                       '70BD448330ACF0653645B8F2B4DDBFF0D774A374',
+                       '62EBE74BE834C2EC71E6414595C4B715EB7D54A8', '']
+        self._passinit()
+        self.assertTrue(self.store.is_valid_recipients())
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_invalidRecipients(self):
+        """Testing: invalid recipients."""
+        self.gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B',
+                       'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+                       '62EBE74BE834C2EC71E6414595C4B715EB7D54A8', '']
+        self._passinit()
+        self.assertFalse(self.store.is_valid_recipients())
+
+    def test_emptyRecipients(self):
+        """Testing: empty recipients."""
+        self.gpgids = ['']
+        self._passinit()
+        self.assertFalse(self.store.is_valid_recipients())

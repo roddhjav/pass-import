@@ -1,0 +1,15 @@
+---
+
+allow-shorthand: false
+
+inherits:
+  - .prospector.yaml
+
+vulture:
+  options:
+    ignore-decorators: '@classmethod'
+
+pylint:
+  disable:
+    - protected-access  # Want to test all functions
+    - relative-beyond-top-level
