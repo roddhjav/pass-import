@@ -831,7 +831,7 @@ def report(arg, msg, paths):
         msg.message("Imported data cleaned")
     if arg.extra:
         msg.message("Extra data conserved")
-    if len(paths) > 0:
+    if paths:
         msg.message("Passwords imported:")
         paths.sort()
         for path in paths:
