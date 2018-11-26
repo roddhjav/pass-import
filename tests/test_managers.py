@@ -24,25 +24,8 @@ from tests.commons import TestPassSimple
 
 
 class TestPasswordManager(TestPassSimple):
-
     def setUp(self):
         self.importer = pass_import.PasswordManager()
-        self.importer.data = [Odict([('title', 'twitter.com'),
-                                     ('password', 'UuQHzvv6IHRIJGjwKru7'),
-                                     ('login', 'lnqYm3ZWtm'),
-                                     ('url', 'https://twitter.com'),
-                                     ('comments', ''),
-                                     ('group', 'Social'),
-                                     ('address', ''),
-                                     ('sex', ''),
-                                     ('website', 'https://pujol.io'),
-                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi')])]
-        self.data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
-                                     ('login', 'lnqYm3ZWtm'),
-                                     ('url', 'https://twitter.com'),
-                                     ('website', 'https://pujol.io'),
-                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi'),
-                                     ('path', 'Social/twitter.com')])]
 
 
 class TestPasswordManagerGeneral(TestPasswordManager):
@@ -53,13 +36,13 @@ class TestPasswordManagerGeneral(TestPasswordManager):
                        ('login', 'roddhjav'),
                        ('comments', 'This is a comment')])
         entry_expected = "EaP:bCmLZliqa|]WR/#HZP\nlogin: roddhjav\ncomments: This is a comment\n"
-        self.assertTrue(self.importer.get(entry) == entry_expected)
+        self.assertEqual(self.importer.get(entry), entry_expected)
 
     def test_get_empty(self):
         """Testing: convert empty dict to password entry."""
         entry = Odict()
         entry_expected = '\n'
-        self.assertTrue(self.importer.get(entry) == entry_expected)
+        self.assertEqual(self.importer.get(entry), entry_expected)
 
     def test_replaces(self):
         """Testing: _replace method."""
@@ -106,53 +89,109 @@ class TestPasswordManagerGeneral(TestPasswordManager):
         self.assertEqual(string, string_expected)
 
 
+class TestPasswordManagerClean(TestPasswordManager):
+
+    def test_data(self):
         """Testing: clean data."""
-        self.assertTrue(self.importer.data == self.data_expected)
+        self.importer.data = [Odict([('title', 'twitter.com'),
+                                     ('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'https://twitter.com'),
+                                     ('comments', ''),
+                                     ('group', 'Social'),
+                                     ('address', ''),
+                                     ('sex', ''),
+                                     ('website', 'https://pujol.io'),
+                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi')])]
+        self.data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'https://twitter.com'),
+                                     ('website', 'https://pujol.io'),
+                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi'),
+                                     ('path', 'Social/twitter.com')])]
         self.importer.clean(clean=False, convert=False)
+        self.assertEqual(self.importer.data, self.data_expected)
 
-    def test_clean_all(self):
+    def test_all(self):
         """Testing: clean all data."""
-        self.importer.data[0]['title'] = 'https://twitter@com'
-        self.data_expected[0]['path'] = 'Social/twitterAtcom'
-        self.assertTrue(self.importer.data == self.data_expected)
+        self.importer.data = [Odict([('title', 'https://twitter@com'),
+                                     ('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'https://twitter.com'),
+                                     ('comments', ''),
+                                     ('group', 'Social'),
+                                     ('address', ''),
+                                     ('sex', ''),
+                                     ('website', 'https://pujol.io'),
+                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi')])]
+        self.data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                     ('login', 'lnqYm3ZWtm'),
+                                     ('url', 'https://twitter.com'),
+                                     ('website', 'https://pujol.io'),
+                                     ('uuid', '44jle5q3fdvrprmaahozexy2pi'),
+                                     ('path', 'Social/twitterAtcom')])]
         self.importer.clean(clean=True, convert=False)
+        self.assertEqual(self.importer.data, self.data_expected)
 
-    def test_clean_path(self):
-        """Testing: clean data & generate password path."""
-        # Test url as path name
+    def tests_url(self):
+        """Testing: clean data - url as path name."""
         self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                      ('login', 'lnqYm3ZWtm'),
                                      ('url', 'twitter.com')])]
         data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                 ('login', 'lnqYm3ZWtm'),
                                 ('url', 'twitter.com'),
-                                ('path', 'twitter.com')])]
-        self.assertTrue(self.importer.data == data_expected)
+                                ('path', 'lnqYm3ZWtm')])]
         self.importer.clean(clean=False, convert=False)
+        self.assertEqual(self.importer.data, data_expected)
 
-        # Test login as path name
+    def tests_login(self):
+        """Testing: clean data - login as path name."""
         self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                      ('login', 'lnqYm3ZWtm')])]
         data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                 ('login', 'lnqYm3ZWtm'),
                                 ('path', 'lnqYm3ZWtm')])]
         self.importer.clean(clean=False, convert=False)
-        self.assertTrue(self.importer.data == data_expected)
+        self.assertEqual(self.importer.data, data_expected)
 
-        # Test notitle as path name
+    def tests_notitle(self):
+        """Testing: clean data - notitle as path name."""
         self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7')])]
         data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
                                 ('path', 'notitle')])]
         self.importer.clean(clean=False, convert=False)
-        self.assertTrue(self.importer.data == data_expected)
+        self.assertEqual(self.importer.data, data_expected)
 
-        # Test empty title and clean enabled
+    def tests_empty(self):
+        """Testing: clean data - empty title and clean enabled."""
         self.importer.data = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7')])]
+        data_expected = [Odict([('password', 'UuQHzvv6IHRIJGjwKru7'),
+                                ('path', 'notitle')])]
         self.importer.clean(clean=True, convert=False)
-        self.assertTrue(self.importer.data == data_expected)
+        self.assertEqual(self.importer.data, data_expected)
 
-    def test_clean_duplicate_paths(self):
-        """Testing: clean duplicate paths."""
+    def test_convert(self):
+        """Testing: convert password path."""
+        self.importer.data = [Odict([('title', 'ovh>com'),
+                                     ('password', 'AGJjkMPsRUqDXyUdLbC4'),
+                                     ('login', 'lnqYm3ZWtm')]),
+                              Odict([('password', 'VRiplZSniSBlHNnQvc9e'),
+                                     ('login', 'fm/mhpv*ity')])]
+        data_expected = [Odict([('password', 'AGJjkMPsRUqDXyUdLbC4'),
+                                ('login', 'lnqYm3ZWtm'),
+                                ('path', 'ovh-com')]),
+                         Odict([('password', 'VRiplZSniSBlHNnQvc9e'),
+                                ('login', 'fm/mhpv*ity'),
+                                ('path', 'fm-mhpv-ity')])]
+        self.importer.clean(clean=False, convert=True)
+        self.assertEqual(self.importer.data, data_expected)
+
+
+class TestPasswordManagerDuplicate(TestPasswordManager):
+
+    def test_paths(self):
+        """Testing: duplicate paths."""
         self.importer.data = [Odict([('title', 'ovh.com'),
                                      ('password', 'AGJjkMPsRUqDXyUdLbC4'),
                                      ('login', 'lnqYm3ZWtm')]),
@@ -167,15 +206,53 @@ class TestPasswordManagerGeneral(TestPasswordManager):
                                      ('login', 'ptfzlnvmj')])]
         data_expected = [Odict([('password', 'AGJjkMPsRUqDXyUdLbC4'),
                                 ('login', 'lnqYm3ZWtm'),
-                                ('path', 'ovh.com')]),
+                                ('path', 'ovh.com/lnqYm3ZWtm')]),
                          Odict([('password', 'VRiplZSniSBlHNnQvc9e'),
                                 ('login', 'lnqYm3ZWtm'),
-                                ('path', 'ovh.com-0')]),
+                                ('path', 'ovh.com/lnqYm3ZWtm-1')]),
                          Odict([('password', '[Q&$\fd]!`vKA&b'),
                                 ('login', 'fmmhpvity'),
-                                ('path', 'ovh.com-1')]),
+                                ('path', 'ovh.com/fmmhpvity')]),
                          Odict([('password', 'DQm_Y+a(sDC)[1|U-S<8Dq!A'),
                                 ('login', 'ptfzlnvmj'),
-                                ('path', 'ovh.com-2')])]
+                                ('path', 'ovh.com/ptfzlnvmj')])]
         self.importer.clean(clean=False, convert=False)
-        self.assertTrue(self.importer.data == data_expected)
+        self.assertEqual(self.importer.data, data_expected)
+
+    def test_subfolder(self):
+        """Testing: duplicate to subfolder."""
+        self.importer.data = [Odict([('title', 'google.com'),
+                                     ('login', 'mdtx@gmail.com'),
+                                     ('group', 'Emails')]),
+                              Odict([('title', 'google.com'),
+                                     ('login', 'lnqY@gmail.com'),
+                                     ('group', 'Emails')]),
+                              Odict([('title', 'google.com'),
+                                     ('login', 'fmmh@gmail.com'),
+                                     ('group', 'Emails')]),
+                              Odict([('title', 'google.com'),
+                                     ('login', 'ptfz@gmail.com'),
+                                     ('group', 'Emails')])]
+        data_expected = [Odict([('login', 'mdtx@gmail.com'),
+                                ('path', 'Emails/google.com/mdtx@gmail.com')]),
+                         Odict([('login', 'lnqY@gmail.com'),
+                                ('path', 'Emails/google.com/lnqY@gmail.com')]),
+                         Odict([('login', 'fmmh@gmail.com'),
+                                ('path', 'Emails/google.com/fmmh@gmail.com')]),
+                         Odict([('login', 'ptfz@gmail.com'),
+                                ('path', 'Emails/google.com/ptfz@gmail.com')])]
+        self.importer.clean(clean=False, convert=False)
+        self.assertEqual(self.importer.data, data_expected)
+
+    def test_numbers(self):
+        """Testing: duplicate with numbers."""
+        self.importer.data = [Odict([('title', 'ovh.com')]),
+                              Odict([('title', 'ovh.com')]),
+                              Odict([('title', 'ovh.com')]),
+                              Odict([('title', 'ovh.com')])]
+        data_expected = [Odict([('path', 'ovh.com/notitle')]),
+                         Odict([('path', 'ovh.com/notitle-1')]),
+                         Odict([('path', 'ovh.com/notitle-2')]),
+                         Odict([('path', 'ovh.com/notitle-3')])]
+        self.importer.clean(clean=False, convert=False)
+        self.assertEqual(self.importer.data, data_expected)
