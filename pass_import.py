@@ -286,18 +286,22 @@ class PasswordManager():
             else:
                 seen.append(path)
 
-    @staticmethod
-    def _create_path(entry):
+    def _create_path(self, entry, path, clean, convert):
         """Create path from title and group."""
-        path = entry.pop('group', '').replace('\\', os.sep)
-        if 'title' in entry:
-            path = os.path.join(path, entry.pop('title'))
-        elif 'url' in entry:
-            path = os.path.join(path, entry['url'].replace('http://', '').replace('https://', ''))
-        elif 'login' in entry:
-            path = os.path.join(path, entry['login'])
-        else:
+        title = ''
+        for key in ['title', 'login', 'url']:
+            if key in entry:
+                title = self._clean_protocol(entry[key])
+                if clean:
+                    title = self._clean_cmdline(title)
+                if convert:
+                    title = self._convert(title)
+                path = os.path.join(path, title)
+                break
+
+        if title == '':
             path = os.path.join(path, 'notitle')
+        entry.pop('title', '')
         return path
 
     def clean(self, clean, convert):
@@ -308,10 +312,8 @@ class PasswordManager():
             for key in empty:
                 entry.pop(key)
 
-            self._clean_protocol(entry, 'title')
-            if clean and 'title' in entry:
-                entry['title'] = self._clean_cmdline(entry['title'])
-            entry['path'] = self._create_path(entry)
+            path = self._clean_group(self._clean_protocol(entry.pop('group', '')))
+            entry['path'] = self._create_path(entry, path, clean, convert)
 
         self._duplicate_paths()
 
