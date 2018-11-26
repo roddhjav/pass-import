@@ -611,6 +611,8 @@ class Keepass(KeepassX):
             title = cls._getvalue(element.findall('String'), 'Title')
         elif element.tag == 'Group':
             title = element.find('Name').text
+        if title is None:
+            title = ''
         return os.path.join(path, title)
 
 
@@ -711,10 +713,8 @@ class Revelation(PasswordManagerXML):
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
             if xmlentry.attrib.get('type', '') == 'folder':
-                if path != xmlentry.find('name').text:
-                    path = ''
-                path = os.path.join(path, xmlentry.find('name').text)
-                self._import(xmlentry, path)
+                _path = os.path.join(path, xmlentry.find('name').text)
+                self._import(xmlentry, _path)
             else:
                 entry = self._getentry(xmlentry)
                 entry['group'] = path
@@ -877,6 +877,8 @@ def main(argv):
                 msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
             except PasswordStoreError as e:
+                if 'No public key' in str(e):
+                    msg.die('the public key provided in not in the keyring')
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
             else:

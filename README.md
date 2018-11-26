@@ -156,23 +156,33 @@ You might also want to update the passwords imported using [`pass-update`][updat
 
 **Requirements**
 * `pass 1.7.0` or greater.
-* `python3` (python 3.4, 3.5 and 3.6 are supported)
+* `python3` (python 3.4, 3.5, 3.6 and 3.7 are supported)
 * `python-defusedxml`
   - Debian/Ubuntu: `sudo apt-get install python3-defusedxml`
   - OSX: `pip3 install defusedxml`
+
+**ArchLinux**
+
+`pass-import` is available in the [Arch User Repository][aur].
+```sh
+yay -S pass-import  # or your preferred AUR install method
+```
+
+**Gentoo Linux**
+```sh
+emerge app-admin/pass-import
+```
+
+**NixOS**
+```sh
+nix-env -iA nixos.passExtensions.pass-import
+```
 
 **From git**
 ```sh
 git clone https://github.com/roddhjav/pass-import/
 cd pass-import
 sudo make install  # For OSX: make install PREFIX=/usr/local
-```
-
-**ArchLinux**
-
-`pass-import` is available in the [Arch User Repository][aur].
-```sh
-pacaur -S pass-import  # or your preferred AUR install method
 ```
 
 **Stable version**
