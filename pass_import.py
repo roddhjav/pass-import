@@ -273,10 +273,10 @@ class PasswordManager():
         for entry in self.data:
             path = entry.get('path', '')
             if path in seen:
-                ii = 0
+                ii = 1
                 while path in seen:
-                    if re.search('(\d+)$', path) is None:
-                        path += self.separator + '0'
+                    if re.search('%s(\d+)$' % self.separator, path) is None:
+                        path += self.separator + str(ii)
                     else:
                         path = path.replace(self.separator + str(ii),
                                             self.separator + str(ii + 1))
