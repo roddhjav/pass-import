@@ -28,6 +28,7 @@ import argparse
 import importlib
 import configparser
 from subprocess import Popen, PIPE
+from urllib.parse import urlparse
 from collections import OrderedDict
 
 __version__ = '2.3'
@@ -633,6 +634,15 @@ class KeepassXC(KeepassX2):
 class Lastpass(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'extra', 'group': 'grouping'}
+
+    def parse(self, file):
+        super(Lastpass, self).parse(file)
+        for entry in self.data:
+            parsed_uri = urlparse(entry['url'])
+            entry['url'] =  '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+            entry['group'] = entry['title']
+            entry['title'] = entry['login']
+
 
 
 class NetworkManager(PasswordManager):
