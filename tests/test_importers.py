@@ -24,7 +24,7 @@ from .. import pass_import
 from tests.commons import TestBase
 
 
-class TestBaseImporters(TestPassSimple):
+class TestBaseImporters(TestBase):
 
     def _get_refdata(self, keys, path='.template.csv'):
         refdata = []
