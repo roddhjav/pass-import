@@ -17,27 +17,60 @@
 #
 
 import os
-import csv
-from collections import OrderedDict
+from collections import OrderedDict as Odict
 
 from .. import pass_import
 from tests.commons import TestBase
 
 
-class TestBaseImporters(TestBase):
+REF = [Odict([('title', 'mastodon.social'),
+              ('password', "D<INNeT?#?Bf4%`zA/4i!/'$T"),
+              ('login', 'ostqxi')]),
+       Odict([('title', 'twitter.com'),
+              ('password', 'SoNEwvU,kJ%-cIKJ9[c#S;]jB'),
+              ('login', 'ostqxi')]),
+       Odict([('title', 'news.ycombinator.com'),
+              ('password', "1)Btf2EI~Tfb7g2A!Sy',*Sj#"),
+              ('login', 'ostqxi')]),
+       Odict([('title', 'ovh.com'),
+              ('password', '^Vr/|o>_H8X%T]7>f}7|:U!Zs'),
+              ('login', 'jsdkyvbwjn')]),
+       Odict([('title', 'ovh.com'),
+              ('password', "3Z-VW!i,j(&!zRGPu(hFe]s'("),
+              ('login', 'bynbyjhqjz')]),
+       Odict([('title', 'aib'),
+              ('password',
+               "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"),
+              ('login', 'dpbx@fner.ws')]),
+       Odict([('title', 'dpbx@afoqwdr.tx'),
+              ('password', '9KVHnx:.S_S;cF`=CE@e\\p{v6'),
+              ('login', 'dpbx')]),
+       Odict([('title', 'dpbx@klivak.xb'),
+              ('password', '2cUqe}e9}>IVZf)Ye>3C8ZN,r'),
+              ('login', 'dpbx')]),
+       Odict([('title', 'dpbx@mnyfymt.ws'),
+              ('password', 'rPCkmNkhIa>{izt3C3F823!Go'),
+              ('login', 'dpbx')]),
+       Odict([('title', 'dpbx@fner.ws'),
+              ('password', "mt}h'hSUCY;SU;;A!l[8y3O:8"),
+              ('login', 'dpbx')]),
+       Odict([('title', 'space title'),
+              ('password', ']stDKo{%pk'),
+              ('login', 'vkeelpbu')]),
+       Odict([('title', 'empty entry')]),
+       Odict([('title', 'empty password'),
+              ('login', 'vkeelpbu')]),
+       Odict([('title', 'note')])]
 
-    def _get_refdata(self, keys, path='.template.csv'):
-        refdata = []
-        reffile = os.path.join(self.db, path)
-        with open(reffile, 'r', encoding='utf-8') as file:
-            reader = csv.DictReader(file, delimiter=',', quotechar='"')
-            for row in reader:
-                entry = OrderedDict()
-                for key in keys:
-                    entry[key] = row.get(key, None)
-                refdata.append(entry)
-        self._clean(keys, refdata)
-        return refdata
+REF_WIFI = [Odict([('title', 'android'),
+                   ('password', 'dMa+GoMjGz')]),
+            Odict([('title', 'Box-A5O9'),
+                   ('password', '07B1DB8DBCB541C48202487760D0E1D6')]),
+            Odict([('title', 'eduroam'),
+                   ('password', 'X3<yS1g9wW-@lC87pekRmXMJp')])]
+
+
+class TestBaseImporters(TestBase):
 
     @staticmethod
     def _clean(keys, data):
@@ -58,21 +91,21 @@ class TestBaseImporters(TestBase):
             for key in delete:
                 entry.pop(key, None)
 
-    def _get_testpath(self, manager):
+    def _path(self, manager):
         """Get database file to test."""
         ext = '.xml' if manager in self.xml else '.csv'
         ext = '.1pif' if manager == '1password4pif' else ext
         encoding = 'utf-8-sig' if manager == '1password4pif' else 'utf-8'
         return (os.path.join(self.db, manager + ext), encoding)
 
-    def _check_imported_data(self, keys, data, refdata):
+    def assertImport(self, keys, data, refdata):
         """Compare imported data with the reference data."""
         self._clean(keys, data)
         for entry in data:
             self.assertIn(entry, refdata)
 
     @staticmethod
-    def _load_import(manager):
+    def _class(manager):
         """Load importer class."""
         ImporterClass = getattr(pass_import,
                                 pass_import.importers[manager][0])
@@ -85,27 +118,25 @@ class TestImporters(TestBaseImporters):
     def test_importers(self):
         """Testing: importer parse method using real data."""
         keys = ['title', 'password', 'login', 'ssid']
-        refdata = self._get_refdata(keys)
         ignore = ['networkmanager']
         for manager in pass_import.importers:
             if manager in ignore:
                 continue
             with self.subTest(manager):
-                importer = self._load_import(manager)
-                testpath, encoding = self._get_testpath(manager)
+                importer = self._class(manager)
+                testpath, encoding = self._path(manager)
                 with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 
-                self._check_imported_data(keys, importer.data, refdata)
+                self.assertImport(keys, importer.data, REF)
 
     def test_importers_networkmanager(self):
         """Testing: importer parse method from Network Manager settings."""
         keys = ['title', 'password']
         testpath = os.path.join(self.db, 'networkmanager')
-        refdata = self._get_refdata(keys, '.template-wifi.csv')
-        importer = self._load_import('networkmanager')
+        importer = self._class('networkmanager')
         importer.parse(testpath)
-        self._check_imported_data(keys, importer.data, refdata)
+        self.assertImport(keys, importer.data, REF_WIFI)
 
     def test_importers_format(self):
         """Testing: importer file format."""
@@ -115,7 +146,7 @@ class TestImporters(TestBaseImporters):
             if manager in ignore:
                 continue
             with self.subTest(manager):
-                importer = self._load_import(manager)
+                importer = self._class(manager)
                 ext = '.xml' if manager in self.xml else '.csv'
                 testpath = os.path.join(self.db, '.dummy' + ext)
 
