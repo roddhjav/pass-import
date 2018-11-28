@@ -17,12 +17,59 @@
 #
 
 import os
+import csv
+from collections import OrderedDict
 
 from .. import pass_import
 from tests.commons import TestPassSimple
 
 
-class TestImporters(TestPassSimple):
+class TestBaseImporters(TestPassSimple):
+
+    def _get_refdata(self, keys, path='.template.csv'):
+        refdata = []
+        reffile = os.path.join(self.db, path)
+        with open(reffile, 'r', encoding='utf-8') as file:
+            reader = csv.DictReader(file, delimiter=',', quotechar='"')
+            for row in reader:
+                entry = OrderedDict()
+                for key in keys:
+                    entry[key] = row.get(key, None)
+                refdata.append(entry)
+        self._clean(keys, refdata)
+        return refdata
+
+    @staticmethod
+    def _clean(keys, data):
+        """Clean data from unwanted keys and weird formatting."""
+        for entry in data:
+            delete = [k for k in entry.keys() if k not in keys]
+            empty = [k for k, v in entry.items() if not v]
+            delete.extend(empty)
+            for key in delete:
+                entry.pop(key, None)
+
+            delete = []
+            for key in entry:
+                entry[key] = entry[key].replace('https://', '')
+                entry[key] = entry[key].replace('http://', '')
+                if not entry[key]:
+                    delete.append(key)
+            for key in delete:
+                entry.pop(key, None)
+
+    def _get_testpath(self, manager):
+        """Get database file to test."""
+        ext = '.xml' if manager in self.xml else '.csv'
+        ext = '.1pif' if manager == '1password4pif' else ext
+        encoding = 'utf-8-sig' if manager == '1password4pif' else 'utf-8'
+        return (os.path.join(self.db, manager + ext), encoding)
+
+    def _check_imported_data(self, keys, data, refdata):
+        """Compare imported data with the reference data."""
+        self._clean(keys, data)
+        for entry in data:
+            self.assertIn(entry, refdata)
 
     @staticmethod
     def _load_import(manager):
@@ -31,6 +78,9 @@ class TestImporters(TestPassSimple):
                                 pass_import.importers[manager][0])
         importer = ImporterClass(extra=True)
         return importer
+
+
+class TestImporters(TestBaseImporters):
 
     def test_importers(self):
         """Testing: importer parse method using real data."""
