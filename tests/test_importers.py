@@ -21,7 +21,7 @@ import csv
 from collections import OrderedDict
 
 from .. import pass_import
-from tests.commons import TestPassSimple
+from tests.commons import TestBase
 
 
 class TestBaseImporters(TestPassSimple):

@@ -22,18 +22,16 @@ import unittest
 import pass_import
 
 
-class TestPassSimple(unittest.TestCase):
+class TestBase(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
     xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation', 'kedpm']
     db = "tests/db/"
 
 
+class TestPass(TestBase):
 
 
-
-
-class TestPass(TestPassSimple):
     @classmethod
     def setUpClass(cls):
         # GPG Config

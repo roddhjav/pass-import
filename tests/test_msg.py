@@ -21,7 +21,7 @@ from io import StringIO
 from contextlib import contextmanager
 
 from .. import pass_import
-from tests.commons import TestPassSimple
+from tests.commons import TestBase
 
 
 @contextmanager
@@ -35,7 +35,7 @@ def captured_output():
         sys.stdout, sys.stderr = old_out, old_err
 
 
-class TestMsg(TestPassSimple):
+class TestMsg(TestBase):
 
     def setUp(self):
         self.msg = pass_import.Msg(False, False)

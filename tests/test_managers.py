@@ -20,10 +20,10 @@ import os
 from collections import OrderedDict as Odict
 
 from .. import pass_import
-from tests.commons import TestPassSimple
+from tests.commons import TestBase
 
 
-class TestPasswordManager(TestPassSimple):
+class TestPasswordManager(TestBase):
     def setUp(self):
         self.importer = pass_import.PasswordManager()
 
