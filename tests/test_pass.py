@@ -61,7 +61,7 @@ class TestPassStore(TestPass):
         self.store.insert(path, entry2, force=True)
         self.assertEqual(self.store._pass(['show', path]), entry2)
 
-    def test_validRecipients(self):
+    def test_valid_recipients(self):
         """Testing: valid recipients."""
         self.gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B',
                        '70BD448330ACF0653645B8F2B4DDBFF0D774A374',
@@ -69,7 +69,7 @@ class TestPassStore(TestPass):
         self._passinit()
         self.assertTrue(self.store.is_valid_recipients())
 
-    def test_invalidRecipients(self):
+    def test_invalid_recipients(self):
         """Testing: invalid recipients."""
         self.gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B',
                        'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
@@ -77,7 +77,7 @@ class TestPassStore(TestPass):
         self._passinit()
         self.assertFalse(self.store.is_valid_recipients())
 
-    def test_emptyRecipients(self):
+    def test_empty_recipients(self):
         """Testing: empty recipients."""
         self.gpgids = ['']
         self._passinit()

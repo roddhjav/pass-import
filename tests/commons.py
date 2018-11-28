@@ -30,25 +30,36 @@ class TestBase(unittest.TestCase):
 
 
 class TestPass(TestBase):
+    """Base test class for passwordstore related tests.
+    This base test class provides the unittest with.
+        1. A working gpg keyring
+        2. A directory where it can create new password store
+        3. A _passinit function
 
+    The test root directory is created in self.tmp. Inside this directory, each
+    test has its own directory.
+    """
 
     @classmethod
     def setUpClass(cls):
-        # GPG Config
+        # GPG Settings
         if 'GPG_AGENT_INFO' in os.environ:
-            os.environ.pop('GPG_AGENT_INFO', None)
+            os.environ.pop('GPG_AGENT_INFO')
         os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), 'tests/gnupg')
 
-        # Tests directories
-        cls.tmp = os.path.join(cls.tmp, cls.__name__[8:].lower())
-        shutil.rmtree(cls.tmp, ignore_errors=True)
-        os.makedirs(cls.tmp, exist_ok=True)
-
     def setUp(self):
-        testname = self.id().split('_').pop() + '-store'
-        os.environ['PASSWORD_STORE_DIR'] = os.path.join(self.tmp, testname)
-        os.makedirs(os.environ['PASSWORD_STORE_DIR'], exist_ok=True)
+        # The test name is the test method name after 'test_'
+        testname = self.id().split('.').pop()[len('test_'):]
+
+        # Set PASSWORD_STORE_DIR & declare a passwordstore object
+        prefix = os.path.join(self.tmp, testname)
+        os.environ['PASSWORD_STORE_DIR'] = prefix
         self.store = pass_import.PasswordStore()
+
+        # Re-initialize the test directory
+        if os.path.isdir(prefix):
+            shutil.rmtree(prefix, ignore_errors=True)
+        os.makedirs(prefix, exist_ok=True)
 
     def _passinit(self):
         with open(os.path.join(self.store.prefix, '.gpg-id'), 'w') as file:
