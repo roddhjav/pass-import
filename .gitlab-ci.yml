@@ -36,11 +36,43 @@ sast:
     reports:
       sast: gl-sast-report.json
 
-archlinux:
+.script: &script
   stage: test
+  script:
+    - pip3 install green coverage defusedxml
+    - make tests
+
+.only: &only
+  only:
+   - tags
+   - web
+
+archlinux:
   image: archlinux/base
   before_script:
     - pacman -Syu --noconfirm --noprogressbar make python-pip which grep pass
-    - pip install green coverage defusedxml
-  script:
-    - make tests
+  <<: *script
+
+ubuntu:
+  image: ubuntu
+  before_script:
+    - apt-get update -q && apt-get install -y make pass python3-pip grep
+  <<: *script
+  <<: *only
+
+debian:
+  image: debian
+  before_script:
+    - apt-get update -q && apt-get install -y make pass python3-pip grep wget
+    - wget https://git.zx2c4.com/password-store/snapshot/password-store-1.7.3.tar.xz
+    - tar -xf password-store-1.7.3.tar.xz
+    - make --directory=password-store-1.7.3 install
+  <<: *script
+  <<: *only
+
+fedora:
+  image: fedora
+  before_script:
+    - dnf -y install make gpg pass python3-pip grep which --setopt=install_weak_deps=False
+  <<: *script
+  <<: *only
