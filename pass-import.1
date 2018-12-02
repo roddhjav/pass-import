@@ -1,4 +1,4 @@
-.TH MARK 1 "July 2018" "pass-import"
+.TH MARK 1 "December 2018" "pass-import"
 
 .SH NAME
 pass-import \- A \fBpass\fP(1) extension for importing data from most of
@@ -11,7 +11,7 @@ the existing password manager.
 .SH DESCRIPTION
 \fBpass import\fP is a password store extension allowing you to import your
 password database to a password store repository conveniently. It natively
-supports import from 22 different password managers. More manager support can
+supports import from 23 different password managers. More manager support can
 easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -26,8 +26,9 @@ Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
 .SH COMMAND
 .TP
 \fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--clean\fP, \fI-c\fP ]
-     [ \fI--extra\fP, \fI-e\fP ] [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ]
-     [ \fI--quiet\fP, \fI-q\fP ] [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
+     [ \fI--extra\fP, \fI-e\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--separator\fP, \fI-s\fP ]
+     [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ] [ \fI--quiet\fP, \fI-q\fP ]
+     [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
 
 Import data from most of the password manager. Passwords are imported in the
 existing default password store, therefore the password store must have been
@@ -52,6 +53,14 @@ If \fI--extra\fP or \fI-e\fP is specified, conserve and import all the data
 present in the backup file. Otherwise, only title, password, login, URL,
 comments and group data are imported.
 
+If \fI--convert\fP or \fI-C\fP is specified, convert the invalid caracters
+present in the paths before import. invalid caracters for both Windows and Unix
+systems are supported. The invalid caracters are remplaced by the default
+separator: '-'
+
+If \fI--separator\fP or \fI-s\fP is specified, provide a caracter of replacement
+for the path separator. Default: '-'
+
 If \fI--list\fP or \fI-l\fP is specified, print the list of the available
 password manager.
 
@@ -72,6 +81,14 @@ Clean data before import.
 .TP
 \fB\-e\fB, \-\-extra\fR
 Also import all the extra data present.
+
+.TP
+\fB\-C\fB, \-\-convert\fR
+Convert the invalid caracters present in the paths.
+
+.TP
+\fB\-s\fB, \-\-separator\fR
+Provide a caracter of replacement for the path separator. Default: '-'
 
 .TP
 \fB\-l\fB, \-\-list\fR
@@ -96,6 +113,22 @@ Show the program version and exit.
 .TP
 \fB\-h\fB, \-\-help\fR
 Show usage message.
+
+
+.SH CONFIGURATION FILE
+
+Some configuration can be read from a configuration file called `\fI.import\fP if
+it is present at the root of the password repository. The configuration read from
+this file will be overwritten by their coresponding command line option
+if present.
+
+.TP
+Example of the .import configuration file for the default password repository
+.B zx2c4@laptop ~ $ cat ~/.password-store/.import
+.br
+[convert]
+.br
+separator = -
 
 
 .SH SUPPORTED MANAGERS
@@ -280,6 +313,14 @@ Export: Roboform > Options > Data & Sync > Export To: CSV file
 
 Command: pass import roboform file.xml
 
+.TP
+\fBupm\fP
+Website: \fIhttp://upm.sourceforge.net/\fP
+
+Export: Database > Export
+
+Command: pass import upm file.csv
+
 
 .SH EXAMPLES
 
@@ -301,9 +342,9 @@ Import password from KeePass
 .br
        Social/news.ycombinator.com
 .br
-       Servers/ovh.com
+       Servers/ovh.com/bynbyjhqjz
 .br
-       Servers/ovh.com0
+       Servers/ovh.com/jsdkyvbwjn
 .br
        Bank/aib
 
@@ -335,9 +376,9 @@ Import password to a subfolder
 .br
       Import/Social/news.ycombinator.com
 .br
-      Import/Servers/ovh.com
+      Import/Servers/ovh.com/bynbyjhqjz
 .br
-      Import/Servers/ovh.com0
+      Import/Servers/ovh.com/jsdkyvbwjn
 .br
       Import/Bank/aib
 

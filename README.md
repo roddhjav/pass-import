@@ -68,7 +68,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 ## Usage
 
 ```
-usage: pass import [-h] [-V] [[-p PATH] [-c] [-e] [-f] | -l] [manager] [file]
+usage: pass import [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] [manager] [file]
 
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
@@ -79,15 +79,19 @@ positional arguments:
                         bitwarden, chrome, chromesqlite, dashlane, enpass,
                         fpm, gorilla, kedpm, keepass, keepasscsv, keepassx,
                         keepassx2, keepassxc, lastpass, networkmanager,
-                        passwordexporter, pwsafe, revelation, roboform.
+                        passwordexporter, pwsafe, revelation, roboform, upm.
   file                  File is the path to the file that contains the data to
                         import, if empty read the data from stdin.
 
 optional arguments:
   -h, --help            show this help message and exit
   -p PATH, --path PATH  Import the passwords to a specific subfolder.
-  -c, --clean           Clean data before import.
   -e, --extra           Also import all the extra data present.
+  -c, --clean           Make the paths more command line friendly.
+  -C, --convert         Convert the invalid caracters present in the paths.
+  -s CAR, --separator CAR
+                        Provide a caracter of replacement for the path
+                        separator. Default: '-'
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.
   -q, --quiet           Be quiet.
@@ -110,8 +114,8 @@ pass import keepass keepass.xml
        Social/mastodon.social
        Social/twitter.com
        Social/news.ycombinator.com
-       Servers/ovh.com
-       Servers/ovh.com0
+       Servers/ovh.com/bynbyjhqjz
+       Servers/ovh.com/jsdkyvbwjn
        Bank/aib
 ```
 
@@ -133,9 +137,23 @@ pass import keepass keepass.xml -p Import/
       Import/Social/mastodon.social
       Import/Social/twitter.com
       Import/Social/news.ycombinator.com
-      Import/Servers/ovh.com
-      Import/Servers/ovh.com0
+      Import/Servers/ovh.com/bynbyjhqjz
+      Import/Servers/ovh.com/jsdkyvbwjn
       Import/Bank/aib
+```
+
+## Configuration file
+
+Some configuration can be read from a configuration file called `.import` if it
+is present at the root of the password repository. The configuration read from
+this file will be overwritten by their coresponding command line option
+if present.
+
+Example of the `.import` configuration file for the default password repository:
+```sh
+$ cat ~/.password-store/.import
+[convert]
+separator = -
 ```
 
 ## Security consideration
