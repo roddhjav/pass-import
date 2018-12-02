@@ -185,6 +185,7 @@ nix-env -iA nixos.passExtensions.pass-import
 ```sh
 git clone https://github.com/roddhjav/pass-import/
 cd pass-import
+make
 sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
@@ -193,6 +194,7 @@ sudo make install  # For OSX: make install PREFIX=/usr/local
 wget https://github.com/roddhjav/pass-import/releases/download/v2.3/pass-import-2.3.tar.gz
 tar xzf pass-import-2.3.tar.gz
 cd pass-import-2.3
+make
 sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
 
