@@ -41,7 +41,7 @@ export DB="$TESTS_HOME/db"
 _die() { echo "${@}" && exit 1; }
 PASS="$(which pass)"; GPG="$(which gpg)"; GIT=true
 [[ -e "$PASS" ]] || _die "Could not find pass command"
-[[ -e "$GPG" ]] || _die "Could not find pass command"
+[[ -e "$GPG" ]] || _die "Could not find gpg command"
 _pass() { "$PASS" "${@}"; }
 
 
