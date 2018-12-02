@@ -32,6 +32,9 @@ sast:
         --volume "$PWD:/code"
         --volume /var/run/docker.sock:/var/run/docker.sock
         "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
 
 archlinux:
   stage: test
