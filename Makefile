@@ -1,6 +1,6 @@
 PROG ?= import
 PREFIX ?= /usr
-DESTDIR ?=
+DESTDIR ?= /
 LIBDIR ?= $(PREFIX)/lib
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 MANDIR ?= $(PREFIX)/share/man
@@ -18,7 +18,7 @@ install:
 	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
 	@install -v -m 0755 "$(PROG).bash" "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
 	@install -v -m 0644 "pass-$(PROG).1" "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
-	@python setup.py install --root="$(DESTDIR)$(PREFIX)" --optimize=1 --skip-build
+	@python setup.py install --root="$(DESTDIR)" --prefix="$(PREFIX)" --optimize=1 --skip-build
 	@echo
 	@echo "pass-$(PROG) is installed succesfully"
 	@echo
