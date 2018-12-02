@@ -8,7 +8,7 @@ MANDIR ?= $(PREFIX)/share/man
 BASHCOMPDIR ?= /etc/bash_completion.d
 
 all:
-	@python setup.py build
+	@python3 setup.py build
 	@echo
 	@echo "pass-$(PROG) was builded succesfully. You can now install it wit \"make install\""
 	@echo
@@ -22,7 +22,7 @@ install:
 	@install -v -m 0755 "$(PROG).bash" "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
 	@install -v -m 0644 "pass-$(PROG).1" "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
 	@install -v -m 0644 "completion/pass-$(PROG).bash" "$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
-	@python setup.py install --root="$(DESTDIR)" --prefix="$(PREFIX)" --optimize=1 --skip-build
+	@python3 setup.py install --root="$(DESTDIR)" --prefix="$(PREFIX)" --optimize=1 --skip-build
 	@echo
 	@echo "pass-$(PROG) is installed succesfully"
 	@echo
@@ -37,7 +37,7 @@ PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
 T = $(sort $(wildcard tests/test_*.sh))
 
 tests:
-	@python setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
+	@python3 setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
 	@make tests_bash
 
 tests_bash: $(T)
