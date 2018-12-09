@@ -9,7 +9,7 @@ mapfile -t PASSWORDS_MANAGERS < <(_pass import --list --quiet)
 XML="fpm keepassx keepass pwsafe revelation kedpm"
 
 for manager in "${PASSWORDS_MANAGERS[@]}"; do
-	test_init "$manager" &> /dev/null
+    test_init "$manager" &> /dev/null
     _in "$XML" "$manager" && ext=".xml" || ext=".csv"
     [[ "$manager" =~ "pif" ]] && ext=".1pif"
     [[ "$manager" == "networkmanager" ]] && ext=""
