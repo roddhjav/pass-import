@@ -130,6 +130,7 @@ class PasswordStore():
     """Simple Password Store for python, only able to insert password.
     Supports all the environment variables.
     """
+
     def __init__(self):
         self._passbinary = shutil.which('pass')
         self._gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
@@ -174,7 +175,6 @@ class PasswordStore():
         command = [self._passbinary]
         if arg is not None:
             command.extend(arg)
-
         res, stdout, stderr = self._call(command, data)
         if res:
             raise PasswordStoreError("%s %s" % (stderr, stdout))
@@ -184,10 +184,31 @@ class PasswordStore():
         """Multiline insertion into the password store."""
         if not force:
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
-                raise PasswordStoreError("An entry already exists for %s." % path)
+                raise PasswordStoreError(
+                    "An entry already exists for %s." % path)
         arg = ['insert', '--multiline']
         arg.append(path)
         return self._pass(arg, data)
+
+    def insert_binary(self, path, data, force=False):
+        binary_list = [i for i in data.split("\n") if "binary" in i]
+        new_path_list = []
+        if binary_list:
+            file_attachment_path = path.split("/")[-1]
+            for binary in binary_list:
+                filename = binary.split(": ")[-1]
+                new_path = path + "_attach/" + filename
+                if not force:
+                    if os.path.isfile(os.path.join(self.prefix, new_path + '.gpg')):
+                        raise PasswordStoreError(
+                            "An entry already exists for %s." % (new_path + '.gpg'))
+                with open(file_attachment_path + "/" + filename, encoding="utf-8") as binaryfile:
+                    data = binaryfile.read()
+                arg = ['insert', '--multiline']
+                arg.append(new_path)
+                self._pass(arg, data)
+                new_path_list.append(new_path)
+            return new_path_list
 
     def exist(self):
         """Return True if the password store is initialized."""
@@ -221,13 +242,15 @@ class PasswordManager():
     Please read CONTRIBUTING.md for more details regarding data structure
     in pass-import.
     """
-    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
+    keyslist = ['title', 'password', 'login',
+                'url', 'comments', 'group', 'binary']
 
     def __init__(self, extra=False, separator='-'):
         self.data = []
         self.all = extra
         self.separator = str(separator)
-        self.cleans = {" ": "_", "&": "and", "@": "At", "'": "", "[": "", "]": ""}
+        self.cleans = {" ": "_", "&": "and",
+                       "@": "At", "'": "", "[": "", "]": ""}
         self.protocols = ['http://', 'https://']
         self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
@@ -255,14 +278,16 @@ class PasswordManager():
 
     def _clean_group(self, string):
         """Remove invalids caracters in a group. Convert separator to os.sep."""
-        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        caracters = dict(
+            zip(self.invalids, [self.separator]*len(self.invalids)))
         caracters['/'] = os.sep
         caracters['\\'] = os.sep
         return self._replaces(caracters, string)
 
     def _convert(self, string):
         """Convert invalid caracters by the separator in a string."""
-        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        caracters = dict(
+            zip(self.invalids, [self.separator]*len(self.invalids)))
         return self._replaces(caracters, string)
 
     def _clean_cmdline(self, string):
@@ -280,7 +305,8 @@ class PasswordManager():
             if len(duplicated[path]) > 1:
                 for idx in duplicated[path]:
                     entry = self.data[idx]
-                    entry['path'] = self._create_path(entry, path, clean, convert)
+                    entry['path'] = self._create_path(
+                        entry, path, clean, convert)
 
     def _duplicate_numerise(self):
         """Add number to the remaining duplicated path."""
@@ -327,7 +353,8 @@ class PasswordManager():
             for key in empty:
                 entry.pop(key)
 
-            path = self._clean_group(self._clean_protocol(entry.pop('group', '')))
+            path = self._clean_group(
+                self._clean_protocol(entry.pop('group', '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
         self._duplicate_paths(clean, convert)
@@ -385,6 +412,19 @@ class PasswordManagerXML(PasswordManager):
             xmlkey = self.keys.get(key, '')
             if xmlkey != '':
                 entry[key] = self._getvalue(element, xmlkey)
+        for binary in element.iterfind('Binary'):
+            binary_element = binary.getchildren()
+            attachment_name = binary_element[0].text
+            binary_ref = binary_element[1].attrib.get('Ref')
+            entry['binary-' + binary_ref] = attachment_name
+        return entry
+
+    def _getbinary(self, element):
+        for binary in element.iterfind('Binary'):
+            binary_element = binary.getchildren()
+            attachment_name = binary_element[0].text
+            binary_ref = binary_element[1].attrib.get('Ref')
+            self.entry['binary'] = attachment_name
         return entry
 
     def parse(self, file):
@@ -395,7 +435,8 @@ class PasswordManagerXML(PasswordManager):
 
 
 class PasswordManagerPIF(PasswordManager):
-    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
+    ignore = ['keyID', 'typeName', 'uuid',
+              'openContents', 'folderUuid', 'URLs']
 
     @staticmethod
     def _pif2json(file):
@@ -445,7 +486,8 @@ class PasswordManagerPIF(PasswordManager):
                 fields = scontent.pop('fields', [])
                 for key in self.keyslist:
                     jsonkey = self.keys.get(key, '')
-                    entry[key] = self._getvalue(jsonkey, item, scontent, fields)
+                    entry[key] = self._getvalue(
+                        jsonkey, item, scontent, fields)
 
                 if self.all:
                     for field in fields:
@@ -571,6 +613,7 @@ class KeepassX(PasswordManagerXML):
         path = self._getpath(element, path)
         for group in element.findall(self.group):
             self._import(group, path)
+
         for xmlentry in element.findall(self.entry):
             entry = self._getentry(xmlentry)
             entry['title'] = self._getpath(xmlentry)
@@ -583,7 +626,7 @@ class Keepass(KeepassX):
     entry = 'Entry'
     format = 'KeePassFile'
     keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
-            'url': 'URL', 'comments': 'Notes'}
+            'url': 'URL', 'comments': 'Notes', 'binary': 'Binary'}
 
     @classmethod
     def _getroot(cls, tree):
@@ -611,6 +654,74 @@ class Keepass(KeepassX):
         if title is None:
             title = ''
         return os.path.join(path, title)
+
+    def parse(self, file, password=None):
+        super(Keepass, self).parse(file)
+        # import ipdb; ipdb.set_trace()
+        if password:
+            import gzip
+            import xml.etree.ElementTree as ET
+            from pykeepass import PyKeePass
+            from base64 import b64decode
+
+            file.seek(0)
+
+            def write_attach(bin_elem, name, path):
+                if bin_elem.attrib['Compressed'] == 'True':
+                    data = gzip.decompress(b64decode(bin_elem.text))
+                else:
+                    data = b64decode(bin_elem.text)
+                filepath = os.path.join(path, name)
+                with open(filepath, 'wb') as f:
+                    f.write(bytearray(data))
+                    print(f'File {filepath} written')
+
+            cleans = {"&": "and", "@": "At", "'": "",
+                      "[": "", "]": "", "#": "", "/": "-"}
+
+            def find_attachment_entry_former(entry):
+                root = ET.fromstring(entry.dump_xml().decode())
+                for binary in root.iter('Binary'):
+                    binary_element = binary.getchildren()
+                    attachment_name = binary_element[0].text
+                    binary_ref = binary_element[1].attrib.get('Ref')
+                    bin_elem = kp._xpath(
+                        '/KeePassFile/Meta/Binaries/Binary[@ID=' + binary_ref + ']')[0]
+
+                    path = self._replaces(cleans, entry.title)
+                    if not os.path.exists(path):
+                        os.makedirs(path)
+                    write_attach(bin_elem, attachment_name, path)
+
+            def find_attachment_entry(entry):
+                root = ET.fromstring(entry.dump_xml().decode())
+
+                for binary in root:
+                    if binary.tag == 'Binary':
+                        attachment_name = None
+                        binary_ref = None
+                        for binary_element in binary.iter('Binary'):
+
+                            attachment_name = binary_element[0].text
+                            binary_ref = binary_element[1].attrib.get('Ref')
+
+                        bin_elem = kp._xpath(
+                            '/KeePassFile/Meta/Binaries/Binary[@ID=' + binary_ref + ']')[0]
+
+                        path = self._replaces(cleans, entry.title)
+                        if not os.path.exists(path):
+                            os.makedirs(path)
+                        write_attach(bin_elem, attachment_name, path)
+
+            keepassfile = file.name.split(".")[0] + ".kdbx"
+
+            # load database
+            kp = PyKeePass(keepassfile, password)
+
+            entries = kp.find_entries(title='.*', regex=True)
+
+            for i, entry in enumerate(entries):
+                find_attachment_entry(entry)
 
 
 class KeepassCSV(PasswordManagerCSV):
@@ -671,7 +782,8 @@ class PasswordExporter(PasswordManagerCSV):
 
 class Pwsafe(PasswordManagerXML):
     format = 'passwordsafe'
-    keyslist = ['title', 'password', 'login', 'url', 'email', 'comments', 'group']
+    keyslist = ['title', 'password', 'login',
+                'url', 'email', 'comments', 'group']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'email': 'email', 'comments': 'notes', 'group': 'group'}
 
@@ -680,7 +792,8 @@ class Pwsafe(PasswordManagerXML):
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
             entry['group'] = entry.get('group', '').replace('.', os.sep)
-            entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
+            entry['comments'] = entry.get(
+                'comments', '').replace(delimiter, '\n')
             if self.all:
                 for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
                     key = 'oldpassword' + historyentry.attrib['num']
@@ -698,7 +811,8 @@ class Revelation(PasswordManagerXML):
 
     @classmethod
     def _getvalue(cls, elements, xmlkey):
-        fieldkeys = ['generic-hostname', 'generic-username', 'generic-password']
+        fieldkeys = ['generic-hostname',
+                     'generic-username', 'generic-password']
         if xmlkey in fieldkeys:
             for field in elements.findall('field'):
                 if xmlkey == field.attrib['id']:
@@ -735,9 +849,9 @@ def argumentsparse(argv):
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-    usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] [manager] [file]",
-    formatter_class=argparse.RawDescriptionHelpFormatter,
-    epilog="More information may be found in the pass-import(1) man page.")
+                                     usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-b KeePassFile password][-f] | -l] [manager] [file]",
+                                     formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     epilog="More information may be found in the pass-import(1) man page.")
 
     parser.add_argument('manager', type=str, nargs='?',
                         help="Can be: %s"
@@ -751,6 +865,9 @@ def argumentsparse(argv):
                         help='Import the passwords to a specific subfolder.')
     parser.add_argument('-e', '--extra', action='store_true',
                         help='Also import all the extra data present.')
+    parser.add_argument('-b', '--binaries', type=str, metavar='KEEPASS_PW',
+                        help='Also import all the binary attachments. \
+                        Specify the password to open the KeePassFile')
     parser.add_argument('-c', '--clean', action='store_true',
                         help='Make the paths more command line friendly.')
     parser.add_argument('-C', '--convert', action='store_true',
@@ -764,7 +881,8 @@ def argumentsparse(argv):
     parser.add_argument('-f', '--force', action='store_true',
                         help='Overwrite existing path.')
     parser.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
-    parser.add_argument('-v', '--verbose', action='store_true', help='Be verbose.')
+    parser.add_argument('-v', '--verbose',
+                        action='store_true', help='Be verbose.')
     parser.add_argument('-V', '--version', action='version',
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
@@ -812,7 +930,7 @@ def sanitychecks(arg, msg):
     return file
 
 
-def report(arg, msg, paths):
+def report(arg, msg, paths, binaries=None):
     """Print final success report."""
     msg.success("Importing passwords from %s" % arg.manager)
     if arg.file is None:
@@ -833,6 +951,10 @@ def report(arg, msg, paths):
         paths.sort()
         for path in paths:
             msg.echo(os.path.join(arg.root, path))
+    if binaries:
+        msg.message("Binaries imported:")
+        for binary in binaries:
+            msg.echo(binary)
 
 
 def main(argv):
@@ -849,7 +971,7 @@ def main(argv):
                                 importers[arg.manager][0])
         importer = ImporterClass(arg.extra, arg.separator)
         try:
-            importer.parse(file)
+            importer.parse(file, arg.binaries)
             importer.clean(arg.clean, arg.convert)
         except (FormatError, AttributeError, ValueError):
             msg.die("%s is not a exported %s file" % (arg.file, arg.manager))
@@ -861,6 +983,7 @@ def main(argv):
 
         # Insert data into the password store
         paths = []
+        binaries = []
         store = PasswordStore()
         if not store.exist():
             msg.die("password store not initialized")
@@ -873,6 +996,8 @@ def main(argv):
                 msg.verbose("Path", passpath)
                 msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
+                if arg.binaries:
+                    binaries = store.insert_binary(passpath, data, arg.force)
             except PasswordStoreError as e:
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
@@ -880,7 +1005,7 @@ def main(argv):
                 paths.append(entry['path'])
 
         # Success!
-        report(arg, msg, paths)
+        report(arg, msg, paths, binaries)
 
 
 if __name__ == "__main__":
