@@ -32,6 +32,8 @@ from collections import OrderedDict, defaultdict
 
 __version__ = '2.4'
 
+TMP_ATTACHMENT_DIR = "tmp_attachment_files/"
+
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
@@ -194,7 +196,7 @@ class PasswordStore():
         binary_list = [i for i in data.split("\n") if "binary" in i]
         new_path_list = []
         if binary_list:
-            file_attachment_path = path.split("/")[-1]
+            file_attachment_path = TMP_ATTACHMENT_DIR + path.split("/")[-1]
             for binary in binary_list:
                 filename = binary.split(": ")[-1]
                 new_path = path + "_attach/" + filename
@@ -250,7 +252,7 @@ class PasswordManager():
         self.all = extra
         self.separator = str(separator)
         self.cleans = {" ": "_", "&": "and",
-                       "@": "At", "'": "", "[": "", "]": ""}
+                       "@": "At", "'": "", "[": "", "]": "", "/": "-"}
         self.protocols = ['http://', 'https://']
         self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
@@ -292,7 +294,7 @@ class PasswordManager():
 
     def _clean_cmdline(self, string):
         """Make the string more command line friendly."""
-        return self._replaces(self.cleans, string)
+        return self._replaces(self.cleans, string.strip())
 
     def _duplicate_paths(self, clean, convert):
         """Create subfolders for duplicated paths."""
@@ -423,11 +425,11 @@ class PasswordManagerXML(PasswordManager):
         for binary in element.iterfind('Binary'):
             binary_element = binary.getchildren()
             attachment_name = binary_element[0].text
-            binary_ref = binary_element[1].attrib.get('Ref')
+            # binary_ref = binary_element[1].attrib.get('Ref')
             self.entry['binary'] = attachment_name
         return entry
 
-    def parse(self, file):
+    def parse(self, file, password=None):
         tree = ElementTree.XML(file.read())
         self._checkformat(tree)
         root = self._getroot(tree)
@@ -655,63 +657,67 @@ class Keepass(KeepassX):
             title = ''
         return os.path.join(path, title)
 
-    def parse(self, file, password=None):
-        super(Keepass, self).parse(file)
-        # import ipdb; ipdb.set_trace()
-        if password:
-            import gzip
-            import xml.etree.ElementTree as ET
-            from pykeepass import PyKeePass
-            from base64 import b64decode
 
-            file.seek(0)
+    def write_attach(self, bin_elem, name, path):
+        import gzip
+        from base64 import b64decode
+        if bin_elem.attrib['Compressed'] == 'True':
+            data = gzip.decompress(b64decode(bin_elem.text))
+        else:
+            data = b64decode(bin_elem.text)
+        filepath = os.path.join(path, name)
+        msg = Msg()
+        with open(filepath, 'wb') as f:
+            f.write(bytearray(data))
+            msg.echo('File ' + filepath + ' written')
 
-            def write_attach(bin_elem, name, path):
-                if bin_elem.attrib['Compressed'] == 'True':
-                    data = gzip.decompress(b64decode(bin_elem.text))
-                else:
-                    data = b64decode(bin_elem.text)
-                filepath = os.path.join(path, name)
-                with open(filepath, 'wb') as f:
-                    f.write(bytearray(data))
-                    print(f'File {filepath} written')
 
-            cleans = {"&": "and", "@": "At", "'": "",
-                      "[": "", "]": "", "#": "", "/": "-"}
+    # def find_attachment_entry_former(self, entry):
+        # root = ET.fromstring(entry.dump_xml().decode())
+        # for binary in root.iter('Binary'):
+        #     binary_element = binary.getchildren()
+        #     attachment_name = binary_element[0].text
+        #     binary_ref = binary_element[1].attrib.get('Ref')
+        #     bin_elem = kp._xpath(
+        #         '/KeePassFile/Meta/Binaries/Binary[@ID=' + binary_ref + ']')[0]
 
-            def find_attachment_entry_former(entry):
-                root = ET.fromstring(entry.dump_xml().decode())
-                for binary in root.iter('Binary'):
-                    binary_element = binary.getchildren()
+        #     # cleans = {"&": "and", "@": "At", "'": "", 
+        #     #  "[": "", "]": "", "#": "", "/": "-", " ": "_"}
+        #     path = TMP_ATTACHMENT_DIR + self._replaces(self.cleans, entry.title)
+        #     if not os.path.exists(path):
+        #         os.makedirs( path)
+        #     self.write_attach(bin_elem, attachment_name, path)
+
+
+    def find_attachment_entry(self, entry, keepassobj):
+        # import xml.etree.ElementTree as ET
+        # root = ET.fromstring(entry.dump_xml().decode())
+        root = ElementTree.XML(entry.dump_xml().decode())
+
+        for binary in root:
+            if binary.tag == 'Binary':
+                attachment_name = None
+                binary_ref = None
+                for binary_element in binary.iter('Binary'):
+
                     attachment_name = binary_element[0].text
                     binary_ref = binary_element[1].attrib.get('Ref')
-                    bin_elem = kp._xpath(
-                        '/KeePassFile/Meta/Binaries/Binary[@ID=' + binary_ref + ']')[0]
 
-                    path = self._replaces(cleans, entry.title)
-                    if not os.path.exists(path):
-                        os.makedirs(path)
-                    write_attach(bin_elem, attachment_name, path)
+                bin_elem = keepassobj._xpath(
+                    '/KeePassFile/Meta/Binaries/Binary[@ID=' + binary_ref + ']')[0]
 
-            def find_attachment_entry(entry):
-                root = ET.fromstring(entry.dump_xml().decode())
+                path = TMP_ATTACHMENT_DIR + self._replaces(self.cleans, entry.title)
+                if not os.path.exists(path):
+                    os.makedirs(path)
+                self.write_attach(bin_elem, attachment_name, path)
 
-                for binary in root:
-                    if binary.tag == 'Binary':
-                        attachment_name = None
-                        binary_ref = None
-                        for binary_element in binary.iter('Binary'):
 
-                            attachment_name = binary_element[0].text
-                            binary_ref = binary_element[1].attrib.get('Ref')
+    def parse(self, file, password=None):
+        super(Keepass, self).parse(file)
+        if password:
+            from pykeepass import PyKeePass
 
-                        bin_elem = kp._xpath(
-                            '/KeePassFile/Meta/Binaries/Binary[@ID=' + binary_ref + ']')[0]
-
-                        path = self._replaces(cleans, entry.title)
-                        if not os.path.exists(path):
-                            os.makedirs(path)
-                        write_attach(bin_elem, attachment_name, path)
+            file.seek(0)
 
             keepassfile = file.name.split(".")[0] + ".kdbx"
 
@@ -720,8 +726,16 @@ class Keepass(KeepassX):
 
             entries = kp.find_entries(title='.*', regex=True)
 
-            for i, entry in enumerate(entries):
-                find_attachment_entry(entry)
+            msg = Msg()
+
+            msg.message("Attachments extraction started")
+            for entry in entries:
+                try:
+                    self.find_attachment_entry(entry, kp)
+                except:
+                    msg.warning("Problem extracting attachmemnt {entry} with error\n", sys.exc_info()[0])
+            msg.message("ADD - Cleanup attachment files")
+            msg.echo("Attachments extraction ended")
 
 
 class KeepassCSV(PasswordManagerCSV):
@@ -849,9 +863,9 @@ def argumentsparse(argv):
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-                                     usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-b KeePassFile password][-f] | -l] [manager] [file]",
+                                     usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-b              KeePassFile password][-f] | -l] [manager] [file]",
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
-                                     epilog="More information may be found in the pass-import(1) man page.")
+                                     epilog="More information may be found in the pass-import(1)              man page.")
 
     parser.add_argument('manager', type=str, nargs='?',
                         help="Can be: %s"
@@ -930,7 +944,7 @@ def sanitychecks(arg, msg):
     return file
 
 
-def report(arg, msg, paths, binaries=None):
+def report(arg, msg, paths, binaries=None, error_binaries=None):
     """Print final success report."""
     msg.success("Importing passwords from %s" % arg.manager)
     if arg.file is None:
@@ -952,9 +966,15 @@ def report(arg, msg, paths, binaries=None):
         for path in paths:
             msg.echo(os.path.join(arg.root, path))
     if binaries:
+        msg.message("Number of attachments imported: %s" % len(binaries))
         msg.message("Binaries imported:")
         for binary in binaries:
             msg.echo(binary)
+        msg.message("Number of attachments not imported: %s" % len(error_binaries))
+        msg.message("Binaries Not imported:")
+        for binary in error_binaries:
+            msg.echo(binary)
+
 
 
 def main(argv):
@@ -984,6 +1004,7 @@ def main(argv):
         # Insert data into the password store
         paths = []
         binaries = []
+        error_binaries = []
         store = PasswordStore()
         if not store.exist():
             msg.die("password store not initialized")
@@ -997,7 +1018,12 @@ def main(argv):
                 msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
                 if arg.binaries:
-                    binaries = store.insert_binary(passpath, data, arg.force)
+                    try:
+                        added_path = store.insert_binary(passpath, data, arg.force)
+                        if added_path:
+                            binaries = binaries + added_path
+                    except:
+                        error_binaries.append(passpath)
             except PasswordStoreError as e:
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
@@ -1005,7 +1031,7 @@ def main(argv):
                 paths.append(entry['path'])
 
         # Success!
-        report(arg, msg, paths, binaries)
+        report(arg, msg, paths, binaries, error_binaries)
 
 
 if __name__ == "__main__":
