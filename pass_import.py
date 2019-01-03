@@ -376,7 +376,7 @@ class PasswordManagerCSV(PasswordManager):
             if csvkey not in fieldnames:
                 raise FormatError()
 
-    def parse(self, file):
+    def parse(self, file, password=None):
         reader = csv.DictReader(file, fieldnames=self.fieldnames,
                                 delimiter=',', quotechar='"')
         self._checkformat(reader.fieldnames)
@@ -473,7 +473,7 @@ class PasswordManagerPIF(PasswordManager):
             groupid = entry.get('group', '')
             entry['group'] = folders.get(groupid, {}).get('group', '')
 
-    def parse(self, file):
+    def parse(self, file, password=None):
         jsons = self._pif2json(file)
         folders = dict()
         for item in jsons:
@@ -544,7 +544,7 @@ class Enpass(PasswordManagerCSV):
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'notes', 'group': 'group'}
 
-    def parse(self, file):
+    def parse(self, file, password=None):
         self._checkline(file)
         reader = csv.reader(file)
         for row in reader:
@@ -587,7 +587,7 @@ class Gorilla(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'group'}
 
-    def parse(self, file):
+    def parse(self, file, password=None):
         super(Gorilla, self).parse(file)
         for entry in self.data:
             entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry['group'])
@@ -763,7 +763,7 @@ class NetworkManager(PasswordManager):
     keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
             'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
 
-    def parse(self, data):
+    def parse(self, data, password=None):
         if isinstance(data, io.IOBase):
             files = [data]
         else:
