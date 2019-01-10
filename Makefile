@@ -33,7 +33,18 @@ uninstall:
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
 
 
-PASS_TEST_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
+PASSWORD_STORE_DIR ?= $(HOME)/.password-store
+PASSWORD_STORE_EXTENSIONS_DIR ?= $(PASSWORD_STORE_DIR)/.extensions
+local:
+	@install -v -d "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
+	@install -v -m 0755 "$(PROG).bash" "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/$(PROG).bash"
+	@python3 setup.py install --user --optimize=1
+	@echo
+	@echo "pass-$(PROG) is localy installed succesfully."
+	@echo "Warning, because it is a local installation, there is no manual page or shell completion."
+
+
+TESTS_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
 T = $(sort $(wildcard tests/test_*.sh))
 
 tests:
@@ -43,7 +54,7 @@ tests:
 tests_bash: $(T)
 
 $(T):
-	@$@ $(PASS_TEST_OPTS)
+	@$@ $(TESTS_OPTS)
 
 lint:
 	@prospector --profile .prospector.yaml \
