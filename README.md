@@ -68,7 +68,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 ## Usage
 
 ```
-usage: pass import [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] [manager] [file]
+usage: pass import [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] <manager> [file]
 
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
