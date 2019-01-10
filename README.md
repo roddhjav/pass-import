@@ -191,6 +191,7 @@ yay -S pass-import  # or your preferred AUR install method
 
 **Gentoo Linux**
 ```sh
+layman -a wjn-overlay
 emerge app-admin/pass-import
 ```
 
