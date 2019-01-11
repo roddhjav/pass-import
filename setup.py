@@ -22,7 +22,7 @@ setup(
     install_requires=[
         'defusedxml'
         ],
-    setup_requires=[
+    tests_require=[
         'green'
         ],
     test_suite='tests',
