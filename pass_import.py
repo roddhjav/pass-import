@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # pass import - Password Store Extension (https://www.passwordstore.org/)
-# Copyright (C) 2017 Alexandre PUJOL <alexandre@pujol.io>.
+# Copyright (C) 2017-2019 Alexandre PUJOL <alexandre@pujol.io>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
