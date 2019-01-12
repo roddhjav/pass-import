@@ -543,7 +543,7 @@ class Enpass6(PasswordManagerJSON):
         for item in jsons.get('items', {}):
             entry = OrderedDict()
             entry['title'] = item.get('title', '')
-            entry['group'] = item.get('folders', [])[0]
+            entry['group'] = item.get('folders', [''])[0]
 
             fields = item.get('fields', {})
             for key in self.keyslist:
