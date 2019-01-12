@@ -530,20 +530,20 @@ class Enpass(PasswordManagerCSV):
 
 class Enpass6(PasswordManagerJSON):
     keys = {'title': 'title', 'password': 'Password', 'login': 'Username',
-            'url': 'Website', 'comments': 'notes', 'group': 'group'}
+            'url': 'Website', 'comments': 'note', 'group': 'group'}
 
     def parse(self, file):
         jsons = json.loads(file.read())
         folders = dict()
-        for item in jsons['folders']:
+        for item in jsons.get('folders', {}):
             key = item.get('uuid', '')
             folders[key] = {'group': item.get('title', ''),
                             'parent': item.get('parent_uuid', '')}
 
-        for item in jsons['items']:
+        for item in jsons.get('items', {}):
             entry = OrderedDict()
-            entry['title'] = item['title']
-            entry['group'] = item['folders'][0]
+            entry['title'] = item.get('title', '')
+            entry['group'] = item.get('folders', [])[0]
 
             fields = item.get('fields', {})
             for key in self.keyslist:
@@ -551,7 +551,7 @@ class Enpass6(PasswordManagerJSON):
                     jsonkey = self.keys.get(key, '')
                     if jsonkey == field.get('label', ''):
                         entry[key] = field.pop('value', None)
-            entry['comments'] = item['note']
+            entry['comments'] = item.get('note', '')
 
             if self.all:
                 for field in fields:
