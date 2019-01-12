@@ -12,6 +12,7 @@ for manager in "${PASSWORDS_MANAGERS[@]}"; do
     test_init "$manager" &> /dev/null
     _in "$XML" "$manager" && ext=".xml" || ext=".csv"
     [[ "$manager" =~ "pif" ]] && ext=".1pif"
+    [[ "$manager" == "enpass6" ]] && ext=".json"
     [[ "$manager" == "networkmanager" ]] && ext=""
 	test_expect_success "Testing $manager database" "
         _pass import $manager $DB/$manager$ext --extra

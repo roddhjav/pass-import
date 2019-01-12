@@ -41,6 +41,7 @@ importers = {
     'chromesqlite': ['ChromeSQLite', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
     'enpass': ['Enpass', 'https://www.enpass.io/'],
+    'enpass6': ['Enpass6', 'https://www.enpass.io/'],
     'fpm': ['FigaroPM', 'http://fpm.sourceforge.net/'],
     'gorilla': ['Gorilla', 'https://github.com/zdia/gorilla/wiki'],
     'kedpm': ['FigaroPM', 'http://kedpm.sourceforge.net/'],
@@ -394,7 +395,20 @@ class PasswordManagerXML(PasswordManager):
         self._import(root)
 
 
-class PasswordManagerPIF(PasswordManager):
+class PasswordManagerJSON(PasswordManager):
+
+    def _sortgroup(self, folders):
+        for folder in folders.values():
+            parent = folder.get('parent', '')
+            groupup = folders.get(parent, {}).get('group', '')
+            folder['group'] = os.path.join(groupup, folder.get('group', ''))
+
+        for entry in self.data:
+            groupid = entry.get('group', '')
+            entry['group'] = folders.get(groupid, {}).get('group', '')
+
+
+class PasswordManagerPIF(PasswordManagerJSON):
     ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
 
     @staticmethod
@@ -419,16 +433,6 @@ class PasswordManagerPIF(PasswordManager):
                     fields.pop(index)
                     break
         return value
-
-    def _sortgroup(self, folders):
-        for folder in folders.values():
-            parent = folder.get('parent', '')
-            groupup = folders.get(parent, {}).get('group', '')
-            folder['group'] = os.path.join(groupup, folder.get('group', ''))
-
-        for entry in self.data:
-            groupid = entry.get('group', '')
-            entry['group'] = folders.get(groupid, {}).get('group', '')
 
     def parse(self, file):
         jsons = self._pif2json(file)
@@ -522,6 +526,39 @@ class Enpass(PasswordManagerCSV):
                     index += 2
 
             self.data.append(entry)
+
+
+class Enpass6(PasswordManagerJSON):
+    keys = {'title': 'title', 'password': 'Password', 'login': 'Username',
+            'url': 'Website', 'comments': 'notes', 'group': 'group'}
+
+    def parse(self, file):
+        jsons = json.loads(file.read())
+        folders = dict()
+        for item in jsons['folders']:
+            key = item.get('uuid', '')
+            folders[key] = {'group': item.get('title', ''),
+                            'parent': item.get('parent_uuid', '')}
+
+        for item in jsons['items']:
+            entry = OrderedDict()
+            entry['title'] = item['title']
+            entry['group'] = item['folders'][0]
+
+            fields = item.get('fields', {})
+            for key in self.keyslist:
+                for field in fields:
+                    jsonkey = self.keys.get(key, '')
+                    if jsonkey == field.get('label', ''):
+                        entry[key] = field.pop('value', None)
+            entry['comments'] = item['note']
+
+            if self.all:
+                for field in fields:
+                    if 'value' in field:
+                        entry[field.pop('label', '')] = field.pop('value', None)
+            self.data.append(entry)
+        self._sortgroup(folders)
 
 
 class FigaroPM(PasswordManagerXML):

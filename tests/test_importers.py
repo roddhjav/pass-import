@@ -95,6 +95,7 @@ class TestBaseImporters(TestBase):
         """Get database file to test."""
         ext = '.xml' if manager in self.xml else '.csv'
         ext = '.1pif' if manager == '1password4pif' else ext
+        ext = '.json' if manager == 'enpass6' else ext
         encoding = 'utf-8-sig' if manager == '1password4pif' else 'utf-8'
         return (os.path.join(self.db, manager + ext), encoding)
 
@@ -141,7 +142,7 @@ class TestImporters(TestBaseImporters):
     def test_importers_format(self):
         """Testing: importer file format."""
         formaterror = (pass_import.FormatError, AttributeError, ValueError)
-        ignore = ['dashlane', 'networkmanager', 'upm']
+        ignore = ['dashlane', 'networkmanager', 'upm', 'enpass6']
         for manager in pass_import.importers:
             if manager in ignore:
                 continue
