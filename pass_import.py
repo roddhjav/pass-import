@@ -57,6 +57,7 @@ importers = {
     'revelation': ['Revelation', 'https://revelation.olasagasti.info/'],
     'roboform': ['Roboform', 'https://www.roboform.com/'],
     'upm': ['UPM', 'http://upm.sourceforge.net/'],
+    'buttercup': ['Buttercup', 'https://buttercup.pw/'],
 }
 
 
@@ -765,6 +766,28 @@ class UPM(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'login',
             'url': 'url', 'comments': 'comments'}
 
+class Buttercup(PasswordManagerCSV):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'group': '!group_name'}
+
+    exclude = ['!group_id', 'id']
+
+    def parse(self, file):
+        reader = csv.DictReader(file, fieldnames=self.fieldnames,
+                                delimiter=',', quotechar='"')
+        self._checkformat(reader.fieldnames)
+
+        for row in reader:
+            entry = OrderedDict()
+            for key in self.keyslist:
+                entry[key] = row.pop(self.keys.get(key, ''), None)
+
+            if self.all:
+                for col in row:
+                    if col not in self.exclude:
+                        entry[col] = row.get(col, None)
+
+            self.data.append(entry)
 
 def argumentsparse(argv):
     """Geting arguments for 'pass import'."""
