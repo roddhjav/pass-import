@@ -275,6 +275,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [revelation]: https://revelation.olasagasti.info/
 [roboform]: https://www.roboform.com/
 [upm]: http://upm.sourceforge.net/
+[buttercup]: https://buttercup.pw/
 
 [bp]: https://github.com/dannyvankooten/browserpass
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
