@@ -553,13 +553,13 @@ class Enpass6(PasswordManagerJSON):
                     if jsonkey == field.get('label', '').lower():
                         entry[key] = field.pop('value', None)
             entry['comments'] = item.get('note', '')
+
             # Sometimes the username is in the "login" field
             if 'login' not in entry or entry['login'] is None:
                 for field in fields:
-                    if field.get('label').lower() == 'login':
-                        if field.get('type').lower() == 'username':
+                    if field.get('label', '').lower() == 'login':
+                        if field.get('type', '').lower() == 'username':
                             entry['login'] = field.pop('value', None)
-
 
             if self.all:
                 for field in fields:
