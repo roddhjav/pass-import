@@ -37,6 +37,7 @@ importers = {
     '1password4': ['OnePassword4', 'https://1password.com/'],
     '1password4pif': ['OnePassword4PIF', 'https://1password.com/'],
     'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
+    'buttercup': ['Buttercup', 'https://buttercup.pw/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
     'chromesqlite': ['ChromeSQLite', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
@@ -481,6 +482,30 @@ class OnePassword(PasswordManagerCSV):
 class Bitwarden(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'login_password', 'login': 'login_username',
             'url': 'login_uri', 'comments': 'notes', 'group': 'folder'}
+
+
+class Buttercup(PasswordManagerCSV):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'group': '!group_name'}
+
+    exclude = ['!group_id', 'id']
+
+    def parse(self, file):
+        reader = csv.DictReader(file, fieldnames=self.fieldnames,
+                                delimiter=',', quotechar='"')
+        self._checkformat(reader.fieldnames)
+
+        for row in reader:
+            entry = OrderedDict()
+            for key in self.keyslist:
+                entry[key] = row.pop(self.keys.get(key, ''), None)
+
+            if self.all:
+                for col in row:
+                    if col not in self.exclude:
+                        entry[col] = row.get(col, None)
+
+            self.data.append(entry)
 
 
 class Chrome(PasswordManagerCSV):
