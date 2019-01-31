@@ -64,7 +64,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
 | [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
 | [upm][upm] | *Database > Export* | `pass import upm file.csv` |
-
+| [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 
 ## Usage
 
