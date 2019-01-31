@@ -44,6 +44,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
 | [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
+| [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [chromesqlite][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
@@ -64,7 +65,6 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
 | [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
 | [upm][upm] | *Database > Export* | `pass import upm file.csv` |
-| [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 
 ## Usage
 
@@ -258,6 +258,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 
 [1password]: https://1password.com/
 [bitwarden]: https://bitwarden.com/
+[buttercup]: https://buttercup.pw/
 [chrome]: https://support.google.com/chrome
 [dashlane]: https://www.dashlane.com/
 [enpass]: https://www.enpass.io/
@@ -275,7 +276,6 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [revelation]: https://revelation.olasagasti.info/
 [roboform]: https://www.roboform.com/
 [upm]: http://upm.sourceforge.net/
-[buttercup]: https://buttercup.pw/
 
 [bp]: https://github.com/dannyvankooten/browserpass
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
