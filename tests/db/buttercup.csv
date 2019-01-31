@@ -1,0 +1,16 @@
+!group_id,!group_name,title,username,password,url,comments,pin
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Social,mastodon.social,ostqxi,D<INNeT?#?Bf4%`zA/4i!/'$T,mastodon.social/,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Social,twitter.com,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",twitter.com/,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Social,news.ycombinator.com,ostqxi,"1)Btf2EI~Tfb7g2A!Sy',*Sj#",news.ycombinator.com,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Servers,ovh.com,jsdkyvbwjn,^Vr/|o>_H8X%T]7>f}7|:U!Zs,www.ovh.com/manager/web/,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Servers,ovh.com,bynbyjhqjz,"3Z-VW!i,j(&!zRGPu(hFe]s'(",www.ovh.com/manager/web/,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Bank,aib,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",onlinebanking.aib.ie,,462916.0
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails,dpbx@afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,afoqwdr.tx,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails,dpbx@klivak.xb,dpbx,"2cUqe}e9}>IVZf)Ye>3C8ZN,r",,This is a garbage address,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails/WS,dpbx@mnyfymt.ws,dpbx,rPCkmNkhIa>{izt3C3F823!Go,mail.mnyfymt.ws,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails/WS,dpbx@fner.ws,dpbx,mt}h'hSUCY;SU;;A!l[8y3O:8,,For financial purpose only!,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,space title,vkeelpbu,]stDKo{%pk,nhysdo.wg,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,empty entry,,,,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,empty password,vkeelpbu,,nhysdo.wg,,
+222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,note,,,,"This is a multiline note entry. Cube shank petroleum guacamole dart mower
+acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",

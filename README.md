@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 24 different password managers. More manager support can easily
+import from 25 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -44,10 +44,11 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
 | [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
+| [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [chromesqlite][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
-| [enpass6][enpass] | *Menu > File > Export > As JSON * | `pass import enpass6 file.json` |   |   |   |
+| [enpass6][enpass] | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
 | [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
 | [gorilla][gorilla] | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
@@ -64,7 +65,6 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
 | [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
 | [upm][upm] | *Database > Export* | `pass import upm file.csv` |
-
 
 ## Usage
 
@@ -258,6 +258,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 
 [1password]: https://1password.com/
 [bitwarden]: https://bitwarden.com/
+[buttercup]: https://buttercup.pw/
 [chrome]: https://support.google.com/chrome
 [dashlane]: https://www.dashlane.com/
 [enpass]: https://www.enpass.io/
