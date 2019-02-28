@@ -4,7 +4,7 @@
         <img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg?style=flat-square"
              alt="Build Status" /></a>
     <a href="https://gitlab.com/roddhjav/pass-import/pipelines">
-        <img src="https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg"
+        <img src="https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg?style=flat-square"
              alt="Pipeline Status" /></a>
     <a href="https://www.codacy.com/app/roddhjav/pass-import">
         <img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg?style=flat-square"
