@@ -244,7 +244,9 @@ class PasswordManager():
             if key == 'otpauth':
                 secret_match = re.search(r'^([a-zA-Z2-7]{16,32})=*$', value)
                 if secret_match is None:
-                    raise PasswordStoreError('OTP secret not found. Must be in base32 and between 16 and 32 characters')
+                    raise PasswordStoreError('OTP secret not found.'
+                                             'Must be in base32 and between '
+                                             '16 and 32 characters')
                 else:
                     value = secret_match.group(1)
                 string += "%s://totp/totp-secret?secret=%s&issuer=totp-secret\n" % (key, value)
