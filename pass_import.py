@@ -223,7 +223,7 @@ class PasswordManager():
     Please read CONTRIBUTING.md for more details regarding data structure
     in pass-import.
     """
-    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
+    keyslist = ['title', 'password', 'login', 'url', 'otpauth', 'comments', 'group']
 
     def __init__(self, extra=False, separator='-'):
         self.data = []
@@ -240,7 +240,16 @@ class PasswordManager():
         for key, value in entry.items():
             if key == 'path':
                 continue
-            string += "%s: %s\n" % (key, value)
+            # Return URI compatible with pass-otp when field is otp seed
+            if key == 'otpauth':
+                secret_match = re.search(r'^([a-zA-Z2-7]{16,32})=*$', value)
+                if secret_match is None:
+                    raise PasswordStoreError('OTP secret not found. Must be in base32 and between 16 and 32 characters')
+                else:
+                    value = secret_match.group(1)
+                string += "%s://totp/totp-secret?secret=%s&issuer=totp-secret\n" % (key, value)
+            else:
+                string += "%s: %s\n" % (key, value)
         return string
 
     @staticmethod
@@ -653,7 +662,7 @@ class Keepass(KeepassX):
     entry = 'Entry'
     format = 'KeePassFile'
     keys = {'title': 'Title', 'password': 'Password', 'login': 'UserName',
-            'url': 'URL', 'comments': 'Notes'}
+            'url': 'URL', 'otpauth': 'otp', 'comments': 'Notes'}
 
     @classmethod
     def _getroot(cls, tree):
