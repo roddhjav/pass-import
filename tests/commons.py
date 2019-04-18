@@ -26,6 +26,7 @@ class TestBase(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
     xml = ['fpm', 'keepassx', 'keepass', 'pwsafe', 'revelation', 'kedpm']
+    txt = ['apple-keychain']
     db = "tests/db/"
 
 

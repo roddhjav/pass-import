@@ -36,6 +36,7 @@ importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
     '1password4': ['OnePassword4', 'https://1password.com/'],
     '1password4pif': ['OnePassword4PIF', 'https://1password.com/'],
+    'apple-keychain': ['AppleKeychain', 'https://support.apple.com/guide/keychain-access'],
     'bitwarden': ['Bitwarden', 'https://bitwarden.com/'],
     'buttercup': ['Buttercup', 'https://buttercup.pw/'],
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
@@ -335,6 +336,124 @@ class PasswordManager():
         self._duplicate_paths(clean, convert)
         self._duplicate_numerise()
 
+
+class AppleKeychain(PasswordManager):
+    keys = {'title': 'title', 'password': 'password', 'login': 'acct',
+            'url': 'svce', 'comments': 'comments', 'group': 'group'}
+    human_keys = {'crtr': 'creator', 'desc': 'kind', 'icmt': 'alt_comment',
+                  'type': 'type', 'atyp': 'authentication_type', 'path': 'path',
+                  'port': 'port', 'ptcl': 'protocol', 'sdmn': 'security_domain',
+                  'srvr': 'server' ,'cdat': 'creation_date', 'mdat': 'modification_date'}
+
+    @staticmethod
+    def _decode_hex(strhex):
+        """Decode a string with an hexadecimal value to UTF-8"""
+        hexmod = strhex
+        if hexmod.startswith('0x'):
+            hexmod = hexmod[2:]
+        if hexmod.endswith('0a') or hexmod.endswith('0A'):
+            hexmod = hexmod[:-2]
+        return bytes.fromhex(hexmod).decode('utf-8')
+
+    @staticmethod
+    def _match_hex_txt(match, hexkey, txtkey):
+        """Some entries have hex or text values or both. We favour hex for cleaner results."""
+        hex = match.group(hexkey)
+        txt = match.group(txtkey)
+        if hex:
+            return AppleKeychain._decode_hex(hex)
+        elif txt:
+            return txt
+        else:
+            return None
+
+    @staticmethod
+    def _parse_attribute(line, entry):
+        regex = '^\s*(?:"(?P<txtkey>\w*)"|(?P<hexkey>0x[a-zA-Z0-9]*))'\
+                '\s*(?:<(?P<type>\w*)>)?'\
+                '\s*='\
+                '\s*(?P<hexdata>0x[a-zA-Z0-9]*)?'\
+                '\s*(?:"(?P<txtdata>.*)")?'
+        match = re.search(regex, line)
+        if not match:
+            return
+
+        key = AppleKeychain._match_hex_txt(match, 'hexkey', 'txtkey')
+        data = AppleKeychain._match_hex_txt(match, 'hexdata', 'txtdata')
+        if not key or not data:
+            return
+
+        # The title has the special hex key 0x00000007
+        keyhex = match.group('hexkey')
+        if keyhex and re.match('^0x0*7$', keyhex):
+            key = 'title'
+
+        if key == 'type' and data == 'note':
+            entry['group'] = 'Notes'
+        else:
+            entry[key] = data
+        return
+
+    @staticmethod
+    def _parse_data_filed(line, entry):
+        """Parse the data field contents, which is in a separate line.
+        This field contains the encrypted password/note in current keychain formats
+        when the password field is not present."""
+        match = re.search('^\s*(?P<hex>0x[a-zA-Z0-9]*)?\s*"(?P<txt>.*)"', line)
+        if not match:
+            return
+
+        password = AppleKeychain._match_hex_txt(match, 'hex', 'txt')
+        if not password:
+            return
+
+        if password.startswith('<?xml'):
+            entry['comments'] = AppleKeychain._parse_note_plist(password)
+        else:
+            if 'password' in entry:
+                entry['comments'] = password
+            else:
+                entry['password'] = password
+
+    @staticmethod
+    def _parse_note_plist(plist):
+        """Notes are stored in ASCII plist: extract the actual content."""
+        tree = ElementTree.XML(plist)
+        dict = tree.find('dict')
+        return dict.find('string').text
+
+    def _append_entry(self, entry):
+        ordered_entry = OrderedDict()
+        for key in self.keyslist:
+            ordered_entry[key] = entry.pop(self.keys.get(key, ''), None)
+
+        if self.all:
+            for key, value in entry.items():
+                if key in self.human_keys:
+                    key = self.human_keys[key]
+                ordered_entry[key] = value
+
+        self.data.append(ordered_entry)
+
+    def parse(self, file):
+        entry = {}
+        lastField = False
+        for line in file:
+            if re.match('^password:', line):
+                self._parse_attribute(line, entry)
+                lastField = True
+
+            if lastField:
+                self._parse_data_filed(line, entry)
+                self._append_entry(entry)
+                entry = {}
+                lastField = False
+                continue
+            if re.match('^data:$', line):
+                lastField = True
+                continue
+
+            self._parse_attribute(line, entry)
 
 class PasswordManagerCSV(PasswordManager):
     fieldnames = None
