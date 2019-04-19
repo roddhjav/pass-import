@@ -38,7 +38,7 @@ PASSWORD_STORE_EXTENSIONS_DIR ?= $(PASSWORD_STORE_DIR)/.extensions
 local:
 	@install -v -d "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
 	@install -v -m 0755 "$(PROG).bash" "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/$(PROG).bash"
-	@python3 setup.py install --user --optimize=1
+	@python3 setup.py install --user --prefix= --optimize=1
 	@echo
 	@echo "pass-$(PROG) is localy installed succesfully."
 	@echo "Warning, because it is a local installation, there is no manual page or shell completion."
