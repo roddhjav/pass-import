@@ -229,7 +229,8 @@ class PasswordManager():
         self.data = []
         self.all = extra
         self.separator = str(separator)
-        self.cleans = {" ": "_", "&": "and", "@": "At", "'": "", "[": "", "]": ""}
+        self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
+                       "[": "", "]": ""}
         self.protocols = ['http://', 'https://']
         self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 

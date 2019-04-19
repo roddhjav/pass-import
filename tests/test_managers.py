@@ -55,7 +55,7 @@ class TestPasswordManagerGeneral(TestPasswordManager):
     def test_clean_cmdline(self):
         """Testing: _clean_cmdline method."""
         string = 'Root Group&Named@root\'[directory]'
-        string_expected = 'Root_GroupandNamedAtrootdirectory'
+        string_expected = 'Root-GroupandNamedAtrootdirectory'
         string = self.importer._clean_cmdline(string)
         self.assertEqual(string, string_expected)
 
