@@ -948,7 +948,7 @@ def main(argv):
                 msg.warning("Impossible to insert %s into the store: %s"
                             % (passpath, e))
             else:
-                paths.append(entry['path'])
+                paths.append(passpath)
 
         # Success!
         report(arg, msg, paths)
