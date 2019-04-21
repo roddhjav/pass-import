@@ -43,6 +43,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [1password][1password] | *See this [guide][export-1password]* | `pass import 1password file.csv` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
 | [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
+| [apple-keychain][apple-keychain] | *See thie [guide][export-apple-keychain]* | `pass import apple-keychain file.txt` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
@@ -76,7 +77,7 @@ usage: pass import [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] <manager>
   the password store must have been initialised before with 'pass init'
 
 positional arguments:
-  manager               Can be: 1password, 1password4, 1password4pif,
+  manager               Can be: 1password, 1password4, 1password4pif, apple-keychain
                         bitwarden, chrome, chromesqlite, dashlane, enpass,
                         fpm, gorilla, kedpm, keepass, keepasscsv, keepassx,
                         keepassx2, keepassxc, lastpass, networkmanager,
@@ -265,6 +266,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [update]: https://github.com/roddhjav/pass-update
 
 [1password]: https://1password.com/
+[apple-keychain]: https://support.apple.com/guide/keychain-access
 [bitwarden]: https://bitwarden.com/
 [buttercup]: https://buttercup.pw/
 [chrome]: https://support.google.com/chrome
@@ -286,5 +288,6 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [upm]: http://upm.sourceforge.net/
 
 [bp]: https://github.com/dannyvankooten/browserpass
+[export-apple-keychain]: https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
 [export-1password]: https://support.1password.com/export/
