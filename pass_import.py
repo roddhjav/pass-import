@@ -338,13 +338,6 @@ class PasswordManager():
 
 
 class AppleKeychain(PasswordManager):
-    keys = {'title': 'title', 'password': 'password', 'login': 'acct',
-            'url': 'svce', 'comments': 'comments', 'group': 'group'}
-    human_keys = {'crtr': 'creator', 'desc': 'kind', 'icmt': 'alt_comment',
-                  'type': 'type', 'atyp': 'authentication_type', 'path': 'path',
-                  'port': 'port', 'ptcl': 'protocol', 'sdmn': 'security_domain',
-                  'srvr': 'server' ,'cdat': 'creation_date', 'mdat': 'modification_date'}
-
     @staticmethod
     def _decode_hex(strhex):
         """Decode a string with an hexadecimal value to UTF-8"""
@@ -353,19 +346,21 @@ class AppleKeychain(PasswordManager):
             hexmod = hexmod[2:]
         if hexmod.endswith('0a') or hexmod.endswith('0A'):
             hexmod = hexmod[:-2]
-        return bytes.fromhex(hexmod).decode('utf-8')
+        try:
+            return bytes.fromhex(hexmod).decode('utf-8')
+        except:
+            return None
 
     @staticmethod
-    def _match_hex_txt(match, hexkey, txtkey):
-        """Some entries have hex or text values or both. We favour hex for cleaner results."""
+    def _match_pair_to_dict(match, hexkey, txtkey):
         hex = match.group(hexkey)
         txt = match.group(txtkey)
+        data = {}
         if hex:
-            return AppleKeychain._decode_hex(hex)
-        elif txt:
-            return txt
-        else:
-            return None
+            data['hex'] = hex
+        if txt:
+            data['txt'] = txt
+        return data
 
     @staticmethod
     def _parse_attribute(line, entry):
@@ -376,84 +371,177 @@ class AppleKeychain(PasswordManager):
                 '\s*(?:"(?P<txtdata>.*)")?'
         match = re.search(regex, line)
         if not match:
-            return
+            raise FormatError()
 
-        key = AppleKeychain._match_hex_txt(match, 'hexkey', 'txtkey')
-        data = AppleKeychain._match_hex_txt(match, 'hexdata', 'txtdata')
-        if not key or not data:
-            return
+        hexkey = match.group('hexkey')
+        txtkey = match.group('txtkey')
+        key = hexkey if hexkey else txtkey
+        if not key:
+            raise FormatError()
 
-        # The title has the special hex key 0x00000007
-        keyhex = match.group('hexkey')
-        if keyhex and re.match('^0x0*7$', keyhex):
-            key = 'title'
-
-        if key == 'type' and data == 'note':
-            entry['group'] = 'Notes'
-        else:
-            entry[key] = data
-        return
+        data = AppleKeychain._match_pair_to_dict(match, 'hexdata', 'txtdata')
+        if data:
+            entry['attributes'][key] = data
 
     @staticmethod
     def _parse_data_filed(line, entry):
-        """Parse the data field contents, which is in a separate line.
-        This field contains the encrypted password/note in current keychain formats
-        when the password field is not present."""
-        match = re.search('^\s*(?P<hex>0x[a-zA-Z0-9]*)?\s*"(?P<txt>.*)"', line)
+        match = re.search('^\s*(?P<hex>0x[a-zA-Z0-9]*)?\s*(?:"(?P<txt>.*)")?', line)
         if not match:
-            return
+            raise FormatError()
 
-        password = AppleKeychain._match_hex_txt(match, 'hex', 'txt')
-        if not password:
-            return
+        entry['data'] = AppleKeychain._match_pair_to_dict(match, 'hex', 'txt')
 
-        if password.startswith('<?xml'):
-            entry['comments'] = AppleKeychain._parse_note_plist(password)
-        else:
-            if 'password' in entry:
-                entry['comments'] = password
-            else:
-                entry['password'] = password
+    @staticmethod
+    def _parse_field(line, entry):
+        match = re.search('^(?P<key>\w+):\s*(?P<hex>0x[a-zA-Z0-9]*)?\s*(?P<txt>.*)', line)
+        key = match.group('key')
+        if not match or not key:
+            raise FormatError()
+
+        data = AppleKeychain._match_pair_to_dict(match, 'hex', 'txt')
+        if 'txt' in data:
+            txt = data['txt']
+            if txt.startswith('"') and txt.endswith('"'):
+                data['txt'] = txt[1:-1]
+        entry[key] = data
 
     @staticmethod
     def _parse_note_plist(plist):
         """Notes are stored in ASCII plist: extract the actual content."""
-        tree = ElementTree.XML(plist)
-        dict = tree.find('dict')
-        return dict.find('string').text
+        try:
+            tree = ElementTree.XML(plist)
+            dict = tree.find('dict')
+            return dict.find('string').text
+        except:
+            return None
+
+    @staticmethod
+    def _value_from_hextxt(data, default=None):
+        """Return a value from data with a hex-txt pair"""
+        value = default
+        if 'hex' in data:
+            decoded = AppleKeychain._decode_hex(data['hex'])
+            if decoded:
+                value = decoded
+            else:
+                if 'txt' in data:
+                    value = data['txt']
+                else:
+                    value = data['hex']
+        elif 'txt' in data:
+            value = data['txt']
+        return value
+
+    @staticmethod
+    def _convert_entry(entry):
+        """Returns an entry in pass format from an entry in keychain parsed format"""
+        human_keys = {
+                '0x00000007':'title',
+                'acct': 'login',
+                'atyp': 'authentication_type',
+                'cdat': 'creation_date',
+                'crtr': 'creator',
+                'desc': 'kind',
+                'icmt': 'alt_comment',
+                'mdat': 'modification_date',
+                'path': 'password_path',
+                'port': 'port',
+                'ptcl': 'protocol',
+                'sdmn': 'security_domain',
+                'srvr': 'server',
+                'svce': 'service',
+                'type': 'type'
+                }
+        passentry = {}
+        title = entry['attributes'].get('0x00000007', None)
+        for attr in entry['attributes']:
+            # Keychain duplicates 0x07 and svce by default
+            if attr == 'svce' and title == entry['attributes']['svce']:
+                continue
+            if attr in ['ptcl', 'srvr', 'path']:
+                continue
+
+            key = attr
+            if attr in human_keys:
+                key = human_keys[attr]
+
+            value = AppleKeychain._value_from_hextxt(entry['attributes'][attr])
+            if value:
+                passentry[key] = value
+
+        url = entry['attributes'].get('ptcl', {}).get('txt', '')
+        if url:
+            url = url.replace('htps', 'https')
+            url = url.strip()
+            url += '://'
+        url += entry['attributes'].get('srvr', {}).get('txt', '')
+        url += entry['attributes'].get('path', {}).get('txt', '')
+        if url:
+            passentry['url'] = url
+
+        isNote = False
+        typevalue = AppleKeychain._value_from_hextxt(entry['attributes'].get('type', {}))
+        if typevalue == 'note':
+            passentry['group'] = 'Notes'
+            isNote = True
+
+        if 'desc' in entry:
+            passentry['group'] = entry['desc']
+
+        if 'data' in entry:
+            value = AppleKeychain._value_from_hextxt(entry['data'])
+            if value == '0x0a' or value == '0x0A':
+                value = ''
+            if value:
+                if isNote:
+                    note = AppleKeychain._parse_note_plist(value)
+                    if note:
+                        value = note
+                    passentry['comment'] = value
+                else:
+                    passentry['password'] = value
+
+        return passentry
 
     def _append_entry(self, entry):
+        # Only support generic passwords and internet-saved passwords
+        # Skips certificates and public/private keys
+        if entry['class'].get('txt', None) not in ['genp', 'inet']:
+            return
+        entry = self._convert_entry(entry)
+
         ordered_entry = OrderedDict()
         for key in self.keyslist:
-            ordered_entry[key] = entry.pop(self.keys.get(key, ''), None)
+            ordered_entry[key] = entry.pop(key, None)
 
         if self.all:
             for key, value in entry.items():
-                if key in self.human_keys:
-                    key = self.human_keys[key]
                 ordered_entry[key] = value
 
         self.data.append(ordered_entry)
 
     def parse(self, file):
         entry = {}
-        lastField = False
-        for line in file:
-            if re.match('^password:', line):
-                self._parse_attribute(line, entry)
-                lastField = True
+        dataField = False
 
-            if lastField:
+        for line in file:
+            if dataField:
                 self._parse_data_filed(line, entry)
+                dataField = False
+            else:
+                if re.match('^\s+', line):
+                    self._parse_attribute(line, entry)
+                else:
+                    if line.startswith('attributes:'):
+                        entry['attributes'] = {}
+                    elif line.startswith('data:'):
+                        dataField = True
+                    else:
+                        self._parse_field(line, entry)
+
+            if 'password' in entry or 'data' in entry:
                 self._append_entry(entry)
                 entry = {}
-                lastField = False
-                continue
-            if re.match('^data:$', line):
-                lastField = True
-                continue
-
-            self._parse_attribute(line, entry)
 
 class PasswordManagerCSV(PasswordManager):
     fieldnames = None
