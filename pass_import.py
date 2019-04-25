@@ -337,6 +337,149 @@ class PasswordManager():
         self._duplicate_numerise()
 
 
+class PasswordManagerCSV(PasswordManager):
+    fieldnames = None
+
+    def _checkline(self, file):
+        line = file.readline()
+        if not line.startswith(self.format):
+            raise FormatError()
+
+    def _checkformat(self, fieldnames):
+        for csvkey in self.keys.values():
+            if csvkey not in fieldnames:
+                raise FormatError()
+
+    def parse(self, file):
+        reader = csv.DictReader(file, fieldnames=self.fieldnames,
+                                delimiter=',', quotechar='"')
+        self._checkformat(reader.fieldnames)
+
+        for row in reader:
+            entry = OrderedDict()
+            for key in self.keyslist:
+                entry[key] = row.pop(self.keys.get(key, ''), None)
+
+            if self.all:
+                for col in row:
+                    entry[col] = row.get(col, None)
+
+            self.data.append(entry)
+
+
+class PasswordManagerXML(PasswordManager):
+
+    def _checkformat(self, tree):
+        if tree.tag != self.format:
+            raise FormatError()
+
+    @classmethod
+    def _getroot(cls, tree):
+        return tree
+
+    @classmethod
+    def _getvalue(cls, elements, xmlkey):
+        value = elements.find(xmlkey)
+        return '' if value is None else value.text
+
+    def _getentry(self, element):
+        entry = OrderedDict()
+        for key in self.keyslist:
+            xmlkey = self.keys.get(key, '')
+            if xmlkey != '':
+                entry[key] = self._getvalue(element, xmlkey)
+        return entry
+
+    def parse(self, file):
+        tree = ElementTree.XML(file.read())
+        self._checkformat(tree)
+        root = self._getroot(tree)
+        self._import(root)
+
+
+class PasswordManagerJSON(PasswordManager):
+
+    def _sortgroup(self, folders):
+        for folder in folders.values():
+            parent = folder.get('parent', '')
+            groupup = folders.get(parent, {}).get('group', '')
+            folder['group'] = os.path.join(groupup, folder.get('group', ''))
+
+        for entry in self.data:
+            groupid = entry.get('group', '')
+            entry['group'] = folders.get(groupid, {}).get('group', '')
+
+
+class PasswordManagerPIF(PasswordManagerJSON):
+    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
+
+    @staticmethod
+    def _pif2json(file):
+        """Convert 1pif to json see https://github.com/eblin/1passpwnedcheck."""
+        data = file.read()
+        cleaned = re.sub('(?m)^\*\*\*.*\*\*\*\s+', '', data)
+        cleaned = cleaned.split('\n')
+        cleaned = ','.join(cleaned).rstrip(',')
+        cleaned = '[%s]' % cleaned
+        return json.loads(cleaned)
+
+    @staticmethod
+    def _getvalue(jsonkey, item, scontent, fields):
+        value = item.pop(jsonkey, None)
+        value = scontent.pop(jsonkey, value)
+        if value is None:
+            for field in fields:
+                if field.get('name', '') == jsonkey:
+                    value = field.get('value', None)
+                    index = fields.index(field)
+                    fields.pop(index)
+                    break
+        return value
+
+    def parse(self, file):
+        jsons = self._pif2json(file)
+        folders = dict()
+        for item in jsons:
+            if item.get('typeName', '') == 'system.folder.Regular':
+                key = item.get('uuid', '')
+                folders[key] = {'group': item.get('title', ''),
+                                'parent': item.get('folderUuid', '')}
+
+            elif item.get('typeName', '') == 'webforms.WebForm':
+                entry = OrderedDict()
+                scontent = item.pop('secureContents', {})
+                fields = scontent.pop('fields', [])
+                for key in self.keyslist:
+                    jsonkey = self.keys.get(key, '')
+                    entry[key] = self._getvalue(jsonkey, item, scontent, fields)
+
+                if self.all:
+                    for field in fields:
+                        entry[field.get('name', '')] = field.get('value', '')
+                    item.update(scontent)
+                    for key, value in item.items():
+                        if key not in self.ignore:
+                            entry[key] = value
+
+                self.data.append(entry)
+        self._sortgroup(folders)
+
+
+class OnePassword4PIF(PasswordManagerPIF):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
+
+
+class OnePassword4(PasswordManagerCSV):
+    keys = {'title': 'title', 'password': 'password', 'login': 'username',
+            'url': 'url', 'comments': 'notes'}
+
+
+class OnePassword(PasswordManagerCSV):
+    keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
+            'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
+
+
 class AppleKeychain(PasswordManager):
     @staticmethod
     def _decode_hex(strhex):
@@ -551,148 +694,6 @@ class AppleKeychain(PasswordManager):
             if 'password' in entry or 'data' in entry:
                 self._append_entry(entry)
                 entry = {}
-
-class PasswordManagerCSV(PasswordManager):
-    fieldnames = None
-
-    def _checkline(self, file):
-        line = file.readline()
-        if not line.startswith(self.format):
-            raise FormatError()
-
-    def _checkformat(self, fieldnames):
-        for csvkey in self.keys.values():
-            if csvkey not in fieldnames:
-                raise FormatError()
-
-    def parse(self, file):
-        reader = csv.DictReader(file, fieldnames=self.fieldnames,
-                                delimiter=',', quotechar='"')
-        self._checkformat(reader.fieldnames)
-
-        for row in reader:
-            entry = OrderedDict()
-            for key in self.keyslist:
-                entry[key] = row.pop(self.keys.get(key, ''), None)
-
-            if self.all:
-                for col in row:
-                    entry[col] = row.get(col, None)
-
-            self.data.append(entry)
-
-
-class PasswordManagerXML(PasswordManager):
-
-    def _checkformat(self, tree):
-        if tree.tag != self.format:
-            raise FormatError()
-
-    @classmethod
-    def _getroot(cls, tree):
-        return tree
-
-    @classmethod
-    def _getvalue(cls, elements, xmlkey):
-        value = elements.find(xmlkey)
-        return '' if value is None else value.text
-
-    def _getentry(self, element):
-        entry = OrderedDict()
-        for key in self.keyslist:
-            xmlkey = self.keys.get(key, '')
-            if xmlkey != '':
-                entry[key] = self._getvalue(element, xmlkey)
-        return entry
-
-    def parse(self, file):
-        tree = ElementTree.XML(file.read())
-        self._checkformat(tree)
-        root = self._getroot(tree)
-        self._import(root)
-
-
-class PasswordManagerJSON(PasswordManager):
-
-    def _sortgroup(self, folders):
-        for folder in folders.values():
-            parent = folder.get('parent', '')
-            groupup = folders.get(parent, {}).get('group', '')
-            folder['group'] = os.path.join(groupup, folder.get('group', ''))
-
-        for entry in self.data:
-            groupid = entry.get('group', '')
-            entry['group'] = folders.get(groupid, {}).get('group', '')
-
-
-class PasswordManagerPIF(PasswordManagerJSON):
-    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
-
-    @staticmethod
-    def _pif2json(file):
-        """Convert 1pif to json see https://github.com/eblin/1passpwnedcheck."""
-        data = file.read()
-        cleaned = re.sub('(?m)^\*\*\*.*\*\*\*\s+', '', data)
-        cleaned = cleaned.split('\n')
-        cleaned = ','.join(cleaned).rstrip(',')
-        cleaned = '[%s]' % cleaned
-        return json.loads(cleaned)
-
-    @staticmethod
-    def _getvalue(jsonkey, item, scontent, fields):
-        value = item.pop(jsonkey, None)
-        value = scontent.pop(jsonkey, value)
-        if value is None:
-            for field in fields:
-                if field.get('name', '') == jsonkey:
-                    value = field.get('value', None)
-                    index = fields.index(field)
-                    fields.pop(index)
-                    break
-        return value
-
-    def parse(self, file):
-        jsons = self._pif2json(file)
-        folders = dict()
-        for item in jsons:
-            if item.get('typeName', '') == 'system.folder.Regular':
-                key = item.get('uuid', '')
-                folders[key] = {'group': item.get('title', ''),
-                                'parent': item.get('folderUuid', '')}
-
-            elif item.get('typeName', '') == 'webforms.WebForm':
-                entry = OrderedDict()
-                scontent = item.pop('secureContents', {})
-                fields = scontent.pop('fields', [])
-                for key in self.keyslist:
-                    jsonkey = self.keys.get(key, '')
-                    entry[key] = self._getvalue(jsonkey, item, scontent, fields)
-
-                if self.all:
-                    for field in fields:
-                        entry[field.get('name', '')] = field.get('value', '')
-                    item.update(scontent)
-                    for key, value in item.items():
-                        if key not in self.ignore:
-                            entry[key] = value
-
-                self.data.append(entry)
-        self._sortgroup(folders)
-
-
-class OnePassword4PIF(PasswordManagerPIF):
-    keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
-
-
-class OnePassword4(PasswordManagerCSV):
-    keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'url', 'comments': 'notes'}
-
-
-class OnePassword(PasswordManagerCSV):
-    keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
-            'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
 
 
 class Bitwarden(PasswordManagerCSV):
