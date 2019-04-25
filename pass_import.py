@@ -353,13 +353,13 @@ class AppleKeychain(PasswordManager):
 
     @staticmethod
     def _match_pair_to_dict(match, hexkey, txtkey):
-        hex = match.group(hexkey)
-        txt = match.group(txtkey)
+        hex_match = match.group(hexkey)
+        txt_match = match.group(txtkey)
         data = {}
-        if hex:
-            data['hex'] = hex
-        if txt:
-            data['txt'] = txt
+        if hex_match:
+            data['hex'] = hex_match
+        if txt_match:
+            data['txt'] = txt_match
         return data
 
     @staticmethod
@@ -410,15 +410,19 @@ class AppleKeychain(PasswordManager):
         """Notes are stored in ASCII plist: extract the actual content."""
         try:
             tree = ElementTree.XML(plist)
-            dict = tree.find('dict')
-            return dict.find('string').text
-        except:
+        except ParseError():
             return None
 
+        found = tree.find('.//string')
+        if found is None:
+            return None
+        else:
+            return found.text
+
     @staticmethod
-    def _value_from_hextxt(data, default=None):
+    def _value_from_hextxt(data):
         """Return a value from data with a hex-txt pair"""
-        value = default
+        value = ''
         if 'hex' in data:
             decoded = AppleKeychain._decode_hex(data['hex'])
             if decoded:
@@ -433,15 +437,29 @@ class AppleKeychain(PasswordManager):
         return value
 
     @staticmethod
-    def _convert_entry(entry):
-        """Returns an entry in pass format from an entry in keychain parsed format"""
+    def _compose_url(attributes):
+        """Compose a full URL from the attributes of an entry, fixing non-standard protocol names."""
+        substitutions = {'htps': 'https', 'ldps': 'ldaps', 'ntps': 'nntps', 'sox': 'socks',
+                'teln': 'telnet', 'tels': 'telnets', 'imps': 'imaps', 'pops': 'pop3s'}
+        url = attributes.get('ptcl', {}).get('txt', '')
+        if url:
+            url = url.strip()
+            if url in substitutions:
+                url = substitutions[url]
+            url += '://'
+        url += attributes.get('srvr', {}).get('txt', '')
+        url += attributes.get('path', {}).get('txt', '')
+        return url
+
+    @staticmethod
+    def _humanize_key(key):
         human_keys = {
                 '0x00000007':'title',
                 'acct': 'login',
                 'atyp': 'authentication_type',
                 'cdat': 'creation_date',
                 'crtr': 'creator',
-                'desc': 'kind',
+                'desc': 'description',
                 'icmt': 'alt_comment',
                 'mdat': 'modification_date',
                 'path': 'password_path',
@@ -452,6 +470,14 @@ class AppleKeychain(PasswordManager):
                 'svce': 'service',
                 'type': 'type'
                 }
+        if key in human_keys:
+            return human_keys[key]
+        else:
+            return key
+
+    @staticmethod
+    def _convert_entry(entry):
+        """Returns an entry in pass format from an entry in keychain parsed format"""
         passentry = {}
         title = entry['attributes'].get('0x00000007', None)
         for attr in entry['attributes']:
@@ -461,23 +487,12 @@ class AppleKeychain(PasswordManager):
             if attr in ['ptcl', 'srvr', 'path']:
                 continue
 
-            key = attr
-            if attr in human_keys:
-                key = human_keys[attr]
-
             value = AppleKeychain._value_from_hextxt(entry['attributes'][attr])
             if value:
+                key = AppleKeychain._humanize_key(attr)
                 passentry[key] = value
 
-        url = entry['attributes'].get('ptcl', {}).get('txt', '')
-        if url:
-            url = url.replace('htps', 'https')
-            url = url.strip()
-            url += '://'
-        url += entry['attributes'].get('srvr', {}).get('txt', '')
-        url += entry['attributes'].get('path', {}).get('txt', '')
-        if url:
-            passentry['url'] = url
+        passentry['url'] = AppleKeychain._compose_url(entry['attributes'])
 
         isNote = False
         typevalue = AppleKeychain._value_from_hextxt(entry['attributes'].get('type', {}))
@@ -485,21 +500,15 @@ class AppleKeychain(PasswordManager):
             passentry['group'] = 'Notes'
             isNote = True
 
-        if 'desc' in entry:
-            passentry['group'] = entry['desc']
-
-        if 'data' in entry:
-            value = AppleKeychain._value_from_hextxt(entry['data'])
-            if value == '0x0a' or value == '0x0A':
-                value = ''
-            if value:
-                if isNote:
-                    note = AppleKeychain._parse_note_plist(value)
-                    if note:
-                        value = note
-                    passentry['comment'] = value
-                else:
-                    passentry['password'] = value
+        value = AppleKeychain._value_from_hextxt(entry.get('data', {}))
+        if not re.match('^0x0[aA]$', value):
+            if isNote:
+                note = AppleKeychain._parse_note_plist(value)
+                if note:
+                    value = note
+                passentry['comments'] = value
+            else:
+                passentry['password'] = value
 
         return passentry
 

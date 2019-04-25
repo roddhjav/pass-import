@@ -21,24 +21,28 @@ attributes:
 data:
 "D<INNeT?#?Bf4%`zA/4i!/'$T"
 keychain: "/Users/deckard/Desktop/apple-keychain.keychain"
-version: 256
-class: "genp"
+version: 512
+class: "inet"
 attributes:
     0x00000007 <blob>="twitter.com"
     0x00000008 <blob>=<NULL>
     "acct"<blob>="ostqxi"
+    "atyp"<blob>="dflt"
     "cdat"<timedate>=0x32303139303431383138343433375A00  "20190418184437Z\000"
-    "crtr"<uint32>=<NULL>
+    "crtr"<uint32>="aapl"
     "cusi"<sint32>=<NULL>
     "desc"<blob>=<NULL>
-    "gena"<blob>=<NULL>
     "icmt"<blob>=<NULL>
     "invi"<sint32>=<NULL>
     "mdat"<timedate>=0x32303139303431383138343433375A00  "20190418184437Z\000"
     "nega"<sint32>=<NULL>
+    "path"<blob>=<NULL>
+    "port"<uint32>=0x00000000
     "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
     "scrp"<sint32>=<NULL>
-    "svce"<blob>="twitter.com"
+    "sdmn"<blob>=<NULL>
+    "srvr"<blob>="twitter.com"
     "type"<uint32>=<NULL>
 data:
 "SoNEwvU,kJ%-cIKJ9[c#S;]jB"

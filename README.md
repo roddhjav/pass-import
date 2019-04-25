@@ -43,7 +43,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [1password][1password] | *See this [guide][export-1password]* | `pass import 1password file.csv` |
 | [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
 | [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
-| [apple-keychain][apple-keychain] | *See thie [guide][export-apple-keychain]* | `pass import apple-keychain file.txt` |
+| [apple-keychain][apple-keychain] | *See this [guide][export-apple-keychain]* | `pass import apple-keychain file.txt` |
 | [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
 | [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
