@@ -6,4 +6,5 @@ exclude_lines =
     pragma: no cover
     arg.file is None:
     except PermissionError as e:
+    raise FormatError()
     if __name__ == .__main__.:
