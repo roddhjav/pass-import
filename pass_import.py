@@ -491,7 +491,7 @@ class AppleKeychain(PasswordManager):
             hexmod = hexmod[:-2]
         try:
             return bytes.fromhex(hexmod).decode('utf-8')
-        except:
+        except UnicodeError:
             return None
 
     @staticmethod
@@ -553,7 +553,7 @@ class AppleKeychain(PasswordManager):
         """Notes are stored in ASCII plist: extract the actual content."""
         try:
             tree = ElementTree.XML(plist)
-        except ParseError():
+        except ElementTree.ParseError:
             return None
 
         found = tree.find('.//string')
@@ -581,7 +581,7 @@ class AppleKeychain(PasswordManager):
 
     @staticmethod
     def _compose_url(attributes):
-        """Compose a full URL from the attributes of an entry, fixing non-standard protocol names."""
+        """Compose the URL from the attributes of an entry fixing non-standard protocol names"""
         substitutions = {'htps': 'https', 'ldps': 'ldaps', 'ntps': 'nntps', 'sox': 'socks',
                 'teln': 'telnet', 'tels': 'telnets', 'imps': 'imaps', 'pops': 'pop3s'}
         url = attributes.get('ptcl', {}).get('txt', '')
