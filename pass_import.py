@@ -559,8 +559,7 @@ class AppleKeychain(PasswordManager):
         found = tree.find('.//string')
         if found is None:
             return None
-        else:
-            return found.text
+        return found.text
 
     @staticmethod
     def _value_from_hextxt(data):
@@ -587,8 +586,7 @@ class AppleKeychain(PasswordManager):
         url = attributes.get('ptcl', {}).get('txt', '')
         if url:
             url = url.strip()
-            if url in substitutions:
-                url = substitutions[url]
+            url = substitutions.get(url, url)
             url += '://'
         url += attributes.get('srvr', {}).get('txt', '')
         url += attributes.get('path', {}).get('txt', '')
@@ -613,10 +611,7 @@ class AppleKeychain(PasswordManager):
                 'svce': 'service',
                 'type': 'type'
                 }
-        if key in human_keys:
-            return human_keys[key]
-        else:
-            return key
+        return human_keys.get(key, key)
 
     @staticmethod
     def _convert_entry(entry):
