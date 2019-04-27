@@ -42,6 +42,7 @@ importers = {
     'chrome': ['Chrome', 'https://support.google.com/chrome'],
     'chromesqlite': ['ChromeSQLite', 'https://support.google.com/chrome'],
     'dashlane': ['Dashlane', 'https://www.dashlane.com/'],
+    'encryptr': ['Encryptr', 'https://spideroak.com/encryptr/'],
     'enpass': ['Enpass', 'https://www.enpass.io/'],
     'enpass6': ['Enpass6', 'https://www.enpass.io/'],
     'fpm': ['FigaroPM', 'http://fpm.sourceforge.net/'],
@@ -735,6 +736,54 @@ class Dashlane(PasswordManagerCSV):
     fieldnames = ['title', 'url', 'login', 'password', 'comments']
     keys = {'title': 'title', 'password': 'password', 'login': 'login',
             'url': 'url', 'comments': 'comments'}
+
+
+class Encryptr(PasswordManagerCSV):
+    # Looking at how Encryptr processes exports here (method getCsvFields):
+    # https://github.com/SpiderOak/Encryptr/blob/master/src/views/MainView.js#L163
+    # and entry types contained here:
+    # https://github.com/SpiderOak/Encryptr/tree/master/src/models/types
+    # we conclude:
+    # Every record has metadata: "Entry Type","Label"
+    # Every record happens to have, independently: "Notes"
+    # Password type has: "Username","Password", "Site URL"
+    # General type has: "Text"
+    # Credit card type has: "Type", "Name on card", "Card Number", "CVV", "Expiry"
+    # encryptr dynamically generates CSVs based on available entry types,
+    # and supports credit cards.
+    # all told, we have, in no particular order as it's dynamic:
+    # "Entry Type","Label", "Notes", "Username", "Password", "Site URL",
+    # "Text", "Type", "Name on card", "Card Number", "CVV", "Expiry"
+
+    # and now let's map it all. Ignoring Entry Type.
+    keyslist = [
+        'title', 'password', 'login', 'url', 'comments', 'text',
+        'card-type', 'card-name-on-card', 'card-number', 'card-cvv',
+        'card-expiry'
+    ]
+    keys = {
+        'title': 'Label',
+        'password': 'Password',
+        'login': 'Username',
+        'url': 'Site URL',
+        'comments': 'Notes',
+        'text': 'Text',  # do we want to consider this
+                         # a password since it was the
+                         # "secret" for general type?
+        'card-type': "Type",
+        'card-name-on-card': "Name on card",
+        'card-number': "Card Number",
+        'card-cvv': "CVV",
+        'card-expiry': "Expiry"
+    }
+
+    # since it's dynamically generated, there is no guarantee
+    # that all keys are there (e.g, no credit cards, no keys related to it.)
+    # so we only check for those that are there with at least one entry.
+    def _checkformat(self, fieldnames):
+        for csvkey in ("Entry Type", "Label", "Notes"):
+            if csvkey not in fieldnames:
+                raise FormatError()
 
 
 class Enpass(PasswordManagerCSV):

@@ -69,6 +69,15 @@ REF_WIFI = [Odict([('title', 'android'),
             Odict([('title', 'eduroam'),
                    ('password', 'X3<yS1g9wW-@lC87pekRmXMJp')])]
 
+REF_CARD = [
+    Odict([('title', "Goliath National Bank"),
+           ('card-type', "Visatron"),
+           ('card-name-on-card', "J Smith"),
+           ('card-number', "5012345678900000"),
+           ('card-cvv', "123"),
+           ('card-expiry', "22/01")]),
+]
+
 
 class TestBaseImporters(TestBase):
 
@@ -91,14 +100,17 @@ class TestBaseImporters(TestBase):
             for key in delete:
                 entry.pop(key, None)
 
-    def _path(self, manager):
+    def _path(self, manager, folder=None):
         """Get database file to test."""
         ext = '.xml' if manager in self.xml else '.csv'
         ext = '.1pif' if manager == '1password4pif' else ext
         ext = '.txt' if manager == 'apple-keychain' else ext
         ext = '.json' if manager == 'enpass6' else ext
         encoding = 'utf-8-sig' if manager == '1password4pif' else 'utf-8'
-        return (os.path.join(self.db, manager + ext), encoding)
+        internal_path = manager + ext
+        if folder:
+            internal_path = os.path.join(folder, internal_path)
+        return (os.path.join(self.db, internal_path), encoding)
 
     def assertImport(self, keys, data, refdata):
         """Compare imported data with the reference data."""
@@ -116,11 +128,12 @@ class TestBaseImporters(TestBase):
 
 
 class TestImporters(TestBaseImporters):
+    CARD_IMPORTERS = ['encryptr',]
 
     def test_importers(self):
         """Testing: importer parse method using real data."""
         keys = ['title', 'password', 'login', 'ssid']
-        ignore = ['networkmanager']
+        ignore = ['networkmanager', 'card']
         for manager in pass_import.importers:
             if manager in ignore:
                 continue
@@ -139,6 +152,18 @@ class TestImporters(TestBaseImporters):
         importer = self._class('networkmanager')
         importer.parse(testpath)
         self.assertImport(keys, importer.data, REF_WIFI)
+
+    def test_importers_card(self):
+        keys = ['title', 'card-type', 'card-name-on-card', 'card-number', 'card-cvv', 'card-expiry']
+        testpath = os.path.join(self.db, 'card')
+        for manager in self.CARD_IMPORTERS:
+            with self.subTest(manager):
+                importer = self._class(manager)
+                # however, it's in a different folder
+                test_filename, encoding = self._path(manager, folder="card")
+                with open(test_filename, 'r', encoding='utf-8') as file:
+                    importer.parse(file)
+                self.assertImport(keys, importer.data, REF_CARD)
 
     def test_importers_format(self):
         """Testing: importer file format."""
