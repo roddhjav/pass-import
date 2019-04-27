@@ -228,7 +228,7 @@ gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
 gpg --verify pass-import-2.4.tar.gz.asc
 ```
 
-**Local install***
+**Local install**
 
 Alternatively, from git or a stable version you can do a local install with:
 ```sh
