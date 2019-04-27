@@ -69,7 +69,15 @@ repository. This test data can be found in the `tests/exporteddb/.template.csv`.
 4. Check the tests success, the coverage does not decrease and the code health.
 
 
-## Data Structure explained
+## Data Organization
+
+By definition, password-store does not impose any particular schema or type of
+organisation of data. Nevertheless, `pass-import` respects the most common case
+storing a single password per entry alongside with additional information like
+emails, pseudo, URL and other sensitive data or metadata. Although the exact
+list of data stored with the password can vary from entries in the password
+store, the data imported always respects a simple `key: value` format at the
+exception of the password that is always present in the first line.
 
 `PasswordManager` is the main class that manage import from all the supported
 password manager. `PasswordManagerXML` or `PasswordManagerCSV` inherit from it.
@@ -82,7 +90,6 @@ dictionary's key are divided in two sets:
 `group`.
 2. The *extra* keys that differ from password managers and contain the
 description of any extra data we can find in the exported file.
-contain the following standard keys:
 
 
 [mt]: https://en.wikipedia.org/wiki/Mutation_testing
