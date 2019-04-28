@@ -154,14 +154,14 @@ class TestImporters(TestBaseImporters):
         self.assertImport(keys, importer.data, REF_WIFI)
 
     def test_importers_card(self):
-        keys = ['title', 'card-type', 'card-name-on-card', 'card-number', 'card-cvv', 'card-expiry']
-        testpath = os.path.join(self.db, 'card')
+        keys = ['title', 'card-type', 'card-name-on-card',
+                'card-number', 'card-cvv', 'card-expiry']
         for manager in self.CARD_IMPORTERS:
             with self.subTest(manager):
                 importer = self._class(manager)
                 # however, it's in a different folder
                 test_filename, encoding = self._path(manager, folder="card")
-                with open(test_filename, 'r', encoding='utf-8') as file:
+                with open(test_filename, 'r', encoding=encoding) as file:
                     importer.parse(file)
                 self.assertImport(keys, importer.data, REF_CARD)
 
