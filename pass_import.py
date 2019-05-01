@@ -367,14 +367,11 @@ class PasswordManagerCSV(PasswordManager):
                                 delimiter=',', quotechar='"')
         self._checkformat(reader.fieldnames)
 
+        keys = self._invkeys()
         for row in reader:
-            entry = OrderedDict()
-            for key in self.keyslist:
-                entry[key] = row.pop(self.keys.get(key, ''), None)
-
-            if self.all:
-                for col in row:
-                    entry[col] = row.get(col, None)
+            entry = dict()
+            for col in row:
+                entry[keys.get(col, col)] = row.get(col, None)
 
             self.data.append(entry)
 
