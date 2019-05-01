@@ -871,7 +871,7 @@ class Lastpass(PasswordManagerCSV):
 
 
 class NetworkManager(PasswordManager):
-    etc = '/etc/NetworkManager/system-connections'
+    default = '/etc/NetworkManager/system-connections'
     keyslist = ['title', 'password', 'login', 'ssid']
     keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
             'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
@@ -880,22 +880,20 @@ class NetworkManager(PasswordManager):
         if isinstance(data, io.IOBase):
             files = [data]
         else:
-            data = self.etc if data is None else data
+            data = self.default if data is None else data
             files = [open(path, 'r') for path in glob.glob(data + '/*')]
 
+        keys = self._invkeys()
+        keys['802-1x.password'] = 'password'
         for file in files:
             ini = configparser.ConfigParser()
             ini.read_file(file)
-            self.keys['password'] = '802-1x.password' if '802-1x' in ini else 'wifi-security.psk'
-            entry = OrderedDict()
-            for key in self.keyslist:
-                sect, option = self.keys.get(key, '.').split('.')
-                entry[key] = ini.get(sect, option, fallback=None)
+            entry = dict()
 
-            if self.all:
-                for section in ini.sections():
-                    for option in ini.options(section):
-                        entry[option] = ini.get(section, option, fallback=None)
+            for section in ini.sections():
+                for option in ini.options(section):
+                    inikey = "%s.%s" % (section, option)
+                    entry[keys.get(inikey, inikey)] = ini.get(section, option, fallback='')
 
             if entry.get('password', None) is not None:
                 self.data.append(entry)
