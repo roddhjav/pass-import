@@ -642,23 +642,6 @@ class AppleKeychain(PasswordManager):
 
         return passentry
 
-    def _append_entry(self, entry):
-        # Only support generic passwords and internet-saved passwords
-        # Skips certificates and public/private keys
-        if entry['class'].get('txt', None) not in ['genp', 'inet']:
-            return
-        entry = self._convert_entry(entry)
-
-        ordered_entry = OrderedDict()
-        for key in self.keyslist:
-            ordered_entry[key] = entry.pop(key, None)
-
-        if self.all:
-            for key, value in entry.items():
-                ordered_entry[key] = value
-
-        self.data.append(ordered_entry)
-
     def parse(self, file):
         entry = {}
         dataField = False
@@ -679,8 +662,11 @@ class AppleKeychain(PasswordManager):
                         self._parse_field(line, entry)
 
             if 'password' in entry or 'data' in entry:
-                self._append_entry(entry)
-                entry = {}
+                if entry['class'].get('txt', None) not in ['genp', 'inet']:
+                    return
+                entry = self._convert_entry(entry)
+                self.data.append(entry)
+                entry = dict()
 
 
 class Bitwarden(PasswordManagerCSV):
