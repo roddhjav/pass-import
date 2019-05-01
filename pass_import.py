@@ -710,23 +710,16 @@ class Enpass(PasswordManagerCSV):
     def parse(self, file):
         self._checkline(file)
         reader = csv.reader(file)
+        keys = self._invkeys()
         for row in reader:
-            entry = OrderedDict()
+            entry = dict()
             entry['title'] = row.pop(0)
-            comments = row.pop()
-            for key in self.keyslist:
-                csvkey = self.keys.get(key, '')
-                if csvkey in row:
-                    index = row.index(csvkey)
-                    entry[key] = row.pop(index+1)
-                    row.pop(index)
-            entry['comments'] = comments
-
-            if self.all:
-                index = 0
-                while index+2 <= len(row):
-                    entry[row[index]] = row[index+1]
-                    index += 2
+            entry['comments'] = row.pop()
+            index = 0
+            while index+2 <= len(row):
+                key = keys.get(row[index], row[index])
+                entry[key] = row[index+1]
+                index += 2
 
             self.data.append(entry)
 
@@ -734,10 +727,12 @@ class Enpass(PasswordManagerCSV):
 class Enpass6(PasswordManagerJSON):
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group', 'email']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'Website', 'comments': 'note', 'group': 'group', 'email': 'e-mail'}
+            'url': 'website', 'comments': 'note', 'group': 'group', 'email': 'e-mail'}
+    ignore = ['fields', 'folders', 'icon']
 
     def parse(self, file):
         jsons = json.loads(file.read())
+        keys = self._invkeys()
         folders = dict()
         for item in jsons.get('folders', {}):
             key = item.get('uuid', '')
@@ -745,29 +740,24 @@ class Enpass6(PasswordManagerJSON):
                             'parent': item.get('parent_uuid', '')}
 
         for item in jsons.get('items', {}):
-            entry = OrderedDict()
-            entry['title'] = item.get('title', '')
+            entry = dict()
             entry['group'] = item.get('folders', [''])[0]
+            for key, value in item.items():
+                if key not in self.ignore:
+                    entry[keys.get(key, key)] = value
 
             fields = item.get('fields', {})
-            for key in self.keyslist:
-                for field in fields:
-                    jsonkey = self.keys.get(key, '')
-                    if jsonkey == field.get('label', '').lower():
-                        entry[key] = field.pop('value', None)
-            entry['comments'] = item.get('note', '')
+            for field in fields:
+                jsonkey = field.get('label', '').lower()
+                entry[keys.get(jsonkey, jsonkey)] = field.get('value', '')
 
             # Sometimes the username is in the "login" field
             if 'login' not in entry or entry['login'] is None:
                 for field in fields:
                     if field.get('label', '').lower() == 'login':
                         if field.get('type', '').lower() == 'username':
-                            entry['login'] = field.pop('value', None)
+                            entry['login'] = field.get('value', '')
 
-            if self.all:
-                for field in fields:
-                    if 'value' in field:
-                        entry[field.pop('label', '')] = field.pop('value', None)
             self.data.append(entry)
         self._sortgroup(folders)
 
