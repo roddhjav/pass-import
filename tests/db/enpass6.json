@@ -1321,7 +1321,7 @@
             "favorite": 0,
             "fields": [
                 {
-                    "label": "Username",
+                    "label": "Login",
                     "order": 1,
                     "sensitive": 0,
                     "type": "username",

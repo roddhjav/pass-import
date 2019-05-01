@@ -751,13 +751,6 @@ class Enpass6(PasswordManagerJSON):
                 jsonkey = field.get('label', '').lower()
                 entry[keys.get(jsonkey, jsonkey)] = field.get('value', '')
 
-            # Sometimes the username is in the "login" field
-            if 'login' not in entry or entry['login'] is None:
-                for field in fields:
-                    if field.get('label', '').lower() == 'login':
-                        if field.get('type', '').lower() == 'username':
-                            entry['login'] = field.get('value', '')
-
             self.data.append(entry)
         self._sortgroup(folders)
 
