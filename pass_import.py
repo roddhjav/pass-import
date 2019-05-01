@@ -490,7 +490,7 @@ class AppleKeychain(PasswordManager):
     def _match_pair_to_dict(match, hexkey, txtkey):
         hex_match = match.group(hexkey)
         txt_match = match.group(txtkey)
-        data = {}
+        data = dict()
         if hex_match:
             data['hex'] = hex_match
         if txt_match:
@@ -608,7 +608,7 @@ class AppleKeychain(PasswordManager):
     @staticmethod
     def _convert_entry(entry):
         """Returns an entry in pass format from an entry in keychain parsed format"""
-        passentry = {}
+        passentry = dict()
         title = entry['attributes'].get('0x00000007', None)
         for attr in entry['attributes']:
             # Keychain duplicates 0x07 and svce by default
@@ -643,7 +643,7 @@ class AppleKeychain(PasswordManager):
         return passentry
 
     def parse(self, file):
-        entry = {}
+        entry = dict()
         dataField = False
 
         for line in file:
@@ -655,7 +655,7 @@ class AppleKeychain(PasswordManager):
                     self._parse_attribute(line, entry)
                 else:
                     if line.startswith('attributes:'):
-                        entry['attributes'] = {}
+                        entry['attributes'] = dict()
                     elif line.startswith('data:'):
                         dataField = True
                     else:
