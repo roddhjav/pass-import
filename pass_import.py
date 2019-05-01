@@ -423,7 +423,7 @@ class PasswordManagerJSON(PasswordManager):
 
 
 class PasswordManagerPIF(PasswordManagerJSON):
-    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'folderUuid', 'URLs']
+    ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'URLs']
 
     @staticmethod
     def _pif2json(file):
@@ -435,21 +435,9 @@ class PasswordManagerPIF(PasswordManagerJSON):
         cleaned = '[%s]' % cleaned
         return json.loads(cleaned)
 
-    @staticmethod
-    def _getvalue(jsonkey, item, scontent, fields):
-        value = item.pop(jsonkey, None)
-        value = scontent.pop(jsonkey, value)
-        if value is None:
-            for field in fields:
-                if field.get('name', '') == jsonkey:
-                    value = field.get('value', None)
-                    index = fields.index(field)
-                    fields.pop(index)
-                    break
-        return value
-
     def parse(self, file):
         jsons = self._pif2json(file)
+        keys = self._invkeys()
         folders = dict()
         for item in jsons:
             if item.get('typeName', '') == 'system.folder.Regular':
@@ -458,21 +446,16 @@ class PasswordManagerPIF(PasswordManagerJSON):
                                 'parent': item.get('folderUuid', '')}
 
             elif item.get('typeName', '') == 'webforms.WebForm':
-                entry = OrderedDict()
+                entry = dict()
                 scontent = item.pop('secureContents', {})
                 fields = scontent.pop('fields', [])
-                for key in self.keyslist:
-                    jsonkey = self.keys.get(key, '')
-                    entry[key] = self._getvalue(jsonkey, item, scontent, fields)
+                for field in fields:
+                    jsonkey = field.get('name', '')
+                    entry[keys.get(jsonkey, jsonkey)] = field.get('value', '')
 
-                if self.all:
-                    for field in fields:
-                        entry[field.get('name', '')] = field.get('value', '')
-                    item.update(scontent)
-                    for key, value in item.items():
-                        if key not in self.ignore:
-                            entry[key] = value
-
+                for key, value in item.items():
+                    if key not in self.ignore:
+                        entry[keys.get(key, key)] = value
                 self.data.append(entry)
         self._sortgroup(folders)
 
