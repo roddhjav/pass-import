@@ -140,6 +140,9 @@ class TestImporters(TestBaseImporters):
         importer.parse(testpath)
         self.assertImport(keys, importer.data, REF_WIFI)
 
+
+class TestImportersFormat(TestBaseImporters):
+
     def test_importers_format(self):
         """Testing: importer file format."""
         formaterror = (pass_import.FormatError, AttributeError, ValueError)
