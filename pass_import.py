@@ -235,14 +235,21 @@ class PasswordManager():
         self.protocols = ['http://', 'https://']
         self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
-    @staticmethod
-    def get(entry):
+    def get(self, entry):
         """Return the content of an entry in a password-store format."""
+        ignore = ['title', 'group', 'path']
         string = entry.pop('password', '') + '\n'
-        for key, value in entry.items():
-            if key == 'path':
+        for key in self.keyslist:
+            if key in ignore:
                 continue
-            string += "%s: %s\n" % (key, value)
+            if key in entry:
+                string += "%s: %s\n" % (key, entry.pop(key))
+
+        if self.all:
+            for key, value in entry.items():
+                if key in ignore:
+                    continue
+                string += "%s: %s\n" % (key, value)
         return string
 
     @staticmethod
