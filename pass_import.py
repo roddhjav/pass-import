@@ -970,7 +970,7 @@ def argumentsparse(argv):
 
     parser.add_argument('manager', type=str, nargs='?',
                         help="Can be: %s"
-                        % ', '.join(list(importers.keys())) + '.')
+                        % ', '.join(importers) + '.')
     parser.add_argument('file', type=str, nargs='?',
                         help="""File is the path to the file that contains the
                         data to import, if empty read the data from stdin.""")
@@ -1007,8 +1007,7 @@ def listimporters(msg):
     for name, value in importers.items():
         msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
     if msg.quiet:
-        for name in importers:
-            print(name)
+        print('\n'.join(importers))
 
 
 def sanitychecks(arg, msg):
