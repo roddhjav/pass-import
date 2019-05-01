@@ -330,6 +330,10 @@ class PasswordManager():
         entry.pop('title', '')
         return path
 
+    def _invkeys(self):
+        """Return the invert of self.keys."""
+        return {v: k for k, v in self.keys.items()}
+
     def clean(self, clean, convert):
         """Clean parsed data in order to be imported to a store."""
         for entry in self.data:
