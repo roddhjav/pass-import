@@ -677,25 +677,13 @@ class Bitwarden(PasswordManagerCSV):
 class Buttercup(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'group': '!group_name'}
-
-    exclude = ['!group_id', 'id']
+    ignore = ['!group_id', 'id']
 
     def parse(self, file):
-        reader = csv.DictReader(file, fieldnames=self.fieldnames,
-                                delimiter=',', quotechar='"')
-        self._checkformat(reader.fieldnames)
-
-        for row in reader:
-            entry = OrderedDict()
-            for key in self.keyslist:
-                entry[key] = row.pop(self.keys.get(key, ''), None)
-
-            if self.all:
-                for col in row:
-                    if col not in self.exclude:
-                        entry[col] = row.get(col, None)
-
-            self.data.append(entry)
+        super(Buttercup, self).parse(file)
+        for entry in self.data:
+            for key in self.ignore:
+                entry.pop(key, '')
 
 
 class Chrome(PasswordManagerCSV):
