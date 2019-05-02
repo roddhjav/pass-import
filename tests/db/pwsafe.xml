@@ -170,7 +170,7 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 
 	<entry id="13">
 		<group><![CDATA[Social]]></group>
-		<title><![CDATA[news.ycombinator.com]]></title>
+		<title><![CDATA[https://news.ycombinator.com]]></title>
 		<username><![CDATA[ostqxi]]></username>
 		<password><![CDATA[1)Btf2EI~Tfb7g2A!Sy',*Sj#]]></password>
 		<url><![CDATA[https://news.ycombinator.com]]></url>
