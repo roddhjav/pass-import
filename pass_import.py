@@ -676,7 +676,7 @@ class Bitwarden(PasswordManagerCSV):
 
 class Buttercup(PasswordManagerCSV):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'group': '!group_name'}
+            'url': 'URL', 'comments': 'Notes', 'group': '!group_name'}
     ignore = ['!group_id', 'id']
 
     def parse(self, file):

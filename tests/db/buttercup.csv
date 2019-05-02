@@ -1,16 +1,16 @@
-!group_id,!group_name,title,username,password,url,comments,pin
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Social,mastodon.social,ostqxi,D<INNeT?#?Bf4%`zA/4i!/'$T,mastodon.social/,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Social,twitter.com,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",twitter.com/,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Social,news.ycombinator.com,ostqxi,"1)Btf2EI~Tfb7g2A!Sy',*Sj#",news.ycombinator.com,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Servers,ovh.com,jsdkyvbwjn,^Vr/|o>_H8X%T]7>f}7|:U!Zs,www.ovh.com/manager/web/,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Servers,ovh.com,bynbyjhqjz,"3Z-VW!i,j(&!zRGPu(hFe]s'(",www.ovh.com/manager/web/,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Bank,aib,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",onlinebanking.aib.ie,,462916.0
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails,dpbx@afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,afoqwdr.tx,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails,dpbx@klivak.xb,dpbx,"2cUqe}e9}>IVZf)Ye>3C8ZN,r",,This is a garbage address,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails/WS,dpbx@mnyfymt.ws,dpbx,rPCkmNkhIa>{izt3C3F823!Go,mail.mnyfymt.ws,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,Emails/WS,dpbx@fner.ws,dpbx,mt}h'hSUCY;SU;;A!l[8y3O:8,,For financial purpose only!,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,space title,vkeelpbu,]stDKo{%pk,nhysdo.wg,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,empty entry,,,,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,empty password,vkeelpbu,,nhysdo.wg,,
-222b9b98-4488-2211-bb5a-ddup98xxxx9x,CornerCases,note,,,,"This is a multiline note entry. Cube shank petroleum guacamole dart mower
+!group_id,!group_name,title,username,password,URL,!group_id,!group_name,id,Notes,pin
+7cba8be1-d51f-4417-9d7b-2a0ee0f81e3c,Social,mastodon.social,ostqxi,D<INNeT?#?Bf4%`zA/4i!/'$T,https://mastodon.social/,7cba8be1-d51f-4417-9d7b-2a0ee0f81e3c,Social,b412d350-3f5d-4d35-a2f8-2d7550d63d13,,
+7cba8be1-d51f-4417-9d7b-2a0ee0f81e3c,Social,twitter.com,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",https://twitter.com/,7cba8be1-d51f-4417-9d7b-2a0ee0f81e3c,Social,f58425a7-64ed-4348-b663-e6e6e9fe0ee4,,
+7cba8be1-d51f-4417-9d7b-2a0ee0f81e3c,Social,https://news.ycombinator.com,ostqxi,"1)Btf2EI~Tfb7g2A!Sy',*Sj#",https://news.ycombinator.com,7cba8be1-d51f-4417-9d7b-2a0ee0f81e3c,Social,6a32b4f1-7671-4540-b27d-f8c5a1f6769c,,
+64e5e8fa-aa23-459a-985d-fdb14edadbcc,Servers,ovh.com,jsdkyvbwjn,^Vr/|o>_H8X%T]7>f}7|:U!Zs,https://www.ovh.com/manager/web/,64e5e8fa-aa23-459a-985d-fdb14edadbcc,Servers,0747a526-b345-4ba1-84ea-d12bbc4b115f,,
+64e5e8fa-aa23-459a-985d-fdb14edadbcc,Servers,ovh.com,bynbyjhqjz,"3Z-VW!i,j(&!zRGPu(hFe]s'(",https://www.ovh.com/manager/web/,64e5e8fa-aa23-459a-985d-fdb14edadbcc,Servers,9969adaa-92c5-4f3a-88a8-917ff4a9c8d7,,
+58fdb582-752e-43de-b25e-c2f8256313c3,Bank,aib,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",https://onlinebanking.aib.ie,58fdb582-752e-43de-b25e-c2f8256313c3,Bank,ccd70a75-3b8a-429e-aa2c-5f3791b19587,,462916
+b0fcad59-1921-4e79-9b23-327a5868bd01,Emails,dpbx@afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,https://afoqwdr.tx,b0fcad59-1921-4e79-9b23-327a5868bd01,Emails,baecac2f-5885-4cc4-9c82-944b530a93f5,,
+b0fcad59-1921-4e79-9b23-327a5868bd01,Emails,dpbx@klivak.xb,dpbx,"2cUqe}e9}>IVZf)Ye>3C8ZN,r",,b0fcad59-1921-4e79-9b23-327a5868bd01,Emails,8a40a487-5829-468c-9f82-a3da051cf7b2,This is a garbage address,
+4e999192-4840-4f45-bb5d-c787f29d557a,Emails/WS,dpbx@fner.ws,dpbx,mt}h'hSUCY;SU;;A!l[8y3O:8,,4e999192-4840-4f45-bb5d-c787f29d557a,Emails/WS,583b40cc-2519-405e-8251-9f5c32160c1c,For financial purpose only!,
+4e999192-4840-4f45-bb5d-c787f29d557a,Emails/WS,dpbx@mnyfymt.ws,dpbx,rPCkmNkhIa>{izt3C3F823!Go,https://mail.mnyfymt.ws,4e999192-4840-4f45-bb5d-c787f29d557a,Emails/WS,7ed14a78-e697-46eb-9422-71f3f3c38bbd,,
+7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,space title,vkeelpbu,]stDKo{%pk,https://nhysdo.wg,7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,e4d19fbe-1778-4914-9bc2-a91b78f0694e,,
+7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,empty entry,,,,7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,a656d4fa-789a-4297-b10e-98bca6b782aa,,
+7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,empty password,vkeelpbu,,https://nhysdo.wg,7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,67edb19e-9a12-4d29-bb40-5454caa3e8b8,,
+7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,note,,,,7785addc-c34a-4279-bc1f-c151afd2ea45,CornerCases,73f654c9-6987-47a5-b15f-2ac75176c8a4,"This is a multiline note entry. Cube shank petroleum guacamole dart mower
 acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",
