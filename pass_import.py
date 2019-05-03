@@ -450,6 +450,7 @@ class PasswordManagerPIF(PasswordManagerJSON):
                     jsonkey = field.get('name', '')
                     entry[keys.get(jsonkey, jsonkey)] = field.get('value', '')
 
+                item.update(scontent)
                 for key, value in item.items():
                     if key not in self.ignore:
                         entry[keys.get(key, key)] = value
@@ -587,22 +588,22 @@ class AppleKeychain(PasswordManager):
     @staticmethod
     def _humanize_key(key):
         human_keys = {
-                '0x00000007':'title',
-                'acct': 'login',
-                'atyp': 'authentication_type',
-                'cdat': 'creation_date',
-                'crtr': 'creator',
-                'desc': 'description',
-                'icmt': 'alt_comment',
-                'mdat': 'modification_date',
-                'path': 'password_path',
-                'port': 'port',
-                'ptcl': 'protocol',
-                'sdmn': 'security_domain',
-                'srvr': 'server',
-                'svce': 'service',
-                'type': 'type'
-                }
+            '0x00000007': 'title',
+            'acct': 'login',
+            'atyp': 'authentication_type',
+            'cdat': 'creation_date',
+            'crtr': 'creator',
+            'desc': 'description',
+            'icmt': 'alt_comment',
+            'mdat': 'modification_date',
+            'path': 'password_path',
+            'port': 'port',
+            'ptcl': 'protocol',
+            'sdmn': 'security_domain',
+            'srvr': 'server',
+            'svce': 'service',
+            'type': 'type'
+        }
         return human_keys.get(key, key)
 
     @staticmethod
