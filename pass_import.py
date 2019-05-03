@@ -67,7 +67,7 @@ class PasswordStoreError(Exception):
 
 
 class FormatError(Exception):
-    """Password importer format (XML or CSV) not recognized."""
+    """Password importer format (CSV, XML, JSON or TXT) not recognized."""
 
 
 class Msg():
