@@ -1,6 +1,6 @@
 Name,Url,Login,Pwd,Note,Folder,Rf_fields
-aib,https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",pin: 462916,/Bank,User ID$:txt:dpbx@fner.ws,"Password$:pwd:ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"
 empty entry,https://,,,,/CornerCases
+aib,https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",,/Bank,User ID$:txt:dpbx@fner.ws,"Password$:pwd:ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"
 empty password,https://nhysdo.wg,vkeelpbu,,,/CornerCases,User ID$:txt:vkeelpbu
 space title,https://nhysdo.wg,vkeelpbu,]stDKo{%pk,,/CornerCases,User ID$:txt:vkeelpbu,Password$:pwd:]stDKo{%pk
 dpbx@afoqwdr.tx,https://afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,,/Emails,User ID$:txt:dpbx,Password$:pwd:9KVHnx:.S_S;cF`=CE@e\p{v6

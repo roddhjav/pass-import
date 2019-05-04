@@ -27,7 +27,6 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<username><![CDATA[dpbx@fner.ws]]></username>
 		<password><![CDATA[ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14]]></password>
 		<url><![CDATA[https://onlinebanking.aib.ie]]></url>
-		<notes><![CDATA[pin: 462916]]></notes>
 		<uuid><![CDATA[66ade93b8f264e46520794c5f97aed91]]></uuid>
 		<pmtimex>2017-11-18T19:32:19</pmtimex>
 		<rmtimex>2017-11-18T19:32:19</rmtimex>
