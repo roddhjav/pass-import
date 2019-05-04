@@ -17,50 +17,12 @@
 #
 
 import os
-from collections import OrderedDict as Odict
+import copy
+import yaml
 
 from .. import pass_import
 from tests.commons import TestBase
 
-
-REF = [Odict([('title', 'mastodon.social'),
-              ('password', "D<INNeT?#?Bf4%`zA/4i!/'$T"),
-              ('login', 'ostqxi')]),
-       Odict([('title', 'twitter.com'),
-              ('password', 'SoNEwvU,kJ%-cIKJ9[c#S;]jB'),
-              ('login', 'ostqxi')]),
-       Odict([('title', 'news.ycombinator.com'),
-              ('password', "1)Btf2EI~Tfb7g2A!Sy',*Sj#"),
-              ('login', 'ostqxi')]),
-       Odict([('title', 'ovh.com'),
-              ('password', '^Vr/|o>_H8X%T]7>f}7|:U!Zs'),
-              ('login', 'jsdkyvbwjn')]),
-       Odict([('title', 'ovh.com'),
-              ('password', "3Z-VW!i,j(&!zRGPu(hFe]s'("),
-              ('login', 'bynbyjhqjz')]),
-       Odict([('title', 'aib'),
-              ('password',
-               "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"),
-              ('login', 'dpbx@fner.ws')]),
-       Odict([('title', 'dpbx@afoqwdr.tx'),
-              ('password', '9KVHnx:.S_S;cF`=CE@e\\p{v6'),
-              ('login', 'dpbx')]),
-       Odict([('title', 'dpbx@klivak.xb'),
-              ('password', '2cUqe}e9}>IVZf)Ye>3C8ZN,r'),
-              ('login', 'dpbx')]),
-       Odict([('title', 'dpbx@mnyfymt.ws'),
-              ('password', 'rPCkmNkhIa>{izt3C3F823!Go'),
-              ('login', 'dpbx')]),
-       Odict([('title', 'dpbx@fner.ws'),
-              ('password', "mt}h'hSUCY;SU;;A!l[8y3O:8"),
-              ('login', 'dpbx')]),
-       Odict([('title', 'space title'),
-              ('password', ']stDKo{%pk'),
-              ('login', 'vkeelpbu')]),
-       Odict([('title', 'empty entry')]),
-       Odict([('title', 'empty password'),
-              ('login', 'vkeelpbu')]),
-       Odict([('title', 'note')])]
 
 REF_WIFI = [Odict([('title', 'android'),
                    ('password', 'dMa+GoMjGz')]),
@@ -68,43 +30,22 @@ REF_WIFI = [Odict([('title', 'android'),
                    ('password', '07B1DB8DBCB541C48202487760D0E1D6')]),
             Odict([('title', 'eduroam'),
                    ('password', 'X3<yS1g9wW-@lC87pekRmXMJp')])]
+REFERENCE = yaml.safe_load(open('tests/db/.reference.yml', 'r'))
 
 
 class TestBaseImporters(TestBase):
+    importers = yaml.safe_load(open('tests/importers.yml', 'r'))
 
     @staticmethod
-    def _clean(keys, data):
-        """Clean data from unwanted keys and weird formatting."""
+    def _clear(data):
+        """Only keep the keys present in the template and reference file."""
+        keep = ['title', 'password', 'login', 'url', 'comments', 'group']
         for entry in data:
-            delete = [k for k in entry.keys() if k not in keys]
+            delete = [k for k in entry.keys() if k not in keep]
             empty = [k for k, v in entry.items() if not v]
             delete.extend(empty)
             for key in delete:
                 entry.pop(key, None)
-
-            delete = []
-            for key in entry:
-                entry[key] = entry[key].replace('https://', '')
-                entry[key] = entry[key].replace('http://', '')
-                if not entry[key]:
-                    delete.append(key)
-            for key in delete:
-                entry.pop(key, None)
-
-    def _path(self, manager):
-        """Get database file to test."""
-        ext = '.xml' if manager in self.xml else '.csv'
-        ext = '.1pif' if manager == '1password4pif' else ext
-        ext = '.txt' if manager == 'apple-keychain' else ext
-        ext = '.json' if manager == 'enpass6' else ext
-        encoding = 'utf-8-sig' if manager == '1password4pif' else 'utf-8'
-        return (os.path.join(self.db, manager + ext), encoding)
-
-    def assertImport(self, keys, data, refdata):
-        """Compare imported data with the reference data."""
-        self._clean(keys, data)
-        for entry in data:
-            self.assertIn(entry, refdata)
 
     @staticmethod
     def _class(manager):
@@ -114,23 +55,48 @@ class TestBaseImporters(TestBase):
         importer = ImporterClass(extra=True)
         return importer
 
+    def _path(self, manager):
+        """Get database file to test."""
+        ext = self.importers[manager]['extension']
+        return os.path.join(self.db, "%s.%s" % (manager, ext))
+
+    def _reference(self, manager):
+        """Set the expected reference data for a given manager.
+        Some password manager do not store a lot off data (no group...).
+        Therefore, we need to remove these entries from the reference data when
+        testing these managers.
+        """
+        reference = copy.deepcopy(REFERENCE)
+        if 'without' in self.importers[manager]:
+            for key in self.importers[manager]['without']:
+                for entry in reference:
+                    entry.pop(key, None)
+        elif 'root' in self.importers[manager]:
+            for entry in reference:
+                entry['group'] = self.importers[manager]['root'] + entry['group']
+        return reference
+
+    def assertImport(self, data, refdata):
+        """Compare imported data with the reference data."""
+        self._clear(data)
+        for entry in data:
+            self.assertIn(entry, refdata)
+
 
 class TestImporters(TestBaseImporters):
 
-    def test_importers(self):
-        """Testing: importer parse method using real data."""
-        keys = ['title', 'password', 'login', 'ssid']
-        ignore = ['networkmanager']
-        for manager in pass_import.importers:
-            if manager in ignore:
-                continue
+    def test_importers_generic(self):
+        """Testing: parse method for all importers."""
+        for manager in self.importers:
             with self.subTest(manager):
                 importer = self._class(manager)
-                testpath, encoding = self._path(manager)
+                testpath = self._path(manager)
+                reference = self._reference(manager)
+                encoding = self.importers[manager]['encoding']
                 with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 
-                self.assertImport(keys, importer.data, REF)
+                self.assertImport(importer.data, reference)
 
     def test_importers_networkmanager(self):
         """Testing: importer parse method from Network Manager settings."""

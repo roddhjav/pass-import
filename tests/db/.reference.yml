@@ -1,0 +1,82 @@
+---
+
+- title: mastodon.social
+  password: "D<INNeT?#?Bf4%`zA/4i!/'$T"
+  login: ostqxi
+  url: https://mastodon.social/
+  group: Social
+
+- title: twitter.com
+  password: "SoNEwvU,kJ%-cIKJ9[c#S;]jB"
+  login: ostqxi
+  url: https://twitter.com/
+  group: Social
+
+- title: https://news.ycombinator.com
+  password: "1)Btf2EI~Tfb7g2A!Sy',*Sj#"
+  login: ostqxi
+  url: https://news.ycombinator.com
+  group: Social
+
+- title: ovh.com
+  password: "^Vr/|o>_H8X%T]7>f}7|:U!Zs"
+  login: jsdkyvbwjn
+  url: https://www.ovh.com/manager/web/
+  group: Servers
+
+- title: ovh.com
+  password: "3Z-VW!i,j(&!zRGPu(hFe]s'("
+  login: bynbyjhqjz
+  url: https://www.ovh.com/manager/web/
+  group: Servers
+
+- title: aib
+  password: "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"
+  login: dpbx@fner.ws
+  url: https://onlinebanking.aib.ie
+  # comments: 'Pin: 462916'
+  group: Bank
+
+- title: dpbx@afoqwdr.tx
+  password: "9KVHnx:.S_S;cF`=CE@e\\p{v6"
+  login: dpbx
+  url: https://afoqwdr.tx
+  group: Emails
+
+- title: dpbx@klivak.xb
+  password: "2cUqe}e9}>IVZf)Ye>3C8ZN,r"
+  login: dpbx
+  comments: This is a garbage address
+  group: Emails
+
+- title: dpbx@mnyfymt.ws
+  password: "rPCkmNkhIa>{izt3C3F823!Go"
+  login: dpbx
+  url: https://mail.mnyfymt.ws
+  group: Emails/WS
+
+- title: dpbx@fner.ws
+  password: "mt}h'hSUCY;SU;;A!l[8y3O:8"
+  login: dpbx
+  comments: For financial purpose only!
+  group: Emails/WS
+
+- title: space title
+  password: "]stDKo{%pk"
+  login: vkeelpbu
+  url: https://nhysdo.wg
+  group: CornerCases
+
+- title: empty entry
+  group: CornerCases
+
+- title: empty password
+  login: vkeelpbu
+  url: https://nhysdo.wg
+  group: CornerCases
+
+- title: note
+  comments: |-
+    This is a multiline note entry. Cube shank petroleum guacamole dart mower
+    acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.
+  group: CornerCases
