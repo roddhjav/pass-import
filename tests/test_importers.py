@@ -24,13 +24,8 @@ from .. import pass_import
 from tests.commons import TestBase
 
 
-REF_WIFI = [Odict([('title', 'android'),
-                   ('password', 'dMa+GoMjGz')]),
-            Odict([('title', 'Box-A5O9'),
-                   ('password', '07B1DB8DBCB541C48202487760D0E1D6')]),
-            Odict([('title', 'eduroam'),
-                   ('password', 'X3<yS1g9wW-@lC87pekRmXMJp')])]
 REFERENCE = yaml.safe_load(open('tests/db/.reference.yml', 'r'))
+REFERENCE_WIFI = yaml.safe_load(open('tests/db/.reference-wifi.yml', 'r'))
 
 
 class TestBaseImporters(TestBase):
@@ -99,12 +94,11 @@ class TestImporters(TestBaseImporters):
                 self.assertImport(importer.data, reference)
 
     def test_importers_networkmanager(self):
-        """Testing: importer parse method from Network Manager settings."""
-        keys = ['title', 'password']
-        testpath = os.path.join(self.db, 'networkmanager')
+        """Testing: parse method for Network Manager."""
         importer = self._class('networkmanager')
+        testpath = os.path.join(self.db, 'networkmanager')
         importer.parse(testpath)
-        self.assertImport(keys, importer.data, REF_WIFI)
+        self.assertImport(importer.data, REFERENCE_WIFI)
 
 
 class TestImportersFormat(TestBaseImporters):
