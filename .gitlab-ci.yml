@@ -39,7 +39,7 @@ sast:
 .script: &script
   stage: test
   script:
-    - pip3 install green coverage defusedxml
+    - pip3 install green coverage defusedxml pyaml
     - make tests
 
 .only: &only
