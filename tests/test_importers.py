@@ -102,19 +102,19 @@ class TestImporters(TestBaseImporters):
 
 
 class TestImportersFormat(TestBaseImporters):
+    formaterror = (pass_import.FormatError, AttributeError, ValueError)
 
     def test_importers_format(self):
-        """Testing: importer file format."""
-        formaterror = (pass_import.FormatError, AttributeError, ValueError)
-        ignore = ['apple-keychain', 'dashlane', 'networkmanager', 'upm', 'enpass6']
-        for manager in pass_import.importers:
+        """Testing: file format for all importers."""
+        ignore = ['1password4pif', 'apple-keychain', 'dashlane', 'upm']
+        for manager in self.importers:
             if manager in ignore:
                 continue
             with self.subTest(manager):
                 importer = self._class(manager)
-                ext = '.xml' if manager in self.xml else '.csv'
-                testpath = os.path.join(self.db, '.dummy' + ext)
+                ext = self.importers[manager]['extension']
+                testpath = os.path.join(self.db, 'format/dummy.' + ext)
 
-                with self.assertRaises(formaterror):
+                with self.assertRaises(self.formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
                         importer.parse(file)
