@@ -684,7 +684,7 @@ class Buttercup(PasswordManagerCSV):
         super(Buttercup, self).parse(file)
         for entry in self.data:
             for key in self.ignore:
-                entry.pop(key, '')
+                entry.pop(key, None)
 
 
 class Chrome(PasswordManagerCSV):
