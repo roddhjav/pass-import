@@ -474,200 +474,88 @@ class OnePassword(PasswordManagerCSV):
 
 
 class AppleKeychain(PasswordManager):
-    @staticmethod
-    def _decode_hex(strhex):
-        """Decode a string with an hexadecimal value to UTF-8"""
-        hexmod = strhex
-        if hexmod.startswith('0x'):
-            hexmod = hexmod[2:]
-        if hexmod.endswith('0a') or hexmod.endswith('0A'):
-            hexmod = hexmod[:-2]
-        try:
-            return bytes.fromhex(hexmod).decode('utf-8')
-        except UnicodeError:
-            return None
+    keys = {'title': 7, 'login': 'acct', 'authentication_type': 'atyp',
+            'creation_date': 'cdat', 'creator': 'crtr', 'description': 'desc',
+            'alt_comment': 'crtr', 'modification_date': 'mdat',
+            'password_path': 'path', 'protocol': 'ptcl', 'url': 'srvr',
+            'security_domain': 'sdmn', 'service': 'svce'}
 
     @staticmethod
-    def _match_pair_to_dict(match, hexkey, txtkey):
-        hex_match = match.group(hexkey)
-        txt_match = match.group(txtkey)
-        data = dict()
-        if hex_match:
-            data['hex'] = hex_match
-        if txt_match:
-            data['txt'] = txt_match
-        return data
+    def _keychain2yaml(file):
+        """Convert keychain to yaml."""
+        yamls = []
+        data = file.read()
+        caracters = {'data:\n': 'data: ', '<NULL>': '', '<[\w]*>=': ': ',
+                     '0x00000007 :': '0x00000007:', '0x00000008 :': '0x00000008:',
+                     'keychain: "([^"]*)"': '---'}
+        for key in caracters:
+            data = re.sub(key, caracters[key], data)
+        data = data.strip('---').split('---')
+        for block in data:
+            yamls.append(yaml.safe_load(block))
+        return yamls
 
     @staticmethod
-    def _parse_attribute(line, entry):
-        regex = '^\s*(?:"(?P<txtkey>\w*)"|(?P<hexkey>0x[a-zA-Z0-9]*))'\
-                '\s*(?:<(?P<type>\w*)>)?'\
-                '\s*='\
-                '\s*(?P<hexdata>0x[a-zA-Z0-9]*)?'\
-                '\s*(?:"(?P<txtdata>.*)")?'
-        match = re.search(regex, line)
-        if not match:
-            raise FormatError()
-
-        hexkey = match.group('hexkey')
-        txtkey = match.group('txtkey')
-        key = hexkey if hexkey else txtkey
-        if not key:
-            raise FormatError()
-
-        data = AppleKeychain._match_pair_to_dict(match, 'hexdata', 'txtdata')
-        if data:
-            entry['attributes'][key] = data
-
-    @staticmethod
-    def _parse_data_filed(line, entry):
-        match = re.search('^\s*(?P<hex>0x[a-zA-Z0-9]*)?\s*(?:"(?P<txt>.*)")?', line)
-        if not match:
-            raise FormatError()
-
-        entry['data'] = AppleKeychain._match_pair_to_dict(match, 'hex', 'txt')
-
-    @staticmethod
-    def _parse_field(line, entry):
-        match = re.search('^(?P<key>\w+):\s*(?P<hex>0x[a-zA-Z0-9]*)?\s*(?P<txt>.*)', line)
-        key = match.group('key')
-        if not match or not key:
-            raise FormatError()
-
-        data = AppleKeychain._match_pair_to_dict(match, 'hex', 'txt')
-        if 'txt' in data:
-            txt = data['txt']
-            if txt.startswith('"') and txt.endswith('"'):
-                data['txt'] = txt[1:-1]
-        entry[key] = data
-
-    @staticmethod
-    def _parse_note_plist(plist):
-        """Notes are stored in ASCII plist: extract the actual content."""
-        try:
-            tree = ElementTree.XML(plist)
-        except ElementTree.ParseError:
-            return None
-
-        found = tree.find('.//string')
-        if found is None:
-            return None
-        return found.text
-
-    @staticmethod
-    def _value_from_hextxt(data):
-        """Return a value from data with a hex-txt pair"""
-        value = ''
-        if 'hex' in data:
-            decoded = AppleKeychain._decode_hex(data['hex'])
-            if decoded:
-                value = decoded
-            else:
-                if 'txt' in data:
-                    value = data['txt']
-                else:
-                    value = data['hex']
-        elif 'txt' in data:
-            value = data['txt']
-        return value
-
-    @staticmethod
-    def _compose_url(attributes):
-        """Compose the URL from the attributes of an entry fixing non-standard protocol names"""
-        substitutions = {'htps': 'https', 'ldps': 'ldaps', 'ntps': 'nntps', 'sox': 'socks',
-                'teln': 'telnet', 'tels': 'telnets', 'imps': 'imaps', 'pops': 'pop3s'}
-        url = attributes.get('ptcl', {}).get('txt', '')
-        if url:
-            url = url.strip()
-            url = substitutions.get(url, url)
-            url += '://'
-        url += attributes.get('srvr', {}).get('txt', '')
-        url += attributes.get('path', {}).get('txt', '')
+    def _compose_url(entry):
+        """Compose the URL from Apple non-standard protocol names."""
+        sub = {'htps': 'https', 'ldps': 'ldaps', 'ntps': 'nntps',
+               'sox': 'socks', 'teln': 'telnet', 'tels': 'telnets',
+               'imps': 'imaps', 'pops': 'pop3s'}
+        url = entry.get('url', '')
+        protocol = entry.get('protocol', '')
+        if url and protocol:
+            url = "%s://%s" % (sub.get(protocol, protocol), url.strip())
         return url
 
     @staticmethod
-    def _humanize_key(key):
-        human_keys = {
-            '0x00000007': 'title',
-            'acct': 'login',
-            'atyp': 'authentication_type',
-            'cdat': 'creation_date',
-            'crtr': 'creator',
-            'desc': 'description',
-            'icmt': 'alt_comment',
-            'mdat': 'modification_date',
-            'path': 'password_path',
-            'port': 'port',
-            'ptcl': 'protocol',
-            'sdmn': 'security_domain',
-            'srvr': 'server',
-            'svce': 'service',
-            'type': 'type'
-        }
-        return human_keys.get(key, key)
+    def _decode(string):
+        """Extract and decode hexadecimal value from a string."""
+        hexmod = re.findall(r'0x[0-9A-F]*', string)
+        if hexmod:
+            return bytes.fromhex(hexmod[0][2:]).decode('utf-8')
+        return string
 
-    @staticmethod
-    def _convert_entry(entry):
-        """Returns an entry in pass format from an entry in keychain parsed format"""
-        passentry = dict()
-        title = entry['attributes'].get('0x00000007', None)
-        for attr in entry['attributes']:
-            # Keychain duplicates 0x07 and svce by default
-            if attr == 'svce' and title == entry['attributes']['svce']:
-                continue
-            if attr in ['ptcl', 'srvr', 'path']:
-                continue
+    def _decode_data(self, entry):
+        """Decode data field (password or comments)."""
+        key = entry.get('type', 'password')
+        key = 'comments' if key == 'note' else key
+        data = entry.pop('data', '')
+        if isinstance(data, int):
+            return key, ''
 
-            value = AppleKeychain._value_from_hextxt(entry['attributes'][attr])
-            if value:
-                key = AppleKeychain._humanize_key(attr)
-                passentry[key] = value
+        data = self._decode(data)
+        if key == 'comments':
+            if data:
+                try:
+                    tree = ElementTree.XML(data)
+                except ElementTree.ParseError:
+                    return key, ''
 
-        passentry['url'] = AppleKeychain._compose_url(entry['attributes'])
-
-        isNote = False
-        typevalue = AppleKeychain._value_from_hextxt(entry['attributes'].get('type', {}))
-        if typevalue == 'note':
-            passentry['group'] = 'Notes'
-            isNote = True
-
-        value = AppleKeychain._value_from_hextxt(entry.get('data', {}))
-        if not re.match('^0x0[aA]$', value):
-            if isNote:
-                note = AppleKeychain._parse_note_plist(value)
-                if note:
-                    value = note
-                passentry['comments'] = value
-            else:
-                passentry['password'] = value
-
-        return passentry
+                found = tree.find('.//string')
+                if found is None:
+                    return key, ''
+                return key, found.text
+            return key, ''
+        return key, data
 
     def parse(self, file):
-        entry = dict()
-        dataField = False
+        yamls = self._keychain2yaml(file)
+        keys = self._invkeys()
+        for block in yamls:
+            entry = dict()
+            attributes = block.pop('attributes', {})
+            block.update(attributes)
+            for key, value in block.items():
+                if value is not None:
+                    entry[keys.get(key, key)] = value
 
-        for line in file:
-            if dataField:
-                self._parse_data_filed(line, entry)
-                dataField = False
-            else:
-                if re.match('^\s+', line):
-                    self._parse_attribute(line, entry)
-                else:
-                    if line.startswith('attributes:'):
-                        entry['attributes'] = dict()
-                    elif line.startswith('data:'):
-                        dataField = True
-                    else:
-                        self._parse_field(line, entry)
+            key, value = self._decode_data(entry)
+            entry[key] = value
+            entry['url'] = self._compose_url(entry)
+            for key in ['creation_date', 'modification_date']:
+                entry[key] = self._decode(entry.get(key, ''))
 
-            if 'password' in entry or 'data' in entry:
-                if entry['class'].get('txt', None) not in ['genp', 'inet']:
-                    return
-                entry = self._convert_entry(entry)
-                self.data.append(entry)
-                entry = dict()
+            self.data.append(entry)
 
 
 class Bitwarden(PasswordManagerCSV):
