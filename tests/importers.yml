@@ -13,6 +13,11 @@
   extension: 1pif
   encoding: utf-8-sig
 
+apple-keychain:
+  without: ['group', 'comments']
+  extension: txt
+  encoding: utf-8
+
 bitwarden:
   extension: csv
   encoding: utf-8

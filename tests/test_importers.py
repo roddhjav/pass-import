@@ -27,6 +27,7 @@ from tests.commons import TestBase
 
 REFERENCE = yaml.safe_load(open('tests/db/.reference.yml', 'r'))
 REFERENCE_WIFI = yaml.safe_load(open('tests/db/.reference-wifi.yml', 'r'))
+REFERENCE_NOTE = yaml.safe_load(open('tests/db/.reference-note.yml', 'r'))
 
 
 class TestBaseImporters(TestBase):
@@ -100,6 +101,14 @@ class TestImporters(TestBaseImporters):
         testpath = os.path.join(self.db, 'networkmanager')
         importer.parse(testpath)
         self.assertImport(importer.data, REFERENCE_WIFI)
+
+    def test_importers_applekeychain_note(self):
+        """Testing: parse method for AppleKeychain with notes."""
+        importer = self._class('apple-keychain')
+        testpath = os.path.join(self.db, 'apple-keychain-note.txt')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+        self.assertImport(importer.data, REFERENCE_NOTE)
 
 
 class TestImportersFormat(TestBaseImporters):
