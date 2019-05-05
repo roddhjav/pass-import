@@ -18,6 +18,7 @@
 
 import os
 import copy
+import json
 import yaml
 
 from .. import pass_import
@@ -102,18 +103,19 @@ class TestImporters(TestBaseImporters):
 
 
 class TestImportersFormat(TestBaseImporters):
-    formaterror = (pass_import.FormatError, AttributeError, ValueError)
+    formaterror = (pass_import.FormatError, AttributeError, ValueError,
+                   yaml.scanner.ScannerError, json.decoder.JSONDecodeError)
 
     def test_importers_format(self):
         """Testing: file format for all importers."""
-        ignore = ['1password4pif', 'apple-keychain', 'dashlane', 'upm']
+        ignore = ['dashlane', 'upm']
         for manager in self.importers:
             if manager in ignore:
                 continue
             with self.subTest(manager):
                 importer = self._class(manager)
                 ext = self.importers[manager]['extension']
-                testpath = os.path.join(self.db, 'format/dummy.' + ext)
+                testpath = os.path.join(self.format, 'dummy.' + ext)
 
                 with self.assertRaises(self.formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
