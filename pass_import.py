@@ -967,10 +967,12 @@ def main(argv):
         try:
             importer.parse(file)
             importer.clean(arg.clean, arg.convert)
-        except (FormatError, AttributeError, ValueError):
-            msg.die("%s is not a exported %s file" % (arg.file, arg.manager))
-        except PermissionError as e:
-            msg.die(e)
+        except (yaml.scanner.ScannerError, json.decoder.JSONDecodeError,
+                FormatError, AttributeError, ValueError) as error:
+            msg.verbose(error)
+            msg.die("%s is not a valid exported %s file." % (arg.file, arg.manager))
+        except PermissionError as error:
+            msg.die(error)
         finally:
             if arg.manager != 'networkmanager':
                 file.close()
@@ -989,9 +991,9 @@ def main(argv):
                 msg.verbose("Path", passpath)
                 msg.verbose("Data", data.replace('\n', '\n           '))
                 store.insert(passpath, data, arg.force)
-            except PasswordStoreError as e:
+            except PasswordStoreError as error:
                 msg.warning("Impossible to insert %s into the store: %s"
-                            % (passpath, e))
+                            % (passpath, error))
             else:
                 paths.append(passpath)
 
