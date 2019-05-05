@@ -181,6 +181,9 @@ You might also want to update the passwords imported using [`pass-update`][updat
 * `pass 1.7.0` or greater.
 * `python3` (python 3.4, 3.5, 3.6 and 3.7 are supported)
 * `python3-setuptools` to build and install it.
+* `python3-pyaml`
+  - Debian/Ubuntu: `sudo apt-get install python3-yaml`
+  - OSX: `pip3 install pyaml`
 * `python3-defusedxml`
   - Debian/Ubuntu: `sudo apt-get install python3-defusedxml`
   - OSX: `pip3 install defusedxml`

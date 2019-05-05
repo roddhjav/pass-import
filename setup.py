@@ -20,7 +20,8 @@ setup(
     py_modules=['pass_import'],
 
     install_requires=[
-        'defusedxml'
+        'defusedxml',
+        'pyaml'
         ],
     tests_require=[
         'green'

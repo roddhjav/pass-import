@@ -121,12 +121,13 @@ class Msg():
 
 
 try:
+    import yaml
     from defusedxml import ElementTree
 except (ImportError, ModuleNotFoundError):  # pragma: no cover
     msg = Msg()
-    msg.die("""defusedxml is not present, you can install it with
-     'sudo apt-get install python3-defusedxml', or
-     'pip3 install defusedxml'""")
+    msg.die("defusedxml or pyaml is/are not present, you can install them with:\n"
+            "  'sudo apt-get install python3-defusedxml python3-yaml', or\n"
+            "  'pip3 install defusedxml pyaml'")
 
 
 class PasswordStore():
