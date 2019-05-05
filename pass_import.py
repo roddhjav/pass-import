@@ -796,7 +796,7 @@ class KeepassX(PasswordManagerXML):
             if element.find('title').text:
                 res = os.path.join(path, element.find('title').text)
             else:
-                res = os.path.join(path, 'untitled')
+                res = os.path.join(path, 'notitle')
         return res
 
     def _import(self, element, path=''):
