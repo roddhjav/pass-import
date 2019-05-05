@@ -3,6 +3,7 @@
 stages:
   - lint
   - test
+  - deploy
 
 bash:
   stage: lint
@@ -51,6 +52,10 @@ archlinux:
   image: archlinux/base
   before_script:
     - pacman -Syu --noconfirm --noprogressbar make python-pip which grep pass
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - htmlcov/
   <<: *script
 
 ubuntu:
@@ -76,3 +81,16 @@ fedora:
     - dnf -y install make gpg pass python3-pip grep which --setopt=install_weak_deps=False
   <<: *script
   <<: *only
+
+pages:
+  stage: deploy
+  dependencies:
+    - archlinux
+  script:
+    - mv htmlcov/ public/
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - public
+  only:
+    - master
