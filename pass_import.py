@@ -967,7 +967,7 @@ def main(argv):
         try:
             importer.parse(file)
             importer.clean(arg.clean, arg.convert)
-        except (yaml.scanner.ScannerError, json.decoder.JSONDecodeError,
+        except (yaml.scanner.ScannerError,
                 FormatError, AttributeError, ValueError) as error:
             msg.verbose(error)
             msg.die("%s is not a valid exported %s file." % (arg.file, arg.manager))

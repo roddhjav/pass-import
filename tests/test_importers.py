@@ -18,7 +18,6 @@
 
 import os
 import copy
-import json
 import yaml
 
 from .. import pass_import
@@ -113,7 +112,7 @@ class TestImporters(TestBaseImporters):
 
 class TestImportersFormat(TestBaseImporters):
     formaterror = (pass_import.FormatError, AttributeError, ValueError,
-                   yaml.scanner.ScannerError, json.decoder.JSONDecodeError)
+                   yaml.scanner.ScannerError)
 
     def test_importers_format(self):
         """Testing: file format for all importers."""
