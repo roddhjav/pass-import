@@ -750,6 +750,11 @@ class Lastpass(PasswordManagerCSV):
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'extra', 'group': 'grouping'}
 
+    def parse(self, file):
+        super(Lastpass, self).parse(file)
+        for entry in self.data:
+            entry['group'] = entry.get('group', '').replace('\\', os.sep)
+
 
 class NetworkManager(PasswordManager):
     default = '/etc/NetworkManager/system-connections'

@@ -86,6 +86,10 @@ keepassxc:
   extension: csv
   encoding: utf-8
 
+lastpass:
+  extension: csv
+  encoding: utf-8
+
 passwordexporter:
   without:
     - group
