@@ -667,8 +667,8 @@ class Gorilla(PasswordManagerCSV):
     def parse(self, file):
         super(Gorilla, self).parse(file)
         for entry in self.data:
-            entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry['group'])
-            entry['group'] = re.sub('\\\.', '.', entry['group'])
+            entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry.get('group', ''))
+            entry['group'] = re.sub('\\\.', '.', entry.get('group', ''))
 
 
 class KeepassX(PasswordManagerXML):
