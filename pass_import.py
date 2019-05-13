@@ -27,7 +27,7 @@ import shutil
 import argparse
 import importlib
 import configparser
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE  # nosec
 from collections import OrderedDict, defaultdict
 
 __version__ = '2.4'
@@ -168,7 +168,7 @@ class PasswordStore():
     def _call(self, command, data=None):
         """Call to a command."""
         process = Popen(command, universal_newlines=True, env=self.env,
-                        stdin=PIPE, stdout=PIPE, stderr=PIPE)  # nosec
+                        stdin=PIPE, stdout=PIPE, stderr=PIPE)
         (stdout, stderr) = process.communicate(data)
         res = process.wait()
         return res, stdout, stderr
