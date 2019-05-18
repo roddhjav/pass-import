@@ -857,13 +857,11 @@ def argumentsparse(argv):
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-    usage="%(prog)s [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] <manager> [file]",
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog="More information may be found in the pass-import(1) man page.")
 
     parser.add_argument('manager', type=str, nargs='?',
-                        help="Can be: %s"
-                        % ', '.join(importers) + '.')
+                        help="Can be: %s" % ', '.join(importers) + '.')
     parser.add_argument('file', type=str, nargs='?',
                         help="""File is the path to the file that contains the
                         data to import, if empty read the data from stdin.""")

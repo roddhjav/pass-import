@@ -13,7 +13,7 @@ all:
 	@echo "pass-$(PROG) was built succesfully. You can now install it wit \"make install\""
 	@echo
 	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
-	@echo "     password-store, python3 and python3-defusedxml"
+	@echo "     pass, python3 and python3-defusedxml"
 
 install:
 	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
