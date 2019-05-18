@@ -24,10 +24,10 @@ from .. import pass_import
 from tests.commons import TestBase
 
 
-REFERENCE = yaml.safe_load(open('tests/db/.reference.yml', 'r'))
-REFERENCE_WIFI = yaml.safe_load(open('tests/db/.reference-wifi.yml', 'r'))
-REFERENCE_NOTE = yaml.safe_load(open('tests/db/.reference-note.yml', 'r'))
-REFERENCE_OTHER = yaml.safe_load(open('tests/db/.reference-other.yml', 'r'))
+REFERENCE = yaml.safe_load(open('tests/references/main.yml', 'r'))
+REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml', 'r'))
+REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
+REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
 
 
 class TestBaseImporters(TestBase):
