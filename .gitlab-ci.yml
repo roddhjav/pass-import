@@ -41,7 +41,11 @@ sast:
   stage: test
   script:
     - pip3 install green coverage defusedxml
+    - make
     - make tests
+    - make install
+    - cd ~
+    - pass import --help
 
 .only: &only
   only:
