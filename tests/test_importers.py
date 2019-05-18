@@ -27,6 +27,7 @@ from tests.commons import TestBase
 REFERENCE = yaml.safe_load(open('tests/db/.reference.yml', 'r'))
 REFERENCE_WIFI = yaml.safe_load(open('tests/db/.reference-wifi.yml', 'r'))
 REFERENCE_NOTE = yaml.safe_load(open('tests/db/.reference-note.yml', 'r'))
+REFERENCE_OTHER = yaml.safe_load(open('tests/db/.reference-other.yml', 'r'))
 
 
 class TestBaseImporters(TestBase):
@@ -108,6 +109,14 @@ class TestImporters(TestBaseImporters):
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_NOTE)
+
+    def test_importers_keepassother(self):
+        """Testing: parse method for Keepass with special cases."""
+        importer = self._class('keepass')
+        testpath = os.path.join(self.db, 'keepass-other.xml')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+        self.assertImport(importer.data, REFERENCE_OTHER)
 
 
 class TestImportersFormat(TestBaseImporters):

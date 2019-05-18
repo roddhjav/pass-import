@@ -729,6 +729,8 @@ class Keepass(KeepassX):
             title = cls._getvalue(element.findall('String'), 'Title')
         elif element.tag == 'Group':
             title = element.find('Name').text
+        if title is None:
+            title = ''
         return os.path.join(path, title)
 
 
