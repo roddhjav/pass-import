@@ -48,7 +48,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [chromesqlite][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
-| [encryptr][encryptr] | *See this [encryptr issue](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
+| [encryptr][encryptr] | *See this [encryptr issue][export-encryptr]* | `pass import encryptr file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [enpass6][enpass] | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
@@ -299,3 +299,4 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [export-apple-keychain]: https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
 [export-1password]: https://support.1password.com/export/
+[export-encryptr]: https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705
