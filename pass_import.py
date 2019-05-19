@@ -30,7 +30,7 @@ import configparser
 from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 
-__version__ = '2.4'
+__version__ = '2.5'
 
 importers = {
     '1password': ['OnePassword', 'https://1password.com/'],
