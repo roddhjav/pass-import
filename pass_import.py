@@ -594,29 +594,9 @@ class Dashlane(PasswordManagerCSV):
 
 
 class Encryptr(PasswordManagerCSV):
-    # Looking at how Encryptr processes exports here (method getCsvFields):
-    # https://github.com/SpiderOak/Encryptr/blob/master/src/views/MainView.js#L163
-    # and entry types contained here:
-    # https://github.com/SpiderOak/Encryptr/tree/master/src/models/types
-    # we conclude:
-    # Every record has metadata: "Entry Type","Label"
-    # Every record happens to have, independently: "Notes"
-    # Password type has: "Username","Password", "Site URL"
-    # General type has: "Text"
-    # Credit card type has: "Type", "Name on card", "Card Number", "CVV", "Expiry"
-    # encryptr dynamically generates CSVs based on available entry types,
-    # and supports credit cards.
-    # all told, we have, in no particular order as it's dynamic:
-    # "Entry Type","Label", "Notes", "Username", "Password", "Site URL",
-    # "Text", "Type", "Name on card", "Card Number", "CVV", "Expiry"
-
-    # and now let's map it all. Ignoring Entry Type.
     keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
             'url': 'Site URL', 'comments': 'Notes', 'text': 'Text'}
 
-    # since it's dynamically generated, there is no guarantee
-    # that all keys are there (e.g, no credit cards, no keys related to it.)
-    # so we only check for those that are there with at least one entry.
     @classmethod
     def _checkformat(cls, fieldnames):
         for csvkey in ("Entry Type", "Label", "Notes"):
