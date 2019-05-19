@@ -25,7 +25,7 @@ test_expect_success 'Testing corner cases' '
 
 test_expect_success 'Testing help message' '
     _pass import --help | grep "[manager] [file]" &&
-    _pass import --version | grep "pass import 2.4"
+    _pass import --version | grep "pass import"
     '
 
 test_done
