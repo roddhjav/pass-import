@@ -28,7 +28,7 @@ import argparse
 import importlib
 import configparser
 from subprocess import Popen, PIPE  # nosec
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 
 __version__ = '2.4'
 
@@ -388,16 +388,16 @@ class PasswordManagerXML(PasswordManager):
         return tree
 
     @classmethod
-    def _getvalue(cls, elements, xmlkey):
-        value = elements.find(xmlkey)
-        return '' if value is None else value.text
+    def _getvalue(cls, element):
+        return element.tag, element.text
 
-    def _getentry(self, element):
-        entry = OrderedDict()
-        for key in self.keyslist:
-            xmlkey = self.keys.get(key, '')
-            if xmlkey != '':
-                entry[key] = self._getvalue(element, xmlkey)
+    def _getentry(self, elements):
+        entry = dict()
+        keys = self._invkeys()
+        for element in elements:
+            xmlkey, value = self._getvalue(element)
+            key = keys.get(xmlkey, xmlkey)
+            entry[key] = value
         return entry
 
     def parse(self, file):
@@ -694,7 +694,6 @@ class KeepassX(PasswordManagerXML):
             self._import(group, path)
         for xmlentry in element.findall(self.entry):
             entry = self._getentry(xmlentry)
-            entry['title'] = self._getpath(xmlentry)
             entry['group'] = path
             self.data.append(entry)
 
@@ -712,26 +711,22 @@ class Keepass(KeepassX):
         return root.find('Group')
 
     @classmethod
-    def _getvalue(cls, elements, xmlkey):
-        value = ''
-        for element in elements:
-            for child in element.findall('Key'):
-                if child.text == xmlkey:
-                    value = element.find('Value').text
-                    break
-        return value
-
-    @classmethod
     def _getpath(cls, element, path=''):
         """Generate path name from elements title and current path."""
         title = ''
-        if element.tag == 'Entry':
-            title = cls._getvalue(element.findall('String'), 'Title')
-        elif element.tag == 'Group':
+        if element.tag == 'Group':
             title = element.find('Name').text
         if title is None:
             title = ''
         return os.path.join(path, title)
+
+    @classmethod
+    def _getvalue(cls, element):
+        xmlkey = value = ''
+        for child in element.findall('Key'):
+            xmlkey = child.text
+            value = element.find('Value').text
+        return xmlkey, value
 
 
 class KeepassCSV(PasswordManagerCSV):
@@ -805,12 +800,12 @@ class Pwsafe(PasswordManagerXML):
             entry = self._getentry(xmlentry)
             entry['group'] = entry.get('group', '').replace('.', os.sep)
             entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
-            if self.all:
-                for historyentry in xmlentry.findall('./pwhistory/history_entries/history_entry'):
-                    key = 'oldpassword' + historyentry.attrib['num']
-                    time = self._getvalue(historyentry, 'changedx')
-                    oldpassword = self._getvalue(historyentry, 'oldpassword')
-                    entry[key] = time + ' ' + oldpassword
+            histkey = './pwhistory/history_entries/history_entry'
+            for historyentry in xmlentry.findall(histkey):
+                for hist in historyentry:
+                    xmlkey, value = self._getvalue(hist)
+                    xmlkey += historyentry.attrib.get('num', '')
+                    entry[xmlkey] = value
             self.data.append(entry)
 
 
@@ -821,15 +816,11 @@ class Revelation(PasswordManagerXML):
             'comments': 'notes', 'group': '', 'description': 'description'}
 
     @classmethod
-    def _getvalue(cls, elements, xmlkey):
-        fieldkeys = ['generic-hostname', 'generic-username', 'generic-password']
-        if xmlkey in fieldkeys:
-            for field in elements.findall('field'):
-                if xmlkey == field.attrib['id']:
-                    return field.text
-        else:
-            return elements.find(xmlkey).text
-        return ''
+    def _getvalue(cls, element):
+        key = element.tag
+        if key == 'field':
+            key = element.attrib.get('id', '')
+        return key, element.text
 
     def _import(self, element, path=''):
         for xmlentry in element.findall('entry'):
