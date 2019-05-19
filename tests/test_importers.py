@@ -118,6 +118,14 @@ class TestImporters(TestBaseImporters):
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_OTHER)
 
+    def test_importers_keepassxother(self):
+        """Testing: parse method for KeepassX with special cases."""
+        importer = self._class('keepassx')
+        testpath = os.path.join(self.db, 'keepassx-other.xml')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+        self.assertImport(importer.data, REFERENCE_OTHER)
+
 
 class TestImportersFormat(TestBaseImporters):
     formaterror = (pass_import.FormatError, AttributeError, ValueError,
