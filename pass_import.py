@@ -611,17 +611,8 @@ class Encryptr(PasswordManagerCSV):
     # "Text", "Type", "Name on card", "Card Number", "CVV", "Expiry"
 
     # and now let's map it all. Ignoring Entry Type.
-    keys = {
-        'title': 'Label',
-        'password': 'Password',
-        'login': 'Username',
-        'url': 'Site URL',
-        'comments': 'Notes',
-        'text': 'Text',  # do we want to consider this
-                         # a password since it was the
-                         # "secret" for general type?
-        'group': 'Entry Type',
-    }
+    keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
+            'url': 'Site URL', 'comments': 'Notes', 'text': 'Text'}
 
     # since it's dynamically generated, there is no guarantee
     # that all keys are there (e.g, no credit cards, no keys related to it.)
