@@ -228,9 +228,9 @@ class PasswordManager():
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
-    def __init__(self, all=False, separator='-'):
+    def __init__(self, extra=False, separator='-'):
         self.data = []
-        self.all = all
+        self.all = extra
         self.separator = str(separator)
         self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
                        "[": "", "]": ""}

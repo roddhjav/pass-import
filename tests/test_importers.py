@@ -51,7 +51,7 @@ class TestBaseImporters(TestBase):
         """Load importer class."""
         ImporterClass = getattr(pass_import,
                                 pass_import.importers[manager][0])
-        importer = ImporterClass(all=True)
+        importer = ImporterClass(extra=True)
         return importer
 
     def _path(self, manager):
