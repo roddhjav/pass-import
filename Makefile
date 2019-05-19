@@ -31,6 +31,7 @@ uninstall:
 	@rm -vrf \
 		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
 		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
+		"$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)" \
 
 
 PASSWORD_STORE_DIR ?= $(HOME)/.password-store
@@ -70,4 +71,4 @@ lint:
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed
 
-.PHONY: install uninstall tests tests_bash $(T) lint clean
+.PHONY: install uninstall local tests tests_bash $(T) lint clean
