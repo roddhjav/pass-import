@@ -27,19 +27,8 @@ from tests.commons import TestBase
 REFERENCE = yaml.safe_load(open('tests/references/main.yml', 'r'))
 REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml', 'r'))
 REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
+REFERENCE_CARD = yaml.safe_load(open('tests/references/encryptr-card.yml', 'r'))
 REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
-
-REF_CARD = [
-    {
-        'title': "Goliath National Bank",
-        'Type': "Visatron",
-        'Name on card': "J Smith",
-        'Card Number': "5012345678900000",
-        'CVV': "123",
-        'Expiry': "22/01",
-        'group': 'Credit Card'
-    }
-]
 
 
 class TestBaseImporters(TestBase):
@@ -147,8 +136,7 @@ class TestImporters(TestBaseImporters):
         testpath = os.path.join(self.db, 'encryptr-card.csv')
         with open(testpath, 'r') as file:
             importer.parse(file)
-        print(importer.data)
-        self.assertImport(importer.data, REF_CARD, keep)
+        self.assertImport(importer.data, REFERENCE_CARD, keep)
 
 
 class TestImportersFormat(TestBaseImporters):
