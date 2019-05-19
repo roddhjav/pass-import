@@ -41,6 +41,11 @@ dashlane:
   extension: csv
   encoding: utf-8
 
+encryptr:
+  without: ['group']
+  extension: csv
+  encoding: utf-8
+
 enpass:
   without: ['group']
   extension: csv
