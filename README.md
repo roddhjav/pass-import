@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 25 different password managers. More manager support can easily
+import from 27 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
