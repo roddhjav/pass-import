@@ -70,12 +70,14 @@ REF_WIFI = [Odict([('title', 'android'),
                    ('password', 'X3<yS1g9wW-@lC87pekRmXMJp')])]
 
 REF_CARD = [
-    Odict([('title', "Goliath National Bank"),
-           ('Type', "Visatron"),
-           ('Name on card', "J Smith"),
-           ('Card Number', "5012345678900000"),
-           ('CVV', "123"),
-           ('Expiry', "22/01")]),
+    {
+        'title': "Goliath National Bank",
+        'Type': "Visatron",
+        'Name on card': "J Smith",
+        'Card Number': "5012345678900000",
+        'CVV': "123",
+        'Expiry': "22/01"
+    }
 ]
 
 
