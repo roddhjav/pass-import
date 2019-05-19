@@ -1,3 +1,134 @@
-<?xml version="1.0"?>
-<FPM full_version="00.75.00" min_version="00.75.00" display_version="0.75"><KeyInfo cipher="none"/><LauncherList/><PasswordList><PasswordItem><title>aib</title><user>dpbx@fner.ws</user><url>https://onlinebanking.aib.ie</url><password>ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14</password><notes></notes><category>Bank</category><launcher/></PasswordItem><PasswordItem><title>dpbx@afoqwdr.tx</title><user>dpbx</user><url>https://afoqwdr.tx</url><password>9KVHnx:.S_S;cF`=CE@e\p{v6</password><notes/><category>Emails</category><launcher/></PasswordItem><PasswordItem><title>dpbx@fner.ws</title><user>dpbx</user><url/><password>mt}h'hSUCY;SU;;A!l[8y3O:8</password><notes>For financial purpose only!</notes><category>Emails/WS</category><launcher/></PasswordItem><PasswordItem><title>dpbx@klivak.xb</title><user>dpbx</user><url/><password>2cUqe}e9}&gt;IVZf)Ye&gt;3C8ZN,r</password><notes>This is a garbage address</notes><category>Emails</category><launcher/></PasswordItem><PasswordItem><title>dpbx@mnyfymt.ws</title><user>dpbx</user><url>https://mail.mnyfymt.ws</url><password>rPCkmNkhIa&gt;{izt3C3F823!Go</password><notes/><category>Emails/WS</category><launcher/></PasswordItem><PasswordItem><title>empty entry</title><user/><url/><password/><notes/><category>CornerCases</category><launcher/></PasswordItem><PasswordItem><title>empty password</title><user>vkeelpbu</user><url>https://nhysdo.wg</url><password/><notes/><category>CornerCases</category><launcher/></PasswordItem><PasswordItem><title>mastodon.social</title><user>ostqxi</user><url>https://mastodon.social/</url><password>D&lt;INNeT?#?Bf4%`zA/4i!/'$T</password><notes/><category>Social</category><launcher/></PasswordItem><PasswordItem><title>https://news.ycombinator.com</title><user>ostqxi</user><url>https://news.ycombinator.com</url><password>1)Btf2EI~Tfb7g2A!Sy',*Sj#</password><notes/><category>Social</category><launcher/></PasswordItem><PasswordItem><title>note</title><user/><url/><password/><notes>This is a multiline note entry. Cube shank petroleum guacamole dart mower
-acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.</notes><category>CornerCases</category><launcher/></PasswordItem><PasswordItem><title>ovh.com</title><user>jsdkyvbwjn</user><url>https://www.ovh.com/manager/web/</url><password>^Vr/|o&gt;_H8X%T]7&gt;f}7|:U!Zs</password><notes/><category>Servers</category><launcher/></PasswordItem><PasswordItem><title>ovh.com</title><user>bynbyjhqjz</user><url>https://www.ovh.com/manager/web/</url><password>3Z-VW!i,j(&amp;!zRGPu(hFe]s'(</password><notes/><category>Servers</category><launcher/></PasswordItem><PasswordItem><title>space title</title><user>vkeelpbu</user><url>https://nhysdo.wg</url><password>]stDKo{%pk</password><notes/><category>CornerCases</category><launcher/></PasswordItem><PasswordItem><title>twitter.com</title><user>ostqxi</user><url>https://twitter.com/</url><password>SoNEwvU,kJ%-cIKJ9[c#S;]jB</password><notes/><category>Social</category><launcher/></PasswordItem></PasswordList></FPM>
+<?xml version="1.0" encoding="UTF-8"?>
+<FPM full_version="00.75.00" min_version="00.75.00" display_version="0.75">
+   <KeyInfo cipher="none" />
+   <LauncherList />
+   <PasswordList>
+      <PasswordItem>
+         <title>aib</title>
+         <user>dpbx@fner.ws</user>
+         <url>https://onlinebanking.aib.ie</url>
+         <password>ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14</password>
+         <notes />
+         <category>Bank</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>dpbx@afoqwdr.tx</title>
+         <user>dpbx</user>
+         <url>https://afoqwdr.tx</url>
+         <password>9KVHnx:.S_S;cF`=CE@e\p{v6</password>
+         <notes />
+         <category>Emails</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>dpbx@fner.ws</title>
+         <user>dpbx</user>
+         <url />
+         <password>mt}h'hSUCY;SU;;A!l[8y3O:8</password>
+         <notes>For financial purpose only!</notes>
+         <category>Emails/WS</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>dpbx@klivak.xb</title>
+         <user>dpbx</user>
+         <url />
+         <password>2cUqe}e9}&gt;IVZf)Ye&gt;3C8ZN,r</password>
+         <notes>This is a garbage address</notes>
+         <category>Emails</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>dpbx@mnyfymt.ws</title>
+         <user>dpbx</user>
+         <url>https://mail.mnyfymt.ws</url>
+         <password>rPCkmNkhIa&gt;{izt3C3F823!Go</password>
+         <notes />
+         <category>Emails/WS</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>empty entry</title>
+         <user />
+         <url />
+         <password />
+         <notes />
+         <category>CornerCases</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>empty password</title>
+         <user>vkeelpbu</user>
+         <url>https://nhysdo.wg</url>
+         <password />
+         <notes />
+         <category>CornerCases</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>mastodon.social</title>
+         <user>ostqxi</user>
+         <url>https://mastodon.social/</url>
+         <password>D&lt;INNeT?#?Bf4%`zA/4i!/'$T</password>
+         <notes />
+         <category>Social</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>https://news.ycombinator.com</title>
+         <user>ostqxi</user>
+         <url>https://news.ycombinator.com</url>
+         <password>1)Btf2EI~Tfb7g2A!Sy',*Sj#</password>
+         <notes />
+         <category>Social</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>note</title>
+         <user />
+         <url />
+         <password />
+         <notes>This is a multiline note entry. Cube shank petroleum guacamole dart mower
+acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.</notes>
+         <category>CornerCases</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>ovh.com</title>
+         <user>jsdkyvbwjn</user>
+         <url>https://www.ovh.com/manager/web/</url>
+         <password>^Vr/|o&gt;_H8X%T]7&gt;f}7|:U!Zs</password>
+         <notes />
+         <category>Servers</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>ovh.com</title>
+         <user>bynbyjhqjz</user>
+         <url>https://www.ovh.com/manager/web/</url>
+         <password>3Z-VW!i,j(&amp;!zRGPu(hFe]s'(</password>
+         <notes />
+         <category>Servers</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>space title</title>
+         <user>vkeelpbu</user>
+         <url>https://nhysdo.wg</url>
+         <password>]stDKo{%pk</password>
+         <notes />
+         <category>CornerCases</category>
+         <launcher />
+      </PasswordItem>
+      <PasswordItem>
+         <title>twitter.com</title>
+         <user>ostqxi</user>
+         <url>https://twitter.com/</url>
+         <password>SoNEwvU,kJ%-cIKJ9[c#S;]jB</password>
+         <notes />
+         <category>Social</category>
+         <launcher />
+      </PasswordItem>
+   </PasswordList>
+</FPM>
