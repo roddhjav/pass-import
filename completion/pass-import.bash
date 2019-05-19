@@ -7,7 +7,7 @@ __password_store_extension_complete_import() {
 		chromesqlite dashlane enpass fpm gorilla kedpm keepass keepasscsv
 		keepassx keepassx2 keepassxc lastpass networkmanager passwordexporter
 		pwsafe revelation roboform upm)
-	local args=(-h --help -p --path -e --extra -c --clean -C --convert -s
+	local args=(-h --help -p --path -a --all -c --clean -C --convert -s
 		--separator  -l --list -f --force -q --quiet -v --verbose -V --version)
 	local lastarg="${COMP_WORDS[$COMP_CWORD-1]}"
 	if [[ $lastarg == "-p" || $lastarg == "--path" ]]; then
