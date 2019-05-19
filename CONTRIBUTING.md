@@ -44,29 +44,57 @@ you'll see a Compare & pull request button, fill and submit the pull request.
 
 ## How to add the support for a new password manager?
 
-1. Add your importer name and details in `pass_import.py`:
+1. Add your importer name and details in the `importers` dictionary of
+`pass_import.py`. You should respect the alphabetic order with the other
+importer. *Example*:
 ```python
 importers = {
-          ...
-          'mymanager': ['MyManager', 'https://mymanager.com/'],
+	'1password': ['OnePassword', 'https://1password.com/'],
+	...
+	'mymanager': ['MyManager', 'https://mymanager.com/'],
+	...
+	'upm': ['UPM', 'http://upm.sourceforge.net/'],
 }
 ```
 
-2. Add a `MyManager` class that inherits from one of the main importer class
-`PasswordManagerXML` or `PasswordManagerCSV` (either you need to read XML or CSV
-file) and write the necessary code and variables.
+2. Add a `MyManager` class that inherits from one of the parent importer class
+`PasswordManager{CSV, XML, JSON, PIF}` and write the necessary code and
+variables. If the file format is not supporter yet, you might have to create a
+new parent class. To quickly find the class, your implementation must follows
+the same alphabetic order after the parent classes. *Example*:
+
 ```python
+# Parent classes
+class PasswordManager():
+class PasswordManagerCSV(PasswordManager):
+class PasswordManagerXML(PasswordManager):
+
+# Child classes
+class OnePassword(PasswordManagerCSV):
+...
 class MyManager(PasswordManagerCSV):
-      keys = {'title': 'title', 'password': 'password', 'login': 'login',
-            'url': 'url', 'comments': 'comments', 'group': 'group'}
+	keys = {'title': 'title', 'password': 'password', 'login': 'login',
+			    'url': 'url', 'comments': 'comments', 'group': 'group'}
+...
+class UPM(PasswordManagerCSV):
 ```
+
 
 3. Add a file named `tests/db/mymanager[.csv,.xml]`. **No Contribution
 will be accepted without this file.** This file must contain the exported data
 from *your manager*. It has to be the exact export of the main test password
-repository. This test data can be found in the `tests/exporteddb/.template.csv`.
+repository. This test data can be found in the `tests/references/main.yml`.
 
-4. Check the tests success, the coverage does not decrease and the code health.
+4. Enable and configure the generic import and file format test for your new
+importer. Add an entry in `tests/importers.yml` with your importer settings.
+*Example*:
+```yaml
+mymanager:
+      extension: csv
+      encoding: utf-8
+```
+
+5. Check the tests success, ensure the coverage does not decrease and the code health passes.
 
 
 ## Data Organization
