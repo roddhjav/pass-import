@@ -6,7 +6,7 @@
     <a href="https://gitlab.com/roddhjav/pass-import/pipelines">
         <img src="https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg?style=flat-square"
              alt="Pipeline Status" /></a>
-    <a href="https://www.codacy.com/app/roddhjav/pass-import">
+    <a href="https://roddhjav.gitlab.io/pass-import/">
         <img src="https://img.shields.io/codacy/coverage/783d8cf291434d2b8f1c063b51cfebbb/master.svg?style=flat-square"
              alt="Code Coverage" /></a>
     <a href="https://www.codacy.com/app/roddhjav/pass-import">
@@ -48,6 +48,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
 | [chromesqlite][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
+| [encryptr][encryptr] | *See this [encryptr issue](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
 | [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [enpass6][enpass] | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
 | [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
@@ -274,6 +275,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [buttercup]: https://buttercup.pw/
 [chrome]: https://support.google.com/chrome
 [dashlane]: https://www.dashlane.com/
+[encryptr]: https://spideroak.com/encryptr/
 [enpass]: https://www.enpass.io/
 [fpm]: http://fpm.sourceforge.net/
 [gorilla]: https://github.com/zdia/gorilla/wiki

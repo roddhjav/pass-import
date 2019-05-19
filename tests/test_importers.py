@@ -29,14 +29,27 @@ REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml',
 REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
 REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
 
+REF_CARD = [
+    {
+        'title': "Goliath National Bank",
+        'Type': "Visatron",
+        'Name on card': "J Smith",
+        'Card Number': "5012345678900000",
+        'CVV': "123",
+        'Expiry': "22/01",
+        'group': 'Credit Card'
+    }
+]
+
 
 class TestBaseImporters(TestBase):
     importers = yaml.safe_load(open('tests/importers.yml', 'r'))
 
     @staticmethod
-    def _clear(data):
+    def _clear(data, keep=None):
         """Only keep the keys present in the template and reference file."""
-        keep = ['title', 'password', 'login', 'url', 'comments', 'group']
+        if not keep:
+            keep = ['title', 'password', 'login', 'url', 'comments', 'group']
         for entry in data:
             delete = [k for k in entry.keys() if k not in keep]
             empty = [k for k, v in entry.items() if not v]
@@ -73,9 +86,9 @@ class TestBaseImporters(TestBase):
                 entry['group'] = self.importers[manager]['root'] + entry['group']
         return reference
 
-    def assertImport(self, data, refdata):
+    def assertImport(self, data, refdata, keep=None):
         """Compare imported data with the reference data."""
-        self._clear(data)
+        self._clear(data, keep)
         for entry in data:
             self.assertIn(entry, refdata)
 
@@ -125,6 +138,17 @@ class TestImporters(TestBaseImporters):
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_OTHER)
+
+    def test_importers_encryptr(self):
+        """Testing: parse method for Encryptr with credit card."""
+        keep = ['title', 'Type', 'Name on card', 'Card Number', 'CVV',
+                'Expiry', 'group']
+        importer = self._class('encryptr')
+        testpath = os.path.join(self.db, 'encryptr-card.csv')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+        print(importer.data)
+        self.assertImport(importer.data, REF_CARD, keep)
 
 
 class TestImportersFormat(TestBaseImporters):
