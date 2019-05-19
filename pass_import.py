@@ -756,11 +756,6 @@ class Encryptr(PasswordManagerCSV):
     # "Text", "Type", "Name on card", "Card Number", "CVV", "Expiry"
 
     # and now let's map it all. Ignoring Entry Type.
-    keyslist = [
-        'title', 'password', 'login', 'url', 'comments', 'text',
-        'card-type', 'card-name-on-card', 'card-number', 'card-cvv',
-        'card-expiry'
-    ]
     keys = {
         'title': 'Label',
         'password': 'Password',
@@ -770,17 +765,14 @@ class Encryptr(PasswordManagerCSV):
         'text': 'Text',  # do we want to consider this
                          # a password since it was the
                          # "secret" for general type?
-        'card-type': "Type",
-        'card-name-on-card': "Name on card",
-        'card-number': "Card Number",
-        'card-cvv': "CVV",
-        'card-expiry': "Expiry"
+        'group': 'Entry Type',
     }
 
     # since it's dynamically generated, there is no guarantee
     # that all keys are there (e.g, no credit cards, no keys related to it.)
     # so we only check for those that are there with at least one entry.
-    def _checkformat(self, fieldnames):
+    @classmethod
+    def _checkformat(cls, fieldnames):
         for csvkey in ("Entry Type", "Label", "Notes"):
             if csvkey not in fieldnames:
                 raise FormatError()

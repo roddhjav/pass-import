@@ -71,11 +71,11 @@ REF_WIFI = [Odict([('title', 'android'),
 
 REF_CARD = [
     Odict([('title', "Goliath National Bank"),
-           ('card-type', "Visatron"),
-           ('card-name-on-card', "J Smith"),
-           ('card-number', "5012345678900000"),
-           ('card-cvv', "123"),
-           ('card-expiry', "22/01")]),
+           ('Type', "Visatron"),
+           ('Name on card', "J Smith"),
+           ('Card Number', "5012345678900000"),
+           ('CVV', "123"),
+           ('Expiry', "22/01")]),
 ]
 
 
@@ -128,12 +128,11 @@ class TestBaseImporters(TestBase):
 
 
 class TestImporters(TestBaseImporters):
-    CARD_IMPORTERS = ['encryptr',]
 
     def test_importers(self):
         """Testing: importer parse method using real data."""
         keys = ['title', 'password', 'login', 'ssid']
-        ignore = ['networkmanager', 'card']
+        ignore = ['networkmanager']
         for manager in pass_import.importers:
             if manager in ignore:
                 continue
@@ -154,9 +153,10 @@ class TestImporters(TestBaseImporters):
         self.assertImport(keys, importer.data, REF_WIFI)
 
     def test_importers_card(self):
-        keys = ['title', 'card-type', 'card-name-on-card',
-                'card-number', 'card-cvv', 'card-expiry']
-        for manager in self.CARD_IMPORTERS:
+        card_managers = ['encryptr',]
+        keys = ['title', 'Type', 'Name on card',
+                'Card Number', 'CVV', 'Expiry']
+        for manager in card_managers:
             with self.subTest(manager):
                 importer = self._class(manager)
                 # however, it's in a different folder
