@@ -167,11 +167,11 @@ class PasswordStore():
 
     def _call(self, command, data=None):
         """Call to a command."""
-        process = Popen(command, universal_newlines=True, env=self.env,
-                        stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        (stdout, stderr) = process.communicate(data)
-        res = process.wait()
-        return res, stdout, stderr
+        with Popen(command, shell=False, universal_newlines=True, env=self.env,
+                   stdin=PIPE, stdout=PIPE, stderr=PIPE) as process:
+            (stdout, stderr) = process.communicate(data)
+            res = process.wait()
+            return res, stdout, stderr
 
     def _pass(self, arg=None, data=None):
         """Call to password store."""
