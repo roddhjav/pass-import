@@ -71,25 +71,28 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 ## Usage
 
 ```
-usage: pass import [-h] [-V] [[-p PATH] [-c] [-C] [-s] [-e] [-f] | -l] <manager> [file]
+usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [-l] [-f] [-q] [-v]
+                   [-V]
+                   [manager] [file]
 
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'
 
 positional arguments:
-  manager               Can be: 1password, 1password4, 1password4pif, apple-keychain
-                        bitwarden, chrome, chromesqlite, dashlane, enpass,
-                        fpm, gorilla, kedpm, keepass, keepasscsv, keepassx,
-                        keepassx2, keepassxc, lastpass, networkmanager,
-                        passwordexporter, pwsafe, revelation, roboform, upm.
+  manager               Can be: 1password, 1password4, 1password4pif, apple-
+                        keychain, bitwarden, buttercup, chrome, chromesqlite,
+                        dashlane, encryptr, enpass, enpass6, fpm, gorilla,
+                        kedpm, keepass, keepasscsv, keepassx, keepassx2,
+                        keepassxc, lastpass, networkmanager, passwordexporter,
+                        pwsafe, revelation, roboform, upm.
   file                  File is the path to the file that contains the data to
                         import, if empty read the data from stdin.
 
 optional arguments:
   -h, --help            show this help message and exit
   -p PATH, --path PATH  Import the passwords to a specific subfolder.
-  -e, --extra           Also import all the extra data present.
+  -a, --all             Also import all the extra data present.
   -c, --clean           Make the paths more command line friendly.
   -C, --convert         Convert the invalid caracters present in the paths.
   -s CAR, --separator CAR

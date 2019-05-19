@@ -26,7 +26,7 @@ Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
 .SH COMMAND
 .TP
 \fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--clean\fP, \fI-c\fP ]
-     [ \fI--extra\fP, \fI-e\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--separator\fP, \fI-s\fP ]
+     [ \fI--all\fP, \fI-a\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--separator\fP, \fI-s\fP ]
      [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ] [ \fI--quiet\fP, \fI-q\fP ]
      [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
 
@@ -49,7 +49,7 @@ Specific root directory to use in the password store can be given using
 If \fI--clean\fP or \fI-c\fP is specified, clean the password path in order to
 be more command line friendly.
 
-If \fI--extra\fP or \fI-e\fP is specified, conserve and import all the data
+If \fI--all\fP or \fI-a\fP is specified, conserve and import all the data
 present in the backup file. Otherwise, only title, password, login, URL,
 comments and group data are imported.
 
@@ -79,7 +79,7 @@ Import the passwords to a specific subfolder.
 Clean data before import.
 
 .TP
-\fB\-e\fB, \-\-extra\fR
+\fB\-a\fB, \-\-all\fR
 Also import all the extra data present.
 
 .TP

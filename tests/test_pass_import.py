@@ -104,9 +104,9 @@ class TestPassImport(TestPass):
         cmd = ['1password', self.db + '1password.csv', '--clean', '--quiet']
         self._passimport(cmd)
 
-    def test_pass_import_extra(self):
-        """Testing: pass import 1password db/1password.csv --extra."""
-        cmd = ['1password', self.db + '1password.csv', '--extra', '--quiet']
+    def test_pass_import_all(self):
+        """Testing: pass import 1password db/1password.csv --all."""
+        cmd = ['1password', self.db + '1password.csv', '--all', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_force(self):

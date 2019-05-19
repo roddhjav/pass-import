@@ -228,9 +228,9 @@ class PasswordManager():
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
-    def __init__(self, extra=False, separator='-'):
+    def __init__(self, all=False, separator='-'):
         self.data = []
-        self.all = extra
+        self.all = all
         self.separator = str(separator)
         self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
                        "[": "", "]": ""}
@@ -872,7 +872,7 @@ def argumentsparse(argv):
     parser.add_argument('-p', '--path', action='store', dest='root',
                         default='', metavar='PATH',
                         help='Import the passwords to a specific subfolder.')
-    parser.add_argument('-e', '--extra', action='store_true',
+    parser.add_argument('-a', '--all', action='store_true',
                         help='Also import all the extra data present.')
     parser.add_argument('-c', '--clean', action='store_true',
                         help='Make the paths more command line friendly.')
@@ -948,8 +948,8 @@ def report(arg, msg, paths):
         msg.message("Path separator used: %s" % arg.separator)
     if arg.clean:
         msg.message("Imported data cleaned")
-    if arg.extra:
-        msg.message("Extra data conserved")
+    if arg.all:
+        msg.message("All data imported")
     if paths:
         msg.message("Passwords imported:")
         paths.sort()
@@ -969,7 +969,7 @@ def main(argv):
         # Import and clean data
         ImporterClass = getattr(importlib.import_module(__name__),
                                 importers[arg.manager][0])
-        importer = ImporterClass(arg.extra, arg.separator)
+        importer = ImporterClass(arg.all, arg.separator)
         try:
             importer.parse(file)
             importer.clean(arg.clean, arg.convert)

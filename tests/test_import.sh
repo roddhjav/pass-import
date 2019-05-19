@@ -16,7 +16,7 @@ for manager in "${PASSWORDS_MANAGERS[@]}"; do
     [[ "$manager" == "enpass6" ]] && ext=".json"
     [[ "$manager" == "networkmanager" ]] && ext=""
 	test_expect_success "Testing $manager database" "
-        _pass import $manager $DB/$manager$ext --extra
+        _pass import $manager $DB/$manager$ext --all
     "
 done
 
