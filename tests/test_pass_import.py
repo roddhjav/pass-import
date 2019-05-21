@@ -38,12 +38,12 @@ class TestPassImport(TestPass):
     def test_pass_import_list(self):
         """Testing: pass import --list."""
         cmd = ['--list']
-        self._passimport(cmd)
+        self._passimport(cmd, 0)
 
     def test_pass_import_quietlist(self):
         """Testing: pass import --list --quiet."""
         cmd = ['--list', '--quiet']
-        self._passimport(cmd)
+        self._passimport(cmd, 0)
 
     def test_pass_import_help(self):
         """Testing: pass import --help."""

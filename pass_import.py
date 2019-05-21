@@ -902,6 +902,7 @@ def listimporters(msg):
         msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
     if msg.quiet:
         print('\n'.join(importers))
+    exit(0)
 
 
 def sanitychecks(arg, msg):
@@ -963,48 +964,48 @@ def main(argv):
 
     if arg.list:
         listimporters(msg)
-    else:
-        file = sanitychecks(arg, msg)
 
-        # Import and clean data
-        ImporterClass = getattr(importlib.import_module(__name__),
-                                importers[arg.manager][0])
-        importer = ImporterClass(arg.all, arg.separator)
+    file = sanitychecks(arg, msg)
+
+    # Import and clean data
+    ImporterClass = getattr(importlib.import_module(__name__),
+                            importers[arg.manager][0])
+    importer = ImporterClass(arg.all, arg.separator)
+    try:
+        importer.parse(file)
+        importer.clean(arg.clean, arg.convert)
+    except (yaml.scanner.ScannerError,
+            FormatError, AttributeError, ValueError) as error:
+        msg.verbose(error)
+        msg.die("%s is not a valid exported %s file." % (arg.file, arg.manager))
+    except PermissionError as error:
+        msg.die(error)
+    finally:
+        if arg.manager != 'networkmanager':
+            file.close()
+
+    # Insert data into the password store
+    paths = []
+    store = PasswordStore()
+    if not store.exist():
+        msg.die("password store not initialized")
+    if not store.is_valid_recipients():
+        msg.die('invalid user ID, password encryption aborted.')
+    for entry in importer.data:
         try:
-            importer.parse(file)
-            importer.clean(arg.clean, arg.convert)
-        except (yaml.scanner.ScannerError,
-                FormatError, AttributeError, ValueError) as error:
-            msg.verbose(error)
-            msg.die("%s is not a valid exported %s file." % (arg.file, arg.manager))
-        except PermissionError as error:
-            msg.die(error)
-        finally:
-            if arg.manager != 'networkmanager':
-                file.close()
+            passpath = os.path.join(arg.root, entry['path'])
+            data = importer.get(entry)
+            msg.verbose("Path", passpath)
+            msg.verbose("Data", data.replace('\n', '\n           '))
+            store.insert(passpath, data, arg.force)
+        except PasswordStoreError as error:
+            msg.warning("Impossible to insert %s into the store: %s"
+                        % (passpath, error))
+        else:
+            paths.append(passpath)
 
-        # Insert data into the password store
-        paths = []
-        store = PasswordStore()
-        if not store.exist():
-            msg.die("password store not initialized")
-        if not store.is_valid_recipients():
-            msg.die('invalid user ID, password encryption aborted.')
-        for entry in importer.data:
-            try:
-                passpath = os.path.join(arg.root, entry['path'])
-                data = importer.get(entry)
-                msg.verbose("Path", passpath)
-                msg.verbose("Data", data.replace('\n', '\n           '))
-                store.insert(passpath, data, arg.force)
-            except PasswordStoreError as error:
-                msg.warning("Impossible to insert %s into the store: %s"
-                            % (passpath, error))
-            else:
-                paths.append(passpath)
-
-        # Success!
-        report(arg, msg, paths)
+    # Success!
+    report(arg, msg, paths)
 
 
 if __name__ == "__main__":
