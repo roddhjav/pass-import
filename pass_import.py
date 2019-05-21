@@ -55,6 +55,7 @@ importers = {
     'keepassxc': ['KeepassXC', 'https://keepassxc.org/'],
     'lastpass': ['Lastpass', 'https://www.lastpass.com/'],
     'networkmanager': ['NetworkManager', 'https://wiki.gnome.org/Projects/NetworkManager'],
+    'passpie': ['Passpie', 'https://passpie.readthedocs.io'],
     'passwordexporter': ['PasswordExporter', 'https://github.com/kspearrin/ff-password-exporter'],
     'pwsafe': ['Pwsafe', 'https://pwsafe.org/'],
     'revelation': ['Revelation', 'https://revelation.olasagasti.info/'],
@@ -419,6 +420,27 @@ class PasswordManagerJSON(PasswordManager):
         for entry in self.data:
             groupid = entry.get('group', '')
             entry['group'] = folders.get(groupid, {}).get('group', '')
+
+
+class PasswordManagerYAML(PasswordManager):
+    """Base class for YAML based importers."""
+
+    def _checkformat(self, yamls):
+        for key, value in self.format.items():
+            if yamls.get(key, '') != value:
+                raise FormatError()
+
+    def parse(self, file):
+        yamls = yaml.safe_load(file)
+        self._checkformat(yamls)
+
+        keys = self._invkeys()
+        for block in yamls[self.rootkey]:
+            entry = dict()
+            for key, value in block.items():
+                if value:
+                    entry[keys.get(key, key)] = value
+            self.data.append(entry)
 
 
 class PasswordManagerPIF(PasswordManagerJSON):
@@ -792,6 +814,13 @@ class NetworkManager(PasswordManager):
                 self.data.append(entry)
 
             file.close()
+
+
+class Passpie(PasswordManagerYAML):
+    rootkey = 'credentials'
+    format = {'handler': 'passpie', 'version': 1.0}
+    keys = {'title': 'name', 'password': 'password', 'login': 'login',
+            'comments': 'comment'}
 
 
 class PasswordExporter(PasswordManagerCSV):

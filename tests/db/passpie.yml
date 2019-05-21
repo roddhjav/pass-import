@@ -1,0 +1,61 @@
+credentials:
+- comment: ''
+  login: ostqxi
+  name: twitter.com
+  password: SoNEwvU,kJ%-cIKJ9[c#S;]jB
+- comment: ''
+  login: ostqxi
+  name: https://news.ycombinator.com
+  password: 1)Btf2EI~Tfb7g2A!Sy',*Sj#
+- comment: ''
+  login: ostqxi
+  name: mastodon.social
+  password: D<INNeT?#?Bf4%`zA/4i!/'$T
+- comment: ''
+  login: vkeelpbu
+  name: empty password
+  password: ''
+- comment: ''
+  login: ''
+  name: empty entry
+  password: ''
+- comment: ''
+  login: vkeelpbu
+  name: space title
+  password: ']stDKo{%pk'
+- comment: 'This is a multiline note entry. Cube shank petroleum guacamole dart mower
+
+    acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.'
+  login: ''
+  name: note
+  password: ''
+- comment: ''
+  login: dpbx@fner.ws
+  name: aib
+  password: ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14
+- comment: ''
+  login: bynbyjhqjz
+  name: ovh.com
+  password: 3Z-VW!i,j(&!zRGPu(hFe]s'(
+- comment: ''
+  login: jsdkyvbwjn
+  name: ovh.com
+  password: ^Vr/|o>_H8X%T]7>f}7|:U!Zs
+- comment: ''
+  login: dpbx
+  name: dpbx@mnyfymt.ws
+  password: rPCkmNkhIa>{izt3C3F823!Go
+- comment: For financial purpose only!
+  login: dpbx
+  name: dpbx@fner.ws
+  password: mt}h'hSUCY;SU;;A!l[8y3O:8
+- comment: ''
+  login: dpbx
+  name: dpbx@afoqwdr.tx
+  password: 9KVHnx:.S_S;cF`=CE@e\p{v6
+- comment: This is a garbage address
+  login: dpbx
+  name: dpbx@klivak.xb
+  password: 2cUqe}e9}>IVZf)Ye>3C8ZN,r
+handler: passpie
+version: 1.0

@@ -103,6 +103,11 @@ passwordexporter:
   extension: csv
   encoding: utf-8
 
+passpie:
+  without: ['url', 'group']
+  extension: yml
+  encoding: utf-8
+
 pwsafe:
   extension: xml
   encoding: utf-8

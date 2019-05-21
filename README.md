@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 27 different password managers. More manager support can easily
+import from 28 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -62,6 +62,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [keepassxc][keepassxc] | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
 | [lastpass][lastpass] | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
 | [networkmanager][networkmanager] | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
+| [passpie][passpie] | `passpie export file.yml` | `pass import passpie file.yml` |
 | [password-exporter][password-exporter] | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
 | [pwsafe][pwsafe] | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
 | [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
@@ -289,6 +290,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [kwallet]: https://utils.kde.org/projects/kwalletmanager/
 [lastpass]: https://www.lastpass.com/
 [networkmanager]: https://wiki.gnome.org/Projects/NetworkManager
+[passpie]: https://passpie.readthedocs.io
 [password-exporter]: https://github.com/kspearrin/ff-password-exporter
 [pwsafe]: https://pwsafe.org/
 [revelation]: https://revelation.olasagasti.info/
