@@ -14,7 +14,8 @@ setup(
     url=__url__,
     download_url="%s/releases/download/v%s/pass-import-%s.tar.gz"
                  % (__url__, __version__, __version__),
-    description="A pass extension for importing data from most of the existing password manager.",
+    description=('A pass extension for importing data from most of '
+                 'the existing password manager.'),
     license='GPL3',
 
     py_modules=['pass_import'],

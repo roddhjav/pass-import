@@ -34,7 +34,8 @@ class TestPasswordManagerGeneral(TestPasswordManager):
         entry = {'password': 'EaP:bCmLZliqa|]WR/#HZP',
                  'login': 'roddhjav',
                  'comments': 'This is a comment'}
-        entry_expected = "EaP:bCmLZliqa|]WR/#HZP\nlogin: roddhjav\ncomments: This is a comment\n"
+        entry_expected = ("EaP:bCmLZliqa|]WR/#HZP\nlogin: roddhjav\n"
+                          "comments: This is a comment\n")
         self.assertEqual(self.importer.get(entry), entry_expected)
 
     def test_get_empty(self):

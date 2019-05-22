@@ -32,7 +32,8 @@ class TestPassStore(TestPass):
 
     def test_environment_variables(self):
         """Testing: environment variables."""
-        self.assertEqual(self.store.env['PASSWORD_STORE_DIR'], os.environ['PASSWORD_STORE_DIR'])
+        self.assertEqual(self.store.env['PASSWORD_STORE_DIR'],
+                         os.environ['PASSWORD_STORE_DIR'])
         self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])
 
     def test_exist(self):
@@ -47,7 +48,8 @@ class TestPassStore(TestPass):
         """Testing: pass insert."""
         self._passinit()
         path = "Test/test"
-        entry = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a comment\n"
+        entry = ("EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav"
+                 "\ncomments: This is a comment\n")
         self.store.insert(path, entry)
         self.assertEqual(self.store._pass(['show', path]), entry)
 
@@ -55,7 +57,8 @@ class TestPassStore(TestPass):
         """Testing: pass insert --force."""
         self.test_insert()
         path = "Test/test"
-        entry2 = "EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\ncomments: This is a second comment\n"
+        entry2 = ("EaP:bCmLZliqa|]WR/#HZP-aa\nlogin: roddhjav\n"
+                  "comments: This is a second comment\n")
         with self.assertRaises(pass_import.PasswordStoreError):
             self.store.insert(path, entry2, force=False)
         self.store.insert(path, entry2, force=True)
