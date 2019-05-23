@@ -207,14 +207,14 @@ class PasswordStore():
             gpgids.pop()
 
         # All the public gpgids must be present in the keyring.
-        cmd = [self._gpgbinary, '--list-keys']
+        cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
             if res:
                 return False
 
         # At least one private key must be present in the keyring.
-        cmd = [self._gpgbinary, '--list-secret-keys']
+        cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-secret-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
             if res == 0:
