@@ -53,6 +53,7 @@ importers = {
     'keepassx': ['KeepassX', 'https://www.keepassx.org/'],
     'keepassx2': ['KeepassX2', 'https://www.keepassx.org/'],
     'keepassxc': ['KeepassXC', 'https://keepassxc.org/'],
+    'keeper': ['Keeper', 'https://keepersecurity.com/'],
     'lastpass': ['Lastpass', 'https://www.lastpass.com/'],
     'networkmanager': ['NetworkManager', 'https://wiki.gnome.org/Projects/NetworkManager'],
     'passpie': ['Passpie', 'https://passpie.readthedocs.io'],
@@ -773,6 +774,12 @@ class KeepassX2(PasswordManagerCSV):
 
 class KeepassXC(KeepassX2):
     pass
+
+
+class Keeper(PasswordManagerCSV):
+    fieldnames = ['group', 'title', 'login', 'password', 'url', 'comments']
+    keys = {'title': 'title', 'password': 'password', 'login': 'login',
+            'url': 'url', 'comments': 'comments', 'group': 'group'}
 
 
 class Lastpass(PasswordManagerCSV):

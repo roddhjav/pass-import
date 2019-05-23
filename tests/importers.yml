@@ -91,6 +91,10 @@ keepassxc:
   extension: csv
   encoding: utf-8
 
+keeper:
+  extension: csv
+  encoding: utf-8
+
 lastpass:
   extension: csv
   encoding: utf-8

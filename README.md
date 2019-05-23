@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 28 different password managers. More manager support can easily
+import from 29 different password managers. More manager support can easily
 be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -60,6 +60,7 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 | [keepassx][keepassx] | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
 | [keepassx2][keepassx] | *Database > Export to CSV File* | `pass import keepassx2 file.csv` |
 | [keepassxc][keepassxc] | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
+| [keeper][keeper] | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
 | [lastpass][lastpass] | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
 | [networkmanager][networkmanager] | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
 | [passpie][passpie] | `passpie export file.yml` | `pass import passpie file.yml` |
@@ -287,6 +288,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [keepass]: https://keepass.info/
 [keepassx]: https://www.keepassx.org/
 [keepassxc]: https://keepassxc.org/
+[keeper]: https://keepersecurity.com/
 [kwallet]: https://utils.kde.org/projects/kwalletmanager/
 [lastpass]: https://www.lastpass.com/
 [networkmanager]: https://wiki.gnome.org/Projects/NetworkManager

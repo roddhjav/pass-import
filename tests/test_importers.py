@@ -145,7 +145,7 @@ class TestImportersFormat(TestBaseImporters):
 
     def test_importers_format(self):
         """Testing: file format for all importers."""
-        ignore = ['dashlane', 'upm']
+        ignore = ['dashlane', 'keeper', 'upm']
         for manager in self.importers:
             if manager in ignore:
                 continue
