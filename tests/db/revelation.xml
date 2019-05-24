@@ -67,6 +67,53 @@ acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.</notes>
 	</entry>
 
 	<entry type="folder">
+		<name>Duplicate Entries</name>
+		<description></description>
+		<updated>1558691994</updated>
+		<notes></notes>
+
+		<entry type="generic">
+			<name>CMS</name>
+			<description></description>
+			<updated>1558693003</updated>
+			<notes></notes>
+			<field id="generic-hostname">foo.example.org</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">XmW9b7J7jv</field>
+		</entry>
+
+		<entry type="generic">
+			<name>CMS</name>
+			<description></description>
+			<updated>1558693031</updated>
+			<notes></notes>
+			<field id="generic-hostname">foo.example.org</field>
+			<field id="generic-username">admin</field>
+			<field id="generic-password">4wfd9TvEZ2</field>
+		</entry>
+
+		<entry type="generic">
+			<name>CMS</name>
+			<description></description>
+			<updated>1558693058</updated>
+			<notes></notes>
+			<field id="generic-hostname">bar.example.org</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">D9ahtXk6bz</field>
+		</entry>
+
+		<entry type="generic">
+			<name>CMS</name>
+			<description></description>
+			<updated>1558693085</updated>
+			<notes></notes>
+			<field id="generic-hostname">bar.example.org</field>
+			<field id="generic-username">admin</field>
+			<field id="generic-password">oN3ARkN7hR</field>
+		</entry>
+	</entry>
+
+	<entry type="folder">
 		<name>Emails</name>
 		<description></description>
 		<updated>1511034723</updated>
