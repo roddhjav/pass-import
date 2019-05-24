@@ -1717,15 +1717,26 @@ class Revelation(PasswordManagerXML):
     import: pass import revelation file.xml
     """
     format = 'revelationdata'
+    keyslist = ['title', 'password', 'login', 'database', 'host', 'port',
+                'url', 'email', 'phone', 'location', 'description',
+                'comments']
     keys = {'title': 'name', 'password': 'generic-password',
-            'login': 'generic-username', 'url': 'generic-hostname',
-            'comments': 'notes', 'group': '', 'description': 'description'}
+            'login': 'generic-username', 'database': 'generic-database',
+            'host': 'generic-hostname', 'hostdomain': 'generic-domain',
+            'port': 'generic-port', 'url': 'generic-url',
+            'email': 'generic-email', 'phone': 'phone-phonenumber',
+            'location': 'generic-location', 'description': 'description',
+            'comments': 'notes'}
 
     @classmethod
     def _getvalue(cls, element):
         key = element.tag
         if key == 'field':
             key = element.attrib.get('id', '')
+        if key in ('generic-pin', 'generic-code'):
+            key = 'generic-password'
+        if key == 'updated':
+            return key, ''
         return key, element.text
 
     def _import(self, element, path=''):
@@ -1738,6 +1749,23 @@ class Revelation(PasswordManagerXML):
                 entry['group'] = path
                 self.data.append(entry)
 
+    def clean(self, clean, convert):
+        for entry in self.data:
+            host = entry.get('host', None)
+            # fix older Revelation storing Websites in Generic entries
+            if host and not entry.get('url', None):
+                for protocol in self.protocols:
+                    if host.startswith(protocol):
+                        entry['url'] = entry.pop('host')
+                        break
+            domain = entry.pop('hostdomain', None)
+            if domain:
+                if host:
+                    if not host.endswith(domain):
+                        entry['host'] = '%s.%s' % (host, domain)
+                else:
+                    entry['host'] = domain
+        return super(Revelation, self).clean(clean, convert)
 
 class Roboform(PasswordManagerCSV):
     """Importer for Roboform in CSV format.
