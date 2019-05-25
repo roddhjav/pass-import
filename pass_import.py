@@ -146,7 +146,7 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_X_SELECTION', 'X_SELECTION')
         self._setenv('PASSWORD_STORE_CLIP_TIME', 'CLIP_TIME')
         self._setenv('PASSWORD_STORE_UMASK')
-        self._setenv('PASSWORD_STORE_GENERATED_LENGHT', 'GENERATED_LENGTH')
+        self._setenv('PASSWORD_STORE_GENERATED_LENGTH', 'GENERATED_LENGTH')
         self._setenv('PASSWORD_STORE_CHARACTER_SET', 'CHARACTER_SET')
         self._setenv('PASSWORD_STORE_CHARACTER_SET_NO_SYMBOLS',
                      'CHARACTER_SET_NO_SYMBOLS')
