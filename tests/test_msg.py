@@ -54,7 +54,6 @@ class TestMsg(TestBase):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
                                    'pass: \x1b[0mverbose msg'))
-        print(message)
 
     def test_message(self):
         """Testing: classic message message."""
@@ -63,7 +62,6 @@ class TestMsg(TestBase):
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
-        print(message)
 
         msg = pass_import.Msg(True, True)
         with captured_output() as (out, err):
@@ -79,7 +77,6 @@ class TestMsg(TestBase):
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, 'smal echo')
-        print(message)
 
     def test_success(self):
         """Testing: success message."""
@@ -89,7 +86,6 @@ class TestMsg(TestBase):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[92m (*) \x1b[0m\x1b[32m'
                                    'success message\x1b[0m'))
-        print(message)
 
     def test_warning(self):
         """Testing: warning message."""
@@ -99,7 +95,6 @@ class TestMsg(TestBase):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[93m  w  \x1b[0m\x1b[33m'
                                    'warning message\x1b[0m'))
-        print(message)
 
     def test_error(self):
         """Testing: error message."""
@@ -109,7 +104,6 @@ class TestMsg(TestBase):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
                                    'Error: \x1b[0merror message'))
-        print(message)
 
     def test_die(self):
         """Testing: die message."""
@@ -121,4 +115,3 @@ class TestMsg(TestBase):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
                                    'Error: \x1b[0mcritical error'))
-        print(message)
