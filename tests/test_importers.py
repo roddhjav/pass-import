@@ -17,72 +17,20 @@
 #
 
 import os
-import copy
 import yaml
 
-from .. import pass_import
-from tests.commons import TestBase
+from tests.commons import TestBaseImport
 
 
-REFERENCE = yaml.safe_load(open('tests/references/main.yml', 'r'))
 REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml', 'r'))
 REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
 REFERENCE_CARD = yaml.safe_load(open('tests/references/encryptr-card.yml', 'r'))
 REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
 
 
-class TestBaseImporters(TestBase):
-    importers = yaml.safe_load(open('tests/importers.yml', 'r'))
-
-    @staticmethod
-    def _clear(data, keep=None):
-        """Only keep the keys present in the template and reference file."""
-        if not keep:
-            keep = ['title', 'password', 'login', 'url', 'comments', 'group']
-        for entry in data:
-            delete = [k for k in entry.keys() if k not in keep]
-            empty = [k for k, v in entry.items() if not v]
-            delete.extend(empty)
-            for key in delete:
-                entry.pop(key, None)
-
-    @staticmethod
-    def _class(manager):
-        """Load importer class."""
-        ImporterClass = getattr(pass_import,
-                                pass_import.importers[manager][0])
-        importer = ImporterClass(extra=True)
-        return importer
-
-    def _path(self, manager):
-        """Get database file to test."""
-        ext = self.importers[manager]['extension']
-        return os.path.join(self.db, "%s.%s" % (manager, ext))
-
-    def _reference(self, manager):
-        """Set the expected reference data for a given manager.
-        Some password manager do not store a lot off data (no group...).
-        Therefore, we need to remove these entries from the reference data when
-        testing these managers.
-        """
-        reference = copy.deepcopy(REFERENCE)
-        if 'without' in self.importers[manager]:
-            for key in self.importers[manager]['without']:
-                for entry in reference:
-                    entry.pop(key, None)
-        elif 'root' in self.importers[manager]:
-            for entry in reference:
-                entry['group'] = self.importers[manager]['root'] + entry['group']
-        return reference
-
-    def assertImport(self, data, refdata, keep=None):
-        """Compare imported data with the reference data."""
-        self._clear(data, keep)
-        for entry in data:
-            self.assertIn(entry, refdata)
 
 
-class TestImporters(TestBaseImporters):
+class TestImporters(TestBaseImport):
 
     def test_importers_generic(self):
         """Testing: parse method for all importers."""
@@ -137,23 +85,3 @@ class TestImporters(TestBaseImporters):
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_CARD, keep)
-
-
-class TestImportersFormat(TestBaseImporters):
-    formaterror = (pass_import.FormatError, AttributeError, ValueError,
-                   yaml.scanner.ScannerError)
-
-    def test_importers_format(self):
-        """Testing: file format for all importers."""
-        ignore = ['dashlane', 'keeper', 'upm']
-        for manager in self.importers:
-            if manager in ignore:
-                continue
-            with self.subTest(manager):
-                importer = self._class(manager)
-                ext = self.importers[manager]['extension']
-                testpath = os.path.join(self.format, 'dummy.' + ext)
-
-                with self.assertRaises(self.formaterror):
-                    with open(testpath, 'r', encoding='utf-8') as file:
-                        importer.parse(file)
