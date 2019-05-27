@@ -47,6 +47,7 @@ importers = {
     'enpass': ['Enpass', 'https://www.enpass.io/'],
     'enpass6': ['Enpass6', 'https://www.enpass.io/'],
     'fpm': ['FigaroPM', 'http://fpm.sourceforge.net/'],
+    'gnome-keyring': ['GnomeKeyring', 'https://wiki.gnome.org/Projects/GnomeKeyring'],
     'gorilla': ['Gorilla', 'https://github.com/zdia/gorilla/wiki'],
     'kedpm': ['FigaroPM', 'http://kedpm.sourceforge.net/'],
     'keepass': ['Keepass', 'https://www.keepass.info'],
@@ -749,6 +750,31 @@ class Gorilla(PasswordManagerCSV):
         for entry in self.data:
             entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry.get('group', ''))
             entry['group'] = re.sub('\\\.', '.', entry.get('group', ''))
+
+
+class GnomeKeyring(PasswordManager):
+    keys = {'login': 'account', 'url': 'host'}
+
+    def parse(self, file):
+        try:
+            import secretstorage
+        except ImportError as error:
+            raise ImportError(error, name='secretstorage')
+
+        keys = self._invkeys()
+        connection = secretstorage.dbus_init()
+        for collection in secretstorage.get_all_collections(connection):
+            group = collection.get_label()
+            for item in collection.get_all_items():
+                entry = dict()
+                entry['group'] = group
+                entry['title'] = item.get_label()
+                entry['password'] = item.get_secret().decode('utf-8')
+                entry['modified'] = item.get_modified()
+                entry['created'] = item.get_created()
+                for key, value in item.get_attributes().items():
+                    entry[keys.get(key, key)] = value
+                self.data.append(entry)
 
 
 class KeepassKDBX(PasswordManagerKDBX):
