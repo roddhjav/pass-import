@@ -24,6 +24,7 @@ import csv
 import json
 import glob
 import shutil
+import getpass
 import argparse
 import importlib
 import configparser
@@ -49,6 +50,7 @@ importers = {
     'gorilla': ['Gorilla', 'https://github.com/zdia/gorilla/wiki'],
     'kedpm': ['FigaroPM', 'http://kedpm.sourceforge.net/'],
     'keepass': ['Keepass', 'https://www.keepass.info'],
+    'keepass-kdbx': ['KeepassKDBX', 'https://www.keepass.info'],
     'keepasscsv': ['KeepassCSV', 'https://www.keepass.info'],
     'keepassx': ['KeepassX', 'https://www.keepassx.org/'],
     'keepassx2': ['KeepassX2', 'https://www.keepassx.org/'],
@@ -483,6 +485,49 @@ class PasswordManagerPIF(PasswordManagerJSON):
         self._sortgroup(folders)
 
 
+class PasswordManagerKDBX(PasswordManager):
+    """Base class for KDBX based importers."""
+    keyfile = None
+    password = None
+    keys = {'login': 'username', 'comments': 'notes', 'group': 'path'}
+    attributes = ['title', 'username', 'password', 'url', 'notes', 'icon',
+                  'tags', 'autotype_enabled', 'autotype_sequence', 'path',
+                  'is_a_history_entry']
+
+    def _getentry(self, kpentry):
+        entry = dict()
+        keys = self._invkeys()
+        for attr in self.attributes:
+            if hasattr(kpentry, attr):
+                entry[keys.get(attr, attr)] = getattr(kpentry, attr)
+        for key, value in kpentry.custom_properties.items():
+            entry[key] = value
+        return entry
+
+    def credentials(self, password=None, keyfile=None):
+        """Set Keepass password and keys."""
+        self.password = password
+        self.keyfile = keyfile
+
+    def parse(self, path):
+        try:
+            from pykeepass import PyKeePass
+        except ImportError as error:
+            raise ImportError(error, name='pykeepass')
+
+        with PyKeePass(path, password=self.password, keyfile=self.keyfile) as kp:
+            for kpentry in kp.entries:
+                entry = self._getentry(kpentry)
+                entry['group'] = os.path.dirname(entry['group'])
+
+                for hentry in kpentry.history:
+                    history = self._getentry(hentry)
+                    history['group'] = os.path.join('History', entry['group'])
+                    self.data.append(history)
+
+                self.data.append(entry)
+
+
 class OnePassword4PIF(PasswordManagerPIF):
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
@@ -706,6 +751,10 @@ class Gorilla(PasswordManagerCSV):
             entry['group'] = re.sub('\\\.', '.', entry.get('group', ''))
 
 
+class KeepassKDBX(PasswordManagerKDBX):
+    pass
+
+
 class KeepassX(PasswordManagerXML):
     group = 'group'
     entry = 'entry'
@@ -918,6 +967,8 @@ def argumentsparse(argv):
                         metavar='CAR',
                         help="""Provide a caracter of replacement for the path
                          separator. Default: '-' """)
+    parser.add_argument('-k', '--keyfile', action='store', default='',
+                        help='Set keyfile')
     parser.add_argument('-l', '--list', action='store_true',
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
@@ -950,6 +1001,8 @@ def sanitychecks(arg, msg):
     if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
         file = arg.file
     elif arg.file is None:
+    elif arg.manager == 'keepass-kdbx':
+        file = arg.file
         file = sys.stdin
     elif os.path.isfile(arg.file):
         encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
@@ -1007,6 +1060,9 @@ def main(argv):
     ImporterClass = getattr(importlib.import_module(__name__),
                             importers[arg.manager][0])
     importer = ImporterClass(arg.all, arg.separator)
+    if hasattr(importer, 'credentials'):
+        password = getpass.getpass(prompt="Password for %s:" % arg.manager)
+        importer.credentials(password, arg.keyfile)
     try:
         importer.parse(file)
         importer.clean(arg.clean, arg.convert)
@@ -1014,10 +1070,13 @@ def main(argv):
             FormatError, AttributeError, ValueError) as error:
         msg.verbose(error)
         msg.die("%s is not a valid exported %s file." % (arg.file, arg.manager))
+    except ImportError as error:
+        msg.verbose(error)
+        msg.die("missing required dependency: %s" % error.name)
     except PermissionError as error:
         msg.die(error)
     finally:
-        if arg.manager != 'networkmanager':
+        if arg.manager not in ('networkmanager', 'keepass-kdbx'):
             file.close()
 
     # Insert data into the password store
