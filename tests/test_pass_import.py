@@ -134,15 +134,27 @@ class TestPassImport(TestPass):
 
     def test_pass_import_convert(self):
         """Testing: pass import --convert db/keepass.xml."""
-        cmd = ['keepass', self.db + 'keepass.xml', '--convert']
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert', '--quiet']
         self._passimport(cmd)
 
         path = os.path.join(self.store.prefix, '.import')
         with open(path, 'w') as configfile:
-            configfile.write('[convert]\nseparator = A')
+            configfile.write('---\nseparator: A')
 
-        cmd = ['keepass', self.db + 'keepass.xml', '--convert', '--separator=~']
+        cmd += ['--separator=~']
         self._passimport(cmd)
 
-        cmd = ['keepass', self.db + 'keepass.xml', '--convert']
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert', '--quiet']
         self._passimport(cmd)
+
+    def test_pass_import_config(self):
+        """Testing: pass import --convert db/keepass.xml with config file."""
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert',
+               '--config', 'tests/config.yml']
+        self._passimport(cmd)
+
+    def test_pass_import_badconfig(self):
+        """Testing: pass import with bad config file."""
+        cmd = ['keepass', self.db + 'keepass.xml', '--convert',
+               '--config', 'tests/format/dummy.xml']
+        self._passimport(cmd, 1)

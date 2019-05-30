@@ -233,14 +233,24 @@ class PasswordManager():
     """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
 
-    def __init__(self, extra=False, separator='-'):
+    def __init__(self, extra=False, separator='-', cleans=None,
+                 protocols=None, invalids=None):
         self.data = []
         self.all = extra
         self.separator = str(separator)
-        self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
-                       "[": "", "]": ""}
-        self.protocols = ['http://', 'https://']
-        self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
+        if cleans:
+            self.cleans = cleans
+        else:
+            self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
+                           "[": "", "]": ""}
+        if protocols:
+            self.protocols = protocols
+        else:
+            self.protocols = ['http://', 'https://']
+        if invalids:
+            self.invalids = invalids
+        else:
+            self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
     def get(self, entry):
         """Return the content of an entry in a password-store format."""
@@ -974,9 +984,9 @@ def argumentsparse(argv):
     formatter_class=argparse.RawDescriptionHelpFormatter,
     epilog="More information may be found in the pass-import(1) man page.")
 
-    parser.add_argument('manager', type=str, nargs='?',
+    parser.add_argument('manager', type=str, nargs='?', default='',
                         help="Can be: %s" % ', '.join(importers) + '.')
-    parser.add_argument('file', type=str, nargs='?',
+    parser.add_argument('file', type=str, nargs='?', default='',
                         help="""File is the path to the file that contains the
                         data to import, if empty read the data from stdin.""")
 
@@ -995,6 +1005,8 @@ def argumentsparse(argv):
                          separator. Default: '-' """)
     parser.add_argument('-k', '--keyfile', action='store', default='',
                         help='Set keyfile')
+    parser.add_argument('--config', action='store', default='',
+                        help='Set a config file. Default: .import')
     parser.add_argument('-l', '--list', action='store_true',
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
@@ -1005,7 +1017,7 @@ def argumentsparse(argv):
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
 
-    return parser.parse_args(argv)
+    return vars(parser.parse_args(argv))
 
 
 def listimporters(msg):
@@ -1018,91 +1030,129 @@ def listimporters(msg):
     exit(0)
 
 
+class Settings(dict):
+
+    def union(self, other):
+        """Update the dictionary only if the value is not null."""
+        for key, value in other.items():
+            if value is not None:
+                self[key] = value
+
+
+def getsettings(arg):
+    """Generate settings merged from args, config file and default.
+
+    Order of presedance of the settings:
+    1. Program options,
+    2. Config file,
+    3. Default values.
+
+    """
+    defaults = {'separator': '-',
+                'cleans': {" ": '-', "&": "and", "@": "At", "'": "",
+                           "[": "", "]": ""},
+                'protocols': ['http://', 'https://'],
+                'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*',
+                             '\0']}
+    settings = Settings(defaults)
+    configs = {}
+
+    if os.path.isfile(arg['config']):
+        configpath = arg['config']
+    else:
+        configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
+                                  arg.get('root', ''), '.import')
+
+    if os.path.isfile(configpath):
+        with open(configpath, 'r') as file:
+            configs = yaml.safe_load(file)
+    settings.union(configs)
+    settings.union(arg)
+    settings['cleans'][' '] = settings['separator']
+    return settings
+
+
 def sanitychecks(arg, msg):
     """Sanity checks."""
-    if arg.manager is None:
+    if arg['manager'] == '':
         msg.die("password manager not present. See 'pass import -h'")
-    if arg.manager not in importers:
-        msg.die("%s is not a supported password manager" % arg.manager)
-    if arg.manager == 'networkmanager' and (arg.file is None or os.path.isdir(arg.file)):
-        file = arg.file
-    elif arg.file is None:
-    elif arg.manager == 'keepass-kdbx':
-        file = arg.file
+    if arg['manager'] not in importers:
+        msg.die("%s is not a supported password manager" % arg['manager'])
+    if arg['manager'] == 'networkmanager' and (arg['file'] is None or os.path.isdir(arg['file'])):
+        file = arg['file']
+    elif arg['manager'] == 'keepass-kdbx':
+        file = arg['file']
+    elif arg['manager'] == 'pass' and os.path.isdir(arg['file']):
+        file = arg['file']
+    elif arg['file'] == '':
         file = sys.stdin
-    elif os.path.isfile(arg.file):
-        encoding = 'utf-8-sig' if arg.manager == '1password4pif' else 'utf-8'
-        file = open(arg.file, 'r', encoding=encoding)
+    elif os.path.isfile(arg['file']):
+        encoding = 'utf-8-sig' if arg['manager'] == '1password4pif' else 'utf-8'
+        file = open(arg['file'], 'r', encoding=encoding)
     else:
-        msg.die("%s is not a file" % arg.file)
-
-    if arg.separator is None:
-        configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
-                                  arg.root, '.import')
-        if os.path.isfile(configpath):
-            with open(configpath, 'r') as configfile:
-                ini = configparser.ConfigParser()
-                ini.read_file(configfile)
-                arg.separator = ini.get('convert', 'separator', fallback='-')
-        else:
-            arg.separator = '-'
+        msg.die("%s is not a file" % arg['file'])
 
     return file
 
 
 def report(arg, msg, paths):
     """Print final success report."""
-    msg.success("Importing passwords from %s" % arg.manager)
-    if arg.file is None:
-        arg.file = 'read from stdin'
-    msg.message("File: %s" % arg.file)
-    if arg.root != '':
-        msg.message("Root path: %s" % arg.root)
+    msg.success("Importing passwords from %s" % arg['manager'])
+    if arg['file'] == '':
+        arg['file'] = 'read from stdin'
+    msg.message("File: %s" % arg['file'])
+    if arg['root'] != '':
+        msg.message("Root path: %s" % arg['root'])
     msg.message("Number of password imported: %s" % len(paths))
-    if arg.convert:
+    if arg['convert']:
         msg.message("Forbidden chars converted")
-        msg.message("Path separator used: %s" % arg.separator)
-    if arg.clean:
+        msg.message("Path separator used: %s" % arg['separator'])
+    if arg['clean']:
         msg.message("Imported data cleaned")
-    if arg.all:
+    if arg['all']:
         msg.message("All data imported")
     if paths:
         msg.message("Passwords imported:")
         paths.sort()
         for path in paths:
-            msg.echo(os.path.join(arg.root, path))
+            msg.echo(os.path.join(arg['root'], path))
 
 
 def main(argv):
     arg = argumentsparse(argv)
-    msg = Msg(arg.verbose, arg.quiet)
+    msg = Msg(arg['verbose'], arg['quiet'])
+    try:
+        arg = getsettings(arg)
+    except AttributeError as error:
+        msg.verbose(error)
+        msg.die("configuration file not valid.")
 
-    if arg.list:
+    if arg['list']:
         listimporters(msg)
-
     file = sanitychecks(arg, msg)
 
     # Import and clean data
     ImporterClass = getattr(importlib.import_module(__name__),
-                            importers[arg.manager][0])
-    importer = ImporterClass(arg.all, arg.separator)
+                            importers[arg['manager']][0])
+    importer = ImporterClass(arg['all'], arg['separator'], arg['cleans'],
+                             arg['protocols'], arg['invalids'])
     if hasattr(importer, 'credentials'):
-        password = getpass.getpass(prompt="Password for %s:" % arg.manager)
-        importer.credentials(password, arg.keyfile)
+        password = getpass.getpass(prompt="Password for %s:" % arg['manager'])
+        importer.credentials(password, arg['keyfile'])
     try:
         importer.parse(file)
-        importer.clean(arg.clean, arg.convert)
+        importer.clean(arg['clean'], arg['convert'])
     except (yaml.scanner.ScannerError,
             FormatError, AttributeError, ValueError) as error:
         msg.verbose(error)
-        msg.die("%s is not a valid exported %s file." % (arg.file, arg.manager))
+        msg.die("%s is not a valid exported %s file." % (arg['file'], arg['manager']))
     except ImportError as error:
         msg.verbose(error)
         msg.die("missing required dependency: %s" % error.name)
     except PermissionError as error:
         msg.die(error)
     finally:
-        if arg.manager not in ('networkmanager', 'keepass-kdbx'):
+        if arg['manager'] not in ('networkmanager', 'keepass-kdbx', 'pass'):
             file.close()
 
     # Insert data into the password store
@@ -1114,11 +1164,11 @@ def main(argv):
         msg.die('invalid user ID, password encryption aborted.')
     for entry in importer.data:
         try:
-            passpath = os.path.join(arg.root, entry['path'])
+            passpath = os.path.join(arg['root'], entry['path'])
             data = importer.get(entry)
             msg.verbose("Path", passpath)
             msg.verbose("Data", data.replace('\n', '\n           '))
-            store.insert(passpath, data, arg.force)
+            store.insert(passpath, data, arg['force'])
         except PasswordStoreError as error:
             msg.warning("Impossible to insert %s into the store: %s"
                         % (passpath, error))
