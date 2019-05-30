@@ -540,21 +540,41 @@ class PasswordManagerKDBX(PasswordManager):
 
 
 class OnePassword4PIF(PasswordManagerPIF):
+    """Importer for 1password 4 in PIF format.
+    url: https://1password.com/
+    export: See this [guide](https://support.1password.com/export/)
+    import: pass import 1password file.1pif
+    """
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
 
 
 class OnePassword4(PasswordManagerCSV):
+    """Importer for 1password 4 in CSV format.
+    url: https://1password.com/
+    export: See this [guide](https://support.1password.com/export)
+    import: pass import 1password4 file.csv
+    """
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'notes'}
 
 
 class OnePassword(PasswordManagerCSV):
+    """Importer for 1password 6 in CSV format.
+    url: https://1password.com/
+    export: See this [guide](https://support.1password.com/export/)
+    import: pass import 1password file.csv
+    """
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
 
 
 class AppleKeychain(PasswordManager):
+    """Importer for Apple Keychain.
+    url: https://support.apple.com/guide/keychain-access
+    export: https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0
+    import: pass import apple-keychain file.txt
+    """
     keys = {'title': 7, 'login': 'acct', 'authentication_type': 'atyp',
             'creation_date': 'cdat', 'creator': 'crtr', 'description': 'desc',
             'alt_comment': 'crtr', 'modification_date': 'mdat',
@@ -640,11 +660,21 @@ class AppleKeychain(PasswordManager):
 
 
 class Bitwarden(PasswordManagerCSV):
+    """Importer for Bitwarden in CSV format.
+    url: https://bitwarden.com/
+    export: 'Tools: Export'
+    import: pass import bitwarden file.csv
+    """
     keys = {'title': 'name', 'password': 'login_password', 'login': 'login_username',
             'url': 'login_uri', 'comments': 'notes', 'group': 'folder'}
 
 
 class Buttercup(PasswordManagerCSV):
+    """Importer for Buttercup in CSV format.
+    url: https://buttercup.pw/
+    export: File > Export > Export File to CSV
+    import: pass import buttercup file.csv
+    """
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'URL', 'comments': 'Notes', 'group': '!group_name'}
     ignore = ['!group_id', 'id']
@@ -657,22 +687,42 @@ class Buttercup(PasswordManagerCSV):
 
 
 class Chrome(PasswordManagerCSV):
+    """Importer for Chrome in CSV format.
+    url: https://support.google.com/chrome
+    export: https://www.axllent.org/docs/view/export-chrome-passwords/
+    import: pass import chrome file.csv
+    """
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url'}
 
 
 class ChromeSQLite(PasswordManagerCSV):
+    """Importer for Chrome SQLite in CSV format.
+    url: https://support.google.com/chrome
+    export: https://www.axllent.org/docs/view/export-chrome-passwords/
+    import: pass import chromesqlite file.csv
+    """
     keys = {'title': 'display_name', 'password': 'password_value',
             'login': 'username_value', 'url': 'origin_url'}
 
 
 class Dashlane(PasswordManagerCSV):
+    """Importer for Dashlane in CSV format.
+    url: https://www.dashlane.com/
+    export: File > Export > Unsecured Archive in CSV
+    import: pass import dashlane file.csv
+    """
     fieldnames = ['title', 'url', 'login', 'password', 'comments']
     keys = {'title': 'title', 'password': 'password', 'login': 'login',
             'url': 'url', 'comments': 'comments'}
 
 
 class Encryptr(PasswordManagerCSV):
+    """Importer for Encryptr in CSV format.
+    url: https://spideroak.com/encryptr/
+    export: https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705
+    import: pass import encryptr file.csv
+    """
     keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
             'url': 'Site URL', 'comments': 'Notes', 'text': 'Text'}
 
@@ -684,6 +734,11 @@ class Encryptr(PasswordManagerCSV):
 
 
 class Enpass(PasswordManagerCSV):
+    """Importer for Enpass in CSV format.
+    url: https://www.enpass.io/
+    export: File > Export > As CSV
+    import: pass import enpass file.csv
+    """
     format = '"Title","Field","Value","Field","Value",.........,"Note"'
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'notes', 'group': 'group'}
@@ -706,6 +761,11 @@ class Enpass(PasswordManagerCSV):
 
 
 class Enpass6(PasswordManagerJSON):
+    """Importer for Enpass 6 in CSV format.
+    url: https://www.enpass.io/
+    export: Menu > File > Export > As JSON
+    import: pass import enpass6 file.json
+    """
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'group', 'email']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'website', 'comments': 'note', 'group': 'group', 'email': 'e-mail'}
@@ -737,6 +797,11 @@ class Enpass6(PasswordManagerJSON):
 
 
 class FigaroPM(PasswordManagerXML):
+    """Importer for Figaro Password Manager in XML format.
+    url: http://fpm.sourceforge.net/
+    export: 'File > Export Passwords: Plain XML'
+    import: pass import fpm file.xml
+    """
     format = 'FPM'
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'category'}
@@ -752,6 +817,11 @@ class FigaroPM(PasswordManagerXML):
 
 
 class Gorilla(PasswordManagerCSV):
+    """Importer for Gorilla in CSV format.
+    url: https://github.com/zdia/gorilla/wiki
+    export: 'File > Export: Yes: CSV Files'
+    import: pass import gorilla file.csv
+    """
     keys = {'title': 'title', 'password': 'password', 'login': 'user',
             'url': 'url', 'comments': 'notes', 'group': 'group'}
 
@@ -763,6 +833,11 @@ class Gorilla(PasswordManagerCSV):
 
 
 class GnomeKeyring(PasswordManager):
+    """Importer for Gnome Keyring.
+    url: https://wiki.gnome.org/Projects/GnomeKeyring
+    export: Nothing to do
+    import: pass import gnome-keyring
+    """
     keys = {'login': 'account', 'url': 'host'}
 
     def parse(self, file):
@@ -788,10 +863,20 @@ class GnomeKeyring(PasswordManager):
 
 
 class KeepassKDBX(PasswordManagerKDBX):
+    """Importer for Keepass encrypted KDBX format.
+    url: https://www.keepass.info
+    export: Nothing to do
+    import: pass import keepass-kdbx file.kfbx
+    """
     pass
 
 
 class KeepassX(PasswordManagerXML):
+    """Importer for KeepassX in XML format.
+    url: https://www.keepassx.org/
+    export: File > Export to > Keepass XML File
+    import: pass import keepassx file.xml
+    """
     group = 'group'
     entry = 'entry'
     format = 'database'
@@ -817,6 +902,11 @@ class KeepassX(PasswordManagerXML):
 
 
 class Keepass(KeepassX):
+    """Importer for Keepass in XML format.
+    url: https://www.keepass.info
+    export: File > Export > Keepass2 (XML)
+    import: pass import keepass file.xml
+    """
     group = 'Group'
     entry = 'Entry'
     format = 'KeePassFile'
@@ -848,26 +938,51 @@ class Keepass(KeepassX):
 
 
 class KeepassCSV(PasswordManagerCSV):
+    """Importer for Keepass in CSV format.
+    url: https://www.keepass.info
+    export: File > Export > Keepass (CSV)
+    import: pass import keepasscsv file.csv
+    """
     keys = {'title': 'Account', 'password': 'Password', 'login': 'Login Name',
             'url': 'Web Site', 'comments': 'Comments'}
 
 
 class KeepassX2(PasswordManagerCSV):
+    """Importer for Keepass in CSV format.
+    url: https://www.keepassx.org/
+    export: Database > Export to CSV File
+    import: pass import keepassx2 file.csv
+    """
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'Notes', 'group': 'Group'}
 
 
 class KeepassXC(KeepassX2):
+    """Importer for KeepassXC in CSV format.
+    url: https://keepassxc.org/
+    export: Database > Export to CSV File
+    import: pass import keepassxc file.csv
+    """
     pass
 
 
 class Keeper(PasswordManagerCSV):
+    """Importer for Keeper in CSV format.
+    url: https://keepersecurity.com/
+    export: 'Settings > Export : Export to CSV File'
+    import: pass import keeper file.csv
+    """
     fieldnames = ['group', 'title', 'login', 'password', 'url', 'comments']
     keys = {'title': 'title', 'password': 'password', 'login': 'login',
             'url': 'url', 'comments': 'comments', 'group': 'group'}
 
 
 class Lastpass(PasswordManagerCSV):
+    """Importer for Lastpass in CSV format.
+    url: https://www.lastpass.com/
+    export: More Options > Advanced > Export
+    import: pass import lastpass file.csv
+    """
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
             'url': 'url', 'comments': 'extra', 'group': 'grouping'}
 
@@ -878,6 +993,11 @@ class Lastpass(PasswordManagerCSV):
 
 
 class NetworkManager(PasswordManager):
+    """Importer for Network Manager.
+    url: https://wiki.gnome.org/Projects/NetworkManager
+    export: Also support specific networkmanager dir and ini file
+    import: pass import networkmanager
+    """
     default = '/etc/NetworkManager/system-connections'
     keyslist = ['title', 'password', 'login', 'ssid']
     keys = {'title': 'connection.id', 'password': 'wifi-security.psk',
@@ -909,6 +1029,11 @@ class NetworkManager(PasswordManager):
 
 
 class Passpie(PasswordManagerYAML):
+    """Importer for Passpie in YAML format.
+    url: https://passpie.readthedocs.io
+    export: passpie export file.yml
+    import: pass import passpie file.yml
+    """
     rootkey = 'credentials'
     format = {'handler': 'passpie', 'version': 1.0}
     keys = {'title': 'name', 'password': 'password', 'login': 'login',
@@ -916,10 +1041,20 @@ class Passpie(PasswordManagerYAML):
 
 
 class PasswordExporter(PasswordManagerCSV):
+    """Importer for Firefox password exporter extension in CSV format.
+    url: https://github.com/kspearrin/ff-password-exporter
+    export: 'Add-ons Prefs: Export Passwords: CSV'
+    import: pass import passwordexporter file.csv
+    """
     keys = {'title': 'hostname', 'password': 'password', 'login': 'username'}
 
 
 class Pwsafe(PasswordManagerXML):
+    """Importer for Pwsafe in XML format.
+    url: https://pwsafe.org/
+    export: File > Export To > XML Format
+    import: pass import pwsafe file.xml
+    """
     format = 'passwordsafe'
     keyslist = ['title', 'password', 'login', 'url', 'email', 'comments', 'group']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
@@ -941,6 +1076,11 @@ class Pwsafe(PasswordManagerXML):
 
 
 class Revelation(PasswordManagerXML):
+    """Importer for Revelation in XML format.
+    url: https://revelation.olasagasti.info/
+    export: 'File > Export: XML'
+    import: pass import revelation file.xml
+    """
     format = 'revelationdata'
     keys = {'title': 'name', 'password': 'generic-password',
             'login': 'generic-username', 'url': 'generic-hostname',
@@ -965,11 +1105,21 @@ class Revelation(PasswordManagerXML):
 
 
 class Roboform(PasswordManagerCSV):
+    """Importer for Roboform in CSV format.
+    url: https://www.roboform.com/
+    export: 'Roboform > Options > Data & Sync > Export To: CSV file'
+    import: pass import roboform file.csv
+    """
     keys = {'title': 'Name', 'password': 'Pwd', 'login': 'Login', 'url': 'Url',
             'comments': 'Note', 'group': 'Folder'}
 
 
 class UPM(PasswordManagerCSV):
+    """Importer for Universal Password Manager (UPM) in CSV format.
+    url: http://upm.sourceforge.net/
+    export: Database > Export
+    import: pass import upm file.csv
+    """
     fieldnames = ['title', 'login', 'password', 'url', 'comments']
     keys = {'title': 'title', 'password': 'password', 'login': 'login',
             'url': 'url', 'comments': 'comments'}
@@ -1020,13 +1170,26 @@ def argumentsparse(argv):
     return vars(parser.parse_args(argv))
 
 
+def getdoc(importer):
+    """Read importer class docstring and retrieve importer meta."""
+    ImporterClass = getattr(importlib.import_module(__name__),
+                            importers[importer])
+    docstring = ImporterClass.__doc__.split('\n')
+    doc = {'title': docstring.pop(0)}
+    doc.update(yaml.safe_load('\n'.join(docstring)))
+    return doc
+
+
 def listimporters(msg):
     """List supported password managers."""
     msg.success("The %s supported password managers are:" % len(importers))
-    for name, value in importers.items():
-        msg.message("%s%s%s - %s" % (msg.Bold, name, msg.end, value[1]))
     if msg.quiet:
         print('\n'.join(importers))
+    else:
+        for importer in sorted(importers):
+            doc = getdoc(importer)
+            msg.message("%s%-21s%s%s" % (msg.Bold, importer, msg.end,
+                                         doc['url']))
     exit(0)
 
 
