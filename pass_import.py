@@ -241,7 +241,8 @@ class PasswordManager():
     Please read CONTRIBUTING.md for more details regarding data structure
     in pass-import.
     """
-    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group']
+    keyslist = ['title', 'password', 'login', 'url', 'comments', 'otpauth',
+                'group']
 
     def __init__(self, extra=False, separator='-', cleans=None,
                  protocols=None, invalids=None):
@@ -270,7 +271,10 @@ class PasswordManager():
             if key in ignore:
                 continue
             if key in entry:
-                string += "%s: %s\n" % (key, entry.pop(key))
+                if 'otpauth' in key:
+                    string += "%s\n" % entry.pop(key)
+                else:
+                    string += "%s: %s\n" % (key, entry.pop(key))
 
         if self.all:
             for key, value in entry.items():
