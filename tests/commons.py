@@ -88,7 +88,7 @@ class TestBaseImport(TestBase):
     def _class(manager):
         """Load importer class."""
         ImporterClass = getattr(pass_import,
-                                pass_import.importers[manager][0])
+                                pass_import.importers[manager])
         importer = ImporterClass(extra=True)
         return importer
 
