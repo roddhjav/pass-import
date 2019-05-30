@@ -1,0 +1,8 @@
+---
+
+separator: '5'
+
+cleans:
+  ' ': '-'
+
+protocols: []
