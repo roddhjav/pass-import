@@ -140,7 +140,8 @@ class PasswordStore():
     """Simple Password Store for python, only able to insert password.
     Supports all the environment variables.
     """
-    def __init__(self):
+
+    def __init__(self, prefix=None):
         self._passbinary = shutil.which('pass')
         self._gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
         self.env = dict(**os.environ)
@@ -160,9 +161,10 @@ class PasswordStore():
         self._setenv('PASSWORD_STORE_SIGNING_KEY')
         self._setenv('GNUPGHOME')
 
+        if prefix:
+            self.prefix = prefix
         if 'PASSWORD_STORE_DIR' not in self.env:
             raise PasswordStoreError("pass prefix unknown")
-        self.prefix = self.env['PASSWORD_STORE_DIR']
 
     def _setenv(self, var, env=None):
         """Add var in the environment variables dictionary."""
@@ -189,6 +191,14 @@ class PasswordStore():
         if res:
             raise PasswordStoreError("%s %s" % (stderr, stdout))
         return stdout
+
+    @property
+    def prefix(self):
+        return self.env['PASSWORD_STORE_DIR']
+
+    @prefix.setter
+    def prefix(self, value):
+        self.env['PASSWORD_STORE_DIR'] = value
 
     def insert(self, path, data, force=False):
         """Multiline insertion into the password store."""

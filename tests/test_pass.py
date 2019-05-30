@@ -36,6 +36,14 @@ class TestPassStore(TestPass):
                          os.environ['PASSWORD_STORE_DIR'])
         self.assertEqual(self.store.env['GNUPGHOME'], os.environ['GNUPGHOME'])
 
+    def test_prefix(self):
+        """Testing: prefix get/set."""
+        prefix = 'tests/pass-store'
+        store = pass_import.PasswordStore(prefix)
+        self.assertEqual(prefix, store.prefix)
+        store.prefix = self.store.prefix
+        self.assertEqual(store.env['PASSWORD_STORE_DIR'], self.store.prefix)
+
     def test_exist(self):
         """Testing: store not initialized."""
         self.assertFalse(self.store.exist())
