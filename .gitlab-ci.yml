@@ -40,7 +40,7 @@ sast:
 .script: &script
   stage: test
   script:
-    - pip3 install green coverage defusedxml pyaml
+    - pip3 install green coverage defusedxml pyaml cryptography
     - make
     - make tests
     - make install
