@@ -17,11 +17,13 @@
 #
 
 import os
-import yaml
+from unittest.mock import patch
 
+import yaml
 from tests.commons import TestBaseImport
 
 
+REFERENCE_OTP = yaml.safe_load(open('tests/references/otp.yml', 'r'))
 REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml', 'r'))
 REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
 REFERENCE_CARD = yaml.safe_load(open('tests/references/encryptr-card.yml', 'r'))
@@ -44,6 +46,19 @@ class TestImporters(TestBaseImport):
                     importer.parse(file)
 
                 self.assertImport(importer.data, reference)
+
+    def test_importers_otp(self):
+        """Testing: parse method for all OTP importers."""
+        keep = ['title', 'otpauth', 'tags', 'type']
+        otp = ['andotp', 'gnome-authenticator']
+        for manager in otp:
+            with self.subTest(manager):
+                importer = self._class(manager)
+                testpath = os.path.join(self.db, manager + '.json')
+                with open(testpath, 'r') as file:
+                    importer.parse(file)
+
+                self.assertImport(importer.data, REFERENCE_OTP, keep)
 
     def test_importers_networkmanager(self):
         """Testing: parse method for Network Manager."""
@@ -85,3 +100,15 @@ class TestImporters(TestBaseImport):
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_CARD, keep)
+
+    @patch("getpass.getpass")
+    def test_importers_andotpAES(self, pw):
+        """Testing: parse method for andOTP encrypted wit AES."""
+        keep = ['title', 'otpauth', 'tags', 'type']
+        importer = self._class('andotp')
+        pw.return_value = self.masterpassword
+        testpath = os.path.join(self.db, 'andotp.json.aes')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+
+        self.assertImport(importer.data, REFERENCE_OTP, keep)

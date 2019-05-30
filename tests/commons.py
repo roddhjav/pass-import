@@ -26,6 +26,7 @@ import pass_import
 
 class TestBase(unittest.TestCase):
     tmp = "/tmp/pass-import/python/"  # nosec
+    masterpassword = 'correct horse battery staple'
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
     format = "tests/format/"
     db = "tests/db/"

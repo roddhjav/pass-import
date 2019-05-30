@@ -1,0 +1,10 @@
+---
+- title: alice@google.com
+  otpauth: otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&issuer=alice@google.com&algorithm=SHA1&digits=6&period=30
+  tags: work
+  type: TOTP
+
+- title: bob@google.com
+  otpauth: otpauth://hotp/totp-secret?secret=JBSWY3DPEHPK3PXP&issuer=bob@google.com&algorithm=SHA1&digits=6&counter=10
+  tags: hack, work
+  type: HOTP

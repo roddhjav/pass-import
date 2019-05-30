@@ -37,6 +37,7 @@ importers = {
     '1password': 'OnePassword',
     '1password4': 'OnePassword4',
     '1password4pif': 'OnePassword4PIF',
+    'andotp': 'AndOTP',
     'apple-keychain': 'AppleKeychain',
     'bitwarden': 'Bitwarden',
     'buttercup': 'Buttercup',
@@ -47,6 +48,7 @@ importers = {
     'enpass': 'Enpass',
     'enpass6': 'Enpass6',
     'fpm': 'FigaroPM',
+    'gnome-authenticator': 'GnomeAuthenticator',
     'gnome-keyring': 'GnomeKeyring',
     'gorilla': 'Gorilla',
     'kedpm': 'FigaroPM',
@@ -553,6 +555,35 @@ class PasswordManagerKDBX(PasswordManager):
                 self.data.append(entry)
 
 
+class PasswordManagerOTP(PasswordManager):
+
+    @staticmethod
+    def _otp(item):
+        otp = "otpauth://%s/totp-secret?" % item.get('type', 'totp').lower()
+        otp += "secret=%s&issuer=%s" % (item['secret'], item['label'])
+        for setting in ['algorithm', 'digits', 'counter', 'period']:
+            if setting in item:
+                otp += "&%s=%s" % (setting, item[setting])
+        return otp
+
+    @classmethod
+    def _read(cls, file):
+        """Read file or data stream, return data."""
+        return file.read()
+
+    def parse(self, file):
+        jsons = json.loads(self._read(file))
+        for item in jsons:
+            entry = dict()
+            entry['title'] = item['label']
+            entry['otpauth'] = self._otp(item)
+
+            for key in ['type', 'thumbnail', 'last_used']:
+                entry[key] = item.get(key, '')
+            entry['tags'] = ', '.join(item['tags'])
+            self.data.append(entry)
+
+
 class OnePassword4PIF(PasswordManagerPIF):
     """Importer for 1password 4 in PIF format.
     url: https://1password.com/
@@ -581,6 +612,52 @@ class OnePassword(PasswordManagerCSV):
     """
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
+
+
+class AndOTP(PasswordManagerOTP):
+    """Importer for AndOTP.
+    url: https://github.com/andOTP/andOTP
+    export: Backups> Backup (plain text [encrypted])
+    import: pass import andotp file.json[.aes]
+    """
+
+    @classmethod
+    def _read(cls, file):
+        return file
+
+    def parse(self, file):
+        try:
+            data = file.read()
+        except UnicodeDecodeError:
+            # The file seems to be encrypted, let's decrypt it.
+            try:
+                from cryptography.hazmat.backends import default_backend
+                from cryptography.hazmat.primitives import hashes
+                from cryptography.hazmat.primitives.ciphers import (
+                    Cipher, algorithms, modes)
+            except ImportError as error:
+                raise ImportError(error, name='cryptography')
+            else:
+                path = file.name
+            finally:
+                file.close()
+
+            password = getpass.getpass(prompt="Password for %s:" % path)
+            with open(path, 'rb') as aesfile:
+                data = aesfile.read()
+
+            digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
+            digest.update(password.encode('UTF-8'))
+            key = digest.finalize()
+
+            iv = data[:12]
+            ciphertext = data[12:-16]
+            tag = data[-16:]
+            decryptor = Cipher(algorithms.AES(key), modes.GCM(iv, tag),
+                               backend=default_backend()).decryptor()
+            data = decryptor.update(ciphertext) + decryptor.finalize()
+
+        super(AndOTP, self).parse(data)
 
 
 class AppleKeychain(PasswordManager):
@@ -844,6 +921,15 @@ class Gorilla(PasswordManagerCSV):
         for entry in self.data:
             entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry.get('group', ''))
             entry['group'] = re.sub('\\\.', '.', entry.get('group', ''))
+
+
+class GnomeAuthenticator(PasswordManagerOTP):
+    """Importer for Gnome Authenticator in JSON format.
+    url: https://gitlab.gnome.org/World/Authenticator
+    export: Backup > in a plain-text JSON file
+    import: pass import gnome-authenticator json.csv
+    """
+    pass
 
 
 class GnomeKeyring(PasswordManager):
@@ -1313,9 +1399,6 @@ def main(argv):
                             importers[arg['manager']])
     importer = ImporterClass(arg['all'], arg['separator'], arg['cleans'],
                              arg['protocols'], arg['invalids'])
-    if hasattr(importer, 'credentials'):
-        password = getpass.getpass(prompt="Password for %s:" % arg['manager'])
-        importer.credentials(password, arg['keyfile'])
     try:
         importer.parse(file)
         importer.clean(arg['clean'], arg['convert'])
