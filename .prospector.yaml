@@ -10,6 +10,8 @@ ignore-patterns:
 pylint:
   disable:
     - bad-continuation
+    - too-many-arguments
+    - too-many-locals
 
   options:
     max-locals: 17
