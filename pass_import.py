@@ -663,7 +663,8 @@ class AndOTP(PasswordManagerOTP):
 class AppleKeychain(PasswordManager):
     """Importer for Apple Keychain.
     url: https://support.apple.com/guide/keychain-access
-    export: https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0
+    export: See this [guide](https://gist.github.com/sangonz/601f4fd2f039d6ceb
+        2198e2f9f4f01e0)
     import: pass import apple-keychain file.txt
     """
     keys = {'title': 7, 'login': 'acct', 'authentication_type': 'atyp',
@@ -780,7 +781,8 @@ class Buttercup(PasswordManagerCSV):
 class Chrome(PasswordManagerCSV):
     """Importer for Chrome in CSV format.
     url: https://support.google.com/chrome
-    export: https://www.axllent.org/docs/view/export-chrome-passwords/
+    export: See this [guide](https://www.axllent.org/docs/view/export-chrome-
+        passwords/)
     import: pass import chrome file.csv
     """
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
@@ -790,7 +792,8 @@ class Chrome(PasswordManagerCSV):
 class ChromeSQLite(PasswordManagerCSV):
     """Importer for Chrome SQLite in CSV format.
     url: https://support.google.com/chrome
-    export: https://www.axllent.org/docs/view/export-chrome-passwords/
+    export: See this [guide](https://www.axllent.org/docs/view/export-chrome-
+        passwords/)
     import: pass import chromesqlite file.csv
     """
     keys = {'title': 'display_name', 'password': 'password_value',
@@ -811,7 +814,8 @@ class Dashlane(PasswordManagerCSV):
 class Encryptr(PasswordManagerCSV):
     """Importer for Encryptr in CSV format.
     url: https://spideroak.com/encryptr/
-    export: https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705
+    export: See this [guide](https://github.com/SpiderOak/Encryptr/issues/295#
+        issuecomment-322449705
     import: pass import encryptr file.csv
     """
     keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
