@@ -531,18 +531,14 @@ class PasswordManagerKDBX(PasswordManager):
             entry[key] = value
         return entry
 
-    def credentials(self, password=None, keyfile=None):
-        """Set Keepass password and keys."""
-        self.password = password
-        self.keyfile = keyfile
-
     def parse(self, path):
         try:
             from pykeepass import PyKeePass
         except ImportError as error:
             raise ImportError(error, name='pykeepass')
 
-        with PyKeePass(path, password=self.password, keyfile=self.keyfile) as kp:
+        password = getpass.getpass(prompt="Password for %s:" % path)
+        with PyKeePass(path, password) as kp:
             for kpentry in kp.entries:
                 entry = self._getentry(kpentry)
                 entry['group'] = os.path.dirname(entry['group'])
