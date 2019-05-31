@@ -33,9 +33,14 @@ class TestPasswordManagerGeneral(TestPasswordManager):
         """Testing: convert dict to password entry."""
         entry = {'password': 'EaP:bCmLZliqa|]WR/#HZP',
                  'login': 'roddhjav',
-                 'comments': 'This is a comment'}
+                 'comments': 'This is a comment',
+                 'otpauth': ('otpauth://hotp/totp-secret?secret=JBSWY3DPEHPK3'
+                             'PXP&issuer=ostqxi&algorithm=SHA1&digits=6&'
+                             'counter=10')}
         entry_expected = ("EaP:bCmLZliqa|]WR/#HZP\nlogin: roddhjav\n"
-                          "comments: This is a comment\n")
+                          "comments: This is a comment\n"
+                          "otpauth://hotp/totp-secret?secret=JBSWY3DPEHPK3PXP&"
+                          "issuer=ostqxi&algorithm=SHA1&digits=6&counter=10\n")
         self.assertEqual(self.importer.get(entry), entry_expected)
 
     def test_get_empty(self):
