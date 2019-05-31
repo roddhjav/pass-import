@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<revelationdata version="0.4.14" dataversion="1">
+
+	<entry type="folder">
+		<name>Types</name>
+		<description></description>
+		<updated>1558628529</updated>
+		<notes></notes>
+
+		<entry type="creditcard">
+			<name>Creditcard</name>
+			<description>Entry of type Creditcard</description>
+			<updated>1558629822</updated>
+			<notes></notes>
+			<field id="creditcard-cardtype">Debit Card</field>
+			<field id="creditcard-cardnumber">1234 5678 90</field>
+			<field id="creditcard-expirydate">2030-06</field>
+			<field id="creditcard-ccv">123</field>
+			<field id="generic-pin">12345</field>
+		</entry>
+
+		<entry type="cryptokey">
+			<name>Crypto Key</name>
+			<description>Entry of type Crypto Key</description>
+			<updated>1558629278</updated>
+			<notes></notes>
+			<field id="generic-hostname">host.example.org</field>
+			<field id="generic-certificate">/home/user/certs/cert.crt</field>
+			<field id="generic-keyfile">/home/user/certs/cert.key</field>
+			<field id="generic-password">WdAM9ZfxA8</field>
+		</entry>
+
+		<entry type="database">
+			<name>Database</name>
+			<description>Entry of type Database</description>
+			<updated>1558629772</updated>
+			<notes></notes>
+			<field id="generic-hostname">dbhost.example.org</field>
+			<field id="generic-username">dbuser</field>
+			<field id="generic-password">FuC7vddj33</field>
+			<field id="generic-database">testdb</field>
+		</entry>
+
+		<entry type="door">
+			<name>Door lock</name>
+			<description>Entry of type Door lock</description>
+			<updated>1558629358</updated>
+			<notes></notes>
+			<field id="generic-location">Home, Front</field>
+			<field id="generic-code">12345</field>
+		</entry>
+
+		<entry type="email">
+			<name>Email</name>
+			<description>Entry of type Email</description>
+			<updated>1558629882</updated>
+			<notes></notes>
+			<field id="generic-email">user@example.org</field>
+			<field id="generic-hostname">mail.example.org</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">hzuLT4iAV9</field>
+		</entry>
+
+		<entry type="ftp">
+			<name>FTP</name>
+			<description>Entry of type FTP</description>
+			<updated>1558629902</updated>
+			<notes></notes>
+			<field id="generic-hostname">ftp.example.org</field>
+			<field id="generic-port">21</field>
+			<field id="generic-username">ftpuser</field>
+			<field id="generic-password">H3a2Zp9cJb</field>
+		</entry>
+
+		<entry type="generic">
+			<name>Generic</name>
+			<description>Entry of type Generic</description>
+			<updated>1558629910</updated>
+			<notes></notes>
+			<field id="generic-hostname">host.example.org</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">ocDb2QvE9v</field>
+		</entry>
+
+		<entry type="phone">
+			<name>Phone</name>
+			<description>Entry of type Phone</description>
+			<updated>1558629463</updated>
+			<notes></notes>
+			<field id="phone-phonenumber">+1 234 5678-90</field>
+			<field id="generic-pin">1234</field>
+		</entry>
+
+		<entry type="remotedesktop">
+			<name>Remote Desktop</name>
+			<description>Entry of type Remote Desktop</description>
+			<updated>1558629947</updated>
+			<notes></notes>
+			<field id="generic-hostname">host.example.org</field>
+			<field id="generic-port">3389</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">69jJoVUNXc</field>
+		</entry>
+
+		<entry type="shell">
+			<name>Shell</name>
+			<description>Entry of type Shell</description>
+			<updated>1558629962</updated>
+			<notes></notes>
+			<field id="generic-hostname">host.example.org</field>
+			<field id="generic-domain">example.org</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">T2EoPkN3dn</field>
+		</entry>
+
+		<entry type="vnc">
+			<name>VNC</name>
+			<description>Entry of type VNC</description>
+			<updated>1558629988</updated>
+			<notes></notes>
+			<field id="generic-hostname">host.example.org</field>
+			<field id="generic-port">5900</field>
+			<field id="generic-username">user</field>
+			<field id="generic-password">MhzWJ2i4if</field>
+		</entry>
+
+		<entry type="website">
+			<name>Website</name>
+			<description>Entry of type Website</description>
+			<updated>1558630081</updated>
+			<notes></notes>
+			<field id="generic-url">http://www.example.org/</field>
+			<field id="generic-username">user</field>
+			<field id="generic-email">user@example.org</field>
+			<field id="generic-password">muxJMn8a99</field>
+		</entry>
+	</entry>
+</revelationdata>

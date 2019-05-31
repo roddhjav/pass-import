@@ -31,6 +31,7 @@ REFERENCE_NOTE = yaml.safe_load(open(REF_DB + 'applekeychain-note.yml', 'r'))
 REFERENCE_CARD = yaml.safe_load(open(REF_DB + 'encryptr-card.yml', 'r'))
 REFERENCE_OTHER = yaml.safe_load(open(REF_DB + 'keepass-other.yml', 'r'))
 REFERENCE_KDBX = yaml.safe_load(open(REF_DB + 'keepass-kdbx.yml', 'r'))
+REFERENCE_REVELATION = yaml.safe_load(open('tests/references/revelation-other.yml', 'r'))
 
 
 class TestImporters(TestBaseImport):
@@ -201,3 +202,15 @@ class TestImporters(TestBaseImport):
         for entry in reference:
             entry['group'] = collection + entry.get('group', '')
         self.assertImport(importer.data, reference)
+
+    def test_importers_revelationother(self):
+        """Testing: parse method for Revelation with special cases."""
+        keyslist = ['title', 'password', 'login', 'database', 'host', 'port',
+                    'url', 'email', 'phone', 'location', 'description',
+                    'comments']
+        keyslist.append('group')
+        importer = self._class('revelation')
+        testpath = os.path.join(self.db, 'revelation-other.xml')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+        self.assertImport(importer.data, REFERENCE_REVELATION, keep=keyslist)
