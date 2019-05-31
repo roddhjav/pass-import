@@ -69,7 +69,7 @@ class TestPass(TestBase):
             file.write('\n'.join(self.gpgids))
 
 
-class TestBaseImport(TestBase):
+class TestBaseImport(TestPass):
     """Base test class for importer tests."""
     importers = yaml.safe_load(open('tests/importers.yml', 'r'))
 
@@ -98,7 +98,7 @@ class TestBaseImport(TestBase):
         ext = self.importers[manager]['extension']
         return os.path.join(self.db, "%s.%s" % (manager, ext))
 
-    def _reference(self, manager):
+    def _reference(self, manager=None):
         """Set the expected reference data for a given manager.
         Some password manager do not store a lot off data (no group...).
         Therefore, we need to remove these entries from the reference data when
@@ -106,13 +106,14 @@ class TestBaseImport(TestBase):
         """
         with open('tests/references/main.yml', 'r') as file:
             reference = yaml.safe_load(file)
-        if 'without' in self.importers[manager]:
-            for key in self.importers[manager]['without']:
+        if manager:
+            if 'without' in self.importers[manager]:
+                for key in self.importers[manager]['without']:
+                    for entry in reference:
+                        entry.pop(key, None)
+            if 'root' in self.importers[manager]:
                 for entry in reference:
-                    entry.pop(key, None)
-        elif 'root' in self.importers[manager]:
-            for entry in reference:
-                entry['group'] = self.importers[manager]['root'] + entry['group']
+                    entry['group'] = self.importers[manager]['root'] + entry['group']
         return reference
 
     def assertImport(self, data, refdata, keep=None):

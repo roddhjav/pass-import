@@ -58,6 +58,22 @@ class TestImporters(TestBaseImport):
 
                 self.assertImport(importer.data, REFERENCE_OTP, keep)
 
+    def test_importers_pass(self):
+        """Testing: parse method password-store."""
+        importer = self._class('pass')
+        reference = self._reference()
+        prefix = os.path.join(self.db, 'pass')
+        importer.parse(prefix)
+
+        #
+        for entry in importer.data:
+            if entry['title'] == 'news.ycombinator.com':
+                entry['title'] = 'https://news.ycombinator.com'
+            if entry['group'] == 'Servers/ovh.com':
+                entry['group'] = 'Servers'
+                entry['title'] = 'ovh.com'
+        self.assertImport(importer.data, reference)
+
     def test_importers_networkmanager(self):
         """Testing: parse method for Network Manager."""
         importer = self._class('networkmanager')

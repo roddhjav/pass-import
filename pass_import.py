@@ -61,6 +61,7 @@ importers = {
     'keeper': 'Keeper',
     'lastpass': 'Lastpass',
     'networkmanager': 'NetworkManager',
+    'pass': 'Pass',
     'passpie': 'Passpie',
     'passwordexporter': 'PasswordExporter',
     'pwsafe': 'Pwsafe',
@@ -1168,6 +1169,32 @@ class NetworkManager(PasswordManager):
                 self.data.append(entry)
 
             file.close()
+
+
+class Pass(PasswordManager):
+    """Importer for password-store.
+    url: https://passwordstore.org
+    export: Nothing to do
+    import: pass import pass path/to/store
+    """
+
+    def parse(self, prefix):
+        store = PasswordStore(prefix)
+        if not store.exist():
+            raise PasswordStoreError('no password store to audit.')
+        if not store.is_valid_recipients():
+            raise PasswordStoreError('invalid user ID, password '
+                                     'encryption aborted.')
+
+        paths = store.list()
+        if not paths:
+            raise PasswordStoreError('empty password store.')
+        for path in paths:
+            try:
+                entry = store.show(path)
+            except PasswordStoreError as error:
+                raise FormatError(error)
+            self.data.append(entry)
 
 
 class Passpie(PasswordManagerYAML):
