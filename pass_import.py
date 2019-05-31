@@ -1121,7 +1121,8 @@ class NetworkManager(PasswordManager):
             for section in ini.sections():
                 for option in ini.options(section):
                     inikey = "%s.%s" % (section, option)
-                    entry[keys.get(inikey, inikey)] = ini.get(section, option, fallback='')
+                    entry[keys.get(inikey, inikey)] = ini.get(section, option,
+                                                              fallback='')
 
             if entry.get('password', None) is not None:
                 self.data.append(entry)
@@ -1342,6 +1343,7 @@ def sanitychecks(arg, msg):
         msg.die("password manager not present. See 'pass import -h'")
     if arg['manager'] not in importers:
         msg.die("%s is not a supported password manager" % arg['manager'])
+
     if arg['manager'] == 'networkmanager' and (arg['file'] is None or os.path.isdir(arg['file'])):
         file = arg['file']
     elif arg['manager'] == 'keepass-kdbx':

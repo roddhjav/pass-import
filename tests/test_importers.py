@@ -30,8 +30,6 @@ REFERENCE_CARD = yaml.safe_load(open('tests/references/encryptr-card.yml', 'r'))
 REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
 
 
-
-
 class TestImporters(TestBaseImport):
 
     def test_importers_generic(self):
@@ -102,7 +100,7 @@ class TestImporters(TestBaseImport):
         self.assertImport(importer.data, REFERENCE_CARD, keep)
 
     @patch("getpass.getpass")
-    def test_importers_andotpAES(self, pw):
+    def test_importers_andotpaes(self, pw):
         """Testing: parse method for andOTP encrypted wit AES."""
         keep = ['title', 'otpauth', 'tags', 'type']
         importer = self._class('andotp')

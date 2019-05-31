@@ -25,7 +25,7 @@ from tests.commons import TestBase
 
 
 @contextmanager
-def captured_output():
+def captured():
     new_out, new_err = StringIO(), StringIO()
     old_out, old_err = sys.stdout, sys.stderr
     try:
@@ -42,13 +42,13 @@ class TestMsg(TestBase):
 
     def test_verbose(self):
         """Testing: message verbose."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             self.msg.verbose('pass', 'verbose message')
             message = out.getvalue().strip()
         self.assertEqual(message, '')
 
         msg = pass_import.Msg(True, False)
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             msg.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
@@ -57,14 +57,14 @@ class TestMsg(TestBase):
 
     def test_message(self):
         """Testing: classic message message."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             self.msg.message('classic message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
 
         msg = pass_import.Msg(True, True)
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             msg.message('classic message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
@@ -72,7 +72,7 @@ class TestMsg(TestBase):
 
     def test_echo(self):
         """Testing: small echo."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             self.msg.echo('smal echo')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
@@ -80,7 +80,7 @@ class TestMsg(TestBase):
 
     def test_success(self):
         """Testing: success message."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             self.msg.success('success message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
@@ -89,7 +89,7 @@ class TestMsg(TestBase):
 
     def test_warning(self):
         """Testing: warning message."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             self.msg.warning('warning message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
@@ -98,7 +98,7 @@ class TestMsg(TestBase):
 
     def test_error(self):
         """Testing: error message."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             self.msg.error('error message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
@@ -107,7 +107,7 @@ class TestMsg(TestBase):
 
     def test_die(self):
         """Testing: die message."""
-        with captured_output() as (out, err):
+        with captured() as (out, err):
             with self.assertRaises(SystemExit) as cm:
                 self.msg.die('critical error')
             message = out.getvalue().strip()
