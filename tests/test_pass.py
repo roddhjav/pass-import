@@ -93,3 +93,70 @@ class TestPassStore(TestPass):
         self.gpgids = ['']
         self._passinit()
         self.assertFalse(self.store.is_valid_recipients())
+
+
+class TestPassStoreList(TestPass):
+    prefix = "tests/pass-store"
+
+    def setUp(self):
+        # Use the password store in tests/pass-store
+        os.environ['PASSWORD_STORE_DIR'] = self.prefix
+        self.store = pass_import.PasswordStore()
+
+    def test_list_path(self):
+        """Testing: pass list exact path."""
+        path = 'Social/mastodon.social'
+        ref = ['Social/mastodon.social']
+        self.assertEqual(self.store.list(path), ref)
+
+    def test_list(self):
+        """Testing: pass list."""
+        ref = ['Bank/aib', 'CornerCases/empty entry',
+               'CornerCases/empty password', 'CornerCases/note',
+               'CornerCases/space title', 'Emails/WS/dpbx@fner.ws',
+               'Emails/WS/dpbx@mnyfymt.ws', 'Emails/dpbx@afoqwdr.tx',
+               'Emails/dpbx@klivak.xb', 'Servers/ovh.com', 'Servers/ovh.com0',
+               'Social/mastodon.social', 'Social/news.ycombinator.com',
+               'Social/twitter.com', 'tombpass']
+        self.assertEqual(self.store.list(), ref)
+
+    def test_list_root(self):
+        """Testing: pass list path/"""
+        ref = ['Emails/WS/dpbx@fner.ws', 'Emails/WS/dpbx@mnyfymt.ws',
+               'Emails/dpbx@afoqwdr.tx', 'Emails/dpbx@klivak.xb']
+        self.assertEqual(self.store.list('Emails'), ref)
+        ref = ['Emails/WS/dpbx@fner.ws', 'Emails/WS/dpbx@mnyfymt.ws']
+        self.assertEqual(self.store.list('Emails/WS'), ref)
+
+    def test_show(self):
+        """Testing: pass show Social/mastodon.social."""
+        path = "Social/mastodon.social"
+        entry = {'group': 'Social',
+                 'login': 'ostqxi',
+                 'otpauth': ('otpauth://totp/mastodon.social:ostqxi?secret='
+                             'JBSWY3DPEHPK3PXP'),
+                 'password': "D<INNeT?#?Bf4%`zA/4i!/'$T",
+                 'title': 'mastodon.social',
+                 'url': 'mastodon.social/'}
+        self.assertEqual(self.store.show(path), entry)
+
+    def test_show_emptypassword(self):
+        """Testing: pass show 'CornerCases/empty password'."""
+        path = "CornerCases/empty password"
+        entry = {'group': 'CornerCases',
+                 'login': 'vkeelpbu',
+                 'title': 'empty password',
+                 'url': 'nhysdo.wg'}
+        self.assertEqual(self.store.show(path), entry)
+
+    def test_show_notes(self):
+        """Testing: pass show 'CornerCases/empty password'."""
+        path = "CornerCases/note"
+        entry = {'group': 'CornerCases',
+                 'title': 'note',
+                 'comments': ('This is a multiline note entry. Cube shank petr'
+                              'oleum guacamole dart mower\nacutely slashing up'
+                              'per cringing lunchbox tapioca wrongful unbeaten'
+                              ' sift.')}
+
+        self.assertEqual(self.store.show(path), entry)

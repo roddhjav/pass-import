@@ -211,6 +211,46 @@ class PasswordStore():
         arg.append(path)
         return self._pass(arg, data)
 
+    def list(self, path=''):
+        prefix = os.path.join(self.prefix, path)
+        if os.path.isfile(prefix + '.gpg'):
+            paths = [path]
+        else:
+            paths = []
+            pattern = self.prefix + '/**/*.gpg'
+            if path:
+                pattern = prefix + '*/**/*.gpg'
+            for file in glob.glob(pattern, recursive=True):
+                if not file[0] == '.':
+                    file = os.path.splitext(file)[0]
+                    file = file[len(self.prefix)+1:]
+                    paths.append(file)
+        paths.sort()
+        return paths
+
+    def show(self, path):
+        entry = dict()
+        entry['group'] = os.path.dirname(path)
+        entry['title'] = os.path.basename(path)
+        data = self._pass(['show', path]).split('\n')
+        data.pop()
+        if data:
+            line = data.pop(0)
+            if ': ' in line:
+                (key, value) = line.split(': ', 1)
+                entry[key] = value
+            else:
+                entry['password'] = line
+        for line in data:
+            if ': ' in line:
+                (key, value) = line.split(': ', 1)
+                entry[key] = value
+            elif line.startswith('otpauth://'):
+                entry['otpauth'] = line
+            elif 'comments' in entry:
+                entry['comments'] += '\n' + line
+        return entry
+
     def exist(self):
         """Return True if the password store is initialized."""
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
