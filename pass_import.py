@@ -662,38 +662,42 @@ class AndOTP(PasswordManagerOTP):
     def _read(cls, file):
         return file
 
+    def _aes_decrypt(self, file):
+        """The import file is AES GCM encrypted, let's decrypt it."""
+        try:
+            from cryptography.hazmat.backends import default_backend
+            from cryptography.hazmat.primitives import hashes
+            from cryptography.hazmat.primitives.ciphers import (
+                Cipher, algorithms, modes)
+        except ImportError as error:
+            raise ImportError(error, name='cryptography')
+        else:
+            path = file.name
+        finally:
+            file.close()
+
+        password = getpass.getpass(prompt="Password for %s:" % path)
+        with open(path, 'rb') as aesfile:
+            data = aesfile.read()
+
+        digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
+        digest.update(password.encode('UTF-8'))
+        key = digest.finalize()
+
+        iv = data[:12]
+        ciphertext = data[12:-16]
+        tag = data[-16:]
+        decryptor = Cipher(algorithms.AES(key), modes.GCM(iv, tag),
+                           backend=default_backend()).decryptor()
+        data = decryptor.update(ciphertext) + decryptor.finalize()
+        return data.decode('utf-8')
+
     def parse(self, file):
         try:
             data = file.read()
         except UnicodeDecodeError:
             # The file seems to be encrypted, let's decrypt it.
-            try:
-                from cryptography.hazmat.backends import default_backend
-                from cryptography.hazmat.primitives import hashes
-                from cryptography.hazmat.primitives.ciphers import (
-                    Cipher, algorithms, modes)
-            except ImportError as error:
-                raise ImportError(error, name='cryptography')
-            else:
-                path = file.name
-            finally:
-                file.close()
-
-            password = getpass.getpass(prompt="Password for %s:" % path)
-            with open(path, 'rb') as aesfile:
-                data = aesfile.read()
-
-            digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
-            digest.update(password.encode('UTF-8'))
-            key = digest.finalize()
-
-            iv = data[:12]
-            ciphertext = data[12:-16]
-            tag = data[-16:]
-            decryptor = Cipher(algorithms.AES(key), modes.GCM(iv, tag),
-                               backend=default_backend()).decryptor()
-            data = decryptor.update(ciphertext) + decryptor.finalize()
-            data = data.decode('utf-8')
+            data = self._aes_decrypt(file)
 
         super(AndOTP, self).parse(data)
 
