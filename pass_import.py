@@ -1747,25 +1747,23 @@ class Revelation(PasswordManagerXML):
             else:
                 entry = self._getentry(xmlentry)
                 entry['group'] = path
-                self.data.append(entry)
 
-    def clean(self, clean, convert):
-        for entry in self.data:
-            host = entry.get('host', None)
-            # fix older Revelation storing Websites in Generic entries
-            if host and not entry.get('url', None):
-                for protocol in self.protocols:
-                    if host.startswith(protocol):
-                        entry['url'] = entry.pop('host')
-                        break
-            domain = entry.pop('hostdomain', None)
-            if domain:
-                if host:
-                    if not host.endswith(domain):
-                        entry['host'] = '%s.%s' % (host, domain)
-                else:
-                    entry['host'] = domain
-        return super(Revelation, self).clean(clean, convert)
+                host = entry.get('host', None)
+                # fix older Revelation storing Websites in Generic entries
+                if host and not entry.get('url', None):
+                    for protocol in self.protocols:
+                        if host.startswith(protocol):
+                            entry['url'] = entry.pop('host')
+                            break
+                domain = entry.pop('hostdomain', None)
+                if domain:
+                    if host:
+                        if not host.endswith(domain):
+                            entry['host'] = '%s.%s' % (host, domain)
+                    else:
+                        entry['host'] = domain
+
+                self.data.append(entry)
 
 class Roboform(PasswordManagerCSV):
     """Importer for Roboform in CSV format.
