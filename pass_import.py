@@ -693,6 +693,7 @@ class AndOTP(PasswordManagerOTP):
             decryptor = Cipher(algorithms.AES(key), modes.GCM(iv, tag),
                                backend=default_backend()).decryptor()
             data = decryptor.update(ciphertext) + decryptor.finalize()
+            data = data.decode('utf-8')
 
         super(AndOTP, self).parse(data)
 
