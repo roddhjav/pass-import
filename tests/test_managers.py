@@ -154,7 +154,7 @@ class TestPasswordManagerClean(TestPasswordManager):
         data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
                           'login': 'lnqYm3ZWtm',
                           'url': 'twitter.com',
-                          'path': 'lnqYm3ZWtm'}]
+                          'path': 'twitter.com'}]
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
@@ -261,6 +261,43 @@ class TestPasswordManagerDuplicate(TestPasswordManager):
                           'path': 'Emails/google.com/fmmh@gmail.com'},
                          {'login': 'ptfz@gmail.com',
                           'path': 'Emails/google.com/ptfz@gmail.com'}]
+        self.importer.clean(clean=False, convert=False)
+        self.assertEqual(self.importer.data, data_expected)
+
+    def test_two_subfolders(self):
+        """Testing: duplicate to two levels of subfolders."""
+        self.importer.data = [{'title': 'CMS',
+                               'login': 'user',
+                               'host': 'foo.example.org',
+                               'password': 'XmW9b7J7jv'},
+                              {'title': 'CMS',
+                               'login': 'admin',
+                               'host': 'foo.example.org',
+                               'password': '4wfd9TvEZ2'},
+                              {'title': 'CMS',
+                               'login': 'user',
+                               'host': 'bar.example.org',
+                               'password': 'D9ahtXk6bz'},
+                              {'title': 'CMS',
+                               'login': 'admin',
+                               'host': 'bar.example.org',
+                               'password': 'oN3ARkN7hR'}]
+        data_expected = [{'path': 'CMS/foo.example.org/user',
+                          'login': 'user',
+                          'host': 'foo.example.org',
+                          'password': 'XmW9b7J7jv'},
+                         {'path': 'CMS/foo.example.org/admin',
+                          'login': 'admin',
+                          'host': 'foo.example.org',
+                          'password': '4wfd9TvEZ2'},
+                         {'path': 'CMS/bar.example.org/user',
+                          'login': 'user',
+                          'host': 'bar.example.org',
+                          'password': 'D9ahtXk6bz'},
+                         {'path': 'CMS/bar.example.org/admin',
+                          'login': 'admin',
+                          'host': 'bar.example.org',
+                          'password': 'oN3ARkN7hR'}]
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
