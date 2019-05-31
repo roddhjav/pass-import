@@ -530,13 +530,17 @@ class PasswordManager():
         title = ''
         for key in ['title', 'host', 'url', 'login']:
             if key in entry and entry[key]:
-                title = self._clean_protocol(entry[key])
-                for component in title.split(os.sep):
-                    if component == '':
-                        continue
-                    else:
-                        title = component
-                        break
+                title = entry[key]
+                if key in ['title', 'host', 'url']:
+                    title = self._clean_protocol(title)
+                    # Only use hostname part of (potential) URLs
+                    if key in ['host', 'url']:
+                        for component in title.split('/'):
+                            if component == '':
+                                continue
+                            else:
+                                title = component
+                                break
                 title = self._clean_title(title)
                 if clean:
                     title = self._clean_cmdline(title)
