@@ -945,6 +945,7 @@ class GnomeKeyring(PasswordManager):
             import secretstorage
         except ImportError as error:
             raise ImportError(error, name='secretstorage')
+        file.close()
 
         keys = self._invkeys()
         connection = secretstorage.dbus_init()
