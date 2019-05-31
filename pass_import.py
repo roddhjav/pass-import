@@ -551,7 +551,7 @@ class PasswordManager():
                         path = os.path.join(path, title)
                         break
 
-        if title == '':
+        if title == '' and os.path.basename(path) != 'notitle':
             path = os.path.join(path, 'notitle')
         entry.pop('title', '')
         return path
