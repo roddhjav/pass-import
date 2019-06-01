@@ -52,8 +52,8 @@ importers = {
     'gnome-keyring': 'GnomeKeyring',
     'gorilla': 'Gorilla',
     'kedpm': 'FigaroPM',
-    'keepass': 'Keepass',
-    'keepass-kdbx': 'KeepassKDBX',
+    'keepassxml': 'KeepassXML',
+    'keepass': 'KeepassKDBX',
     'keepasscsv': 'KeepassCSV',
     'keepassx': 'KeepassX',
     'keepassx2': 'KeepassX2',
@@ -1056,7 +1056,7 @@ class KeepassX(PasswordManagerXML):
             self.data.append(entry)
 
 
-class Keepass(KeepassX):
+class KeepassXML(KeepassX):
     """Importer for Keepass in XML format.
     url: https://www.keepass.info
     export: File > Export > Keepass2 (XML)
@@ -1426,7 +1426,7 @@ def sanitychecks(arg, msg):
 
     if arg['manager'] == 'networkmanager' and (arg['file'] is None or os.path.isdir(arg['file'])):
         file = arg['file']
-    elif arg['manager'] == 'keepass-kdbx':
+    elif arg['manager'] == 'keepass':
         file = arg['file']
     elif arg['manager'] == 'pass' and os.path.isdir(arg['file']):
         file = arg['file']
@@ -1499,7 +1499,7 @@ def main(argv):
     except PermissionError as error:
         msg.die(error)
     finally:
-        if arg['manager'] not in ('networkmanager', 'keepass-kdbx', 'pass'):
+        if arg['manager'] not in ('networkmanager', 'keepass', 'pass'):
             file.close()
 
     # Insert data into the password store

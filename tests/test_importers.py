@@ -91,7 +91,7 @@ class TestImporters(TestBaseImport):
 
     def test_importers_keepassother(self):
         """Testing: parse method for Keepass with special cases."""
-        importer = self._class('keepass')
+        importer = self._class('keepassxml')
         testpath = os.path.join(self.db, 'keepass-other.xml')
         with open(testpath, 'r') as file:
             importer.parse(file)

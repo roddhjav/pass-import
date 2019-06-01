@@ -67,7 +67,7 @@ kedpm:
   extension: xml
   encoding: utf-8
 
-keepass:
+keepassxml:
   root: keepass/
   extension: xml
   encoding: utf-8
