@@ -68,7 +68,10 @@ lint:
 		-t profile-validator -t pyflakes -t pylint -t pyroma \
 		tests/*.py
 
+security:
+	@bandit *.py tests/*.py
+
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed
 
-.PHONY: install uninstall local tests tests_bash $(T) lint clean
+.PHONY: install uninstall local tests tests_bash $(T) lint security clean
