@@ -40,13 +40,15 @@ class TestMsg(TestBase):
     def setUp(self):
         self.msg = pass_import.Msg(False, False)
 
-    def test_verbose(self):
-        """Testing: message verbose."""
+    def test_verbose_simple(self):
+        """Testing: message verbose simple."""
         with captured() as (out, err):
             self.msg.verbose('pass', 'verbose message')
             message = out.getvalue().strip()
         self.assertEqual(message, '')
 
+    def test_verbose(self):
+        """Testing: message verbose."""
         msg = pass_import.Msg(True, False)
         with captured() as (out, err):
             msg.verbose('pass', 'verbose msg')
@@ -54,6 +56,13 @@ class TestMsg(TestBase):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
                                    'pass: \x1b[0mverbose msg'))
+
+        with captured() as (out, err):
+            msg.verbose('pass')
+            message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
+        self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass'
+                                   '\x1b[0m'))
 
     def test_message(self):
         """Testing: classic message message."""

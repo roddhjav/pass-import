@@ -98,7 +98,10 @@ class Msg():
             self.verb = False
 
     def verbose(self, title='', msg=''):
-        if self.verb:
+        if self.verb and msg == '':
+            print("%s  .  %s%s%s%s" % (self.Bmagenta, self.end,
+                                       self.magenta, title, self.end))
+        elif self.verb:
             print("%s  .  %s%s%s: %s%s" % (self.Bmagenta, self.end,
                                            self.magenta, title, self.end, msg))
 
