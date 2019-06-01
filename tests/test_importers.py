@@ -48,8 +48,8 @@ class TestImporters(TestBaseImport):
 
     def test_importers_otp(self):
         """Testing: parse method for all OTP importers."""
-        keep = ['title', 'otpauth', 'tags', 'type']
-        otp = ['andotp', 'gnome-authenticator']
+        keep = ['title', 'otpauth', 'type']
+        otp = ['andotp', 'gnome-authenticator', 'aegis']
         for manager in otp:
             with self.subTest(manager):
                 importer = self._class(manager)
@@ -132,8 +132,8 @@ class TestImporters(TestBaseImport):
 
     @patch("getpass.getpass")
     def test_importers_andotpaes(self, pw):
-        """Testing: parse method for andOTP encrypted wit AES."""
-        keep = ['title', 'otpauth', 'tags', 'type']
+        """Testing: parse method for andOTP encrypted with AES."""
+        keep = ['title', 'otpauth', 'type']
         importer = self._class('andotp')
         pw.return_value = self.masterpassword
         testpath = os.path.join(self.db, 'andotp.json.aes')

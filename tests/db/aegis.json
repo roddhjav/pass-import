@@ -1,0 +1,38 @@
+{
+    "version": 1,
+    "header": {
+        "slots": null,
+        "params": null
+    },
+    "db": {
+        "version": 1,
+        "entries": [
+            {
+                "type": "totp",
+                "uuid": "622ddbcb-fdf1-4d05-8d1c-40c512eafc9c",
+                "name": "alice@google.com",
+                "issuer": "",
+                "icon": null,
+                "info": {
+                    "secret": "JBSWY3DPEHPK3PXP",
+                    "algo": "SHA1",
+                    "digits": 6,
+                    "period": 30
+                }
+            },
+            {
+                "type": "hotp",
+                "uuid": "f93e1dda-0798-432d-816c-f7f9a96cb62d",
+                "name": "bob@google.com",
+                "issuer": "",
+                "icon": null,
+                "info": {
+                    "secret": "JBSWY3DPEHPK3PXP",
+                    "algo": "SHA1",
+                    "digits": 6,
+                    "counter": 10
+                }
+            }
+        ]
+    }
+}

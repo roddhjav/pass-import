@@ -37,6 +37,7 @@ importers = {
     '1password': 'OnePassword',
     '1password4': 'OnePassword4',
     '1password4pif': 'OnePassword4PIF',
+    'aegis': 'AegisPlain',
     'andotp': 'AndOTP',
     'apple-keychain': 'AppleKeychain',
     'bitwarden': 'Bitwarden',
@@ -601,6 +602,11 @@ class PasswordManagerKDBX(PasswordManager):
 
 class PasswordManagerOTP(PasswordManager):
 
+    def _checkformat(self, jsons):
+        for key, value in self.format.items():
+            if jsons.get(key, '') != value:
+                raise FormatError()
+
     @staticmethod
     def _otp(item):
         otp = "otpauth://%s/totp-secret?" % item.get('type', 'totp').lower()
@@ -623,7 +629,7 @@ class PasswordManagerOTP(PasswordManager):
             entry['otpauth'] = self._otp(item)
 
             for key in ['type', 'thumbnail', 'last_used']:
-                entry[key] = item.get(key, '')
+                entry[key] = str(item.get(key, '')).lower()
             entry['tags'] = ', '.join(item['tags'])
             self.data.append(entry)
 
@@ -656,6 +662,31 @@ class OnePassword(PasswordManagerCSV):
     """
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
+
+
+class AegisPlain(PasswordManagerOTP):
+    """Importer for Aegis otp plain JSON format.
+    url: ''
+    export: ''
+    import: pass import aegis file.json
+    """
+    format = {'version': 1, 'header': {'slots': None, 'params': None}}
+
+    def parse(self, file):
+        jsons = json.loads(self._read(file))
+        self._checkformat(jsons)
+        for item in jsons['db']['entries']:
+            entry = dict()
+            info = item.pop('info', {})
+            item.update(info)
+            item['algorithm'] = item.pop('algo', None)
+            entry['title'] = "%s%s" % (item['issuer'], item['name'])
+            item['label'] = entry['title']
+            entry['otpauth'] = self._otp(item)
+
+            for key in ['type', 'icon']:
+                entry[key] = str(item.get(key, '')).lower()
+            self.data.append(entry)
 
 
 class AndOTP(PasswordManagerOTP):
