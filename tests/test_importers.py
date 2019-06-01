@@ -75,10 +75,12 @@ class TestImporters(TestBaseImport):
                 entry['title'] = 'ovh.com'
         self.assertImport(importer.data, reference)
 
-    def test_importers_keepass(self):
+    @patch("getpass.getpass")
+    def test_importers_keepass(self, pw):
         """Testing: parse method for Keepass Kdbx."""
         importer = self._class('keepass')
         reference = self._reference()
+        pw.return_value = self.masterpassword
         testpath = os.path.join(self.db, 'keepass.kdbx')
         importer.parse(testpath)
 
