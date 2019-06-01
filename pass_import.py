@@ -286,6 +286,8 @@ class PasswordManager():
     Please read CONTRIBUTING.md for more details regarding data structure
     in pass-import.
     """
+    keys = None
+    format = None
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'otpauth',
                 'group']
 
@@ -501,6 +503,7 @@ class PasswordManagerJSON(PasswordManager):
 
 class PasswordManagerYAML(PasswordManager):
     """Base class for YAML based importers."""
+    rootkey = None
 
     def _checkformat(self, yamls):
         for key, value in self.format.items():
@@ -561,8 +564,6 @@ class PasswordManagerPIF(PasswordManagerJSON):
 
 class PasswordManagerKDBX(PasswordManager):
     """Base class for KDBX based importers."""
-    keyfile = None
-    password = None
     keys = {'login': 'username', 'comments': 'notes', 'group': 'path'}
     attributes = ['title', 'username', 'password', 'url', 'notes', 'icon',
                   'tags', 'autotype_enabled', 'autotype_sequence', 'path',
