@@ -700,7 +700,20 @@ class AndOTP(PasswordManagerOTP):
     def _read(cls, file):
         return file
 
-    def _aes_decrypt(self, file):
+    @staticmethod
+    def _gpg_decrypt(data):
+        """The import data is GPG encrypted, let's decrypt it."""
+        gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
+        cmd = [gpgbinary, '--with-colons', '--batch', '--decrypt']
+        with Popen(cmd, shell=False, universal_newlines=True, stdin=PIPE,
+                   stdout=PIPE, stderr=PIPE) as process:
+            (stdout, stderr) = process.communicate(data)
+            if process.wait():
+                raise FormatError("%s %s" % (stderr, stdout))
+            return stdout
+
+    @staticmethod
+    def _aes_decrypt(file):
         """The import file is AES GCM encrypted, let's decrypt it."""
         try:
             from cryptography.hazmat.backends import default_backend
@@ -734,9 +747,10 @@ class AndOTP(PasswordManagerOTP):
         try:
             data = file.read()
         except UnicodeDecodeError:
-            # The file seems to be encrypted, let's decrypt it.
             data = self._aes_decrypt(file)
-
+        else:
+            if data.startswith('-----BEGIN PGP MESSAGE-----'):
+                data = self._gpg_decrypt(data)
         super(AndOTP, self).parse(data)
 
 

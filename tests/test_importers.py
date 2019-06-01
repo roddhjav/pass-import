@@ -141,3 +141,13 @@ class TestImporters(TestBaseImport):
             importer.parse(file)
 
         self.assertImport(importer.data, REFERENCE_OTP, keep)
+
+    def test_importers_andotpgpg(self):
+        """Testing: parse method for andOTP encrypted with GPG."""
+        keep = ['title', 'otpauth', 'type']
+        importer = self._class('andotp')
+        testpath = os.path.join(self.db, 'andotp.gpg')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+
+        self.assertImport(importer.data, REFERENCE_OTP, keep)
