@@ -45,6 +45,7 @@ class TestMsg(TestBase):
         with captured() as (out, err):
             self.msg.verbose('pass', 'verbose message')
             message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '')
 
     def test_verbose(self):
