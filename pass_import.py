@@ -131,12 +131,11 @@ class Msg():
 
 try:
     import yaml
-    from defusedxml import ElementTree
-except (ImportError, ModuleNotFoundError):  # pragma: no cover
+except ImportError:  # pragma: no cover
     msg = Msg()
-    msg.die("defusedxml or pyaml is/are not present, you can install them with:\n"
-            "  'sudo apt-get install python3-defusedxml python3-yaml', or\n"
-            "  'pip3 install defusedxml pyaml'")
+    msg.die("pyaml is not present, you can install it with:\n"
+            "  'sudo apt-get install python3-yaml', or\n"
+            "  'pip3 install pyaml'")
 
 
 class PasswordStore():
@@ -474,6 +473,10 @@ class PasswordManagerXML(PasswordManager):
         return entry
 
     def parse(self, file):
+        try:
+            from defusedxml import ElementTree
+        except ImportError as error:
+            raise ImportError(error, name='defusedxml')
         tree = ElementTree.XML(file.read())
         self._checkformat(tree)
         root = self._getroot(tree)
@@ -752,6 +755,11 @@ class AppleKeychain(PasswordManager):
 
     def _decode_data(self, entry):
         """Decode data field (password or comments)."""
+        try:
+            from defusedxml import ElementTree
+        except ImportError as error:
+            raise ImportError(error, name='defusedxml')
+
         key = entry.get('type', 'password')
         key = 'comments' if key == 'note' else key
         data = entry.pop('data', '')
@@ -1483,7 +1491,11 @@ def main(argv):
         msg.die("%s is not a valid exported %s file." % (arg['file'], arg['manager']))
     except ImportError as error:
         msg.verbose(error)
-        msg.die("missing required dependency: %s" % error.name)
+        msg.die("Importing %s, missing required dependency: %s\n"
+                "You can install it with:\n"
+                "  'sudo apt-get install python3-%s', or\n"
+                "  'pip3 install %s'" % (arg['manager'], error.name,
+                                         error.name, error.name))
     except PermissionError as error:
         msg.die(error)
     finally:

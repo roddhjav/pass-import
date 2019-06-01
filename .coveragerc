@@ -5,5 +5,6 @@ source = pass_import.py
 exclude_lines =
     pragma: no cover
     arg.file is None:
+    except ImportError as error:
     except PermissionError as error:
     if __name__ == .__main__.:
