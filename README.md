@@ -185,14 +185,18 @@ You might also want to update the passwords imported using [`pass-update`][updat
 
 **Requirements**
 * `pass 1.7.0` or greater.
-* `python3` (python 3.4, 3.5, 3.6 and 3.7 are supported)
+* Python 3.4+
 * `python3-setuptools` to build and install it.
-* `python3-pyaml`
-  - Debian/Ubuntu: `sudo apt-get install python3-yaml`
-  - OSX: `pip3 install pyaml`
-* `python3-defusedxml`
-  - Debian/Ubuntu: `sudo apt-get install python3-defusedxml`
-  - OSX: `pip3 install defusedxml`
+* `python3-yaml` (`apt install python3-yaml` or `pip3 install pyaml`)
+
+**Optional Requirements**
+
+| **Dependency** | **Required for** | **apt** | **pip** |
+|:--------------:|:----------------:|:-------:|:-------:|
+| [defusedxml] | XML based importers | `apt install python3-defusedxml` | `pip3 install defusedxml` |
+| [pykeepass] | Keepass import from KDBX file | N/A | `pip3 install pykeepass` |
+| [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
+| [cryptography] | AndOTP encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 
 **ArchLinux**
 
@@ -304,3 +308,8 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
 [export-1password]: https://support.1password.com/export/
 [export-encryptr]: https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705
+[defusedxml]: https://github.com/tiran/defusedxml
+[pyaml]: https://pyyaml.org/
+[pykeepass]: https://github.com/pschmitt/pykeepass
+[secretstorage]: https://secretstorage.readthedocs.io/en/latest/
+[cryptography]: https://cryptography.io
