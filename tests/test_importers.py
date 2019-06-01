@@ -28,6 +28,7 @@ REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml',
 REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
 REFERENCE_CARD = yaml.safe_load(open('tests/references/encryptr-card.yml', 'r'))
 REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
+REFERENCE_KDBX = yaml.safe_load(open('tests/references/keepass-kdbx.yml', 'r'))
 
 
 class TestImporters(TestBaseImport):
@@ -72,6 +73,20 @@ class TestImporters(TestBaseImport):
             if entry['group'] == 'Servers/ovh.com':
                 entry['group'] = 'Servers'
                 entry['title'] = 'ovh.com'
+        self.assertImport(importer.data, reference)
+
+    def test_importers_keepass(self):
+        """Testing: parse method for Keepass Kdbx."""
+        importer = self._class('keepass')
+        reference = self._reference()
+        testpath = os.path.join(self.db, 'keepass.kdbx')
+        importer.parse(testpath)
+
+        reference.extend(REFERENCE_KDBX)
+        for entry in importer.data:
+            if entry['title'] == 'news.ycombinator.com':
+                entry['title'] = 'https://news.ycombinator.com'
+
         self.assertImport(importer.data, reference)
 
     def test_importers_networkmanager(self):

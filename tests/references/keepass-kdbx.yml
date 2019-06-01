@@ -1,0 +1,14 @@
+---
+
+- title: ovh.com
+  password: '3Z-VW!i,j(&!zRGPu(hFe]s"('
+  login: bynbyjhqjz
+  url: https://www.ovh.com/manager/web/
+  group: History/Servers
+
+- title: note
+  comments: |-
+    This is a multiline note entry. Cube shank petroleum guacamole dart mower
+    acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.
+  url: http://
+  group: History/CornerCases
