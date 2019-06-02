@@ -1527,8 +1527,8 @@ def argumentsparse():
     parser.add_argument('manager', type=str, nargs='?', default='',
                         help="Can be: %s" % ', '.join(importers) + '.')
     parser.add_argument('file', type=str, nargs='?', default='',
-                        help="""File is the path to the file that contains the
-                        data to import, if empty read the data from stdin.""")
+                        help="""Path to the file or directory that contains the
+                        data to import. Can also be a label.""")
 
     parser.add_argument('-p', '--path', action='store', dest='root',
                         default='', metavar='PATH',
@@ -1638,8 +1638,6 @@ def sanitychecks(arg, msg):
         file = arg['file']
     elif arg['manager'] == 'pass' and os.path.isdir(arg['file']):
         file = arg['file']
-    elif arg['file'] == '':
-        file = sys.stdin
     elif os.path.isfile(arg['file']):
         encoding = 'utf-8-sig' if arg['manager'] == '1password4pif' else 'utf-8'
         file = open(arg['file'], 'r', encoding=encoding)
@@ -1652,8 +1650,6 @@ def sanitychecks(arg, msg):
 def report(arg, msg, paths):
     """Print final success report."""
     msg.success("Importing passwords from %s" % arg['manager'])
-    if arg['file'] == '':
-        arg['file'] = 'read from stdin'
     msg.message("File: %s" % arg['file'])
     if arg['root'] != '':
         msg.message("Root path: %s" % arg['root'])
