@@ -1358,7 +1358,7 @@ class NetworkManager(PasswordManager):
         if isinstance(data, io.IOBase):
             files = [data]
         else:
-            data = self.default if data is None else data
+            data = self.default if data == '' else data
             files = [open(path, 'r') for path in glob.glob(data + '/*')]
 
         keys = self._invkeys()
@@ -1630,12 +1630,25 @@ def sanitychecks(arg, msg):
     if arg['manager'] not in importers:
         msg.die("%s is not a supported password manager" % arg['manager'])
 
-    if arg['manager'] == 'networkmanager' and (arg['file'] is None or os.path.isdir(arg['file'])):
+    # File opened by the importer
+    pathonly = ('keepass', 'google-authenticator')
+    if arg['manager'] in pathonly and os.path.isfile(arg['file']):
         file = arg['file']
-    elif arg['manager'] == 'keepass':
+
+    # Ini file import or dir of ini file or default dir
+    elif arg['manager'] == 'networkmanager' and (
+            arg['file'] == '' or os.path.isdir(arg['file'])):
         file = arg['file']
+
+    # Direct import from the keyring using Dbus
+    elif arg['manager'] == 'gnome-keyring':
+        file = arg['file']
+
+    # File is is the path to the pass repo
     elif arg['manager'] == 'pass' and os.path.isdir(arg['file']):
         file = arg['file']
+
+    # Default: open the file
     elif os.path.isfile(arg['file']):
         encoding = 'utf-8-sig' if arg['manager'] == '1password4pif' else 'utf-8'
         file = open(arg['file'], 'r', encoding=encoding)
@@ -1701,7 +1714,8 @@ def main(argv):
     except PermissionError as error:
         msg.die(error)
     finally:
-        if arg['manager'] not in ('networkmanager', 'keepass', 'pass'):
+        if arg['manager'] not in ['networkmanager', 'keepass', 'pass',
+                                  'gnome-keyring', 'google-authenticator']:
             file.close()
 
     # Insert data into the password store
