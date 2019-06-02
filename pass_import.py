@@ -812,8 +812,8 @@ class OnePassword(PasswordManagerCSV):
 
 class AegisPlain(PasswordManagerOTP):
     """Importer for Aegis otp plain JSON format.
-    url: ''
-    export: ''
+    url: https://github.com/beemdevelopment/Aegis
+    export: 'Settings> Tools: Export (Plain)'
     import: pass import aegis file.json
     """
     format = {'version': 1, 'header': {'slots': None, 'params': None}}
@@ -838,8 +838,8 @@ class AegisPlain(PasswordManagerOTP):
 class AndOTP(PasswordManagerOTP):
     """Importer for AndOTP.
     url: https://github.com/andOTP/andOTP
-    export: Backups> Backup (plain text [encrypted])
-    import: pass import andotp file.json[.aes]
+    export: Backups> Backup plain, gpg or password encrypted
+    import: pass import andotp file.{json, json.aes, gpg}
     """
 
     @classmethod
@@ -1060,7 +1060,7 @@ class Encryptr(PasswordManagerCSV):
     """Importer for Encryptr in CSV format.
     url: https://spideroak.com/encryptr/
     export: See this [guide](https://github.com/SpiderOak/Encryptr/issues/295#
-        issuecomment-322449705
+        issuecomment-322449705)
     import: pass import encryptr file.csv
     """
     keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
@@ -1216,7 +1216,7 @@ class KeepassKDBX(PasswordManagerKDBX):
     """Importer for Keepass encrypted KDBX format.
     url: https://www.keepass.info
     export: Nothing to do
-    import: pass import keepass-kdbx file.kfbx
+    import: pass import keepass file.kfbx
     """
     pass
 
@@ -1255,7 +1255,7 @@ class KeepassXML(KeepassX):
     """Importer for Keepass in XML format.
     url: https://www.keepass.info
     export: File > Export > Keepass2 (XML)
-    import: pass import keepass file.xml
+    import: pass import keepassxml file.xml
     """
     group = 'Group'
     entry = 'Entry'
@@ -1408,7 +1408,7 @@ class Pass(PasswordManager):
 class Passpie(PasswordManagerYAML):
     """Importer for Passpie in YAML format.
     url: https://passpie.readthedocs.io
-    export: passpie export file.yml
+    export: '`passpie export file.yml`'
     import: pass import passpie file.yml
     """
     rootkey = 'credentials'
