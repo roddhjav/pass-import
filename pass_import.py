@@ -1217,7 +1217,7 @@ class KeepassKDBX(PasswordManagerKDBX):
     """Importer for Keepass encrypted KDBX format.
     url: https://www.keepass.info
     export: Nothing to do
-    import: pass import keepass file.kfbx
+    import: pass import keepass file.kdbx
     """
     pass
 
@@ -1544,7 +1544,7 @@ def argumentsparse():
                         help="""Provide a caracter of replacement for the path
                          separator. Default: '-' """)
     parser.add_argument('--config', action='store', default='',
-                        help='Set a config file. Default: .import')
+                        help="Set a config file. Default: '.import'")
     parser.add_argument('-l', '--list', action='store_true',
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
