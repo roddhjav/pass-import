@@ -537,14 +537,21 @@ class PasswordManager():
 
 
 class PasswordManagerCSV(PasswordManager):
+    """Base class for CSV based importers.
+
+    :param list fieldnames: The list of CSV field names
+
+    """
     fieldnames = None
 
     def _checkline(self, file):
+        """Ensure the first line of the CSV file is ``format``."""
         line = file.readline()
         if not line.startswith(self.format):
             raise FormatError()
 
     def _checkformat(self, fieldnames):
+        """Ensure the CSV file has the same field than ``fieldnames``."""
         for csvkey in self.keys.values():
             if csvkey not in fieldnames:
                 raise FormatError()
@@ -564,8 +571,17 @@ class PasswordManagerCSV(PasswordManager):
 
 
 class PasswordManagerXML(PasswordManager):
+    """Base class for XML based importers.
+
+    :param str format: XML tag format.
+
+    """
 
     def _checkformat(self, tree):
+        """Ensure the root tree of the XML file has the correct format.
+
+        This check is done by comparing the root tag with ```format``.
+        """
         if tree.tag != self.format:
             raise FormatError()
 
@@ -598,6 +614,7 @@ class PasswordManagerXML(PasswordManager):
 
 
 class PasswordManagerJSON(PasswordManager):
+    """Base class for JSON based importers."""
 
     def _sortgroup(self, folders):
         for folder in folders.values():
@@ -611,7 +628,13 @@ class PasswordManagerJSON(PasswordManager):
 
 
 class PasswordManagerYAML(PasswordManager):
-    """Base class for YAML based importers."""
+    """Base class for YAML based importers.
+
+    :param dict format: Dictionary that need to be present in the imported file
+        to ensure the format is recognized.
+    :param str rootkey: Root key where to find the data to import in the YAML.
+
+    """
     rootkey = None
 
     def _checkformat(self, yamls):
@@ -633,6 +656,11 @@ class PasswordManagerYAML(PasswordManager):
 
 
 class PasswordManagerPIF(PasswordManagerJSON):
+    """Base class for PIF based importers.
+
+    :param list ignore: List of key in the PIF file to not try to import.
+
+    """
     ignore = ['keyID', 'typeName', 'uuid', 'openContents', 'URLs']
 
     @staticmethod
@@ -672,7 +700,11 @@ class PasswordManagerPIF(PasswordManagerJSON):
 
 
 class PasswordManagerKDBX(PasswordManager):
-    """Base class for KDBX based importers."""
+    """Base class for KDBX based importers.
+
+    :param list attributes: List of the attributes of PyKeePass to import.
+
+    """
     keys = {'login': 'username', 'comments': 'notes', 'group': 'path'}
     attributes = ['title', 'username', 'password', 'url', 'notes', 'icon',
                   'tags', 'autotype_enabled', 'autotype_sequence', 'path',
@@ -709,6 +741,12 @@ class PasswordManagerKDBX(PasswordManager):
 
 
 class PasswordManagerOTP(PasswordManager):
+    """Base class for OTP based importers.
+
+    :param dict format: Dictionary that need to be present in the imported file
+        to ensure the format is recognized.
+
+    """
 
     def _checkformat(self, jsons):
         for key, value in self.format.items():
