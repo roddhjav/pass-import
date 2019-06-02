@@ -1543,8 +1543,6 @@ def argumentsparse():
                         metavar='CAR',
                         help="""Provide a caracter of replacement for the path
                          separator. Default: '-' """)
-    parser.add_argument('-k', '--keyfile', action='store', default='',
-                        help='Set keyfile')
     parser.add_argument('--config', action='store', default='',
                         help='Set a config file. Default: .import')
     parser.add_argument('-l', '--list', action='store_true',
