@@ -17,14 +17,16 @@
 #
 
 import os
+from unittest.mock import patch
 
 from .. import pass_import
 from tests.commons import TestPass
 
 
-class TestPassImport(TestPass):
+class TestPassImportBase(TestPass):
+
     def setUp(self):
-        super(TestPassImport, self).setUp()
+        super(TestPassImportBase, self).setUp()
         self._passinit()
 
     def _passimport(self, cmd, code=None):
@@ -34,6 +36,9 @@ class TestPassImport(TestPass):
             with self.assertRaises(SystemExit) as cm:
                 pass_import.main(cmd)
             self.assertEqual(cm.exception.code, code)
+
+
+class TestPassImport(TestPassImportBase):
 
     def test_pass_import_list(self):
         """Testing: pass import --list."""
@@ -55,33 +60,33 @@ class TestPassImport(TestPass):
         cmd = ['--version']
         self._passimport(cmd, 0)
 
-    def test_pass_import_ManagerNotPresent(self):
+    def test_pass_import_nomanager(self):
         """Testing: password manager not present."""
         cmd = []
         self._passimport(cmd, 1)
 
-    def test_pass_import_NotAManager(self):
+    def test_pass_import_notamnager(self):
         """Testing: pass import not-a-manager."""
         cmd = ['not-a-manager']
         self._passimport(cmd, 1)
 
-    def test_pass_import_NotAnOption(self):
+    def test_pass_import_notanoption(self):
         """Testing: pass import --not-an-option."""
         cmd = ['--not-an-option']
         self._passimport(cmd, 2)
 
-    def test_pass_import_NotAFile(self):
+    def test_pass_import_notafile(self):
         """Testing: pass import 1password not_a_file."""
         cmd = ['1password', 'not_a_file']
         self._passimport(cmd, 1)
 
-    def test_pass_import_StoreNotInitialized(self):
+    def test_pass_import_storenotinitialized(self):
         """Testing: store not initialized."""
         cmd = ['1password', self.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
         self._passimport(cmd, 1)
 
-    def test_pass_import_InvalidID(self):
+    def test_pass_import_invalidid(self):
         """Testing: invalid user ID."""
         cmd = ['1password', self.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
@@ -89,7 +94,7 @@ class TestPassImport(TestPass):
         self._passinit()
         self._passimport(cmd, 1)
 
-    def test_pass_import_FromFile(self):
+    def test_pass_import_file(self):
         """Testing: pass import 1password db/1password.csv -v."""
         cmd = ['1password', self.db + '1password.csv', '--verbose']
         self._passimport(cmd)
@@ -122,16 +127,6 @@ class TestPassImport(TestPass):
         cmd = ['passwordexporter', self.db + '1password.csv']
         self._passimport(cmd, 1)
 
-    def test_pass_import_networkmanager(self):
-        """Testing: pass import networkmanager db/networkmanager/eduroam."""
-        cmd = ['networkmanager', self.db + 'networkmanager/eduroam']
-        self._passimport(cmd)
-
-    def test_pass_import_networkmanager_dir(self):
-        """Testing: pass import networkmanager db/networkmanager/."""
-        cmd = ['networkmanager', self.db + 'networkmanager/']
-        self._passimport(cmd)
-
     def test_pass_import_convert(self):
         """Testing: pass import --convert db/keepassxml.xml."""
         cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '--quiet']
@@ -158,3 +153,28 @@ class TestPassImport(TestPass):
         cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert',
                '--config', 'tests/format/dummy.xml']
         self._passimport(cmd, 1)
+
+
+class TestPassImportManagers(TestPassImportBase):
+
+    def test_pass_import_networkmanager(self):
+        """Testing: pass import networkmanager db/networkmanager/eduroam."""
+        cmd = ['networkmanager', self.db + 'networkmanager/eduroam', '--quiet']
+        self._passimport(cmd)
+
+    def test_pass_import_networkmanager_dir(self):
+        """Testing: pass import networkmanager db/networkmanager/."""
+        cmd = ['networkmanager', self.db + 'networkmanager/', '--quiet']
+        self._passimport(cmd)
+
+    def test_pass_import_pass(self):
+        """Testing: pass import pass db/pass."""
+        cmd = ['pass', self.db + 'pass', '--quiet']
+        self._passimport(cmd)
+
+    @patch("getpass.getpass")
+    def test_pass_import_keepass(self, pw):
+        """Testing: pass import keepass db/keepass.kdbx."""
+        cmd = ['keepass', self.db + 'keepass.kdbx', '--quiet']
+        pw.return_value = self.masterpassword
+        self._passimport(cmd)
