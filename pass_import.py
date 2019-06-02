@@ -144,8 +144,33 @@ except ImportError:  # pragma: no cover
 
 
 class PasswordStore():
-    """Simple Password Store for python, only able to insert password.
-    Supports all the environment variables.
+    """Simple Password Store wrapper for python.
+
+    The constructor takes one optional parameter, the ``prefix``. Other pass
+    settings are read from the environment variables. Furthermore, if
+    ``prefix`` is not specified, the environment variable
+    ``PASSWORD_STORE_DIR`` is required. The constructor will raise an exception
+    if it is not present.
+
+    This class supports all the environment variables supported by ''pass'',
+    including ``GNUPGHOME``.
+
+    This password store class works like this because it is mostly intended to
+    be run in a pass extension, with pass settings available as environment
+    variables. It does not intend to provide all the method available in pass
+    but only the features required in pass extension.
+
+    :param str prefix: Equivalent to `PASSWORD_STORE_DIR`.
+    :param dict env: Environment variables used by `pass`.
+    :raises PasswordStoreError: Error in the execution of password store.
+
+    .. note::
+
+        This password-store wrapper does not aim to be a full python
+        implementation of pass. It requires pass as it calls it directly for
+        all encryption operations. However, it aims to implement features in
+        pure python when it is easier or/and more secure.
+
     """
 
     def __init__(self, prefix=None):
@@ -208,7 +233,15 @@ class PasswordStore():
         self.env['PASSWORD_STORE_DIR'] = value
 
     def insert(self, path, data, force=False):
-        """Multiline insertion into the password store."""
+        """Multiline insertion into the password store.
+
+        :param str path: Path to insert into the password repository.
+        :param str data: Data to insert into the password store.
+        :param bool force: optional, Either or not to force the insert if the
+            path already exist. Default: ``False``
+        :raises PasswordStoreError: An entry already exists or in case of pass
+            error.
+        """
         if not force:
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
                 raise PasswordStoreError("An entry already exists for %s." % path)
@@ -217,6 +250,12 @@ class PasswordStore():
         return self._pass(arg, data)
 
     def list(self, path=''):
+        """List the paths in the password store repository.
+
+        :param str path: Root path to the password repository to list.
+        :return list: Return the list of paths in a store.
+
+        """
         prefix = os.path.join(self.prefix, path)
         if os.path.isfile(prefix + '.gpg'):
             paths = [path]
@@ -231,6 +270,12 @@ class PasswordStore():
         return paths
 
     def show(self, path):
+        """Decrypt path and read the credentials in the password file.
+
+        :param str path: Path to the password entry to decrypt.
+        :return dict: Return a dictionary with of the password entry.
+        :raise PasswordStoreError: If path not in the store.
+        """
         entry = dict()
         entry['group'] = os.path.dirname(path)
         entry['title'] = os.path.basename(path)
@@ -254,23 +299,34 @@ class PasswordStore():
         return entry
 
     def exist(self):
-        """Return True if the password store is initialized."""
+        """Check if the password store is initialized
+
+        :return bool:
+            ``True`` if the password store is initialized, ``False`` otherwise.
+        """
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
 
     def is_valid_recipients(self):
-        """Ensure the GPG keyring is usable."""
+        """Ensure the GPG keyring is usable.
+
+        This function ensures that:
+
+        - All the public gpgids are present in the keyring.
+        - At least one private key is present in the keyring.
+
+        :return bool:
+            ``True`` or ``False`` either or not the GPG keyring is usable.
+        """
         with open(os.path.join(self.prefix, '.gpg-id'), 'r') as file:
             gpgids = file.read().split('\n')
             gpgids.pop()
 
-        # All the public gpgids must be present in the keyring.
         cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
             if res:
                 return False
 
-        # At least one private key must be present in the keyring.
         cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-secret-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
@@ -284,6 +340,31 @@ class PasswordManager():
 
     Please read CONTRIBUTING.md for more details regarding data structure
     in pass-import.
+
+    :param bool all: Etheir or not import all the data. Default: False
+    :param str separator: Separator string. Default: '-'
+    :param dict cleans: The list of string that should be cleaned by other
+        string. Only enabled if the ``clean`` option is enabled.
+    :param list protocols: The list of protocol. To be removed from the
+        ``title`` key.
+    :param list invalids: The list of invalid caracters. Replaced by the
+        ``separator``.
+
+    To be used by classes that hinerit from PasswordManager.
+
+    :param list[dict] data: The list of password entries imported by the parse
+        method. Each password entry is a dictionary.
+    :param list keyslist: The list of core key that will be present into the
+        password entry even without the extra option.
+    :param dict keys: Correspondence dictionary between the password-store key
+        name (password, title, login...) and the key name from the password
+        manager considered.
+    :param format: Variable that check the format of the imported file.
+        The type of this attribute depends of the importer type.
+
+    :raises pass_import.FormatError:
+        Password importer format (CSV, XML, JSON or TXT) not recognized.
+
     """
     keys = None
     format = None
@@ -310,7 +391,23 @@ class PasswordManager():
             self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
 
     def get(self, entry):
-        """Return the content of an entry in a password-store format."""
+        """Return the content of an entry in a password-store format.
+
+        The entry is returned with the following format:
+
+        .. code-block:: console
+
+            <password>
+            <key>: <value>
+
+        If ``PasswordManager.all`` is true, all the entry values are printed.
+        Otherwise only the key present in ``PasswordManager.keyslist`` are
+        printed following the order from this list. The title, path and group
+        keys are ignored.
+
+        :param dict entry: The entry to print.
+        :return str: A string with the entry data.
+        """
         ignore = ['title', 'group', 'path']
         string = entry.pop('password', '') + '\n'
         for key in self.keyslist:
@@ -412,9 +509,22 @@ class PasswordManager():
         return {v: k for k, v in self.keys.items()}
 
     def clean(self, clean, convert):
-        """Clean parsed data in order to be imported to a store."""
+        """Clean parsed data in order to be imported to a store.
+
+        **Features:**
+
+        1. Remove unused keys and empty values.
+        2. Clean protocol name in title.
+        3. Clean group from unwanted value in Unix or Windows paths.
+        4. Duplicate paths.
+
+        :param bool clean:
+            If ``True``, make the paths more command line friendly.
+        :param bool convert:
+            If ``True``, convert the invalid caracters present in the paths.
+
+        """
         for entry in self.data:
-            # Remove unused keys
             empty = [k for k, v in entry.items() if not v]
             for key in empty:
                 entry.pop(key)
