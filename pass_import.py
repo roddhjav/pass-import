@@ -208,8 +208,11 @@ class PasswordStore():
 
     def _call(self, command, data=None):
         """Call to a command."""
-        with Popen(command, shell=False, universal_newlines=True, env=self.env,
-                   stdin=PIPE, stdout=PIPE, stderr=PIPE) as process:
+        nline = True
+        if isinstance(data, bytes):
+            nline = False
+        with Popen(command, universal_newlines=nline, env=self.env, stdin=PIPE,
+                   stdout=PIPE, stderr=PIPE, shell=False) as process:
             (stdout, stderr) = process.communicate(data)
             res = process.wait()
             return res, stdout, stderr
@@ -406,11 +409,18 @@ class PasswordManager():
         printed following the order from this list. The title, path and group
         keys are ignored.
 
+        If the 'data' key is present, the entry is considered as a binary
+        attachment and return the binary data.
+
         :param dict entry: The entry to print.
         :return str: A string with the entry data.
+        :return byte: The binary content of the entry if it is a binary entry.
         """
         ignore = ['title', 'group', 'path']
+        if 'data' in entry:
+            return entry['data']
         string = entry.pop('password', '') + '\n'
+
         for key in self.keyslist:
             if key in ignore:
                 continue
@@ -738,6 +748,16 @@ class PasswordManagerKDBX(PasswordManager):
                     history['group'] = os.path.join('History', entry['group'])
                     self.data.append(history)
 
+                for att in kpentry.attachments:
+                    attachment = dict()
+                    attachment['group'] = entry['group']
+                    attachment['title'] = att.filename
+                    attachment['data'] = att.data
+                    self.data.append(attachment)
+                    if entry.get('attachments', None):
+                        entry['attachments'] += ", %s" % att.filename
+                    else:
+                        entry['attachments'] = att.filename
                 self.data.append(entry)
 
 
@@ -1730,7 +1750,8 @@ def main(argv):
             passpath = os.path.join(arg['root'], entry['path'])
             data = importer.get(entry)
             msg.verbose("Path", passpath)
-            msg.verbose("Data", data.replace('\n', '\n           '))
+            if not isinstance(data, bytes):
+                msg.verbose("Data", data.replace('\n', '\n           '))
             store.insert(passpath, data, arg['force'])
         except PasswordStoreError as error:
             msg.warning("Impossible to insert %s into the store: %s"
