@@ -1539,7 +1539,7 @@ def argumentsparse():
                         help='Make the paths more command line friendly.')
     parser.add_argument('-C', '--convert', action='store_true',
                         help='Convert the invalid caracters present in the paths.')
-    parser.add_argument('-s', '--separator', action='store', dest='separator',
+    parser.add_argument('-s', '--sep', action='store', dest='separator',
                         metavar='CAR',
                         help="""Provide a caracter of replacement for the path
                          separator. Default: '-' """)

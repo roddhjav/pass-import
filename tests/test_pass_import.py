@@ -141,7 +141,7 @@ class TestPassImport(TestPass):
         with open(path, 'w') as configfile:
             configfile.write('---\nseparator: A')
 
-        cmd += ['--separator=~']
+        cmd += ['--sep=~']
         self._passimport(cmd)
 
         cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '--quiet']
