@@ -157,11 +157,40 @@ is present at the root of the password repository. The configuration read from
 this file will be overwritten by their coresponding command line option
 if present.
 
-Example of the `.import` configuration file for the default password repository:
-```sh
-$ cat ~/.password-store/.import
-[convert]
-separator = -
+Example of the `.import` configuration file for the default password repository in `~/.password-store/.import`:
+```yaml
+---
+
+# Separator string
+separator: '-'
+
+# The list of string that should be replaced by other string. Only activated
+# if the `clean` option is enabled.
+cleans:
+  ' ': '-'
+  '&': 'and'
+  '@': At
+  "'": ''
+  '[': ''
+  ']': ''
+
+# The list of protocol. To be removed from the title.
+protocols:
+  - http://
+  - https://
+
+# The list of invalid caracters. Replaced by the separator.
+invalids:
+  - '<'
+  - '>'
+  - ':'
+  - '"'
+  - '/'
+  - '\\'
+  - '|'
+  - '?'
+  - '*'
+  - '\0'
 ```
 
 ## Security consideration
@@ -169,7 +198,7 @@ separator = -
 Passwords should not be written in plain text form on the drive.
 Therefore when possible you should pipe your passwords to pass import:
 ```sh
-my_password_manager_export_cmd | pass import keepass
+passpie export /dev/stdout | pass import passpie
 ```
 
 Otherwise, if your password manager lacks this command line option, you
@@ -257,7 +286,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 
 ## License
 
-    Copyright (C) 2017  Alexandre PUJOL
+    Copyright (C) 2017-2019  Alexandre PUJOL
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -277,6 +306,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [releases]: https://github.com/roddhjav/pass-import/releases
 [keybase]: https://keybase.io/roddhjav
 [update]: https://github.com/roddhjav/pass-update
+[bp]: https://github.com/browserpass/browserpass-extension
 
 [1password]: https://1password.com/
 [apple-keychain]: https://support.apple.com/guide/keychain-access
@@ -303,7 +333,6 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [roboform]: https://www.roboform.com/
 [upm]: http://upm.sourceforge.net/
 
-[bp]: https://github.com/dannyvankooten/browserpass
 [export-apple-keychain]: https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0
 [export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
 [export-1password]: https://support.1password.com/export/
