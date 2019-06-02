@@ -28,6 +28,7 @@ import getpass
 import argparse
 import importlib
 import configparser
+from pathlib import Path
 from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 
@@ -221,13 +222,10 @@ class PasswordStore():
             paths = [path]
         else:
             paths = []
-            pattern = self.prefix + '/**/*.gpg'
-            if path:
-                pattern = prefix + '*/**/*.gpg'
-            for file in glob.glob(pattern, recursive=True):
-                if not file[0] == '.':
-                    file = os.path.splitext(file)[0]
-                    file = file[len(self.prefix)+1:]
+            for ppath in Path(prefix).rglob('*.gpg'):
+                file = os.sep + str(ppath)[len(self.prefix)+1:]
+                if "%s." % os.sep not in file:
+                    file = os.path.splitext(file)[0][1:]
                     paths.append(file)
         paths.sort()
         return paths
