@@ -99,6 +99,10 @@ lastpass:
   extension: csv
   encoding: utf-8
 
+myki:
+  extension: csv
+  encoding: utf-8
+
 passwordexporter:
   without:
     - group

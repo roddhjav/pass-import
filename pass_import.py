@@ -63,6 +63,7 @@ importers = {
     'keeper': 'Keeper',
     'lastpass': 'Lastpass',
     'networkmanager': 'NetworkManager',
+    'myki': 'Myki',
     'pass': 'Pass',
     'passpie': 'Passpie',
     'passwordexporter': 'PasswordExporter',
@@ -1377,6 +1378,18 @@ class NetworkManager(PasswordManager):
                 self.data.append(entry)
 
             file.close()
+
+
+class Myki(PasswordManagerCSV):
+    """Importer for Myki in CSV format.
+    url: https://myki.com/
+    export: See this [guide](https://support.myki.com/myki-app/exporting-your
+        -passwords-from-the-myki-app/how-to-export-your-passwords-account-data
+        -from-myki)
+    import: pass import myki file.csv
+    """
+    keys = {'title': 'Name', 'password': 'Password', 'login': 'Username',
+            'url': 'Url', 'comments': 'Extra', 'group': 'Grouping'}
 
 
 class Pass(PasswordManager):
