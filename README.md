@@ -24,8 +24,8 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from 29 different password managers. More manager support can easily
-be added.
+import from <!-- NB BEGIN -->35<!-- NB END --> different password managers.
+More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
 the password store must have been initialised before with `pass init`.
@@ -38,43 +38,52 @@ Pass import handles duplicates and is compatible with [browserpass][bp].
 
 **The following password managers are supported:**
 
+<!-- SUPPORTED LIST BEGIN -->
 | **Password Manager** | **How to export Data** | **Command line** |
 |:--------------------:|:----------------------:|:----------------:|
-| [1password][1password] | *See this [guide][export-1password]* | `pass import 1password file.csv` |
-| [1password4][1password] | *File > Export: CSV* | `pass import 1password4 file.csv` |
-| [1password4pif][1password] | *File > Export: 1PIF* | `pass import 1password4pif file.1pif` |
-| [apple-keychain][apple-keychain] | *See this [guide][export-apple-keychain]* | `pass import apple-keychain file.txt` |
-| [bitwarden][bitwarden] | *Tools: Export* | `pass import bitwarden file.csv` |
-| [buttercup][buttercup] | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
-| [chrome][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
-| [chromesqlite][chrome] | *See this [guide][export-chrome]* | `pass import chrome file.csv` |
-| [encryptr][encryptr] | *See this [encryptr issue][export-encryptr]* | `pass import encryptr file.csv` |
-| [enpass][enpass] | *File > Export > As CSV* | `pass import enpass file.csv` |
-| [enpass6][enpass] | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
-| [dashlane][dashlane] | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
-| [fpm][fpm] | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
-| [gorilla][gorilla] | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
-| [kedpm][kedpm] | *File > Export Passwords: Plain XML* | `pass import kedpm file.xml` |
-| [keepass][keepass] | *File > Export > Keepass2 (XML)* | `pass import keepass file.xml` |
-| [keepass2csv][keepass] | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
-| [keepassx][keepassx] | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
-| [keepassx2][keepassx] | *Database > Export to CSV File* | `pass import keepassx2 file.csv` |
-| [keepassxc][keepassxc] | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
-| [keeper][keeper] | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
-| [lastpass][lastpass] | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
-| [networkmanager][networkmanager] | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
-| [passpie][passpie] | `passpie export file.yml` | `pass import passpie file.yml` |
-| [password-exporter][password-exporter] | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
-| [pwsafe][pwsafe] | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
-| [revelation][revelation] | *File > Export: XML* | `pass import revelation file.xml` |
-| [roboform][roboform] | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
-| [upm][upm] | *Database > Export* | `pass import upm file.csv` |
+| [1password](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.csv` |
+| [1password4](https://1password.com/) | *See this [guide](https://support.1password.com/export)* | `pass import 1password4 file.csv` |
+| [1password4pif](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.1pif` |
+| [aegis](https://github.com/beemdevelopment/Aegis) | *Settings> Tools: Export (Plain)* | `pass import aegis file.json` |
+| [andotp](https://github.com/andOTP/andOTP) | *Backups> Backup plain, gpg or password encrypted* | `pass import andotp file.{json, json.aes, gpg}` |
+| [apple-keychain](https://support.apple.com/guide/keychain-access) | *See this [guide](https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
+| [bitwarden](https://bitwarden.com/) | *Tools: Export* | `pass import bitwarden file.csv` |
+| [buttercup](https://buttercup.pw/) | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
+| [chrome](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chrome file.csv` |
+| [chromesqlite](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chromesqlite file.csv` |
+| [dashlane](https://www.dashlane.com/) | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
+| [encryptr](https://spideroak.com/encryptr/) | *See this [guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
+| [enpass](https://www.enpass.io/) | *File > Export > As CSV* | `pass import enpass file.csv` |
+| [enpass6](https://www.enpass.io/) | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
+| [fpm](http://fpm.sourceforge.net/) | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
+| [gnome-authenticator](https://gitlab.gnome.org/World/Authenticator) | *Backup > in a plain-text JSON file* | `pass import gnome-authenticator json.csv` |
+| [gnome-keyring](https://wiki.gnome.org/Projects/GnomeKeyring) | *Nothing to do* | `pass import gnome-keyring` |
+| [gorilla](https://github.com/zdia/gorilla/wiki) | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
+| [kedpm](http://fpm.sourceforge.net/) | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
+| [keepass](https://www.keepass.info) | *Nothing to do* | `pass import keepass file.kfbx` |
+| [keepasscsv](https://www.keepass.info) | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
+| [keepassx](https://www.keepassx.org/) | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
+| [keepassx2](https://www.keepassx.org/) | *Database > Export to CSV File* | `pass import keepassx2 file.csv` |
+| [keepassxc](https://keepassxc.org/) | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
+| [keepassxml](https://www.keepass.info) | *File > Export > Keepass2 (XML)* | `pass import keepassxml file.xml` |
+| [keeper](https://keepersecurity.com/) | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
+| [lastpass](https://www.lastpass.com/) | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
+| [networkmanager](https://wiki.gnome.org/Projects/NetworkManager) | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
+| [pass](https://passwordstore.org) | *Nothing to do* | `pass import pass path/to/store` |
+| [passpie](https://passpie.readthedocs.io) | *`passpie export file.yml`* | `pass import passpie file.yml` |
+| [passwordexporter](https://github.com/kspearrin/ff-password-exporter) | *Add-ons Prefs: Export Passwords: CSV* | `pass import passwordexporter file.csv` |
+| [pwsafe](https://pwsafe.org/) | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
+| [revelation](https://revelation.olasagasti.info/) | *File > Export: XML* | `pass import revelation file.xml` |
+| [roboform](https://www.roboform.com/) | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
+| [upm](http://upm.sourceforge.net/) | *Database > Export* | `pass import upm file.csv` |
+<!-- SUPPORTED LIST END -->
 
 ## Usage
 
+<!-- USAGE BEGIN -->
 ```
-usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [-l] [-f] [-q] [-v]
-                   [-V]
+usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [-k KEYFILE]
+                   [--config CONFIG] [-l] [-f] [-q] [-v] [-V]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -82,11 +91,13 @@ usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [-l] [-f] [-q] [-v]
   the password store must have been initialised before with 'pass init'
 
 positional arguments:
-  manager               Can be: 1password, 1password4, 1password4pif, apple-
-                        keychain, bitwarden, buttercup, chrome, chromesqlite,
-                        dashlane, encryptr, enpass, enpass6, fpm, gorilla,
-                        kedpm, keepass, keepasscsv, keepassx, keepassx2,
-                        keepassxc, lastpass, networkmanager, passwordexporter,
+  manager               Can be: 1password, 1password4, 1password4pif, aegis,
+                        andotp, apple-keychain, bitwarden, buttercup, chrome,
+                        chromesqlite, dashlane, encryptr, enpass, enpass6,
+                        fpm, gnome-authenticator, gnome-keyring, gorilla,
+                        kedpm, keepassxml, keepass, keepasscsv, keepassx,
+                        keepassx2, keepassxc, keeper, lastpass,
+                        networkmanager, pass, passpie, passwordexporter,
                         pwsafe, revelation, roboform, upm.
   file                  File is the path to the file that contains the data to
                         import, if empty read the data from stdin.
@@ -100,6 +111,9 @@ optional arguments:
   -s CAR, --separator CAR
                         Provide a caracter of replacement for the path
                         separator. Default: '-'
+  -k KEYFILE, --keyfile KEYFILE
+                        Set keyfile
+  --config CONFIG       Set a config file. Default: .import
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.
   -q, --quiet           Be quiet.
@@ -107,7 +121,9 @@ optional arguments:
   -V, --version         Show the program version and exit.
 
 More information may be found in the pass-import(1) man page.
+
 ```
+<!-- USAGE END -->
 
 See `man pass-import` for more information.
 
@@ -308,35 +324,6 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [update]: https://github.com/roddhjav/pass-update
 [bp]: https://github.com/browserpass/browserpass-extension
 
-[1password]: https://1password.com/
-[apple-keychain]: https://support.apple.com/guide/keychain-access
-[bitwarden]: https://bitwarden.com/
-[buttercup]: https://buttercup.pw/
-[chrome]: https://support.google.com/chrome
-[dashlane]: https://www.dashlane.com/
-[encryptr]: https://spideroak.com/encryptr/
-[enpass]: https://www.enpass.io/
-[fpm]: http://fpm.sourceforge.net/
-[gorilla]: https://github.com/zdia/gorilla/wiki
-[kedpm]: http://kedpm.sourceforge.net/
-[keepass]: https://keepass.info/
-[keepassx]: https://www.keepassx.org/
-[keepassxc]: https://keepassxc.org/
-[keeper]: https://keepersecurity.com/
-[kwallet]: https://utils.kde.org/projects/kwalletmanager/
-[lastpass]: https://www.lastpass.com/
-[networkmanager]: https://wiki.gnome.org/Projects/NetworkManager
-[passpie]: https://passpie.readthedocs.io
-[password-exporter]: https://github.com/kspearrin/ff-password-exporter
-[pwsafe]: https://pwsafe.org/
-[revelation]: https://revelation.olasagasti.info/
-[roboform]: https://www.roboform.com/
-[upm]: http://upm.sourceforge.net/
-
-[export-apple-keychain]: https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0
-[export-chrome]: https://www.axllent.org/docs/view/export-chrome-passwords/
-[export-1password]: https://support.1password.com/export/
-[export-encryptr]: https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705
 [defusedxml]: https://github.com/tiran/defusedxml
 [pyaml]: https://pyyaml.org/
 [pykeepass]: https://github.com/pschmitt/pykeepass
