@@ -34,7 +34,8 @@ By default, pass imports entries at the root of the password store and only keep
 the main data (password, login, email, URL, group). This behaviour can be changed
 using the provided options.
 
-Pass import handles duplicates and is compatible with [browserpass][bp].
+Pass import handles duplicates and is compatible with [browserpass]. It imports
+OTP secret in a way that is compatible with [pass-otp].
 
 **The following password managers are supported:**
 
@@ -130,7 +131,7 @@ See `man pass-import` for more information.
 ## Examples
 **Import password from KeePass**
 ```
-pass import keepass keepass.xml
+pass import keepassxml keepass.xml
 (*) Importing passwords from keepass
  .  File: keepass.xml
  .  Number of password imported: 6
@@ -147,12 +148,12 @@ pass import keepass keepass.xml
 ```
 export PASSWORD_STORE_DIR="~/.mypassword-store"
 pass init <gpg-id>
-pass import keepass keepass.xml
+pass import keepass keepass.kdbx
 ```
 
 **Import password to a subfolder**
 ```
-pass import keepass keepass.xml -p Import/
+pass import keepassxml keepass.xml -p Import/
 (*) Importing passwords from keepass
  .  File: db/keepass.xml
  .  Root path: Import
@@ -212,13 +213,13 @@ invalids:
 ## Security consideration
 
 Passwords should not be written in plain text form on the drive.
-Therefore when possible you should pipe your passwords to pass import:
+Therefore when possible you should import it directly from the encrypted data:
 ```sh
-passpie export /dev/stdout | pass import passpie
+pass import keepass file.kdbx
 ```
 
-Otherwise, if your password manager lacks this command line option, you
-should take care of securely removing the plain text password database:
+Otherwise, if your password manager does not support it, you should take care
+of securely removing the plain text password database:
 ```sh
 pass import lastpass data.csv
 shred -u data.csv
@@ -322,7 +323,8 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [releases]: https://github.com/roddhjav/pass-import/releases
 [keybase]: https://keybase.io/roddhjav
 [update]: https://github.com/roddhjav/pass-update
-[bp]: https://github.com/browserpass/browserpass-extension
+[browserpass]: https://github.com/browserpass/browserpass-extension
+[pass-otp]: https://github.com/tadfisher/pass-otp
 
 [defusedxml]: https://github.com/tiran/defusedxml
 [pyaml]: https://pyyaml.org/
