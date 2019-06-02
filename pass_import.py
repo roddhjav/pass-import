@@ -1515,7 +1515,7 @@ class UPM(PasswordManagerCSV):
             'url': 'url', 'comments': 'comments'}
 
 
-def argumentsparse(argv):
+def argumentsparse():
     """Geting arguments for 'pass import'."""
     parser = argparse.ArgumentParser(prog='pass import', description="""
   Import data from most of the password manager. Passwords
@@ -1557,7 +1557,7 @@ def argumentsparse(argv):
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
 
-    return vars(parser.parse_args(argv))
+    return parser
 
 
 def getdoc(importer):
@@ -1673,7 +1673,7 @@ def report(arg, msg, paths):
 
 
 def main(argv):
-    arg = argumentsparse(argv)
+    arg = vars(argumentsparse().parse_args(argv))
     msg = Msg(arg['verbose'], arg['quiet'])
     try:
         arg = getsettings(arg)
