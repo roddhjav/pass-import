@@ -38,7 +38,7 @@ importers = {
     '1password': 'OnePassword',
     '1password4': 'OnePassword4',
     '1password4pif': 'OnePassword4PIF',
-    'aegis': 'AegisPlain',
+    'aegis': 'Aegis',
     'andotp': 'AndOTP',
     'apple-keychain': 'AppleKeychain',
     'bitwarden': 'Bitwarden',
@@ -762,17 +762,7 @@ class PasswordManagerKDBX(PasswordManager):
 
 
 class PasswordManagerOTP(PasswordManager):
-    """Base class for OTP based importers.
-
-    :param dict format: Dictionary that need to be present in the imported file
-        to ensure the format is recognized.
-
-    """
-
-    def _checkformat(self, jsons):
-        for key, value in self.format.items():
-            if jsons.get(key, '') != value:
-                raise FormatError()
+    """Base class for OTP based importers."""
 
     @staticmethod
     def _otp(item):
@@ -789,6 +779,11 @@ class PasswordManagerOTP(PasswordManager):
         return file.read()
 
     def parse(self, file):
+        """Parse OTP based file.
+
+        :param IOBase file: File to parse
+
+        """
         jsons = json.loads(self._read(file))
         for item in jsons:
             entry = dict()
@@ -831,18 +826,81 @@ class OnePassword(PasswordManagerCSV):
             'url': 'URL', 'comments': 'Notes', 'group': 'Type'}
 
 
-class AegisPlain(PasswordManagerOTP):
+class Aegis(PasswordManagerOTP):
     """Importer for Aegis otp plain JSON format.
     url: https://github.com/beemdevelopment/Aegis
-    export: 'Settings> Tools: Export (Plain)'
+    export: 'Settings> Tools: Export (Plain or encrypted)'
     import: pass import aegis file.json
     """
-    format = {'version': 1, 'header': {'slots': None, 'params': None}}
+
+    @staticmethod
+    def _decrypt(jsons, path):
+        """The import file is AES GCM encrypted, let's decrypt it.
+
+        Based on the import script from Aegis:
+        https://github.com/beemdevelopment/Aegis/blob/master/scripts/decrypt.py
+        Format documentation:
+        https://github.com/beemdevelopment/Aegis/blob/master/docs/vault.md
+        """
+        try:
+            import base64
+            import cryptography
+            from cryptography.hazmat.backends import default_backend
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+            from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+        except ImportError as error:
+            raise ImportError(error, name='cryptography')
+
+        password = getpass.getpass(prompt="Password for %s:" % path)
+
+        master_key = None
+        for slot in jsons['header']['slots']:
+            if slot['type'] != 1:
+                continue
+
+            kdf = Scrypt(salt=bytes.fromhex(slot['salt']), length=32,
+                         n=slot['n'], r=slot['r'], p=slot['p'],
+                         backend=default_backend())
+            key = kdf.derive(password.encode("utf-8"))
+
+            cipher = AESGCM(key)
+            param = slot['key_params']
+            try:
+                nonce = bytes.fromhex(param['nonce'])
+                data = bytes.fromhex(slot['key']) + bytes.fromhex(param['tag'])
+                master_key = cipher.decrypt(nonce=nonce, data=data,
+                                            associated_data=None)
+            except cryptography.exceptions.InvalidTag:  # pragma: no cover
+                pass
+
+        if master_key is None:  # pragma: no cover
+            raise FormatError("unable to decrypt the master key.")
+
+        cipher = AESGCM(master_key)
+        param = jsons['header']['params']
+        content = base64.b64decode(jsons['db']) + bytes.fromhex(param['tag'])
+        plain = cipher.decrypt(nonce=bytes.fromhex(param['nonce']),
+                               data=content, associated_data=None)
+        return json.loads(plain.decode('utf-8'))
 
     def parse(self, file):
+        """Parse Aegis exported file.
+
+        Support both plain and encrypted export.
+
+        :param IOBase file: File to parse
+
+        """
         jsons = json.loads(self._read(file))
-        self._checkformat(jsons)
-        for item in jsons['db']['entries']:
+        try:
+            if jsons['header']['slots'] is not None:
+                jsons = self._decrypt(jsons, file.name)
+            else:
+                jsons = jsons['db']
+        except Exception as error:
+            raise FormatError(error)
+
+        for item in jsons['entries']:
             entry = dict()
             info = item.pop('info', {})
             item.update(info)
@@ -851,7 +909,7 @@ class AegisPlain(PasswordManagerOTP):
             item['label'] = entry['title']
             entry['otpauth'] = self._otp(item)
 
-            for key in ['type', 'icon']:
+            for key in ['group', 'type', 'icon']:
                 entry[key] = str(item.get(key, '')).lower()
             self.data.append(entry)
 

@@ -133,6 +133,18 @@ class TestImporters(TestBaseImport):
         self.assertImport(importer.data, REFERENCE_CARD, keep)
 
     @patch("getpass.getpass")
+    def test_importers_aegis(self, pw):
+        """Testing: parse method for Aegis encrypted with AES."""
+        keep = ['title', 'otpauth', 'type']
+        importer = self._class('aegis')
+        pw.return_value = self.masterpassword
+        testpath = os.path.join(self.db, 'aegis.cipher.json')
+        with open(testpath, 'r') as file:
+            importer.parse(file)
+
+        self.assertImport(importer.data, REFERENCE_OTP, keep)
+
+    @patch("getpass.getpass")
     def test_importers_andotpaes(self, pw):
         """Testing: parse method for andOTP encrypted with AES."""
         keep = ['title', 'otpauth', 'type']

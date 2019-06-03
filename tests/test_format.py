@@ -23,11 +23,11 @@ from pass_import import FormatError
 from tests.commons import TestBaseImport
 
 
-class TestImportersFormat(TestBaseImport):
+class TestImporterFormat(TestBaseImport):
     formaterror = (FormatError, AttributeError, ValueError,
                    yaml.scanner.ScannerError)
 
-    def test_importers_format(self):
+    def test_importer_format(self):
         """Testing: file format for all importers."""
         ignore = ['dashlane', 'keeper', 'upm']
         for manager in self.importers:
@@ -41,3 +41,11 @@ class TestImportersFormat(TestBaseImport):
                 with self.assertRaises(self.formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
                         importer.parse(file)
+
+    def test_importer_format_otp(self):
+        """Testing: file format for OTP based importers."""
+        importer = self._class('aegis')
+        testpath = os.path.join(self.db, 'andotp.json')
+        with self.assertRaises(self.formaterror):
+            with open(testpath, 'r', encoding='utf-8') as file:
+                importer.parse(file)
