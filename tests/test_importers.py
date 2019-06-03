@@ -60,7 +60,7 @@ class TestImporters(TestBaseImport):
                 self.assertImport(importer.data, REFERENCE_OTP, keep)
 
     def test_importers_pass(self):
-        """Testing: parse method password-store."""
+        """Testing: parse method for password-store."""
         importer = self._class('pass')
         reference = self._reference()
         prefix = os.path.join(self.db, 'pass')

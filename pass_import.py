@@ -732,6 +732,14 @@ class PasswordManagerKDBX(PasswordManager):
         return entry
 
     def parse(self, path):
+        """Parse Keepass KDBX3 and KDBX4 files.
+
+        Will ask for a password to unlock the data first. Support binary
+        attachments.
+
+        :param str path: Path to the KDBX file to parse.
+
+        """
         try:
             from pykeepass import PyKeePass
         except ImportError as error:
@@ -965,6 +973,14 @@ class AndOTP(PasswordManagerOTP):
         return data.decode('utf-8')
 
     def parse(self, file):
+        """Parse AndOTP exported file.
+
+        Support plain export, AES encrypted export and GPG encrypted export
+        files.
+
+        :param IOBase file: File to parse
+
+        """
         try:
             data = file.read()
         except UnicodeDecodeError:
@@ -1052,6 +1068,13 @@ class AppleKeychain(PasswordManager):
         return key, data
 
     def parse(self, file):
+        """Parse apple-keychain format by converting it in yaml first.
+
+        Requires python3-defusedxml due to internal XML string to decode.
+
+        :param IOBase file: File to parse
+
+        """
         yamls = self._keychain2yaml(file)
         keys = self._invkeys()
         for block in yamls:
@@ -1253,7 +1276,6 @@ class GnomeAuthenticator(PasswordManagerOTP):
     export: Backup > in a plain-text JSON file
     import: pass import gnome-authenticator json.csv
     """
-    pass
 
 
 class GnomeKeyring(PasswordManager):
@@ -1302,7 +1324,6 @@ class KeepassKDBX(PasswordManagerKDBX):
     export: Nothing to do
     import: pass import keepass file.kdbx
     """
-    pass
 
 
 class KeepassX(PasswordManagerXML):
@@ -1397,7 +1418,6 @@ class KeepassXC(KeepassX2):
     export: Database > Export to CSV File
     import: pass import keepassxc file.csv
     """
-    pass
 
 
 class Keeper(PasswordManagerCSV):
@@ -1438,6 +1458,15 @@ class NetworkManager(PasswordManager):
             'login': '802-1x.identity', 'ssid': 'wifi.ssid'}
 
     def parse(self, data):
+        """Parse NetworkManager ini config file or directory.
+
+        :param str data: If ``data`` is file object, import file data. If
+            ``data`` is a path to a file, open it and import the data. If
+            ``data`` is a path to a directory, open the files it contains and
+            import all the files. If ```data`` is '' import data from the
+            default directory.
+
+        """
         if isinstance(data, io.IOBase):
             files = [data]
         else:
@@ -1483,6 +1512,11 @@ class Pass(PasswordManager):
     """
 
     def parse(self, prefix):
+        """Parse a password-store repository.
+
+        :param str prefix: prefix is is the path to the pass repo
+
+        """
         store = PasswordStore(prefix)
         if not store.exist():  # pragma: no cover
             raise FormatError('no password store to import.')
@@ -1796,8 +1830,8 @@ def main(argv):
     except PermissionError as error:
         msg.die(error)
     finally:
-        if arg['manager'] not in ['networkmanager', 'keepass', 'pass',
-                                  'gnome-keyring', 'google-authenticator']:
+        if arg['manager'] not in ('networkmanager', 'keepass', 'pass',
+                                  'gnome-keyring', 'google-authenticator'):
             file.close()
 
     # Insert data into the password store
