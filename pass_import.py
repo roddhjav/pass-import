@@ -885,8 +885,7 @@ class AndOTP(PasswordManagerOTP):
         try:
             from cryptography.hazmat.backends import default_backend
             from cryptography.hazmat.primitives import hashes
-            from cryptography.hazmat.primitives.ciphers import (
-                Cipher, algorithms, modes)
+            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
         except ImportError as error:
             raise ImportError(error, name='cryptography')
         else:
@@ -902,12 +901,9 @@ class AndOTP(PasswordManagerOTP):
         digest.update(password.encode('UTF-8'))
         key = digest.finalize()
 
-        iv = data[:12]
-        ciphertext = data[12:-16]
-        tag = data[-16:]
-        decryptor = Cipher(algorithms.AES(key), modes.GCM(iv, tag),
-                           backend=default_backend()).decryptor()
-        data = decryptor.update(ciphertext) + decryptor.finalize()
+        cipher = AESGCM(key)
+        data = cipher.decrypt(nonce=data[:12], data=data[12:],
+                              associated_data=None)
         return data.decode('utf-8')
 
     def parse(self, file):
