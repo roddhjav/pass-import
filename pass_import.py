@@ -875,7 +875,7 @@ class AndOTP(PasswordManagerOTP):
         with Popen(cmd, shell=False, universal_newlines=True, stdin=PIPE,
                    stdout=PIPE, stderr=PIPE) as process:
             (stdout, stderr) = process.communicate(data)
-            if process.wait():
+            if process.wait():  # pragma: no cover
                 raise FormatError("%s %s" % (stderr, stdout))
             return stdout
 
@@ -1421,19 +1421,18 @@ class Pass(PasswordManager):
 
     def parse(self, prefix):
         store = PasswordStore(prefix)
-        if not store.exist():
-            raise PasswordStoreError('no password store to audit.')
-        if not store.is_valid_recipients():
-            raise PasswordStoreError('invalid user ID, password '
-                                     'encryption aborted.')
+        if not store.exist():  # pragma: no cover
+            raise FormatError('no password store to import.')
+        if not store.is_valid_recipients():  # pragma: no cover
+            raise FormatError('invalid user ID, password encryption aborted.')
 
         paths = store.list()
         if not paths:
-            raise PasswordStoreError('empty password store.')
+            raise FormatError('empty password store.')  # pragma: no cover
         for path in paths:
             try:
                 entry = store.show(path)
-            except PasswordStoreError as error:
+            except PasswordStoreError as error:  # pragma: no cover
                 raise FormatError(error)
             self.data.append(entry)
 
