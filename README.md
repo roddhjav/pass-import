@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from <!-- NB BEGIN -->35<!-- NB END --> different password managers.
+import from <!-- NB BEGIN -->36<!-- NB END --> different password managers.
 More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -45,7 +45,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [1password](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.csv` |
 | [1password4](https://1password.com/) | *See this [guide](https://support.1password.com/export)* | `pass import 1password4 file.csv` |
 | [1password4pif](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.1pif` |
-| [aegis](https://github.com/beemdevelopment/Aegis) | *Settings> Tools: Export (Plain)* | `pass import aegis file.json` |
+| [aegis](https://github.com/beemdevelopment/Aegis) | *Settings> Tools: Export (Plain or encrypted)* | `pass import aegis file.json` |
 | [andotp](https://github.com/andOTP/andOTP) | *Backups> Backup plain, gpg or password encrypted* | `pass import andotp file.{json, json.aes, gpg}` |
 | [apple-keychain](https://support.apple.com/guide/keychain-access) | *See this [guide](https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
 | [bitwarden](https://bitwarden.com/) | *Tools: Export* | `pass import bitwarden file.csv` |
@@ -61,7 +61,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [gnome-keyring](https://wiki.gnome.org/Projects/GnomeKeyring) | *Nothing to do* | `pass import gnome-keyring` |
 | [gorilla](https://github.com/zdia/gorilla/wiki) | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
 | [kedpm](http://fpm.sourceforge.net/) | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
-| [keepass](https://www.keepass.info) | *Nothing to do* | `pass import keepass file.kfbx` |
+| [keepass](https://www.keepass.info) | *Nothing to do* | `pass import keepass file.kdbx` |
 | [keepasscsv](https://www.keepass.info) | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
 | [keepassx](https://www.keepassx.org/) | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
 | [keepassx2](https://www.keepassx.org/) | *Database > Export to CSV File* | `pass import keepassx2 file.csv` |
@@ -69,6 +69,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [keepassxml](https://www.keepass.info) | *File > Export > Keepass2 (XML)* | `pass import keepassxml file.xml` |
 | [keeper](https://keepersecurity.com/) | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
 | [lastpass](https://www.lastpass.com/) | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
+| [myki](https://myki.com/) | *See this [guide](https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki)* | `pass import myki file.csv` |
 | [networkmanager](https://wiki.gnome.org/Projects/NetworkManager) | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
 | [pass](https://passwordstore.org) | *Nothing to do* | `pass import pass path/to/store` |
 | [passpie](https://passpie.readthedocs.io) | *`passpie export file.yml`* | `pass import passpie file.yml` |
@@ -83,8 +84,8 @@ OTP secret in a way that is compatible with [pass-otp].
 
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [-k KEYFILE]
-                   [--config CONFIG] [-l] [-f] [-q] [-v] [-V]
+usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--config CONFIG]
+                   [-l] [-f] [-q] [-v] [-V]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -98,10 +99,10 @@ positional arguments:
                         fpm, gnome-authenticator, gnome-keyring, gorilla,
                         kedpm, keepassxml, keepass, keepasscsv, keepassx,
                         keepassx2, keepassxc, keeper, lastpass,
-                        networkmanager, pass, passpie, passwordexporter,
+                        networkmanager, myki, pass, passpie, passwordexporter,
                         pwsafe, revelation, roboform, upm.
-  file                  File is the path to the file that contains the data to
-                        import, if empty read the data from stdin.
+  file                  Path to the file or directory that contains the data
+                        to import. Can also be a label.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -109,12 +110,9 @@ optional arguments:
   -a, --all             Also import all the extra data present.
   -c, --clean           Make the paths more command line friendly.
   -C, --convert         Convert the invalid caracters present in the paths.
-  -s CAR, --separator CAR
-                        Provide a caracter of replacement for the path
+  -s CAR, --sep CAR     Provide a caracter of replacement for the path
                         separator. Default: '-'
-  -k KEYFILE, --keyfile KEYFILE
-                        Set keyfile
-  --config CONFIG       Set a config file. Default: .import
+  --config CONFIG       Set a config file. Default: '.import'
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.
   -q, --quiet           Be quiet.
