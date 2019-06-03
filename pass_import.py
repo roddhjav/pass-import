@@ -138,8 +138,8 @@ class Msg():
 try:
     import yaml
 except ImportError:  # pragma: no cover
-    msg = Msg()
-    msg.die("pyaml is not present, you can install it with:\n"
+    err = Msg()
+    err.die("pyaml is not present, you can install it with:\n"
             "  'sudo apt-get install python3-yaml', or\n"
             "  'pip3 install pyaml'")
 
