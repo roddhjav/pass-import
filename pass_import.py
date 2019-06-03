@@ -1210,17 +1210,26 @@ class GnomeKeyring(PasswordManager):
     """
     keys = {'login': 'account', 'url': 'host'}
 
-    def parse(self, file):
+    def parse(self, label):
+        """Direct import from the Gnome keyring using Dbus.
+
+        :param str label: The collection label to import. If empty string
+            import all collection.
+
+        """
         try:
             import secretstorage
         except ImportError as error:
             raise ImportError(error, name='secretstorage')
-        file.close()
 
         keys = self._invkeys()
         connection = secretstorage.dbus_init()
         for collection in secretstorage.get_all_collections(connection):
             group = collection.get_label()
+            if label not in ('', group):
+                continue
+
+            collection.unlock()
             for item in collection.get_all_items():
                 entry = dict()
                 entry['group'] = group
