@@ -26,7 +26,16 @@ def rspace(string):
     return string
 
 
-def table():
+def rmarkdown(string):
+    """Remove markdown link from a string."""
+    guide = '[guide]('
+    if guide in string:
+        string = string.replace(guide, 'guide: \\fI')
+        string = string.replace(')', '\\fP')
+    return string
+
+
+def markdown_table():
     """Generate the new supported table."""
     res = ('| **Password Manager** | **How to export Data** | **Command line** |\n'  # noqa
            '|:--------------------:|:----------------------:|:----------------:|\n')  # noqa
@@ -36,6 +45,22 @@ def table():
         export = rspace(doc['export'])
         res += "| [%s](%s) | *%s* | `%s` |\n" % (importer, doc['url'],
                                                  export, doc['import'])
+    return "\n%s" % res
+
+
+def importers_usage():
+    """Generate the new supported table."""
+    res = ''
+    for importer in sorted(pass_import.importers):
+        doc = pass_import.getdoc(importer)
+        export = rmarkdown(rspace(doc['export']))
+        res += ("\n.TP\n\\fB%s\\fP\n"
+                "Website: \\fI%s\\fP\n\n" % (importer, doc['url']))
+
+        if 'extra' in doc:
+            res += "%s\n\n" % doc['extra']
+        res += ("Export: %s\n\n"
+                "Command: %s\n" % (export, doc['import']))
     return "\n%s" % res
 
 
@@ -49,12 +74,10 @@ def helpmessage():
 
 def main():
     """Update the readme with last usage and importer list."""
-    path = 'README.md'
+    readme_path = 'README.md'
     nb_importers = "%d" % len(pass_import.importers)
-    supported_table = table()
-    help_message = helpmessage()
 
-    with open(path, 'r') as file:
+    with open(readme_path, 'r') as file:
         readme = file.read()
 
     readme = replace('<!-- NB BEGIN -->', '<!-- NB END -->',
@@ -62,13 +85,25 @@ def main():
 
     readme = replace('<!-- SUPPORTED LIST BEGIN -->',
                      '<!-- SUPPORTED LIST END -->',
-                     readme, supported_table)
+                     readme, markdown_table())
 
     readme = replace('<!-- USAGE BEGIN -->', '<!-- USAGE END -->',
-                     readme, help_message)
+                     readme, helpmessage())
 
-    with open(path, 'w') as file:
+    with open(readme_path, 'w') as file:
         file.write(readme)
+
+    man_path = 'pass-import.1'
+    with open(man_path, 'r') as file:
+        man = file.read()
+
+    man = replace(r'\# NB BEGIN', r'\# NB END', man, "\n%s\n" % nb_importers)
+
+    man = replace(r'\# SUPPORTED LIST BEGIN', r'\# SUPPORTED LIST END', man,
+                  importers_usage())
+
+    with open(man_path, 'w') as file:
+        file.write(man)
 
 
 if __name__ == "__main__":

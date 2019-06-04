@@ -1205,8 +1205,8 @@ class Dashlane(PasswordManagerCSV):
 class Encryptr(PasswordManagerCSV):
     """Importer for Encryptr in CSV format.
     url: https://spideroak.com/encryptr/
-    export: See this [guide](https://github.com/SpiderOak/Encryptr/issues/295#
-        issuecomment-322449705)
+    export: Compile from source and follow instructions from this [guide](htt
+        ps://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)
     import: pass import encryptr file.csv
     """
     keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
@@ -1524,6 +1524,15 @@ class NetworkManager(PasswordManager):
     url: https://wiki.gnome.org/Projects/NetworkManager
     export: Also support specific networkmanager dir and ini file
     import: pass import networkmanager
+    extra: |-
+        Support import from the installed network configuration but also
+        from specific directory of  networkmanger configuration file and from
+        given file.
+
+        From directory of ini file: pass import networkmanager dir/
+
+        From ini file: pass import networkmanager file.ini
+
     """
     default = '/etc/NetworkManager/system-connections'
     keyslist = ['title', 'password', 'login', 'ssid']
