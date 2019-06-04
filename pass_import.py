@@ -45,6 +45,7 @@ importers = {  # pylint: disable=invalid-name
     'buttercup': 'Buttercup',
     'chrome': 'Chrome',
     'chromesqlite': 'ChromeSQLite',
+    'csv': 'CSV',
     'dashlane': 'Dashlane',
     'encryptr': 'Encryptr',
     'enpass': 'Enpass',
@@ -369,6 +370,9 @@ class PasswordManager():
         ``title`` key.
     :param list invalids: The list of invalid caracters. Replaced by the
         ``separator``.
+    :param str cols: String that show the list of CSV expected columns to map
+        columns to credential attributes. Only used for the CSV generic
+        importer.
 
     To be used by classes that hinerit from PasswordManager.
 
@@ -386,16 +390,17 @@ class PasswordManager():
         Password importer format (CSV, XML, JSON or TXT) not recognized.
 
     """
-    keys = None
+    keys = {}
     format = None
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'otpauth',
                 'group']
 
     def __init__(self, extra=False, separator='-', cleans=None,
-                 protocols=None, invalids=None):
+                 protocols=None, invalids=None, cols=''):
         self.data = []
         self.all = extra
         self.separator = str(separator)
+        self.cols = cols
         if cleans:
             self.cleans = cleans
         else:
@@ -1191,6 +1196,33 @@ class ChromeSQLite(PasswordManagerCSV):
             'login': 'username_value', 'url': 'origin_url'}
 
 
+class CSV(PasswordManagerCSV):
+    """Importer in generic CSV format.
+    url: ''
+    export: 'generic csv importer'
+    import: pass import csv file.csv --cols 'url,login,,password'
+    extra: >-
+        You should use the --cols option to map columns to credential
+        attributes.
+
+        The recognized column names by pass-import are the following:
+            'title', 'password', 'login', 'url', 'comments', 'otpauth', 'group'
+        ``password`` will be the first line of the password entry. ``title``
+        and ``group`` field are used to generate the password path. If you
+        have otp data, they should be named as ``otpauth``. These are the
+        *standard* field names. You can add any other field you want.
+
+    """
+
+    def parse(self, file):
+        file.readline()
+        if ',' in self.cols:
+            self.fieldnames = self.cols.split(',')
+        else:
+            raise FormatError("no columns to map to credential attributes.")
+        super(CSV, self).parse(file)
+
+
 class Dashlane(PasswordManagerCSV):
     """Importer for Dashlane in CSV format.
     url: https://www.dashlane.com/
@@ -1744,6 +1776,10 @@ def argumentsparse():
                         metavar='CAR',
                         help="""Provide a caracter of replacement for the path
                          separator. Default: '-' """)
+    parser.add_argument('--cols', action='store', default='',
+                        help='CSV expected columns to map columns to '
+                             'credential attributes. Only used for the generic'
+                             ' csv importer.')
     parser.add_argument('--config', action='store', default='',
                         help="Set a config file. Default: '.import'")
     parser.add_argument('-l', '--list', action='store_true',
@@ -1903,7 +1939,7 @@ def main(argv):
     ImporterClass = getattr(importlib.import_module(__name__),  # noqa
                             importers[arg['manager']])
     importer = ImporterClass(arg['all'], arg['separator'], arg['cleans'],
-                             arg['protocols'], arg['invalids'])
+                             arg['protocols'], arg['invalids'], arg['cols'])
     try:
         importer.parse(file)
         importer.clean(arg['clean'], arg['convert'])

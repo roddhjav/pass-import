@@ -61,6 +61,24 @@ class TestImporters(TestBaseImport):
 
                 self.assertImport(importer.data, REFERENCE_OTP, keep)
 
+    def test_importers_csv(self):
+        """Testing: parse method for the generic CSV importer."""
+        csv = ['1password4', 'dashlane', 'roboform']
+        cols = {'1password4': 'title,comments,login,password,url',
+                'dashlane': 'title,url,login,password,comments,,',
+                'roboform': 'title,url,login,password,comments,group,,'}
+        for manager in csv:
+            with self.subTest(manager):
+                importer = self._class('csv')
+                importer.cols = cols[manager]
+                testpath = self._path(manager)
+                reference = self._reference(manager)
+                encoding = self.importers[manager]['encoding']
+                with open(testpath, 'r', encoding=encoding) as file:
+                    importer.parse(file)
+
+                self.assertImport(importer.data, reference)
+
     def test_importers_pass(self):
         """Testing: parse method for password-store."""
         importer = self._class('pass')

@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from <!-- NB BEGIN -->38<!-- NB END --> different password managers.
+import from <!-- NB BEGIN -->39<!-- NB END --> different password managers.
 More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -52,6 +52,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [buttercup](https://buttercup.pw/) | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chrome file.csv` |
 | [chromesqlite](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chromesqlite file.csv` |
+| [csv]() | *generic csv importer* | `pass import csv file.csv --cols 'url,login,,password'` |
 | [dashlane](https://www.dashlane.com/) | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
 | [encryptr](https://spideroak.com/encryptr/) | *Compile from source and follow instructions from this [guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
 | [enpass](https://www.enpass.io/) | *File > Export > As CSV* | `pass import enpass file.csv` |
@@ -86,8 +87,8 @@ OTP secret in a way that is compatible with [pass-otp].
 
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--config CONFIG]
-                   [-l] [-f] [-q] [-v] [-V]
+usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--cols COLS]
+                   [--config CONFIG] [-l] [-f] [-q] [-v] [-V]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -97,12 +98,13 @@ usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--config CONFIG]
 positional arguments:
   manager               Can be: 1password, 1password4, 1password4pif, aegis,
                         andotp, apple-keychain, bitwarden, buttercup, chrome,
-                        chromesqlite, dashlane, encryptr, enpass, enpass6,
-                        fpm, gnome-authenticator, gnome-keyring, gorilla,
-                        kedpm, keepass, keepass-csv, keepass-xml, keepassx,
-                        keepassx2, keepassx2-csv, keepassxc, keepassxc-csv,
-                        keeper, lastpass, networkmanager, myki, pass, passpie,
-                        passwordexporter, pwsafe, revelation, roboform, upm.
+                        chromesqlite, csv, dashlane, encryptr, enpass,
+                        enpass6, fpm, gnome-authenticator, gnome-keyring,
+                        gorilla, kedpm, keepass, keepass-csv, keepass-xml,
+                        keepassx, keepassx2, keepassx2-csv, keepassxc,
+                        keepassxc-csv, keeper, lastpass, networkmanager, myki,
+                        pass, passpie, passwordexporter, pwsafe, revelation,
+                        roboform, upm.
   file                  Path to the file or directory that contains the data
                         to import. Can also be a label.
 
@@ -114,6 +116,8 @@ optional arguments:
   -C, --convert         Convert invalid caracters present in the paths.
   -s CAR, --sep CAR     Provide a caracter of replacement for the path
                         separator. Default: '-'
+  --cols COLS           CSV expected columns to map columns to credential
+                        attributes. Only used for the generic csv importer.
   --config CONFIG       Set a config file. Default: '.import'
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.

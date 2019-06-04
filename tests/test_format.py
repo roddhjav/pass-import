@@ -49,3 +49,12 @@ class TestImporterFormat(TestBaseImport):
         with self.assertRaises(self.formaterror):
             with open(testpath, 'r', encoding='utf-8') as file:
                 importer.parse(file)
+
+    def test_importer_format_csv(self):
+        """Testing: file format for generic CSV importer."""
+        importer = self._class('csv')
+        testpath = os.path.join(self.db, 'lastpass.csv')
+        importer.cols = ''
+        with self.assertRaises(self.formaterror):
+            with open(testpath, 'r', encoding='utf-8') as file:
+                importer.parse(file)
