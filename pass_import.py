@@ -1778,7 +1778,9 @@ def sanitychecks(arg, msg):
 
     # Default: open the file
     elif os.path.isfile(arg['file']):
-        encoding = 'utf-8-sig' if arg['manager'] == '1password4pif' else 'utf-8'
+        encoding = 'utf-8'
+        if arg['manager'] == '1password4pif':
+            encoding = 'utf-8-sig'
         file = open(arg['file'], 'r', encoding=encoding)
     else:
         msg.die("%s is not a file" % arg['file'])

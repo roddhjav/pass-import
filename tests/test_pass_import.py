@@ -96,8 +96,8 @@ class TestPassImport(TestPassImportBase):
         self._passimport(cmd, 1)
 
     def test_pass_import_file(self):
-        """Testing: pass import 1password db/1password.csv -v."""
-        cmd = ['1password', self.db + '1password.csv', '--verbose']
+        """Testing: pass import 1password4pif db/1password4pif.1pif -v."""
+        cmd = ['1password4pif', self.db + '1password4pif.1pif', '--verbose']
         self._passimport(cmd)
 
     def test_pass_import_root(self):
