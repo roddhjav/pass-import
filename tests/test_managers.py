@@ -64,6 +64,13 @@ class TestPasswordManagerGeneral(TestPasswordManager):
         string = self.importer._clean_cmdline(string)
         self.assertEqual(string, string_expected)
 
+    def test_clean_title(self):
+        """Testing: _clean_title method."""
+        string = 'tw\\it/ter / login'
+        string_expected = 'tw-it-ter - login'
+        string = self.importer._clean_title(string)
+        self.assertEqual(string, string_expected)
+
     def test_clean_protocol(self):
         """Testing: _clean_protocol method."""
         string = 'https://duckduckgo.comhttp://google.com'
@@ -165,6 +172,13 @@ class TestPasswordManagerClean(TestPasswordManager):
         self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7'}]
         data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
                           'path': 'notitle'}]
+        self.importer.clean(clean=False, convert=False)
+        self.assertEqual(self.importer.data, data_expected)
+
+    def tests_title(self):
+        """Testing: clean data - remove separator from title."""
+        self.importer.data = [{'title': 'twi/tter\\.com'}]
+        data_expected = [{'path': 'twi-tter-.com'}]
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 

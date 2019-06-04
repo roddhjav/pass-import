@@ -465,6 +465,11 @@ class PasswordManager():
         caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
         return self._replaces(caracters, string)
 
+    def _clean_title(self, string):
+        """Clean the title from separator before addition to a path."""
+        caracters = { '/': self.separator, '\\': self.separator}
+        return self._replaces(caracters, string)
+
     def _clean_cmdline(self, string):
         """Make the string more command line friendly."""
         return self._replaces(self.cleans, string)
@@ -507,6 +512,7 @@ class PasswordManager():
         for key in ['title', 'login', 'url']:
             if key in entry:
                 title = self._clean_protocol(entry[key])
+                title = self._clean_title(title)
                 if clean:
                     title = self._clean_cmdline(title)
                 if convert:
