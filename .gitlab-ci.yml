@@ -40,9 +40,11 @@ sast:
 .script: &script
   stage: test
   script:
-    - pip3 install green coverage defusedxml pyaml cryptography pykeepass
+    - mkdir -p ~/.local/share/keyrings/
+    - cp tests/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+    - pip3 install green coverage defusedxml pyaml cryptography pykeepass secretstorage
     - make
-    - make tests
+    - dbus-run-session -- make tests
     - make install
     - cd ~
     - pass import --help
@@ -55,7 +57,7 @@ sast:
 archlinux:
   image: archlinux/base
   before_script:
-    - pacman -Syu --noconfirm --noprogressbar make python-pip which grep pass
+    - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass dbus gnome-keyring
   artifacts:
     expire_in: 2 days
     paths:
@@ -65,14 +67,14 @@ archlinux:
 ubuntu:
   image: ubuntu
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep
+    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring
   <<: *script
   <<: *only
 
 debian:
   image: debian
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep wget
+    - apt-get update -q && apt-get install -y make pass python3-pip grep wget dbus gnome-keyring
     - wget https://git.zx2c4.com/password-store/snapshot/password-store-1.7.3.tar.xz
     - tar -xf password-store-1.7.3.tar.xz
     - make --directory=password-store-1.7.3 install
@@ -82,7 +84,7 @@ debian:
 fedora:
   image: fedora
   before_script:
-    - dnf -y install make gpg pass python3-pip grep which --setopt=install_weak_deps=False
+    - dnf -y install make gpg pass python3-pip grep which dbus gnome-keyring --setopt=install_weak_deps=False
   <<: *script
   <<: *only
 

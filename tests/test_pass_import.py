@@ -172,6 +172,11 @@ class TestPassImportManagers(TestPassImportBase):
         cmd = ['pass', self.db + 'pass', '--quiet']
         self._passimport(cmd)
 
+    def test_pass_import_gnomekeyring(self):
+        """Testing: pass import gnome-keyring pass-import."""
+        cmd = ['gnome-keyring', 'pass-import', '--quiet']
+        self._passimport(cmd)
+
     @patch("getpass.getpass")
     def test_pass_import_keepass(self, pw):
         """Testing: pass import keepass db/keepass.kdbx."""

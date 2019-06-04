@@ -1,3 +1,4 @@
+dist: xenial
 sudo: false
 
 language: python
@@ -14,15 +15,22 @@ env:
   global:
     - PASS_VERSION=1.7.3
 
+addons:
+  apt:
+    packages:
+      - gnome-keyring
+
 install:
   - export PREFIX=$HOME/.bin/usr PATH="$PATH:$HOME/.bin/usr/bin"
   - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
   - tar -xf password-store-$PASS_VERSION.tar.xz
   - make --directory=password-store-$PASS_VERSION install
-  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass
+  - mkdir -p ~/.local/share/keyrings/
+  - cp tests/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage
 
 script:
-  - make tests
+  - dbus-run-session -- make tests
 
 after_success:
   - coverage xml

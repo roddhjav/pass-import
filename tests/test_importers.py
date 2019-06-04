@@ -165,3 +165,17 @@ class TestImporters(TestBaseImport):
             importer.parse(file)
 
         self.assertImport(importer.data, REFERENCE_OTP, keep)
+
+    def test_importers_gnomekeyring(self):
+        """Testing: parse method for Gnome Keyring."""
+        collection = 'pass-import'
+        importer = self._class('gnome-keyring')
+        reference = self._reference()
+        importer.parse(collection)
+
+        for key in ['group', 'login', 'url', 'comments']:
+            for entry in reference:
+                entry.pop(key, None)
+        for entry in reference:
+            entry['group'] = collection + entry.get('group', '')
+        self.assertImport(importer.data, reference)
