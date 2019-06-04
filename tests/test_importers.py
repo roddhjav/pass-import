@@ -17,6 +17,7 @@
 #
 
 import os
+import sys
 from unittest.mock import patch
 
 import yaml
@@ -168,6 +169,8 @@ class TestImporters(TestBaseImport):
 
     def test_importers_gnomekeyring(self):
         """Testing: parse method for Gnome Keyring."""
+        if sys.version_info.minor < 5:
+            return
         collection = 'pass-import'
         importer = self._class('gnome-keyring')
         reference = self._reference()

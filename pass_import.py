@@ -82,6 +82,10 @@ class FormatError(Exception):
     """Password importer format (CSV, XML, JSON or TXT) not recognized."""
 
 
+class VersionError(Exception):
+    """The python version is not a supported version."""
+
+
 class Msg():
     """General class to manage output messages."""
     green = '\033[32m'
@@ -1293,6 +1297,8 @@ class GnomeKeyring(PasswordManager):
             import all collection.
 
         """
+        if sys.version_info.minor < 5:
+            raise VersionError('gnome keyring import requires python 3.5+')
         try:
             import secretstorage
         except ImportError as error:
@@ -1827,7 +1833,7 @@ def main(argv):
                 "  'sudo apt-get install python3-%s', or\n"
                 "  'pip3 install %s'" % (arg['manager'], error.name,
                                          error.name, error.name))
-    except PermissionError as error:
+    except (PermissionError, VersionError) as error:  # pragma: no cover
         msg.die(error)
     finally:
         if arg['manager'] not in ('networkmanager', 'keepass', 'pass',
