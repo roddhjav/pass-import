@@ -121,7 +121,7 @@ class TestPassStoreList(TestPass):
         self.assertEqual(self.store.list(), ref)
 
     def test_list_root(self):
-        """Testing: pass list path/"""
+        """Testing: pass list path/."""
         ref = ['Emails/WS/dpbx@fner.ws', 'Emails/WS/dpbx@mnyfymt.ws',
                'Emails/dpbx@afoqwdr.tx', 'Emails/dpbx@klivak.xb']
         self.assertEqual(self.store.list('Emails'), ref)

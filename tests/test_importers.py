@@ -24,12 +24,13 @@ import yaml
 from tests.commons import TestBaseImport
 
 
-REFERENCE_OTP = yaml.safe_load(open('tests/references/otp.yml', 'r'))
-REFERENCE_WIFI = yaml.safe_load(open('tests/references/networkmanager-wifi.yml', 'r'))
-REFERENCE_NOTE = yaml.safe_load(open('tests/references/applekeychain-note.yml', 'r'))
-REFERENCE_CARD = yaml.safe_load(open('tests/references/encryptr-card.yml', 'r'))
-REFERENCE_OTHER = yaml.safe_load(open('tests/references/keepass-other.yml', 'r'))
-REFERENCE_KDBX = yaml.safe_load(open('tests/references/keepass-kdbx.yml', 'r'))
+REF_DB = 'tests/references/'
+REFERENCE_OTP = yaml.safe_load(open(REF_DB + 'otp.yml', 'r'))
+REFERENCE_WIFI = yaml.safe_load(open(REF_DB + 'networkmanager-wifi.yml', 'r'))
+REFERENCE_NOTE = yaml.safe_load(open(REF_DB + 'applekeychain-note.yml', 'r'))
+REFERENCE_CARD = yaml.safe_load(open(REF_DB + 'encryptr-card.yml', 'r'))
+REFERENCE_OTHER = yaml.safe_load(open(REF_DB + 'keepass-other.yml', 'r'))
+REFERENCE_KDBX = yaml.safe_load(open(REF_DB + 'keepass-kdbx.yml', 'r'))
 
 
 class TestImporters(TestBaseImport):

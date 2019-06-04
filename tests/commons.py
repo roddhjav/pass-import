@@ -113,7 +113,7 @@ class TestBaseImport(TestPass):
                         entry.pop(key, None)
             if 'root' in self.importers[manager]:
                 for entry in reference:
-                    entry['group'] = self.importers[manager]['root'] + entry['group']
+                    entry['group'] = self.importers[manager]['root'] + entry['group']  # noqa
         return reference
 
     def assertImport(self, data, refdata, keep=None):

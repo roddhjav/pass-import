@@ -109,7 +109,7 @@ optional arguments:
   -p PATH, --path PATH  Import the passwords to a specific subfolder.
   -a, --all             Also import all the extra data present.
   -c, --clean           Make the paths more command line friendly.
-  -C, --convert         Convert the invalid caracters present in the paths.
+  -C, --convert         Convert invalid caracters present in the paths.
   -s CAR, --sep CAR     Provide a caracter of replacement for the path
                         separator. Default: '-'
   --config CONFIG       Set a config file. Default: '.import'

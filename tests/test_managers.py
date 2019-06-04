@@ -18,8 +18,8 @@
 
 import os
 
-from .. import pass_import
 from tests.commons import TestBase
+from .. import pass_import
 
 
 class TestPasswordManager(TestBase):
@@ -81,7 +81,8 @@ class TestPasswordManagerGeneral(TestPasswordManager):
     def test_clean_group(self):
         """Testing: _clean_group method."""
         string = 'Root/Group\\Named>root\0directory'
-        string_expected = 'Root%sGroup%sNamed-root-directory' % (os.sep, os.sep)
+        string_expected = 'Root%sGroup%sNamed-root-directory' % (
+                          os.sep, os.sep)
         string = self.importer._clean_group(string)
         self.assertEqual(string, string_expected)
 

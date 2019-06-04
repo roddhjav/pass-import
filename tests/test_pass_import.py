@@ -20,8 +20,8 @@ import os
 import sys
 from unittest.mock import patch
 
-from .. import pass_import
 from tests.commons import TestPass
+from .. import pass_import
 
 
 class TestPassImportBase(TestPass):
@@ -130,7 +130,7 @@ class TestPassImport(TestPassImportBase):
 
     def test_pass_import_convert(self):
         """Testing: pass import --convert db/keepassxml.xml."""
-        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '--quiet']
+        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '-q']
         self._passimport(cmd)
 
         path = os.path.join(self.store.prefix, '.import')
@@ -140,11 +140,11 @@ class TestPassImport(TestPassImportBase):
         cmd += ['--sep=~']
         self._passimport(cmd)
 
-        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '--quiet']
+        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '-q']
         self._passimport(cmd)
 
     def test_pass_import_config(self):
-        """Testing: pass import --convert db/keepassxml.xml with config file."""
+        """Testing: pass import --convert db/keepassxml.xml with conf file."""
         cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert',
                '--config', 'tests/config.yml']
         self._passimport(cmd)

@@ -20,12 +20,13 @@ import sys
 from io import StringIO
 from contextlib import contextmanager
 
-from .. import pass_import
 from tests.commons import TestBase
+from .. import pass_import
 
 
 @contextmanager
 def captured():
+    """Context manager to capture stdout."""
     new_out, new_err = StringIO(), StringIO()
     old_out, old_err = sys.stdout, sys.stderr
     try:

@@ -9,9 +9,9 @@ ignore-patterns:
 
 pylint:
   disable:
-    - bad-continuation
     - too-many-arguments
     - too-many-locals
+    - too-many-lines
 
   options:
     max-locals: 17
@@ -23,7 +23,6 @@ pylint:
     min-public-methods: 2
     max-public-methods: 20
     max-module-lines: 1000
-    max-line-length: 99
 
 mypy:
   options:
@@ -40,15 +39,17 @@ mccabe:
 
 pep8:
   disable:
+   - E123
    - W605
 
   options:
-    max-line-length: 99
     single-line-if-stmt: n
 
 pep257:
   disable:
     - D000
+    - D100
+    - D102
     - D107
     - D104
     - D203

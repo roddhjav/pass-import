@@ -34,7 +34,7 @@ from collections import defaultdict
 
 __version__ = '2.5'
 
-importers = {
+importers = {  # pylint: disable=invalid-name
     '1password': 'OnePassword',
     '1password4': 'OnePassword4',
     '1password4pif': 'OnePassword4PIF',
@@ -105,6 +105,7 @@ class Msg():
             self.verb = False
 
     def verbose(self, title='', msg=''):
+        """Verbose method, takes title and msg. msg can be empty."""
         if self.verb and msg == '':
             print("%s  .  %s%s%s%s" % (self.Bmagenta, self.end,
                                        self.magenta, title, self.end))
@@ -113,28 +114,34 @@ class Msg():
                                            self.magenta, title, self.end, msg))
 
     def message(self, msg=''):
+        """Message method."""
         if not self.quiet:
             print("%s  .  %s%s" % (self.Bold, self.end, msg))
 
     def echo(self, msg=''):
+        """Echo message with after a tab."""
         if not self.quiet:
-            print("       %s" % msg)
+            print("\t%s" % msg)
 
     def success(self, msg=''):
+        """Success method."""
         if not self.quiet:
             print("%s (*) %s%s%s%s" % (self.Bgreen, self.end,
                                        self.green, msg, self.end))
 
     def warning(self, msg=''):
+        """Warning method."""
         if not self.quiet:
             print("%s  w  %s%s%s%s" % (self.Byellow, self.end,
                                        self.yellow, msg, self.end))
 
     def error(self, msg=''):
+        """Error method."""
         print("%s [x] %s%sError: %s%s" % (self.Bred, self.end,
                                           self.Bold, self.end, msg))
 
     def die(self, msg=''):
+        """Show an error and exit the program."""
         self.error(msg)
         exit(1)
 
@@ -142,7 +149,7 @@ class Msg():
 try:
     import yaml
 except ImportError:  # pragma: no cover
-    err = Msg()
+    err = Msg()  # pylint: disable=invalid-name
     err.die("pyaml is not present, you can install it with:\n"
             "  'sudo apt-get install python3-yaml', or\n"
             "  'pip3 install pyaml'")
@@ -234,6 +241,7 @@ class PasswordStore():
 
     @property
     def prefix(self):
+        """Get password store prefix from PASSWORD_STORE_DIR."""
         return self.env['PASSWORD_STORE_DIR']
 
     @prefix.setter
@@ -252,7 +260,8 @@ class PasswordStore():
         """
         if not force:
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
-                raise PasswordStoreError("An entry already exists for %s." % path)
+                raise PasswordStoreError("An entry already exists for %s."
+                                         % path)
         arg = ['insert', '--multiline', '--force']
         arg.append(path)
         return self._pass(arg, data)
@@ -270,7 +279,7 @@ class PasswordStore():
         else:
             paths = []
             for ppath in Path(prefix).rglob('*.gpg'):
-                file = os.sep + str(ppath)[len(self.prefix)+1:]
+                file = os.sep + str(ppath)[len(self.prefix) + 1:]
                 if "%s." % os.sep not in file:
                     file = os.path.splitext(file)[0][1:]
                     paths.append(file)
@@ -307,7 +316,7 @@ class PasswordStore():
         return entry
 
     def exist(self):
-        """Check if the password store is initialized
+        """Check if the password store is initialized.
 
         :return bool:
             ``True`` if the password store is initialized, ``False`` otherwise.
@@ -335,7 +344,8 @@ class PasswordStore():
             if res:
                 return False
 
-        cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-secret-keys']
+        cmd = [self._gpgbinary, '--with-colons', '--batch',
+               '--list-secret-keys']
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
             if res == 0:
@@ -396,7 +406,8 @@ class PasswordManager():
         if invalids:
             self.invalids = invalids
         else:
-            self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
+            self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*',
+                             '\0']
 
     def get(self, entry):
         """Return the content of an entry in a password-store format.
@@ -450,24 +461,26 @@ class PasswordManager():
 
     def _clean_protocol(self, string):
         """Remove the protocol prefix in a string."""
-        caracters = dict(zip(self.protocols, ['']*len(self.protocols)))
+        caracters = dict(zip(self.protocols, [''] * len(self.protocols)))
         return self._replaces(caracters, string)
 
     def _clean_group(self, string):
-        """Remove invalids caracters in a group. Convert separator to os.sep."""
-        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        """Remove invalids caracters in a group. Convert sep to os.sep."""
+        caracters = dict(zip(self.invalids,
+                             [self.separator] * len(self.invalids)))
         caracters['/'] = os.sep
         caracters['\\'] = os.sep
         return self._replaces(caracters, string)
 
     def _convert(self, string):
         """Convert invalid caracters by the separator in a string."""
-        caracters = dict(zip(self.invalids, [self.separator]*len(self.invalids)))
+        caracters = dict(zip(self.invalids,
+                             [self.separator] * len(self.invalids)))
         return self._replaces(caracters, string)
 
     def _clean_title(self, string):
         """Clean the title from separator before addition to a path."""
-        caracters = { '/': self.separator, '\\': self.separator}
+        caracters = {'/': self.separator, '\\': self.separator}
         return self._replaces(caracters, string)
 
     def _clean_cmdline(self, string):
@@ -485,7 +498,8 @@ class PasswordManager():
             if len(duplicated[path]) > 1:
                 for idx in duplicated[path]:
                     entry = self.data[idx]
-                    entry['path'] = self._create_path(entry, path, clean, convert)
+                    entry['path'] = self._create_path(entry, path, clean,
+                                                      convert)
 
     def _duplicate_numerise(self):
         """Add number to the remaining duplicated path."""
@@ -493,14 +507,14 @@ class PasswordManager():
         for entry in self.data:
             path = entry.get('path', '')
             if path in seen:
-                ii = 1
+                idx = 1
                 while path in seen:
-                    if re.search('%s(\d+)$' % self.separator, path) is None:
-                        path += self.separator + str(ii)
+                    if re.search(r'%s(\d+)$' % self.separator, path) is None:
+                        path += self.separator + str(idx)
                     else:
-                        path = path.replace(self.separator + str(ii),
-                                            self.separator + str(ii + 1))
-                        ii += 1
+                        path = path.replace(self.separator + str(idx),
+                                            self.separator + str(idx + 1))
+                        idx += 1
                 seen.append(path)
                 entry['path'] = path
             else:
@@ -550,7 +564,8 @@ class PasswordManager():
             for key in empty:
                 entry.pop(key)
 
-            path = self._clean_group(self._clean_protocol(entry.pop('group', '')))
+            path = self._clean_group(self._clean_protocol(entry.pop('group',
+                                                                    '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
         self._duplicate_paths(clean, convert)
@@ -578,6 +593,11 @@ class PasswordManagerCSV(PasswordManager):
                 raise FormatError()
 
     def parse(self, file):
+        """Parse CSV based file.
+
+        :param IOBase file: File to parse
+
+        """
         reader = csv.DictReader(file, fieldnames=self.fieldnames,
                                 delimiter=',', quotechar='"')
         self._checkformat(reader.fieldnames)
@@ -624,6 +644,11 @@ class PasswordManagerXML(PasswordManager):
         return entry
 
     def parse(self, file):
+        """Parse XML based file. Requires defusedxml.
+
+        :param IOBase file: File to parse
+
+        """
         try:
             from defusedxml import ElementTree
         except ImportError as error:
@@ -664,6 +689,11 @@ class PasswordManagerYAML(PasswordManager):
                 raise FormatError()
 
     def parse(self, file):
+        """Parse YAML based file.
+
+        :param IOBase file: File to parse
+
+        """
         yamls = yaml.safe_load(file)
         self._checkformat(yamls)
 
@@ -686,15 +716,20 @@ class PasswordManagerPIF(PasswordManagerJSON):
 
     @staticmethod
     def _pif2json(file):
-        """Convert 1pif to json see https://github.com/eblin/1passpwnedcheck."""
+        """Convert 1pif to json: https://github.com/eblin/1passpwnedcheck."""
         data = file.read()
-        cleaned = re.sub('(?m)^\*\*\*.*\*\*\*\s+', '', data)
+        cleaned = re.sub(r'(?m)^\*\*\*.*\*\*\*\s+', '', data)
         cleaned = cleaned.split('\n')
         cleaned = ','.join(cleaned).rstrip(',')
         cleaned = '[%s]' % cleaned
         return json.loads(cleaned)
 
     def parse(self, file):
+        """Parse PIF based file.
+
+        :param IOBase file: File to parse
+
+        """
         jsons = self._pif2json(file)
         keys = self._invkeys()
         folders = dict()
@@ -756,8 +791,8 @@ class PasswordManagerKDBX(PasswordManager):
             raise ImportError(error, name='pykeepass')
 
         password = getpass.getpass(prompt="Password for %s:" % path)
-        with PyKeePass(path, password) as kp:
-            for kpentry in kp.entries:
+        with PyKeePass(path, password) as keepass:
+            for kpentry in keepass.entries:
                 entry = self._getentry(kpentry)
                 entry['group'] = os.path.dirname(entry['group'])
 
@@ -853,7 +888,7 @@ class Aegis(PasswordManagerOTP):
 
     @staticmethod
     def _decrypt(jsons, path):
-        """The import file is AES GCM encrypted, let's decrypt it.
+        """Import file is AES GCM encrypted, let's decrypt it.
 
         Based on the import script from Aegis:
         https://github.com/beemdevelopment/Aegis/blob/master/scripts/decrypt.py
@@ -945,7 +980,7 @@ class AndOTP(PasswordManagerOTP):
 
     @staticmethod
     def _gpg_decrypt(data):
-        """The import data is GPG encrypted, let's decrypt it."""
+        """Import data is GPG encrypted, let's decrypt it."""
         gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
         cmd = [gpgbinary, '--with-colons', '--batch', '--decrypt']
         with Popen(cmd, shell=False, universal_newlines=True, stdin=PIPE,
@@ -957,7 +992,7 @@ class AndOTP(PasswordManagerOTP):
 
     @staticmethod
     def _aes_decrypt(file):
-        """The import file is AES GCM encrypted, let's decrypt it."""
+        """Import file is AES GCM encrypted, let's decrypt it."""
         try:
             from cryptography.hazmat.backends import default_backend
             from cryptography.hazmat.primitives import hashes
@@ -1019,9 +1054,9 @@ class AppleKeychain(PasswordManager):
         """Convert keychain to yaml."""
         yamls = []
         data = file.read()
-        caracters = {'data:\n': 'data: ', '<NULL>': '', '<[\w]*>=': ': ',
-                     '0x00000007 :': '0x00000007:', '0x00000008 :': '0x00000008:',
-                     'keychain: "([^"]*)"': '---'}
+        caracters = {'data:\n': 'data: ', '<NULL>': '', r'<[\w]*>=': ': ',
+                     '0x00000007 :': '0x00000007:', '0x00000008 :':
+                     '0x00000008:', 'keychain: "([^"]*)"': '---'}
         for key in caracters:
             data = re.sub(key, caracters[key], data)
         data = data.strip('---').split('---')
@@ -1110,8 +1145,9 @@ class Bitwarden(PasswordManagerCSV):
     export: 'Tools: Export'
     import: pass import bitwarden file.csv
     """
-    keys = {'title': 'name', 'password': 'login_password', 'login': 'login_username',
-            'url': 'login_uri', 'comments': 'notes', 'group': 'folder'}
+    keys = {'title': 'name', 'password': 'login_password',
+            'login': 'login_username', 'url': 'login_uri', 'comments': 'notes',
+            'group': 'folder'}
 
 
 class Buttercup(PasswordManagerCSV):
@@ -1200,9 +1236,9 @@ class Enpass(PasswordManagerCSV):
             entry['title'] = row.pop(0)
             entry['comments'] = row.pop()
             index = 0
-            while index+2 <= len(row):
+            while index + 2 <= len(row):
                 key = keys.get(row[index], row[index])
-                entry[key] = row[index+1]
+                entry[key] = row[index + 1]
                 index += 2
 
             self.data.append(entry)
@@ -1214,12 +1250,19 @@ class Enpass6(PasswordManagerJSON):
     export: Menu > File > Export > As JSON
     import: pass import enpass6 file.json
     """
-    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group', 'email']
+    keyslist = ['title', 'password', 'login', 'url', 'comments', 'group',
+                'email']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'website', 'comments': 'note', 'group': 'group', 'email': 'e-mail'}
+            'url': 'website', 'comments': 'note', 'group': 'group',
+            'email': 'e-mail'}
     ignore = ['fields', 'folders', 'icon']
 
     def parse(self, file):
+        """Parse Enpass 6 JSON file.
+
+        :param IOBase file: File to parse
+
+        """
         jsons = json.loads(file.read())
         keys = self._invkeys()
         folders = dict()
@@ -1276,8 +1319,8 @@ class Gorilla(PasswordManagerCSV):
     def parse(self, file):
         super(Gorilla, self).parse(file)
         for entry in self.data:
-            entry['group'] = re.sub('(?<=[^\\\])\.', os.sep, entry.get('group', ''))
-            entry['group'] = re.sub('\\\.', '.', entry.get('group', ''))
+            group = re.sub(r'(?<=[^\\])\.', os.sep, entry.get('group', ''))
+            entry['group'] = re.sub(r'\\.', '.', group)
 
 
 class GnomeAuthenticator(PasswordManagerOTP):
@@ -1574,16 +1617,19 @@ class Pwsafe(PasswordManagerXML):
     import: pass import pwsafe file.xml
     """
     format = 'passwordsafe'
-    keyslist = ['title', 'password', 'login', 'url', 'email', 'comments', 'group']
+    keyslist = ['title', 'password', 'login', 'url', 'email', 'comments',
+                'group']
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
-            'url': 'url', 'email': 'email', 'comments': 'notes', 'group': 'group'}
+            'url': 'url', 'email': 'email', 'comments': 'notes',
+            'group': 'group'}
 
     def _import(self, element):
         delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
             entry['group'] = entry.get('group', '').replace('.', os.sep)
-            entry['comments'] = entry.get('comments', '').replace(delimiter, '\n')
+            entry['comments'] = entry.get('comments', '').replace(delimiter,
+                                                                  '\n')
             histkey = './pwhistory/history_entries/history_entry'
             for historyentry in xmlentry.findall(histkey):
                 for hist in historyentry:
@@ -1649,7 +1695,7 @@ def argumentsparse():
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-    formatter_class=argparse.RawDescriptionHelpFormatter,
+    formatter_class=argparse.RawDescriptionHelpFormatter,  # noqa
     epilog="More information may be found in the pass-import(1) man page.")
 
     parser.add_argument('manager', type=str, nargs='?', default='',
@@ -1666,7 +1712,7 @@ def argumentsparse():
     parser.add_argument('-c', '--clean', action='store_true',
                         help='Make the paths more command line friendly.')
     parser.add_argument('-C', '--convert', action='store_true',
-                        help='Convert the invalid caracters present in the paths.')
+                        help='Convert invalid caracters present in the paths.')
     parser.add_argument('-s', '--sep', action='store', dest='separator',
                         metavar='CAR',
                         help="""Provide a caracter of replacement for the path
@@ -1678,7 +1724,8 @@ def argumentsparse():
     parser.add_argument('-f', '--force', action='store_true',
                         help='Overwrite existing path.')
     parser.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
-    parser.add_argument('-v', '--verbose', action='store_true', help='Be verbose.')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Be verbose.')
     parser.add_argument('-V', '--version', action='version',
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
@@ -1688,7 +1735,8 @@ def argumentsparse():
 
 def getdoc(importer):
     """Read importer class docstring and retrieve importer meta."""
-    ImporterClass = getattr(importlib.import_module(__name__),
+    # pylint: disable=invalid-name
+    ImporterClass = getattr(importlib.import_module(__name__),  # noqa
                             importers[importer])
     docstring = ImporterClass.__doc__.split('\n')
     doc = {'title': docstring.pop(0)}
@@ -1710,8 +1758,9 @@ def listimporters(msg):
 
 
 class Settings(dict):
+    """Settings dictionary with specific merge method."""
 
-    def union(self, other):
+    def merge(self, other):
         """Update the dictionary only if the value is not null."""
         for key, value in other.items():
             if value is not None:
@@ -1745,8 +1794,8 @@ def getsettings(arg):
     if os.path.isfile(configpath):
         with open(configpath, 'r') as file:
             configs = yaml.safe_load(file)
-    settings.union(configs)
-    settings.union(arg)
+    settings.merge(configs)
+    settings.merge(arg)
     settings['cleans'][' '] = settings['separator']
     return settings
 
@@ -1810,6 +1859,7 @@ def report(arg, msg, paths):
 
 
 def main(argv):
+    """pass-import main function."""
     arg = vars(argumentsparse().parse_args(argv))
     msg = Msg(arg['verbose'], arg['quiet'])
     try:
@@ -1822,8 +1872,8 @@ def main(argv):
         listimporters(msg)
     file = sanitychecks(arg, msg)
 
-    # Import and clean data
-    ImporterClass = getattr(importlib.import_module(__name__),
+    # Import and clean data. pylint: disable=invalid-name
+    ImporterClass = getattr(importlib.import_module(__name__),  # noqa
                             importers[arg['manager']])
     importer = ImporterClass(arg['all'], arg['separator'], arg['cleans'],
                              arg['protocols'], arg['invalids'])
@@ -1833,7 +1883,8 @@ def main(argv):
     except (yaml.scanner.ScannerError,
             FormatError, AttributeError, ValueError) as error:
         msg.verbose(error)
-        msg.die("%s is not a valid exported %s file." % (arg['file'], arg['manager']))
+        msg.die("%s is not a valid exported %s file." % (arg['file'],
+                                                         arg['manager']))
     except ImportError as error:
         msg.verbose(error)
         msg.die("Importing %s, missing required dependency: %s\n"

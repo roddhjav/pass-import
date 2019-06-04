@@ -13,7 +13,7 @@ def replace(marker_begin, marker_end, string, newcontent):
     """Replace data inside string markers."""
     begin = string.find(marker_begin)
     end = string.find(marker_end)
-    return string.replace(string[begin+len(marker_begin):end], newcontent)
+    return string.replace(string[begin + len(marker_begin):end], newcontent)
 
 
 def rspace(string):
@@ -21,22 +21,22 @@ def rspace(string):
     if '](' in string:
         begin = string.find('](')
         end = string.find(')')
-        url_space = string[begin+2:end]
+        url_space = string[begin + 2:end]
         string = string.replace(url_space, url_space.replace(' ', ''))
     return string
 
 
 def table():
     """Generate the new supported table."""
-    table = ('| **Password Manager** | **How to export Data** | **Command line** |\n'
-             '|:--------------------:|:----------------------:|:----------------:|\n')
+    res = ('| **Password Manager** | **How to export Data** | **Command line** |\n'  # noqa
+           '|:--------------------:|:----------------------:|:----------------:|\n')  # noqa
 
     for importer in sorted(pass_import.importers):
         doc = pass_import.getdoc(importer)
         export = rspace(doc['export'])
-        table += "| [%s](%s) | *%s* | `%s` |\n" % (importer, doc['url'],
-                                                   export, doc['import'])
-    return "\n%s" % table
+        res += "| [%s](%s) | *%s* | `%s` |\n" % (importer, doc['url'],
+                                                 export, doc['import'])
+    return "\n%s" % res
 
 
 def helpmessage():
@@ -48,6 +48,7 @@ def helpmessage():
 
 
 def main():
+    """Update the readme with last usage and importer list."""
     path = 'README.md'
     nb_importers = "%d" % len(pass_import.importers)
     supported_table = table()

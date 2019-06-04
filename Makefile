@@ -59,11 +59,11 @@ $(T):
 	@$@ $(TESTS_OPTS)
 
 lint:
-	@prospector --profile .prospector.yaml \
+	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t frosted -t mccabe -t mypy -t pep257 -t pep8 \
 		-t profile-validator -t pyflakes -t pylint -t pyroma -t vulture \
-		pass_import.py setup.py
-	@prospector --profile tests/.prospector.yaml \
+		pass_import.py setup.py .updatedoc.py
+	@prospector --profile tests/.prospector.yaml --strictness veryhigh \
 		-t dodgy -t frosted -t mccabe -t mypy -t pep257 -t pep8 \
 		-t profile-validator -t pyflakes -t pylint -t pyroma \
 		tests/*.py
