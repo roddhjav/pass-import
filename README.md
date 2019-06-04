@@ -53,7 +53,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [chrome](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chrome file.csv` |
 | [chromesqlite](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chromesqlite file.csv` |
 | [dashlane](https://www.dashlane.com/) | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
-| [encryptr](https://spideroak.com/encryptr/) | *See this [guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
+| [encryptr](https://spideroak.com/encryptr/) | *Compile from source and follow instructions from this [guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
 | [enpass](https://www.enpass.io/) | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [enpass6](https://www.enpass.io/) | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
 | [fpm](http://fpm.sourceforge.net/) | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
@@ -242,7 +242,7 @@ You might also want to update the passwords imported using [`pass-update`][updat
 | [defusedxml] | XML based importers | `apt install python3-defusedxml` | `pip3 install defusedxml` |
 | [pykeepass] | Keepass import from KDBX file | N/A | `pip3 install pykeepass` |
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
-| [cryptography] | AndOTP encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
+| [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 
 **ArchLinux**
 

@@ -1,4 +1,4 @@
-.TH MARK 1 "May 2019" "pass-import"
+.TH MARK 1 "June 2019" "pass-import"
 
 .SH NAME
 pass-import \- A \fBpass\fP(1) extension for importing data from most of
@@ -12,7 +12,10 @@ the existing password manager.
 .SH DESCRIPTION
 \fBpass import\fP is a password store extension allowing you to import your
 password database to a password store repository conveniently. It natively
-supports import from 28 different password managers. More manager support can
+supports import from \# NB BEGIN
+38
+\# NB END
+different password managers. More manager support can
 easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -22,14 +25,15 @@ By default, pass imports entries at the root of the password store and only
 keeps the main data (password, login, email, URL, group). This behaviour can be
 changed using the provided options.
 
-Pass import handles duplicates and is compatible with \fIbrowserpass\fP.
+Pass import handles duplicates and is compatible with \fIbrowserpass\fP. It
+imports OTP secret in a way that is compatible with \fIpass-otp\fP.
 
 .SH COMMAND
 .TP
 \fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--clean\fP, \fI-c\fP ]
-     [ \fI--all\fP, \fI-a\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--separator\fP, \fI-s\fP ]
-     [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ] [ \fI--quiet\fP, \fI-q\fP ]
-     [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
+     [ \fI--all\fP, \fI-a\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--sep\fP, \fI-s\fP ]
+     [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ] [ \fI--config <file>\fP ]
+     [ \fI--quiet\fP, \fI-q\fP ] [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
 
 Import data from most of the password manager. Passwords are imported in the
 existing default password store, therefore the password store must have been
@@ -68,6 +72,9 @@ password manager.
 If \fI--force\fP or \fI-f\fP is specified, the import process will overwrite
 existing password entry if it already exists.
 
+If \fI--config\fP is specified along with a argument, pass-import will consider
+this config file instead of the default one '.import'.
+
 
 .SH OPTIONS
 
@@ -90,6 +97,10 @@ Convert the invalid caracters present in the paths.
 .TP
 \fB\-s\fB, \-\-separator\fR
 Provide a caracter of replacement for the path separator. Default: '-'
+
+.TP
+\fB\-\-config=<file>\fR
+Set a config file. Default: '.import'
 
 .TP
 \fB\-l\fB, \-\-list\fR
@@ -116,6 +127,67 @@ Show the program version and exit.
 Show usage message.
 
 
+.SH EXAMPLES
+
+.TP
+Import password from KeePass
+.B zx2c4@laptop ~ $ pass import keepass keepass.kdbx
+.br
+(*) Importing passwords from keepass
+.br
+ .  File: keepass.kdbx
+.br
+ .  Number of password imported: 6
+.br
+ .  Passwords imported:
+.br
+       Social/mastodon.social
+.br
+       Social/twitter.com
+.br
+       Social/news.ycombinator.com
+.br
+       Servers/ovh.com/bynbyjhqjz
+.br
+       Servers/ovh.com/jsdkyvbwjn
+.br
+       Bank/aib
+
+.TP
+Import password to a different password store
+.B zx2c4@laptop ~ $ export PASSWORD_STORE_DIR="~/.mypassword-store"
+.br
+.B zx2c4@laptop ~ $ pass init <gpg-id>
+.br
+.B zx2c4@laptop ~ $ pass import keepass keepass.kdbx
+
+.TP
+Import password to a subfolder
+.B zx2c4@laptop ~ $ pass import keepass keepass.kdbx -p Import/
+.br
+(*) Importing passwords from keepass
+.br
+ .  File: keepass.kdbx
+.br
+ .  Root path: Import
+.br
+ .  Number of password imported: 6
+.br
+ .  Passwords imported:
+.br
+      Import/Social/mastodon.social
+.br
+      Import/Social/twitter.com
+.br
+      Import/Social/news.ycombinator.com
+.br
+      Import/Servers/ovh.com/bynbyjhqjz
+.br
+      Import/Servers/ovh.com/jsdkyvbwjn
+.br
+      Import/Bank/aib
+
+
 .SH CONFIGURATION FILE
 
 Some configuration can be read from a configuration file called `\fI.import\fP if
@@ -127,41 +199,86 @@ if present.
 Example of the .import configuration file for the default password repository
 .B zx2c4@laptop ~ $ cat ~/.password-store/.import
 .br
-[convert]
+---
+
+# Separator string
 .br
-separator = -
+separator: '-'
+
+# The list of string that should be replaced by other string. Only activated
+.br
+# if the `clean` option is enabled.
+.br
+cleans:
+.br
+  ' ': '-'
+.br
+  '&': 'and'
+
+# The list of protocol. To be removed from the title.
+.br
+protocols:
+.br
+  - http://
+
+# The list of invalid caracters. Replaced by the separator.
+.br
+invalids:
+.br
+  - '<'
+.br
+  - '>'
 
 
 .SH SUPPORTED MANAGERS
+
+\# SUPPORTED LIST BEGIN
+
 .TP
 \fB1password\fP
 Website: \fIhttps://1password.com/\fP
 
-Export: See \fIhttps://support.1password.com/export/\fP
+Export: See this guide: \fIhttps://support.1password.com/export/\fP
 
-Command: pass import 1password file.xml
+Command: pass import 1password file.csv
 
 .TP
 \fB1password4\fP
 Website: \fIhttps://1password.com/\fP
 
-Export: File > Export: CSV
+Export: See this guide: \fIhttps://support.1password.com/export\fP
 
-Command: pass import 1password4 file.xml
+Command: pass import 1password4 file.csv
 
 .TP
 \fB1password4pif\fP
 Website: \fIhttps://1password.com/\fP
 
-Export: File > Export: 1PIF
+Export: See this guide: \fIhttps://support.1password.com/export/\fP
 
-Command: pass import 1password4pif file.1pif
+Command: pass import 1password file.1pif
+
+.TP
+\fBaegis\fP
+Website: \fIhttps://github.com/beemdevelopment/Aegis\fP
+
+Export: Settings> Tools: Export (Plain or encrypted)
+
+Command: pass import aegis file.json
+
+.TP
+\fBandotp\fP
+Website: \fIhttps://github.com/andOTP/andOTP\fP
+
+Export: Backups> Backup plain, gpg or password encrypted
+
+Command: pass import andotp file.{json, json.aes, gpg}
 
 .TP
 \fBapple-keychain\fP
 Website: \fIhttps://support.apple.com/guide/keychain-access\fP
 
-Export: See \fIhttps://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0\fP
+Export: See this guide: \fIhttps://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0\fP
 
 Command: pass import apple-keychain file.txt
 
@@ -174,10 +291,18 @@ Export: Tools: Export
 Command: pass import bitwarden file.csv
 
 .TP
+\fBbuttercup\fP
+Website: \fIhttps://buttercup.pw/\fP
+
+Export: File > Export > Export File to CSV
+
+Command: pass import buttercup file.csv
+
+.TP
 \fBchrome\fP
 Website: \fIhttps://support.google.com/chrome\fP
 
-Export: See \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
+Export: See this guide: \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
 
 Command: pass import chrome file.csv
 
@@ -185,9 +310,9 @@ Command: pass import chrome file.csv
 \fBchromesqlite\fP
 Website: \fIhttps://support.google.com/chrome\fP
 
-Export: See \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
+Export: See this guide: \fIhttps://www.axllent.org/docs/view/export-chrome-passwords/\fP
 
-Command: pass import chrome file.csv
+Command: pass import chromesqlite file.csv
 
 .TP
 \fBdashlane\fP
@@ -201,19 +326,25 @@ Command: pass import dashlane file.csv
 \fBencryptr\fP
 Website: \fIhttps://spideroak.com/encryptr/\fP
 
-Export: Compile from source and follow instructions here:
-
-\fIhttps://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705\fP
+Export: Compile from source and follow instructions from this guide: \fIhttps://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705\fP
 
 Command: pass import encryptr file.csv
 
 .TP
 \fBenpass\fP
-Website: \fIhttps://www-enpass.io/\fP
+Website: \fIhttps://www.enpass.io/\fP
 
 Export: File > Export > As CSV
 
 Command: pass import enpass file.csv
+
+.TP
+\fBenpass6\fP
+Website: \fIhttps://www.enpass.io/\fP
+
+Export: Menu > File > Export > As JSON
+
+Command: pass import enpass6 file.json
 
 .TP
 \fBfpm\fP
@@ -224,36 +355,60 @@ Export: File > Export Passwords: Plain XML
 Command: pass import fpm file.xml
 
 .TP
+\fBgnome-authenticator\fP
+Website: \fIhttps://gitlab.gnome.org/World/Authenticator\fP
+
+Export: Backup > in a plain-text JSON file
+
+Command: pass import gnome-authenticator json.csv
+
+.TP
+\fBgnome-keyring\fP
+Website: \fIhttps://wiki.gnome.org/Projects/GnomeKeyring\fP
+
+Export: Nothing to do
+
+Command: pass import gnome-keyring
+
+.TP
 \fBgorilla\fP
 Website: \fIhttps://github.com/zdia/gorilla/wiki\fP
 
 Export: File > Export: Yes: CSV Files
 
-Command: pass import gorilla file.xml
+Command: pass import gorilla file.csv
 
 .TP
 \fBkedpm\fP
-Website: \fIhttp://kedpm.sourceforge.net/\fP
+Website: \fIhttp://fpm.sourceforge.net/\fP
 
 Export: File > Export Passwords: Plain XML
 
-Command: pass import kedpm file.xml
+Command: pass import fpm file.xml
 
 .TP
 \fBkeepass\fP
 Website: \fIhttps://www.keepass.info\fP
 
-Export: File > Export > Keepass2 (XML)
+Export: Nothing to do
 
-Command: pass import keepass file.xml
+Command: pass import keepass file.kdbx
 
 .TP
-\fBkeepasscsv\fP
+\fBkeepass-csv\fP
 Website: \fIhttps://www.keepass.info\fP
 
 Export: File > Export > Keepass (CSV)
 
-Command: pass import keepasscsv file.csv
+Command: pass import keepass-csv file.csv
+
+.TP
+\fBkeepass-xml\fP
+Website: \fIhttps://www.keepass.info\fP
+
+Export: File > Export > Keepass2 (XML)
+
+Command: pass import keepass-xml file.xml
 
 .TP
 \fBkeepassx\fP
@@ -267,17 +422,33 @@ Command: pass import keepassx file.xml
 \fBkeepassx2\fP
 Website: \fIhttps://www.keepassx.org/\fP
 
+Export: Nothing to do
+
+Command: pass import keepassx2 file.kdbx
+
+.TP
+\fBkeepassx2-csv\fP
+Website: \fIhttps://www.keepassx.org/\fP
+
 Export: Database > Export to CSV File
 
-Command: pass import keepassx2 file.csv
+Command: pass import keepassx2-csv file.csv
 
 .TP
 \fBkeepassxc\fP
 Website: \fIhttps://keepassxc.org/\fP
 
+Export: Nothing to do
+
+Command: pass import keepassxc file.kdbx
+
+.TP
+\fBkeepassxc-csv\fP
+Website: \fIhttps://keepassxc.org/\fP
+
 Export: Database > Export to CSV File
 
-Command: pass import keepassxc file.csv
+Command: pass import keepassxc-csv file.csv
 
 .TP
 \fBkeeper\fP
@@ -296,23 +467,42 @@ Export: More Options > Advanced > Export
 Command: pass import lastpass file.csv
 
 .TP
+\fBmyki\fP
+Website: \fIhttps://myki.com/\fP
+
+Export: See this guide: \fIhttps://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki\fP
+
+Command: pass import myki file.csv
+
+.TP
 \fBnetworkmanager\fP
 Website: \fIhttps://wiki.gnome.org/Projects/NetworkManager\fP
 
-Support import from the installed network configuration but also from specific
-directory of networkmanger configuration file and from given file.
-
-Command: pass import networkmanager
+Support import from the installed network configuration but also
+from specific directory of  networkmanger configuration file and from
+given file.
 
 From directory of ini file: pass import networkmanager dir/
 
 From ini file: pass import networkmanager file.ini
 
+Export: Also support specific networkmanager dir and ini file
+
+Command: pass import networkmanager
+
+.TP
+\fBpass\fP
+Website: \fIhttps://passwordstore.org\fP
+
+Export: Nothing to do
+
+Command: pass import pass path/to/store
+
 .TP
 \fBpasspie\fP
 Website: \fIhttps://passpie.readthedocs.io\fP
 
-Export: passpie export file.yml
+Export: `passpie export file.yml`
 
 Command: pass import passpie file.yml
 
@@ -320,7 +510,7 @@ Command: pass import passpie file.yml
 \fBpasswordexporter\fP
 Website: \fIhttps://github.com/kspearrin/ff-password-exporter\fP
 
-Export: Export File Format > CSV
+Export: Add-ons Prefs: Export Passwords: CSV
 
 Command: pass import passwordexporter file.csv
 
@@ -346,7 +536,7 @@ Website: \fIhttps://www.roboform.com/\fP
 
 Export: Roboform > Options > Data & Sync > Export To: CSV file
 
-Command: pass import roboform file.xml
+Command: pass import roboform file.csv
 
 .TP
 \fBupm\fP
@@ -355,75 +545,15 @@ Website: \fIhttp://upm.sourceforge.net/\fP
 Export: Database > Export
 
 Command: pass import upm file.csv
-
-
-.SH EXAMPLES
-
-.TP
-Import password from KeePass
-.B zx2c4@laptop ~ $ pass import keepass keepass.xml
-.br
-(*) Importing passwords from keepass
-.br
- .  File: keepass.xml
-.br
- .  Number of password imported: 6
-.br
- .  Passwords imported:
-.br
-       Social/mastodon.social
-.br
-       Social/twitter.com
-.br
-       Social/news.ycombinator.com
-.br
-       Servers/ovh.com/bynbyjhqjz
-.br
-       Servers/ovh.com/jsdkyvbwjn
-.br
-       Bank/aib
-
-.TP
-Import password to a different password store
-.B zx2c4@laptop ~ $ export PASSWORD_STORE_DIR="~/.mypassword-store"
-.br
-.B zx2c4@laptop ~ $ pass init <gpg-id>
-.br
-.B zx2c4@laptop ~ $ pass import keepass keepass.xml
-
-.TP
-Import password to a subfolder
-.B zx2c4@laptop ~ $ pass import keepass keepass.xml -p Import/
-.br
-(*) Importing passwords from keepass
-.br
- .  File: keepass.xml
-.br
- .  Root path: Import
-.br
- .  Number of password imported: 6
-.br
- .  Passwords imported:
-.br
-      Import/Social/mastodon.social
-.br
-      Import/Social/twitter.com
-.br
-      Import/Social/news.ycombinator.com
-.br
-      Import/Servers/ovh.com/bynbyjhqjz
-.br
-      Import/Servers/ovh.com/jsdkyvbwjn
-.br
-      Import/Bank/aib
+\# SUPPORTED LIST END
 
 
 .SH SECURITY CONSIDERATION
 
 .TP
-Passwords should generally not be written in a plain text form on the drive. Therefore when possible you should pipe your passwords to pass import:
+Passwords should not be written in plain text form on the drive. Therefore when possible you should import it directly from the encrypted data:
 
-.B zx2c4@laptop ~ $ my_password_manger_export_cmd | pass import keepass
+.B zx2c4@laptop ~ $ pass import keepass file.kdbx
 
 .TP
 Otherwise, if your password manager does not have this command line option, you should take care of securely removing the plain text password database:
