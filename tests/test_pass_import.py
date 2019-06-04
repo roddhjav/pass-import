@@ -129,8 +129,8 @@ class TestPassImport(TestPassImportBase):
         self._passimport(cmd, 1)
 
     def test_pass_import_convert(self):
-        """Testing: pass import --convert db/keepassxml.xml."""
-        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '-q']
+        """Testing: pass import --convert db/keepass-xml.xml."""
+        cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert', '-q']
         self._passimport(cmd)
 
         path = os.path.join(self.store.prefix, '.import')
@@ -140,12 +140,12 @@ class TestPassImport(TestPassImportBase):
         cmd += ['--sep=~']
         self._passimport(cmd)
 
-        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert', '-q']
+        cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert', '-q']
         self._passimport(cmd)
 
     def test_pass_import_config(self):
-        """Testing: pass import --convert db/keepassxml.xml with conf file."""
-        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert',
+        """Testing: pass import --convert db/keepass-xml.xml with conf file."""
+        cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert',
                '--config', 'tests/config.yml']
         self._passimport(cmd)
 

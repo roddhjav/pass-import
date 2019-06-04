@@ -24,7 +24,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from <!-- NB BEGIN -->36<!-- NB END --> different password managers.
+import from <!-- NB BEGIN -->38<!-- NB END --> different password managers.
 More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -62,11 +62,13 @@ OTP secret in a way that is compatible with [pass-otp].
 | [gorilla](https://github.com/zdia/gorilla/wiki) | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
 | [kedpm](http://fpm.sourceforge.net/) | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
 | [keepass](https://www.keepass.info) | *Nothing to do* | `pass import keepass file.kdbx` |
-| [keepasscsv](https://www.keepass.info) | *File > Export > Keepass (CSV)* | `pass import keepasscsv file.csv` |
+| [keepass-csv](https://www.keepass.info) | *File > Export > Keepass (CSV)* | `pass import keepass-csv file.csv` |
+| [keepass-xml](https://www.keepass.info) | *File > Export > Keepass2 (XML)* | `pass import keepass-xml file.xml` |
 | [keepassx](https://www.keepassx.org/) | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
-| [keepassx2](https://www.keepassx.org/) | *Database > Export to CSV File* | `pass import keepassx2 file.csv` |
-| [keepassxc](https://keepassxc.org/) | *Database > Export to CSV File* | `pass import keepassxc file.csv` |
-| [keepassxml](https://www.keepass.info) | *File > Export > Keepass2 (XML)* | `pass import keepassxml file.xml` |
+| [keepassx2](https://www.keepassx.org/) | *Nothing to do* | `pass import keepassx2 file.kdbx` |
+| [keepassx2-csv](https://www.keepassx.org/) | *Database > Export to CSV File* | `pass import keepassx2-csv file.csv` |
+| [keepassxc](https://keepassxc.org/) | *Nothing to do* | `pass import keepassxc file.kdbx` |
+| [keepassxc-csv](https://keepassxc.org/) | *Database > Export to CSV File* | `pass import keepassxc-csv file.csv` |
 | [keeper](https://keepersecurity.com/) | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
 | [lastpass](https://www.lastpass.com/) | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
 | [myki](https://myki.com/) | *See this [guide](https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki)* | `pass import myki file.csv` |
@@ -97,10 +99,10 @@ positional arguments:
                         andotp, apple-keychain, bitwarden, buttercup, chrome,
                         chromesqlite, dashlane, encryptr, enpass, enpass6,
                         fpm, gnome-authenticator, gnome-keyring, gorilla,
-                        kedpm, keepassxml, keepass, keepasscsv, keepassx,
-                        keepassx2, keepassxc, keeper, lastpass,
-                        networkmanager, myki, pass, passpie, passwordexporter,
-                        pwsafe, revelation, roboform, upm.
+                        kedpm, keepass, keepass-csv, keepass-xml, keepassx,
+                        keepassx2, keepassx2-csv, keepassxc, keepassxc-csv,
+                        keeper, lastpass, networkmanager, myki, pass, passpie,
+                        passwordexporter, pwsafe, revelation, roboform, upm.
   file                  Path to the file or directory that contains the data
                         to import. Can also be a label.
 

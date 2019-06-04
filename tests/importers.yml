@@ -67,12 +67,12 @@ kedpm:
   extension: xml
   encoding: utf-8
 
-keepassxml:
+keepass-xml:
   root: keepass/
   extension: xml
   encoding: utf-8
 
-keepasscsv:
+keepass-csv:
   without: ['group']
   extension: csv
   encoding: utf-8
@@ -81,12 +81,12 @@ keepassx:
   extension: xml
   encoding: utf-8
 
-keepassx2:
+keepassx2-csv:
   root: Root/
   extension: csv
   encoding: utf-8
 
-keepassxc:
+keepassxc-csv:
   root: Root/
   extension: csv
   encoding: utf-8

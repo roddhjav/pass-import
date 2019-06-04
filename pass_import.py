@@ -54,12 +54,14 @@ importers = {  # pylint: disable=invalid-name
     'gnome-keyring': 'GnomeKeyring',
     'gorilla': 'Gorilla',
     'kedpm': 'FigaroPM',
-    'keepassxml': 'KeepassXML',
     'keepass': 'KeepassKDBX',
-    'keepasscsv': 'KeepassCSV',
-    'keepassx': 'KeepassX',
-    'keepassx2': 'KeepassX2',
-    'keepassxc': 'KeepassXC',
+    'keepass-csv': 'KeepassCSV',
+    'keepass-xml': 'KeepassXML',
+    'keepassx': 'KeepassxXML',
+    'keepassx2': 'Keepassx2KDBX',
+    'keepassx2-csv': 'Keepassx2CSV',
+    'keepassxc': 'KeepassxcKDBX',
+    'keepassxc-csv': 'KeepassxcCSV',
     'keeper': 'Keeper',
     'lastpass': 'Lastpass',
     'networkmanager': 'NetworkManager',
@@ -1381,7 +1383,7 @@ class KeepassKDBX(PasswordManagerKDBX):
     """
 
 
-class KeepassX(PasswordManagerXML):
+class KeepassxXML(PasswordManagerXML):
     """Importer for KeepassX in XML format.
     url: https://www.keepassx.org/
     export: File > Export to > Keepass XML File
@@ -1411,11 +1413,11 @@ class KeepassX(PasswordManagerXML):
             self.data.append(entry)
 
 
-class KeepassXML(KeepassX):
+class KeepassXML(KeepassxXML):
     """Importer for Keepass in XML format.
     url: https://www.keepass.info
     export: File > Export > Keepass2 (XML)
-    import: pass import keepassxml file.xml
+    import: pass import keepass-xml file.xml
     """
     group = 'Group'
     entry = 'Entry'
@@ -1451,27 +1453,43 @@ class KeepassCSV(PasswordManagerCSV):
     """Importer for Keepass in CSV format.
     url: https://www.keepass.info
     export: File > Export > Keepass (CSV)
-    import: pass import keepasscsv file.csv
+    import: pass import keepass-csv file.csv
     """
     keys = {'title': 'Account', 'password': 'Password', 'login': 'Login Name',
             'url': 'Web Site', 'comments': 'Comments'}
 
 
-class KeepassX2(PasswordManagerCSV):
+class Keepassx2KDBX(PasswordManagerKDBX):
+    """Importer for Keepass2 encrypted KDBX format.
+    url: https://www.keepassx.org/
+    export: Nothing to do
+    import: pass import keepassx2 file.kdbx
+    """
+
+
+class Keepassx2CSV(PasswordManagerCSV):
     """Importer for Keepass in CSV format.
     url: https://www.keepassx.org/
     export: Database > Export to CSV File
-    import: pass import keepassx2 file.csv
+    import: pass import keepassx2-csv file.csv
     """
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
             'url': 'URL', 'comments': 'Notes', 'group': 'Group'}
 
 
-class KeepassXC(KeepassX2):
+class KeepassxcKDBX(PasswordManagerKDBX):
+    """Importer for Keepass2 encrypted KDBX format.
+    url: https://keepassxc.org/
+    export: Nothing to do
+    import: pass import keepassxc file.kdbx
+    """
+
+
+class KeepassxcCSV(Keepassx2CSV):
     """Importer for KeepassXC in CSV format.
     url: https://keepassxc.org/
     export: Database > Export to CSV File
-    import: pass import keepassxc file.csv
+    import: pass import keepassxc-csv file.csv
     """
 
 
