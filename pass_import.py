@@ -1783,12 +1783,13 @@ def argumentsparse():
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
                         help='Overwrite existing path.')
-    parser.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
-    parser.add_argument('-v', '--verbose', action='store_true',
-                        help='Be verbose.')
     parser.add_argument('-V', '--version', action='version',
                         version='%(prog)s ' + __version__,
                         help='Show the program version and exit.')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
+    group.add_argument('-v', '--verbose', action='store_true',
+                       help='Be verbose.')
 
     return parser
 
