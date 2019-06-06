@@ -401,15 +401,12 @@ class PasswordManager():
         self.all = extra
         self.separator = str(separator)
         self.cols = cols
+        self.protocols = protocols if protocols else ['http://', 'https://']
         if cleans:
             self.cleans = cleans
         else:
             self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
                            "[": "", "]": ""}
-        if protocols:
-            self.protocols = protocols
-        else:
-            self.protocols = ['http://', 'https://']
         if invalids:
             self.invalids = invalids
         else:
@@ -602,7 +599,7 @@ class PasswordManagerCSV(PasswordManager):
     def parse(self, file):
         """Parse CSV based file.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         reader = csv.DictReader(file, fieldnames=self.fieldnames,
@@ -653,7 +650,7 @@ class PasswordManagerXML(PasswordManager):
     def parse(self, file):
         """Parse XML based file. Requires defusedxml.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         try:
@@ -698,7 +695,7 @@ class PasswordManagerYAML(PasswordManager):
     def parse(self, file):
         """Parse YAML based file.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         yamls = yaml.safe_load(file)
@@ -734,7 +731,7 @@ class PasswordManagerPIF(PasswordManagerJSON):
     def parse(self, file):
         """Parse PIF based file.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         jsons = self._pif2json(file)
@@ -841,7 +838,7 @@ class PasswordManagerOTP(PasswordManager):
     def parse(self, file):
         """Parse OTP based file.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         jsons = json.loads(self._read(file))
@@ -948,7 +945,7 @@ class Aegis(PasswordManagerOTP):
 
         Support both plain and encrypted export.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         jsons = json.loads(self._read(file))
@@ -1030,7 +1027,7 @@ class AndOTP(PasswordManagerOTP):
         Support plain export, AES encrypted export and GPG encrypted export
         files.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         try:
@@ -1124,7 +1121,7 @@ class AppleKeychain(PasswordManager):
 
         Requires python3-defusedxml due to internal XML string to decode.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         yamls = self._keychain2yaml(file)
@@ -1294,7 +1291,7 @@ class Enpass6(PasswordManagerJSON):
     def parse(self, file):
         """Parse Enpass 6 JSON file.
 
-        :param IOBase file: File to parse
+        :param io.IOBase file: File to parse
 
         """
         jsons = json.loads(file.read())
@@ -1945,7 +1942,7 @@ def main(argv):
         importer.clean(arg['clean'], arg['convert'])
     except (yaml.scanner.ScannerError,
             FormatError, AttributeError, ValueError) as error:
-        msg.verbose(error)
+        msg.warning(error)
         msg.die("%s is not a valid exported %s file." % (arg['file'],
                                                          arg['manager']))
     except ImportError as error:
