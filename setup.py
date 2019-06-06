@@ -21,9 +21,15 @@ setup(
     py_modules=['pass_import'],
 
     install_requires=[
-        'defusedxml',
         'pyaml'
         ],
+    extras_require={
+        'xml': ['defusedxml'],
+        'keepass': ['pykeepass'],
+        'gnomekeyring': ['secretstorage'],
+        'encrypted_otp': ['cryptography'],
+        'all': ['defusedxml', 'pykeepass', 'secretstorage', 'cryptography'],
+        },
     tests_require=[
         'green'
         ],
