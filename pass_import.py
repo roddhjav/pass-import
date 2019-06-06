@@ -406,7 +406,7 @@ class PasswordManager():
             self.cleans = cleans
         else:
             self.cleans = {" ": self.separator, "&": "and", "@": "At", "'": "",
-                           "[": "", "]": ""}
+                           "[": "", "]": "", "\t": ''}
         if invalids:
             self.invalids = invalids
         else:
@@ -1838,7 +1838,7 @@ def getsettings(arg):
     """
     defaults = {'separator': '-',
                 'cleans': {" ": '-', "&": "and", "@": "At", "'": "",
-                           "[": "", "]": ""},
+                           "[": "", "]": "", "\t": ''},
                 'protocols': ['http://', 'https://'],
                 'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*',
                              '\0']}
