@@ -6,8 +6,8 @@ the existing password manager.
 
 
 .SH SYNOPSIS
-\fBpass import\fP [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [-l] [-f] [-q] [-v]
-            [-V] [manager] [file]
+\fBpass import\fP [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--cols COLS]
+            [--config CONFIG] [-l] [-f] [-V] [-q | -v] [manager] [file]
 
 .SH DESCRIPTION
 \fBpass import\fP is a password store extension allowing you to import your
@@ -30,10 +30,10 @@ imports OTP secret in a way that is compatible with \fIpass-otp\fP.
 
 .SH COMMAND
 .TP
-\fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--clean\fP, \fI-c\fP ]
-     [ \fI--all\fP, \fI-a\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--sep\fP, \fI-s\fP ]
-     [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ] [ \fI--config <file>\fP ]
-     [ \fI--quiet\fP, \fI-q\fP ] [ \fI--verbose\fP, \fI-v\fP ] \fImanager\fP \fIfile\fP
+\fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--clean\fP, \fI-c\fP ] [ \fI--all\fP, \fI-a\fP ]
+     [\fI--convert\fP, \fI-Cl\fP] [ \fI--sep\fP, \fI-s\fP ] [\fI--list\fP, \fI-l\fP] [ \fI--force\fP, \fI-f\fP ]
+     [ \fI--config <file>\fP ] [ \fI--cols <cols>\fP ] [ \fI--quiet\fP, \fI-q\fP ] [ \fI--verbose\fP, \fI-v\fP ]
+     \fImanager\fP \fIfile\fP
 
 Import data from most of the password manager. Passwords are imported in the
 existing default password store, therefore the password store must have been
@@ -75,6 +75,8 @@ existing password entry if it already exists.
 If \fI--config\fP is specified along with a argument, pass-import will consider
 this config file instead of the default one '.import'.
 
+If \fI--cols\fP is specified along with a argument, set the expected CSV columns
+to map columns to credential attributes. Only used for the generic csv importer.
 
 .SH OPTIONS
 
@@ -101,6 +103,11 @@ Provide a caracter of replacement for the path separator. Default: '-'
 .TP
 \fB\-\-config=<file>\fR
 Set a config file. Default: '.import'
+
+.TP
+\fB\-\-cols=<cols>\fR
+CSV expected columns to map columns to credential attributes. Only used for the
+generic csv importer.
 
 .TP
 \fB\-l\fB, \-\-list\fR

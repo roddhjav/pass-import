@@ -88,7 +88,7 @@ OTP secret in a way that is compatible with [pass-otp].
 <!-- USAGE BEGIN -->
 ```
 usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--cols COLS]
-                   [--config CONFIG] [-l] [-f] [-q] [-v] [-V]
+                   [--config CONFIG] [-l] [-f] [-V] [-q | -v]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -121,9 +121,9 @@ optional arguments:
   --config CONFIG       Set a config file. Default: '.import'
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.
+  -V, --version         Show the program version and exit.
   -q, --quiet           Be quiet.
   -v, --verbose         Be verbose.
-  -V, --version         Show the program version and exit.
 
 More information may be found in the pass-import(1) man page.
 

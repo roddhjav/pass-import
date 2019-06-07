@@ -1,4 +1,4 @@
-<h1 align="center">Contribution</h1>
+# Contribution
 
 You want to contribute to `pass import`, **thank a lot for this.** You will find
 in this page all the useful information needed to contribute to `pass-import`.
@@ -9,11 +9,26 @@ in this page all the useful information needed to contribute to `pass-import`.
 for all the parts of the program. Moreover, it provides test coverage and code
 health reports.
 
-In order to run the tests, you need to install the following programs:
-* [python-green][pgreen] as python test runner.
-* [python-coverage][pcoverage] as code coverage system.
+##### Tests
+To run the tests, you need to install the following programs:
+* [python-green] as python test runner.
+* [python-coverage] as code coverage system.
 
-To run the tests, simply run: `make tests`
+Then simply run: `make tests`
+
+##### Code health
+To run the code health report, you need to install the following programs:
+
+* [prospector]: `pip install prospector[with_everything]`
+
+Then simply run: `make lint`
+
+##### Security check
+To run the security check, you need to install the following programs:
+
+* [bandit]: `pip install bandit`
+
+Then simply run: `make security`
 
 
 ## How to contribute?
@@ -49,30 +64,37 @@ you'll see a Compare & pull request button, fill and submit the pull request.
 importer. *Example*:
 ```python
 importers = {
-	'1password': ['OnePassword', 'https://1password.com/'],
+	'1password': 'OnePassword',
 	...
-	'mymanager': ['MyManager', 'https://mymanager.com/'],
+	'mymanager': 'MyManager',
 	...
-	'upm': ['UPM', 'http://upm.sourceforge.net/'],
+	'upm': 'UPM',
 }
 ```
 
 2. Add a `MyManager` class that inherits from one of the parent importer class
 `PasswordManager{CSV, XML, JSON, PIF}` and write the necessary code and
-variables. If the file format is not supporter yet, you might have to create a
-new parent class. To quickly find the class, your implementation must follows
-the same alphabetic order after the parent classes. *Example*:
+variables. You also need to add the correct docstring for your class. If the
+file format is not supporter yet, you might have to create a new parent class.
+To quickly find the class, your implementation must follows the same alphabetic
+order after the parent classes. *Example*:
 
 ```python
 # Parent classes
 class PasswordManager():
 class PasswordManagerCSV(PasswordManager):
 class PasswordManagerXML(PasswordManager):
+...
 
 # Child classes
 class OnePassword(PasswordManagerCSV):
 ...
 class MyManager(PasswordManagerCSV):
+	"""Importer for My Manager in CSV format.
+    url: https://mymanager.com
+    export: File > Export > Unsecured Archive in CSV
+    import: pass import mymanager file.csv
+    """
 	keys = {'title': 'title', 'password': 'password', 'login': 'login',
 			    'url': 'url', 'comments': 'comments', 'group': 'group'}
 ...
@@ -90,11 +112,12 @@ importer. Add an entry in `tests/importers.yml` with your importer settings.
 *Example*:
 ```yaml
 mymanager:
-      extension: csv
-      encoding: utf-8
+  extension: csv
+  encoding: utf-8
 ```
 
-5. Check the tests success, ensure the coverage does not decrease and the code health passes.
+5. Check the tests success, ensure the coverage does not decrease and the code
+health passes.
 
 
 ## Data Organization
@@ -121,6 +144,8 @@ description of any extra data we can find in the exported file.
 
 
 [mt]: https://en.wikipedia.org/wiki/Mutation_testing
-[pgreen]: https://github.com/CleanCut/green
-[pcoverage]: http://nedbatchelder.com/code/coverage/
+[python-green]: https://github.com/CleanCut/green
+[python-coverage]: http://nedbatchelder.com/code/coverage/
+[prospector]: https://github.com/PyCQA/prospector
+[bandit]: https://github.com/PyCQA/bandit
 [git]: https://help.github.com/articles/set-up-git/
