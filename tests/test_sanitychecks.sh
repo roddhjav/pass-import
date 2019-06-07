@@ -5,17 +5,17 @@ cd tests
 source ./commons.sh
 
 test_expect_success "Testing store not initialized" "
-    test_must_fail _pass import keepass $DB/keepass.xml
+    test_must_fail _pass import bitwarden $DB/bitwarden.csv
     "
 
-test_init "sanitychecks" &> /dev/null
-test_expect_success "Testing import from stdin" "
-    cat $DB/keepass.xml | _pass import keepass
-    "
+test_init 'sanitychecks' &> /dev/null
+# test_expect_success "Testing read password from stdin" "
+#     echo $MASTERPASSWORD | _pass import keepass $DB/keepass.kdbx
+#     "
 
-test_expect_success "Testing import from not a file" "
-    test_must_fail _pass import lastpass ImNotAFile
-    "
+test_expect_success 'Testing import from not a file' '
+    test_must_fail _pass import lastpass not-a-file
+    '
 
 test_expect_success 'Testing corner cases' '
     test_must_fail _pass import --not-an-option &&

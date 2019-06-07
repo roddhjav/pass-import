@@ -51,7 +51,7 @@ T = $(sort $(wildcard tests/test_*.sh))
 tests:
 	@python3 setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
 	@coverage html
-	# @make tests_bash
+	@make tests_bash
 
 tests_bash: $(T)
 
@@ -60,11 +60,11 @@ $(T):
 
 lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t frosted -t mccabe -t mypy -t pep257 -t pep8 \
+		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
 		-t profile-validator -t pyflakes -t pylint -t pyroma -t vulture \
 		pass_import.py setup.py .updatedoc.py
 	@prospector --profile tests/.prospector.yaml --strictness veryhigh \
-		-t dodgy -t frosted -t mccabe -t mypy -t pep257 -t pep8 \
+		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
 		-t profile-validator -t pyflakes -t pylint -t pyroma \
 		tests/*.py
 
