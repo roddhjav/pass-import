@@ -42,7 +42,7 @@ sast:
   script:
     - mkdir -p ~/.local/share/keyrings/
     - cp tests/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-    - pip3 install green coverage defusedxml pyaml cryptography pykeepass secretstorage
+    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage
     - make
     - dbus-run-session -- make tests
     - make install
@@ -84,7 +84,7 @@ debian:
 fedora:
   image: fedora
   before_script:
-    - dnf -y install make gpg pass python3-pip grep which dbus gnome-keyring --setopt=install_weak_deps=False
+    - dnf -y install make gpg pass python3-pip grep which dbus dbus-daemon gnome-keyring --setopt=install_weak_deps=False
   <<: *script
   <<: *only
 
