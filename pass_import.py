@@ -32,7 +32,7 @@ from pathlib import Path
 from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 
-__version__ = '2.5'
+__version__ = '2.6'
 
 importers = {  # pylint: disable=invalid-name
     '1password': 'OnePassword',
