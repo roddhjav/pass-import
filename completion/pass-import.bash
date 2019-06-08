@@ -7,7 +7,7 @@ __password_store_extension_complete_import() {
 		apple-keychain bitwarden buttercup chrome chromesqlite csv dashlane
 		encryptr enpass enpass6 fpm gnome-authenticator gnome-keyring gorilla
 		kedpm keepass keepass-csv keepass-xml keepassx keepassx2 keepassx2-csv
-		keepassxc keepassxc-csv keeper lastpass networkmanager myki pass
+		keepassxc keepassxc-csv keeper lastpass myki networkmanager pass
 		passpie passwordexporter pwsafe revelation roboform upm)
 	local args=(-h --help -p --path -a --all -c --clean -C --convert -s --sep
 		  --cols --config -l --list -f --force -q --quiet -v --verbose -V
