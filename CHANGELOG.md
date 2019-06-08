@@ -4,6 +4,55 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keep-changelog].
 
+## [2.6] - 2019-08-06
+
+### Added
+
+* Added support for generic OTP entry import
+* Added support for binary attachements for manager that support it. [#63](https://github.com/roddhjav/pass-import/issues/63)
+* Added support for the 10 following password managers: [#84](https://github.com/roddhjav/pass-import/pull/84)
+  - passpie
+  - keeper
+  - keepass with kdbx file
+  - Gnome Keyring
+  - AndOTP for:
+      - password encrypted backup,
+      - plain text backup,
+      - GPG encrypted backup.
+  - Aegis for:
+      - plain backup,
+      - password encrypted backup.
+  - Myki
+  - Gnome Authenticator
+  - Generic CSV
+  - password-store (yes it can import itself ;))
+* Added Importer docstring.
+* Added full docstring.
+* Added zsh completion.
+* Added the following optional dependencies:
+  - `pykeepass`: Keepass import from KDBX file,
+  - `secretstorage`: Gnome Keyring import,
+  - `cryptography`: AndOTP & Aegis encrypted import.
+
+### Changed
+
+* Changed the config file format from `ini` to `yaml`.
+* The config file now accept much more settings.
+* The default Keepass, KeepassX2 and KkeepassXC importers now use Kdbx importer.
+* Defusedxml is now an optional dependency only required for XML based import.
+* Improve GPG key listing check.
+* Dropped the support for reading data file from stdin due to issues with a
+  lot of password managers.
+* The README and the man page are now automatically updated with the data from
+  the importer docstring.
+
+### Fixed
+
+* Remove OS separaror from title [#64](https://github.com/roddhjav/pass-import/issues/64)
+* Add '\t' to the clean least [#65](https://github.com/roddhjav/pass-import/issues/65)
+* Fix some typos [#83](https://github.com/roddhjav/pass-import/issues/83)
+
+
 ## [2.5] - 2019-19-05
 
 ### Added
@@ -144,6 +193,7 @@ importer's systems have been intensely tested against a test database.
 * Initial release.
 
 
+[2.6]: https://github.com/roddhjav/pass-import/releases/tag/v2.6
 [2.5]: https://github.com/roddhjav/pass-import/releases/tag/v2.5
 [2.4]: https://github.com/roddhjav/pass-import/releases/tag/v2.4
 [2.3]: https://github.com/roddhjav/pass-import/releases/tag/v2.3
