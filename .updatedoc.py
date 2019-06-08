@@ -35,6 +35,16 @@ def rmarkdown(string):
     return string
 
 
+def importers_nb():
+    """Return a string of the importer len."""
+    return "%d" % len(pass_import.importers)
+
+
+def importers_nb_line():
+    """Return a line of the importer len."""
+    return "\n%d\n" % len(pass_import.importers)
+
+
 def markdown_table():
     """Generate the new supported table."""
     res = ('| **Password Manager** | **How to export Data** | **Command line** |\n'  # noqa
@@ -72,38 +82,31 @@ def helpmessage():
     return "\n```\n%s\n```\n" % string.getvalue()
 
 
+UPDATE = {
+    'README.md': [
+        ('<!-- NB BEGIN -->', '<!-- NB END -->', importers_nb),
+        ('<!-- SUPPORTED LIST BEGIN -->', '<!-- SUPPORTED LIST END -->',
+         markdown_table),
+        ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', helpmessage)
+    ],
+    'pass-import.1': [
+        (r'\# NB BEGIN', r'\# NB END', importers_nb_line),
+        (r'\# SUPPORTED LIST BEGIN', r'\# SUPPORTED LIST END', importers_usage)
+    ],
+}
+
+
 def main():
-    """Update the readme with last usage and importer list."""
-    readme_path = 'README.md'
-    nb_importers = "%d" % len(pass_import.importers)
+    """Update the documentation files last usage and importer list."""
+    for path, pattern in UPDATE.items():
+        with open(path, 'r') as file:
+            data = file.read()
 
-    with open(readme_path, 'r') as file:
-        readme = file.read()
+        for item in pattern:
+            data = replace(item[0], item[1], data, item[2]())
 
-    readme = replace('<!-- NB BEGIN -->', '<!-- NB END -->',
-                     readme, nb_importers)
-
-    readme = replace('<!-- SUPPORTED LIST BEGIN -->',
-                     '<!-- SUPPORTED LIST END -->',
-                     readme, markdown_table())
-
-    readme = replace('<!-- USAGE BEGIN -->', '<!-- USAGE END -->',
-                     readme, helpmessage())
-
-    with open(readme_path, 'w') as file:
-        file.write(readme)
-
-    man_path = 'pass-import.1'
-    with open(man_path, 'r') as file:
-        man = file.read()
-
-    man = replace(r'\# NB BEGIN', r'\# NB END', man, "\n%s\n" % nb_importers)
-
-    man = replace(r'\# SUPPORTED LIST BEGIN', r'\# SUPPORTED LIST END', man,
-                  importers_usage())
-
-    with open(man_path, 'w') as file:
-        file.write(man)
+        with open(path, 'w') as file:
+            file.write(data)
 
 
 if __name__ == "__main__":
