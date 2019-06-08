@@ -45,6 +45,7 @@ local:
 	@python3 setup.py install --user --prefix= --optimize=1
 	@echo
 	@echo "pass-$(PROG) is localy installed succesfully."
+	@echo "Remember to set to 'true' PASSWORD_STORE_ENABLE_EXTENSIONS for the extension to be enabled."
 	@echo "Warning, because it is a local installation, there is no manual page or shell completion."
 
 
