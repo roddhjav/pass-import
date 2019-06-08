@@ -884,7 +884,7 @@ class OnePassword(PasswordManagerCSV):
 
 
 class Aegis(PasswordManagerOTP):
-    """Importer for Aegis otp plain JSON format.
+    """Importer for Aegis otp plain or encrypted JSON format.
     url: https://github.com/beemdevelopment/Aegis
     export: 'Settings> Tools: Export (Plain or encrypted)'
     import: pass import aegis file.json
@@ -972,7 +972,7 @@ class Aegis(PasswordManagerOTP):
 
 
 class AndOTP(PasswordManagerOTP):
-    """Importer for AndOTP.
+    """Importer for AndOTP plain or encrypted JSON format.
     url: https://github.com/andOTP/andOTP
     export: Backups> Backup plain, gpg or password encrypted
     import: pass import andotp file.{json, json.aes, gpg}
@@ -1489,7 +1489,7 @@ class KeepassCSV(PasswordManagerCSV):
 
 
 class Keepassx2KDBX(PasswordManagerKDBX):
-    """Importer for Keepass2 encrypted KDBX format.
+    """Importer for KeepassX2 encrypted KDBX format.
     url: https://www.keepassx.org/
     export: Nothing to do
     import: pass import keepassx2 file.kdbx
@@ -1497,7 +1497,7 @@ class Keepassx2KDBX(PasswordManagerKDBX):
 
 
 class Keepassx2CSV(PasswordManagerCSV):
-    """Importer for Keepass in CSV format.
+    """Importer for KeepassX2 in CSV format.
     url: https://www.keepassx.org/
     export: Database > Export to CSV File
     import: pass import keepassx2-csv file.csv
@@ -1507,7 +1507,7 @@ class Keepassx2CSV(PasswordManagerCSV):
 
 
 class KeepassxcKDBX(PasswordManagerKDBX):
-    """Importer for Keepass2 encrypted KDBX format.
+    """Importer for KeepassXC encrypted KDBX format.
     url: https://keepassxc.org/
     export: Nothing to do
     import: pass import keepassxc file.kdbx
