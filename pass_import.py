@@ -1869,7 +1869,7 @@ def sanitychecks(arg, msg):
         msg.die("%s is not a supported password manager" % arg['manager'])
 
     # File opened by the importer
-    pathonly = ('keepass', 'google-authenticator')
+    pathonly = ('keepass', 'keepassxc', 'keepassx2', 'google-authenticator')
     if arg['manager'] in pathonly and os.path.isfile(arg['file']):
         file = arg['file']
 
@@ -1956,8 +1956,9 @@ def main(argv):
     except (PermissionError, VersionError) as error:  # pragma: no cover
         msg.die(error)
     finally:
-        if arg['manager'] not in ('networkmanager', 'keepass', 'pass',
-                                  'gnome-keyring', 'google-authenticator'):
+        if arg['manager'] not in ('networkmanager', 'keepass', 'keepassxc',
+                                  'keepassx2', 'pass', 'gnome-keyring',
+                                  'google-authenticator'):
             file.close()
 
     # Insert data into the password store
