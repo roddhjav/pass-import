@@ -1089,7 +1089,7 @@ class AppleKeychain(PasswordManager):
                 date = date[:-1]
             thedate = datetime.strptime(date, '%Y%m%d%H%M%SZ')
             return str(thedate)
-        except (ValueError, UnicodeError) as e:
+        except (ValueError, UnicodeError):
             return date
 
     @staticmethod
