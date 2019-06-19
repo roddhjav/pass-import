@@ -29,6 +29,7 @@ import argparse
 import importlib
 import configparser
 from pathlib import Path
+from datetime import datetime
 from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 
@@ -1081,6 +1082,17 @@ class AppleKeychain(PasswordManager):
         return url
 
     @staticmethod
+    def _human_date(date):
+        """Return the date in human readable format"""
+        try:
+            if date[-1:] == '\x00':
+                date = date[:-1]
+            thedate = datetime.strptime(date, '%Y%m%d%H%M%SZ')
+            return str(thedate)
+        except (ValueError, UnicodeError) as e:
+            return date
+
+    @staticmethod
     def _decode(string):
         """Extract and decode hexadecimal value from a string."""
         hexmod = re.findall(r'0x[0-9A-F]*', string)
@@ -1138,7 +1150,7 @@ class AppleKeychain(PasswordManager):
             entry[key] = value
             entry['url'] = self._compose_url(entry)
             for key in ['creation_date', 'modification_date']:
-                entry[key] = self._decode(entry.get(key, ''))
+                entry[key] = self._human_date(self._decode(entry.get(key, '')))
 
             self.data.append(entry)
 
