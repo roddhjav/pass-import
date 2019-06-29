@@ -1083,13 +1083,13 @@ class AppleKeychain(PasswordManager):
 
     @staticmethod
     def _human_date(date):
-        """Return the date in human readable format"""
+        """Return the date in human readable format."""
         try:
             if date[-1:] == '\x00':
                 date = date[:-1]
             thedate = datetime.strptime(date, '%Y%m%d%H%M%SZ')
             return str(thedate)
-        except (ValueError, UnicodeError):
+        except (ValueError, UnicodeError):  # pragma: no cover
             return date
 
     @staticmethod
