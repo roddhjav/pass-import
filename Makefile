@@ -65,15 +65,15 @@ $(T):
 lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
-		-t profile-validator -t pyflakes -t pylint -t pyroma -t vulture \
+		-t profile-validator -t pyflakes -t pyroma -t vulture \
 		pass_import.py setup.py .updatedoc.py
 	@prospector --profile tests/.prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
-		-t profile-validator -t pyflakes -t pylint -t pyroma \
+		-t profile-validator -t pyflakes -t pyroma \
 		tests/*.py
 
 security:
-	@bandit *.py tests/*.py
+	@bandit *.py tests/*.py .updatedoc.py
 
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed
