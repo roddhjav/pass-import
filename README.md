@@ -44,7 +44,7 @@ OTP secret in a way that is compatible with [pass-otp].
 |:--------------------:|:----------------------:|:----------------:|
 | [1password](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.csv` |
 | [1password4](https://1password.com/) | *See this [guide](https://support.1password.com/export)* | `pass import 1password4 file.csv` |
-| [1password4pif](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.1pif` |
+| [1password4pif](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password4pif file.1pif` |
 | [aegis](https://github.com/beemdevelopment/Aegis) | *Settings> Tools: Export (Plain or encrypted)* | `pass import aegis file.json` |
 | [andotp](https://github.com/andOTP/andOTP) | *Backups> Backup plain, gpg or password encrypted* | `pass import andotp file.{json, json.aes, gpg}` |
 | [apple-keychain](https://support.apple.com/guide/keychain-access) | *See this [guide](https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
