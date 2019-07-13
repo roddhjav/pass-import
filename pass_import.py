@@ -749,14 +749,11 @@ class PasswordManagerPIF(PasswordManagerJSON):
                 scontent = item.pop('secureContents', {})
                 fields = scontent.pop('fields', [])
                 for field in fields:
-                    name = field.get('name')
-                    designation = field.get('designation')
-
-                    jsonkey = name or designation or ''
+                    name = field.get('name', '')
+                    designation = field.get('designation', '')
+                    jsonkey = name or designation
                     key = keys.get(jsonkey, jsonkey)
-
-                    if key:
-                        entry[key] = field.get('value', '')
+                    entry[key] = field.get('value', '')
 
                 item.update(scontent)
                 for key, value in item.items():
