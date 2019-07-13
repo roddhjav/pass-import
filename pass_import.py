@@ -858,7 +858,7 @@ class OnePassword4PIF(PasswordManagerPIF):
     """Importer for 1password 4 in PIF format.
     url: https://1password.com/
     export: See this [guide](https://support.1password.com/export/)
-    import: pass import 1password file.1pif
+    import: pass import 1password4pif file.1pif
     """
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
             'url': 'location', 'comments': 'notesPlain', 'group': 'folderUuid'}
