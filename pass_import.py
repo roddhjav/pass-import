@@ -585,7 +585,7 @@ class PasswordManager():
                                                                     '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
-        for i in range(2):
+        for _ in range(2):
             self._duplicate_paths(clean, convert)
         self._duplicate_numerise()
 
