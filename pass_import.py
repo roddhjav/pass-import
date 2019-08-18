@@ -396,11 +396,12 @@ class PasswordManager():
     keyslist = ['title', 'password', 'login', 'url', 'comments', 'otpauth',
                 'group']
 
-    def __init__(self, extra=False, separator='-', cleans=None,
+    def __init__(self, extra=False, separator='-', csv_delimiter=',', cleans=None,
                  protocols=None, invalids=None, cols=''):
         self.data = []
         self.all = extra
         self.separator = str(separator)
+        self.csv_delimiter = csv_delimiter
         self.cols = cols
         self.protocols = protocols if protocols else ['http://', 'https://']
         if cleans:
@@ -604,7 +605,7 @@ class PasswordManagerCSV(PasswordManager):
 
         """
         reader = csv.DictReader(file, fieldnames=self.fieldnames,
-                                delimiter=',', quotechar='"')
+                                delimiter=self.csv_delimiter, quotechar='"')
         self._checkformat(reader.fieldnames)
 
         keys = self._invkeys()
@@ -1788,6 +1789,8 @@ def argumentsparse():
                         metavar='CAR',
                         help="""Provide a caracter of replacement for the path
                          separator. Default: '-' """)
+    parser.add_argument('-d', '--csv-delimiter', default=',',
+                        help="Provide an alternative CSV delimiter character. Default: ','")
     parser.add_argument('--cols', action='store', default='',
                         help='CSV expected columns to map columns to '
                              'credential attributes. Only used for the generic'
@@ -1951,7 +1954,7 @@ def main(argv):
     # Import and clean data. pylint: disable=invalid-name
     ImporterClass = getattr(importlib.import_module(__name__),  # noqa
                             importers[arg['manager']])
-    importer = ImporterClass(arg['all'], arg['separator'], arg['cleans'],
+    importer = ImporterClass(arg['all'], arg['separator'], arg['csv_delimiter'], arg['cleans'],
                              arg['protocols'], arg['invalids'], arg['cols'])
     try:
         importer.parse(file)
