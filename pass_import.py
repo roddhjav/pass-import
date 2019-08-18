@@ -528,7 +528,7 @@ class PasswordManager():
     def _create_path(self, entry, path, clean, convert):
         """Create path from title and group."""
         title = ''
-        for key in ['title', 'login', 'url']:
+        for key in ['url', 'title', 'login']:
             if key in entry:
                 title = self._clean_protocol(entry[key])
                 title = self._clean_title(title)
@@ -537,7 +537,6 @@ class PasswordManager():
                 if convert:
                     title = self._convert(title)
                 path = os.path.join(path, title)
-                break
 
         if title == '':
             path = os.path.join(path, 'notitle')
@@ -573,7 +572,6 @@ class PasswordManager():
                                                                     '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
-        self._duplicate_paths(clean, convert)
         self._duplicate_numerise()
 
 
