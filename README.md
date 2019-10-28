@@ -47,7 +47,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [1password4pif](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password4pif file.1pif` |
 | [aegis](https://github.com/beemdevelopment/Aegis) | *Settings> Tools: Export (Plain or encrypted)* | `pass import aegis file.json` |
 | [andotp](https://github.com/andOTP/andOTP) | *Backups> Backup plain, gpg or password encrypted* | `pass import andotp file.{json, json.aes, gpg}` |
-| [apple-keychain](https://support.apple.com/guide/keychain-access) | *See this [guide](https://gist.github.com/sangonz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
+| [apple-keychain](https://support.apple.com/guide/keychain-access) | *See this [guide](https://gist.github.com/santigz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
 | [bitwarden](https://bitwarden.com/) | *Tools: Export* | `pass import bitwarden file.csv` |
 | [buttercup](https://buttercup.pw/) | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
 | [chrome](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chrome file.csv` |

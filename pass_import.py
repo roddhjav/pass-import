@@ -1048,7 +1048,7 @@ class AndOTP(PasswordManagerOTP):
 class AppleKeychain(PasswordManager):
     """Importer for Apple Keychain.
     url: https://support.apple.com/guide/keychain-access
-    export: See this [guide](https://gist.github.com/sangonz/601f4fd2f039d6ceb
+    export: See this [guide](https://gist.github.com/santigz/601f4fd2f039d6ceb
         2198e2f9f4f01e0)
     import: pass import apple-keychain file.txt
     """
