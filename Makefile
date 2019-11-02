@@ -11,7 +11,7 @@ ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 all:
 	@python3 setup.py build
 	@echo
-	@echo "pass-$(PROG) was built succesfully. You can now install it wit \"make install\""
+	@echo "pass-$(PROG) was built successfully. You can now install it with \"make install\""
 	@echo
 	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
 	@echo "     pass, python3 and python3-defusedxml"
