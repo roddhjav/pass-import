@@ -37,12 +37,12 @@ def rmarkdown(string):
 
 def importers_nb():
     """Return a string of the importer len."""
-    return "%d" % len(pass_import.importers)
+    return "%d" % len(pass_import.IMPORTERS)
 
 
 def importers_nb_line():
     """Return a line of the importer len."""
-    return "\n%d\n" % len(pass_import.importers)
+    return "\n%d\n" % len(pass_import.IMPORTERS)
 
 
 def markdown_table():
@@ -50,7 +50,7 @@ def markdown_table():
     res = ('| **Password Manager** | **How to export Data** | **Command line** |\n'  # noqa
            '|:--------------------:|:----------------------:|:----------------:|\n')  # noqa
 
-    for importer in sorted(pass_import.importers):
+    for importer in sorted(pass_import.IMPORTERS):
         doc = pass_import.getdoc(importer)
         export = rspace(doc['export'])
         res += "| [%s](%s) | *%s* | `%s` |\n" % (importer, doc['url'],
@@ -61,7 +61,7 @@ def markdown_table():
 def importers_usage():
     """Generate the new supported table."""
     res = ''
-    for importer in sorted(pass_import.importers):
+    for importer in sorted(pass_import.IMPORTERS):
         doc = pass_import.getdoc(importer)
         export = rmarkdown(rspace(doc['export']))
         res += ("\n.TP\n\\fB%s\\fP\n"

@@ -26,7 +26,6 @@ import glob
 import shutil
 import getpass
 import argparse
-import importlib
 import configparser
 from pathlib import Path
 from datetime import datetime
@@ -34,48 +33,6 @@ from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 
 __version__ = '2.6'
-
-importers = {  # pylint: disable=invalid-name
-    '1password': 'OnePassword',
-    '1password4': 'OnePassword4',
-    '1password4pif': 'OnePassword4PIF',
-    'aegis': 'Aegis',
-    'andotp': 'AndOTP',
-    'apple-keychain': 'AppleKeychain',
-    'bitwarden': 'Bitwarden',
-    'buttercup': 'Buttercup',
-    'chrome': 'Chrome',
-    'chromesqlite': 'ChromeSQLite',
-    'csv': 'CSV',
-    'dashlane': 'Dashlane',
-    'encryptr': 'Encryptr',
-    'enpass': 'Enpass',
-    'enpass6': 'Enpass6',
-    'fpm': 'FigaroPM',
-    'gnome-authenticator': 'GnomeAuthenticator',
-    'gnome-keyring': 'GnomeKeyring',
-    'gorilla': 'Gorilla',
-    'kedpm': 'FigaroPM',
-    'keepass': 'KeepassKDBX',
-    'keepass-csv': 'KeepassCSV',
-    'keepass-xml': 'KeepassXML',
-    'keepassx': 'KeepassxXML',
-    'keepassx2': 'Keepassx2KDBX',
-    'keepassx2-csv': 'Keepassx2CSV',
-    'keepassxc': 'KeepassxcKDBX',
-    'keepassxc-csv': 'KeepassxcCSV',
-    'keeper': 'Keeper',
-    'lastpass': 'Lastpass',
-    'networkmanager': 'NetworkManager',
-    'myki': 'Myki',
-    'pass': 'Pass',
-    'passpie': 'Passpie',
-    'passwordexporter': 'PasswordExporter',
-    'pwsafe': 'Pwsafe',
-    'revelation': 'Revelation',
-    'roboform': 'Roboform',
-    'upm': 'UPM',
-}
 
 
 class PasswordStoreError(Exception):
@@ -1761,6 +1718,49 @@ class UPM(PasswordManagerCSV):
             'url': 'url', 'comments': 'comments'}
 
 
+IMPORTERS = {
+    '1password': OnePassword,
+    '1password4': OnePassword4,
+    '1password4pif': OnePassword4PIF,
+    'aegis': Aegis,
+    'andotp': AndOTP,
+    'apple-keychain': AppleKeychain,
+    'bitwarden': Bitwarden,
+    'buttercup': Buttercup,
+    'chrome': Chrome,
+    'chromesqlite': ChromeSQLite,
+    'csv': CSV,
+    'dashlane': Dashlane,
+    'encryptr': Encryptr,
+    'enpass': Enpass,
+    'enpass6': Enpass6,
+    'fpm': FigaroPM,
+    'gnome-authenticator': GnomeAuthenticator,
+    'gnome-keyring': GnomeKeyring,
+    'gorilla': Gorilla,
+    'kedpm': FigaroPM,
+    'keepass': KeepassKDBX,
+    'keepass-csv': KeepassCSV,
+    'keepass-xml': KeepassXML,
+    'keepassx': KeepassxXML,
+    'keepassx2': Keepassx2KDBX,
+    'keepassx2-csv': Keepassx2CSV,
+    'keepassxc': KeepassxcKDBX,
+    'keepassxc-csv': KeepassxcCSV,
+    'keeper': Keeper,
+    'lastpass': Lastpass,
+    'networkmanager': NetworkManager,
+    'myki': Myki,
+    'pass': Pass,
+    'passpie': Passpie,
+    'passwordexporter': PasswordExporter,
+    'pwsafe': Pwsafe,
+    'revelation': Revelation,
+    'roboform': Roboform,
+    'upm': UPM,
+}
+
+
 def argumentsparse():
     """Geting arguments for 'pass import'."""
     parser = argparse.ArgumentParser(prog='pass import', description="""
@@ -1771,7 +1771,7 @@ def argumentsparse():
     epilog="More information may be found in the pass-import(1) man page.")
 
     parser.add_argument('manager', type=str, nargs='?', default='',
-                        help="Can be: %s" % ', '.join(importers) + '.')
+                        help="Can be: %s" % ', '.join(IMPORTERS) + '.')
     parser.add_argument('file', type=str, nargs='?', default='',
                         help="""Path to the file or directory that contains the
                         data to import. Can also be a label.""")
@@ -1816,9 +1816,8 @@ def argumentsparse():
 def getdoc(importer):
     """Read importer class docstring and retrieve importer meta."""
     # pylint: disable=invalid-name
-    ImporterClass = getattr(importlib.import_module(__name__),  # noqa
-                            importers[importer])
-    docstring = ImporterClass.__doc__.split('\n')
+    cls = IMPORTERS[importer]
+    docstring = cls.__doc__.split('\n')
     doc = {'title': docstring.pop(0)}
     doc.update(yaml.safe_load('\n'.join(docstring)))
     return doc
@@ -1826,11 +1825,11 @@ def getdoc(importer):
 
 def listimporters(msg):
     """List supported password managers."""
-    msg.success("The %s supported password managers are:" % len(importers))
+    msg.success("The %s supported password managers are:" % len(IMPORTERS))
     if msg.quiet:
-        print('\n'.join(importers))
+        print('\n'.join(IMPORTERS))
     else:
-        for importer in sorted(importers):
+        for importer in sorted(IMPORTERS):
             doc = getdoc(importer)
             msg.message("%s%-21s%s%s" % (msg.Bold, importer, msg.end,
                                          doc['url']))
@@ -1884,7 +1883,7 @@ def sanitychecks(arg, msg):
     """Sanity checks."""
     if arg['manager'] == '':
         msg.die("password manager not present. See 'pass import -h'")
-    if arg['manager'] not in importers:
+    if arg['manager'] not in IMPORTERS:
         msg.die("%s is not a supported password manager" % arg['manager'])
 
     # File opened by the importer
@@ -1952,12 +1951,11 @@ def main(argv):
         listimporters(msg)
     file = sanitychecks(arg, msg)
 
-    # Import and clean data. pylint: disable=invalid-name
-    ImporterClass = getattr(importlib.import_module(__name__),  # noqa
-                            importers[arg['manager']])
-    importer = ImporterClass(arg['all'], arg['separator'], arg['cleans'],
-                             arg['protocols'], arg['invalids'], arg['cols'],
-                             arg['csv_delimiter'])
+    # Import and clean data.
+    cls = IMPORTERS[arg['manager']]
+    importer = cls(arg['all'], arg['separator'], arg['cleans'],
+                   arg['protocols'], arg['invalids'], arg['cols'],
+                   arg['csv_delimiter'])
     try:
         importer.parse(file)
         importer.clean(arg['clean'], arg['convert'])
