@@ -175,8 +175,6 @@ class TestPassImportManagers(TestPassImportBase):
 
     def test_pass_import_gnomekeyring(self):
         """Testing: pass import gnome-keyring pass-import."""
-        if sys.version_info.minor < 5:
-            return
         cmd = ['gnome-keyring', 'pass-import', '--quiet']
         self._passimport(cmd)
 

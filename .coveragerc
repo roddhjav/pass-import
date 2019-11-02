@@ -4,6 +4,5 @@ source = pass_import.py
 [report]
 exclude_lines =
     pragma: no cover
-    if sys.version_info.minor < 5:
     except ImportError as error:
     if __name__ == .__main__.:

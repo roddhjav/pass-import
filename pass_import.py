@@ -1350,8 +1350,6 @@ class GnomeKeyring(PasswordManager):
             import all collection.
 
         """
-        if sys.version_info.minor < 5:
-            raise VersionError('gnome keyring import requires python 3.5+')
         try:
             import secretstorage
         except ImportError as error:

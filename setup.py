@@ -34,7 +34,7 @@ setup(
         'green'
         ],
     test_suite='tests',
-    python_requires='>=3.4',
+    python_requires='>=3.5',
     zip_safe=True,
 
     keywords=[
@@ -52,7 +52,6 @@ setup(
         'Operating System :: Microsoft :: Windows',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
