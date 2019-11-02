@@ -49,6 +49,7 @@ class TestPass(TestBase):
         if 'GPG_AGENT_INFO' in os.environ:
             os.environ.pop('GPG_AGENT_INFO')
         os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), 'tests/gnupg')
+        os.environ.pop('PASSWORD_STORE_SIGNING_KEY', None)
 
     def setUp(self):
         # The test name is the test method name after 'test_'
