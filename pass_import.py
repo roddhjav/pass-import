@@ -266,7 +266,7 @@ class PasswordStore():
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
                 raise PasswordStoreError("An entry already exists for %s."
                                          % path)
-        arg = ['insert', '--multiline', '--force']
+        arg = ['insert', '--multiline', '--force', '--']
         arg.append(path)
         return self._pass(arg, data)
 
