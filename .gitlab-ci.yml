@@ -42,7 +42,7 @@ sast:
   stage: test
   script:
     - mkdir -p ~/.local/share/keyrings/
-    - cp tests/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+    - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
     - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage
     - make
     - dbus-run-session -- make tests
