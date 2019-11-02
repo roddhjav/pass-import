@@ -17,32 +17,31 @@
 #
 
 import os
-import sys
 from unittest.mock import patch
 
 import yaml
-from tests.commons import TestBaseImport
+import tests
 
 
-REF_DB = 'tests/references/'
-REFERENCE_OTP = yaml.safe_load(open(REF_DB + 'otp.yml', 'r'))
-REFERENCE_WIFI = yaml.safe_load(open(REF_DB + 'networkmanager-wifi.yml', 'r'))
-REFERENCE_NOTE = yaml.safe_load(open(REF_DB + 'applekeychain-note.yml', 'r'))
-REFERENCE_CARD = yaml.safe_load(open(REF_DB + 'encryptr-card.yml', 'r'))
-REFERENCE_OTHER = yaml.safe_load(open(REF_DB + 'keepass-other.yml', 'r'))
-REFERENCE_KDBX = yaml.safe_load(open(REF_DB + 'keepass-kdbx.yml', 'r'))
+DB = tests.Test.assets + 'references/'
+REFERENCE_OTP = yaml.safe_load(open(DB + 'otp.yml', 'r'))
+REFERENCE_WIFI = yaml.safe_load(open(DB + 'networkmanager-wifi.yml', 'r'))
+REFERENCE_NOTE = yaml.safe_load(open(DB + 'applekeychain-note.yml', 'r'))
+REFERENCE_CARD = yaml.safe_load(open(DB + 'encryptr-card.yml', 'r'))
+REFERENCE_OTHER = yaml.safe_load(open(DB + 'keepass-other.yml', 'r'))
+REFERENCE_KDBX = yaml.safe_load(open(DB + 'keepass-kdbx.yml', 'r'))
 
 
-class TestImporters(TestBaseImport):
+class TestImporters(tests.Test):
 
     def test_importers_generic(self):
         """Testing: parse method for all importers."""
-        for manager in self.importers:
+        for manager in self.tests:
             with self.subTest(manager):
                 importer = self._class(manager)
                 testpath = self._path(manager)
                 reference = self._reference(manager)
-                encoding = self.importers[manager]['encoding']
+                encoding = self.tests[manager]['encoding']
                 with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 
@@ -73,7 +72,7 @@ class TestImporters(TestBaseImport):
                 importer.cols = cols[manager]
                 testpath = self._path(manager)
                 reference = self._reference(manager)
-                encoding = self.importers[manager]['encoding']
+                encoding = self.tests[manager]['encoding']
                 with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 

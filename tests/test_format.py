@@ -20,22 +20,22 @@ import os
 import yaml
 
 from pass_import import FormatError
-from tests.commons import TestBaseImport
+import tests
 
 
-class TestImporterFormat(TestBaseImport):
+class TestImporterFormat(tests.Test):
     formaterror = (FormatError, AttributeError, ValueError,
                    yaml.scanner.ScannerError)
 
     def test_importer_format(self):
         """Testing: file format for all importers."""
         ignore = ['dashlane', 'keeper', 'upm']
-        for manager in self.importers:
+        for manager in self.tests:
             if manager in ignore:
                 continue
             with self.subTest(manager):
                 importer = self._class(manager)
-                ext = self.importers[manager]['extension']
+                ext = self.tests[manager]['extension']
                 testpath = os.path.join(self.format, 'dummy.' + ext)
 
                 with self.assertRaises(self.formaterror):

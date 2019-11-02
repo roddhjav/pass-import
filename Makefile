@@ -53,7 +53,7 @@ TESTS_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
 T = $(sort $(wildcard tests/test_*.sh))
 
 tests:
-	@python3 setup.py green -vvv --run-coverage --termcolor --processes $(shell nproc)
+	@python3 -m green -vvv --run-coverage --termcolor --processes $(shell nproc)
 	@coverage html
 	@make tests_bash
 

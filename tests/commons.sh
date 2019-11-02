@@ -34,7 +34,7 @@ PROJECT_HOME="$(dirname "$TESTS_HOME")"
 # Databases settings
 export MASTERPASSWORD="correct horse battery staple"
 export ENCRYPTED_DB="$TESTS_HOME/database"
-export DB="$TESTS_HOME/db"
+export DB="$TESTS_HOME/assets/db"
 
 
 # Check dependencies
@@ -77,7 +77,7 @@ export PASSWORD_STORE_EXTENSIONS_DIR="$PROJECT_HOME"
 
 # GnuPG config
 unset GPG_AGENT_INFO
-export GNUPGHOME="$TESTS_HOME/gnupg/"
+export GNUPGHOME="$TESTS_HOME/assets/gnupg/"
 export KEY1="D4C78DB7920E1E27F5416B81CC9DB947CF90C77B"
 export KEY2="70BD448330ACF0653645B8F2B4DDBFF0D774A374"
 export KEY3="62EBE74BE834C2EC71E6414595C4B715EB7D54A8"

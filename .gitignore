@@ -104,6 +104,6 @@ venv.bak/
 .mypy_cache/
 
 # pass tests
-tests/gnupg/
+tests/assets/gnupg/
 tests/test-results/
-tests/database
+tests/assets/database

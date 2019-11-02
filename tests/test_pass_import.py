@@ -16,27 +16,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
-import sys
 from unittest.mock import patch
 
-from tests.commons import TestPass
-from .. import pass_import
+import os
+import tests
 
 
-class TestPassImportBase(TestPass):
+class TestPassImportBase(tests.Test):
 
     def setUp(self):
-        super(TestPassImportBase, self).setUp()
+        self._tmpdir()
         self._passinit()
-
-    def _passimport(self, cmd, code=None):
-        if code is None:
-            pass_import.main(cmd)
-        else:
-            with self.assertRaises(SystemExit) as cm:
-                pass_import.main(cmd)
-            self.assertEqual(cm.exception.code, code)
 
 
 class TestPassImport(TestPassImportBase):
@@ -152,7 +142,7 @@ class TestPassImport(TestPassImportBase):
     def test_pass_import_badconfig(self):
         """Testing: pass import with bad config file."""
         cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert',
-               '--config', 'tests/format/dummy.xml']
+               '--config', 'tests/assets/format/dummy.xml']
         self._passimport(cmd, 1)
 
 

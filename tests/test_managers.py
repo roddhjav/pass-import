@@ -18,13 +18,15 @@
 
 import os
 
-from tests.commons import TestBase
-from .. import pass_import
+import pass_import
+import tests
 
 
-class TestPasswordManager(TestBase):
-    def setUp(self):
-        self.importer = pass_import.PasswordManager()
+class TestPasswordManager(tests.Test):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.importer = pass_import.PasswordManager()
 
 
 class TestPasswordManagerGeneral(TestPasswordManager):
