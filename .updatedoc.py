@@ -51,7 +51,7 @@ def markdown_table():
            '|:--------------------:|:----------------------:|:----------------:|\n')  # noqa
 
     for importer in sorted(pass_import.IMPORTERS):
-        doc = pass_import.getdoc(importer)
+        doc = pass_import.IMPORTERS[importer].doc()
         export = rspace(doc['export'])
         res += "| [%s](%s) | *%s* | `%s` |\n" % (importer, doc['url'],
                                                  export, doc['import'])

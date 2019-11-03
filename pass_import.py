@@ -402,6 +402,14 @@ class PasswordManager():
             self.invalids = ['<', '>', ':', '"', '/', '\\', '|', '?', '*',
                              '\0']
 
+    @classmethod
+    def doc(cls):
+        """Read class docstring and retrieve metadata."""
+        docstring = cls.__doc__.split('\n')
+        doc = {'title': docstring.pop(0)}
+        doc.update(yaml.safe_load('\n'.join(docstring)))
+        return doc
+
     def get(self, entry):
         """Return the content of an entry in a password-store format.
 
@@ -1854,15 +1862,6 @@ class ArgParser(ArgumentParser):
         return arg
 
 
-def getdoc(importer):
-    """Read importer class docstring and retrieve importer meta."""
-    cls = IMPORTERS[importer]
-    docstring = cls.__doc__.split('\n')
-    doc = {'title': docstring.pop(0)}
-    doc.update(yaml.safe_load('\n'.join(docstring)))
-    return doc
-
-
 def listimporters(msg):
     """List supported password managers."""
     msg.success("The %s supported password managers are:" % len(IMPORTERS))
@@ -1870,7 +1869,7 @@ def listimporters(msg):
         print('\n'.join(IMPORTERS))
     else:
         for importer in sorted(IMPORTERS):
-            doc = getdoc(importer)
+            doc = IMPORTERS[importer].doc()
             msg.message("%s%-21s%s%s" % (msg.BOLD, importer, msg.end,
                                          doc['url']))
     exit(0)
