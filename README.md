@@ -87,8 +87,8 @@ OTP secret in a way that is compatible with [pass-otp].
 
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [-s CAR] [--cols COLS]
-                   [--config CONFIG] [-l] [-f] [-V] [-q | -v]
+usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [--sep CAR] [--del CAR]
+                   [--cols COLS] [--config CONFIG] [-l] [-f] [-V] [-q | -v]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -114,8 +114,10 @@ optional arguments:
   -a, --all             Also import all the extra data present.
   -c, --clean           Make the paths more command line friendly.
   -C, --convert         Convert invalid caracters present in the paths.
-  -s CAR, --sep CAR     Provide a caracter of replacement for the path
+  --sep CAR             Provide a caracter of replacement for the path
                         separator. Default: '-'
+  --del CAR             Provide an alternative CSV delimiter character.
+                        Default: ','
   --cols COLS           CSV expected columns to map columns to credential
                         attributes. Only used for the generic csv importer.
   --config CONFIG       Set a config file. Default: '.import'
@@ -123,7 +125,7 @@ optional arguments:
   -f, --force           Overwrite existing path.
   -V, --version         Show the program version and exit.
   -q, --quiet           Be quiet.
-  -v, --verbose         Be verbose.
+  -v, --verbose         Set verbosity level.
 
 More information may be found in the pass-import(1) man page.
 

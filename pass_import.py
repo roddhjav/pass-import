@@ -59,11 +59,11 @@ class Msg():
     MAGENTA = '\033[1m\033[95m'
     BOLD = '\033[1m'
 
-    def __init__(self, verbosity=0, quiet=False):
-        self.verb = verbosity
+    def __init__(self, verbose=0, quiet=False):
+        self.verb = verbose
         self.quiet = quiet
         if self.quiet:
-            self.verbosity = 0
+            self.verb = 0
 
     def show(self, entry, root=''):
         """Show a password entry."""
@@ -1789,12 +1789,14 @@ IMPORTERS = {
 
 def argumentsparse():
     """Geting arguments for 'pass import'."""
-    parser = argparse.ArgumentParser(prog='pass import', description="""
+    parser = argparse.ArgumentParser(
+        prog='pass import',
+        description="""
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-    formatter_class=argparse.RawDescriptionHelpFormatter,  # noqa
-    epilog="More information may be found in the pass-import(1) man page.")
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="More information may be found in the pass-import(1) man page.")
 
     parser.add_argument('manager', type=str, nargs='?', default='',
                         help="Can be: %s" % ', '.join(IMPORTERS) + '.')
