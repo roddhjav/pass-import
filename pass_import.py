@@ -630,6 +630,10 @@ class PasswordManagerXML(PasswordManager):
             entry[key] = value
         return entry
 
+    def _import(self, element, path=''):
+        """Import method for XML based importer."""
+        raise NotImplementedError()
+
     def parse(self, file):
         """Parse XML based file. Requires defusedxml.
 
@@ -1329,7 +1333,7 @@ class FigaroPM(PasswordManagerXML):
     def _getroot(cls, tree):
         return tree.find('PasswordList')
 
-    def _import(self, element):
+    def _import(self, element, path=''):
         for xmlentry in element.findall('PasswordItem'):
             entry = self._getentry(xmlentry)
             self.data.append(entry)
@@ -1674,7 +1678,7 @@ class Pwsafe(PasswordManagerXML):
             'url': 'url', 'email': 'email', 'comments': 'notes',
             'group': 'group'}
 
-    def _import(self, element):
+    def _import(self, element, path=''):
         delimiter = element.attrib['delimiter']
         for xmlentry in element.findall('entry'):
             entry = self._getentry(xmlentry)
