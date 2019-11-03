@@ -23,7 +23,35 @@ import tests
 class TestMsg(tests.Test):
 
     def setUp(self):
-        self.msg = pass_import.Msg(False, False)
+        self.msg = pass_import.Msg(0, False)
+
+    def test_showentry(self):
+        """Testing: show a password entry."""
+        msg = pass_import.Msg(2, False)
+        entry = {
+            'path': 'Social/mastodon.social',
+            'password': 'EaP:bCmLZliqa|]WR/#HZP',
+            'login': 'roddhjav',
+            'group': 'Social'
+        }
+        ref = ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mPath: \x1b[0mSocial/mastodo'
+               'n.social\n\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mData: \x1b[0mEaP:'
+               'bCmLZliqa|]WR/#HZP\n           login: roddhjav')
+        with tests.captured() as (out, err):
+            msg.show(entry)
+            message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
+        self.assertEqual(message, ref)
+
+    def test_debug(self):
+        """Testing: debug message."""
+        msg = pass_import.Msg(3, False)
+        with tests.captured() as (out, err):
+            msg.debug('pass', 'debug message')
+            message = out.getvalue().strip()
+        self.assertEqual(err.getvalue().strip(), '')
+        self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
+                                   'pass: \x1b[0mdebug message'))
 
     def test_verbose_simple(self):
         """Testing: message verbose simple."""
@@ -35,7 +63,7 @@ class TestMsg(tests.Test):
 
     def test_verbose(self):
         """Testing: message verbose."""
-        msg = pass_import.Msg(True, False)
+        msg = pass_import.Msg(1, False)
         with tests.captured() as (out, err):
             msg.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
@@ -95,8 +123,8 @@ class TestMsg(tests.Test):
         """Testing: error message."""
         with tests.captured() as (out, err):
             self.msg.error('error message')
-            message = out.getvalue().strip()
-        self.assertEqual(err.getvalue().strip(), '')
+            message = err.getvalue().strip()
+        self.assertEqual(out.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
                                    'Error: \x1b[0merror message'))
 
@@ -105,8 +133,8 @@ class TestMsg(tests.Test):
         with tests.captured() as (out, err):
             with self.assertRaises(SystemExit) as cm:
                 self.msg.die('critical error')
-            message = out.getvalue().strip()
+            message = err.getvalue().strip()
             self.assertEqual(cm.exception.code, 1)
-        self.assertEqual(err.getvalue().strip(), '')
+        self.assertEqual(out.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
                                    'Error: \x1b[0mcritical error'))

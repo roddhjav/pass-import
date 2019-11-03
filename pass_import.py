@@ -26,6 +26,7 @@ import glob
 import shutil
 import getpass
 import argparse
+import traceback
 import configparser
 from pathlib import Path
 from datetime import datetime
@@ -45,57 +46,84 @@ class FormatError(Exception):
 
 class Msg():
     """General class to manage output messages."""
+    # Normal colors
     green = '\033[32m'
     yellow = '\033[33m'
     magenta = '\033[35m'
-    Bred = '\033[1m\033[91m'
-    Bgreen = '\033[1m\033[92m'
-    Byellow = '\033[1m\033[93m'
-    Bmagenta = '\033[1m\033[95m'
-    Bold = '\033[1m'
     end = '\033[0m'
 
-    def __init__(self, verbose=False, quiet=False):
-        self.verb = verbose
+    # Bold colors
+    RED = '\033[1m\033[91m'
+    GREEN = '\033[1m\033[92m'
+    YELLOW = '\033[1m\033[93m'
+    MAGENTA = '\033[1m\033[95m'
+    BOLD = '\033[1m'
+
+    def __init__(self, verbosity=0, quiet=False):
+        self.verb = verbosity
         self.quiet = quiet
         if self.quiet:
-            self.verb = False
+            self.verbosity = 0
+
+    def show(self, entry, root=''):
+        """Show a password entry."""
+        if self.verb >= 2:
+            ignore = {'data', 'password', 'title', 'group', 'path'}
+            path = os.path.join(root, entry['path'])
+            self.verbose("Path", path)
+            res = entry.get('password', '') + '\n'
+            for key, value in entry.items():
+                if key in ignore:
+                    continue
+                res += "%s: %s\n" % (key, value)
+            self.verbose("Data", res.replace('\n', '\n           '))
 
     def verbose(self, title='', msg=''):
         """Verbose method, takes title and msg. msg can be empty."""
-        if self.verb and msg == '':
-            print("%s  .  %s%s%s%s" % (self.Bmagenta, self.end,
-                                       self.magenta, title, self.end))
-        elif self.verb:
-            print("%s  .  %s%s%s: %s%s" % (self.Bmagenta, self.end,
-                                           self.magenta, title, self.end, msg))
+        if self.verb >= 1 and msg == '':
+            out = "%s  .  %s%s%s%s" % (self.MAGENTA, self.end, self.magenta,
+                                       title, self.end)
+            print(out, file=sys.stdout)
+        elif self.verb >= 1:
+            out = "%s  .  %s%s%s: %s%s" % (self.MAGENTA, self.end,
+                                           self.magenta, title, self.end, msg)
+            print(out, file=sys.stdout)
+
+    def debug(self, title='', msg=''):
+        """Debug method."""
+        if self.verb >= 3:
+            self.verbose(title, msg)
 
     def message(self, msg=''):
         """Message method."""
         if not self.quiet:
-            print("%s  .  %s%s" % (self.Bold, self.end, msg))
+            out = "%s  .  %s%s" % (self.BOLD, self.end, msg)
+            print(out, file=sys.stdout)
 
     def echo(self, msg=''):
-        """Echo message with after a tab."""
+        """Echo a message after a tab."""
         if not self.quiet:
-            print("\t%s" % msg)
+            print("\t%s" % msg, file=sys.stdout)
 
     def success(self, msg=''):
         """Success method."""
         if not self.quiet:
-            print("%s (*) %s%s%s%s" % (self.Bgreen, self.end,
-                                       self.green, msg, self.end))
+            out = "%s (*) %s%s%s%s" % (self.GREEN, self.end, self.green, msg,
+                                       self.end)
+            print(out, file=sys.stdout)
 
     def warning(self, msg=''):
         """Warning method."""
         if not self.quiet:
-            print("%s  w  %s%s%s%s" % (self.Byellow, self.end,
-                                       self.yellow, msg, self.end))
+            out = "%s  w  %s%s%s%s" % (self.YELLOW, self.end, self.yellow, msg,
+                                       self.end)
+            print(out, file=sys.stdout)
 
     def error(self, msg=''):
         """Error method."""
-        print("%s [x] %s%sError: %s%s" % (self.Bred, self.end,
-                                          self.Bold, self.end, msg))
+        out = "%s [x] %s%sError: %s%s" % (self.RED, self.end, self.BOLD,
+                                          self.end, msg)
+        print(out, file=sys.stderr)
 
     def die(self, msg=''):
         """Show an error and exit the program."""
@@ -1801,15 +1829,14 @@ def argumentsparse():
                         help='Show the program version and exit.')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
-    group.add_argument('-v', '--verbose', action='store_true',
-                       help='Be verbose.')
+    group.add_argument('-v', '--verbose', action='count', default=0,
+                       help='Set verbosity level.')
 
     return parser
 
 
 def getdoc(importer):
     """Read importer class docstring and retrieve importer meta."""
-    # pylint: disable=invalid-name
     cls = IMPORTERS[importer]
     docstring = cls.__doc__.split('\n')
     doc = {'title': docstring.pop(0)}
@@ -1825,7 +1852,7 @@ def listimporters(msg):
     else:
         for importer in sorted(IMPORTERS):
             doc = getdoc(importer)
-            msg.message("%s%-21s%s%s" % (msg.Bold, importer, msg.end,
+            msg.message("%s%-21s%s%s" % (msg.BOLD, importer, msg.end,
                                          doc['url']))
     exit(0)
 
@@ -1955,10 +1982,12 @@ def main(argv):
         importer.clean(arg['clean'], arg['convert'])
     except (yaml.scanner.ScannerError,
             FormatError, AttributeError, ValueError) as error:
+        msg.debug(traceback.format_exc())
         msg.warning(error)
         msg.die("%s is not a valid exported %s file." % (arg['file'],
                                                          arg['manager']))
     except ImportError as error:
+        msg.debug(traceback.format_exc())
         msg.verbose(error)
         msg.die("Importing %s, missing required dependency: %s\n"
                 "You can install it with:\n"
@@ -1966,6 +1995,7 @@ def main(argv):
                 "  'pip3 install %s'" % (arg['manager'], error.name,
                                          error.name, error.name))
     except PermissionError as error:  # pragma: no cover
+        msg.debug(traceback.format_exc())
         msg.die(error)
     finally:
         if arg['manager'] not in ('networkmanager', 'keepass', 'keepassxc',
@@ -1983,10 +2013,8 @@ def main(argv):
     for entry in importer.data:
         try:
             passpath = os.path.join(arg['root'], entry['path'])
+            msg.show(entry, arg['root'])
             data = importer.get(entry)
-            msg.verbose("Path", passpath)
-            if not isinstance(data, bytes):
-                msg.verbose("Data", data.replace('\n', '\n           '))
             store.insert(passpath, data, arg['force'])
         except PasswordStoreError as error:
             msg.warning("Impossible to insert %s into the store: %s"
