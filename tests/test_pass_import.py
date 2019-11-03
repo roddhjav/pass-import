@@ -136,7 +136,7 @@ class TestPassImport(TestPassImportBase):
     def test_pass_import_config(self):
         """Testing: pass import --convert db/keepass-xml.xml with conf file."""
         cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert',
-               '--config', 'tests/config.yml']
+               '--config', self.assets + 'config.yml']
         self._passimport(cmd)
 
     def test_pass_import_badconfig(self):

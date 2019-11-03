@@ -51,93 +51,6 @@ class FormatError(Exception):
     """Password importer format (CSV, XML, JSON or TXT) not recognized."""
 
 
-class Msg():
-    """General class to manage output messages."""
-    # Normal colors
-    green = '\033[32m'
-    yellow = '\033[33m'
-    magenta = '\033[35m'
-    end = '\033[0m'
-
-    # Bold colors
-    RED = '\033[1m\033[91m'
-    GREEN = '\033[1m\033[92m'
-    YELLOW = '\033[1m\033[93m'
-    MAGENTA = '\033[1m\033[95m'
-    BOLD = '\033[1m'
-
-    def __init__(self, verbose=0, quiet=False):
-        self.verb = verbose
-        self.quiet = quiet
-        if self.quiet:
-            self.verb = 0
-
-    def show(self, entry, root=''):
-        """Show a password entry."""
-        if self.verb >= 2:
-            ignore = {'data', 'password', 'title', 'group', 'path'}
-            path = os.path.join(root, entry['path'])
-            self.verbose("Path", path)
-            res = entry.get('password', '') + '\n'
-            for key, value in entry.items():
-                if key in ignore:
-                    continue
-                res += "%s: %s\n" % (key, value)
-            self.verbose("Data", res.replace('\n', '\n           '))
-
-    def verbose(self, title='', msg=''):
-        """Verbose method, takes title and msg. msg can be empty."""
-        if self.verb >= 1 and msg == '':
-            out = "%s  .  %s%s%s%s" % (self.MAGENTA, self.end, self.magenta,
-                                       title, self.end)
-            print(out, file=sys.stdout)
-        elif self.verb >= 1:
-            out = "%s  .  %s%s%s: %s%s" % (self.MAGENTA, self.end,
-                                           self.magenta, title, self.end, msg)
-            print(out, file=sys.stdout)
-
-    def debug(self, title='', msg=''):
-        """Debug method."""
-        if self.verb >= 3:
-            self.verbose(title, msg)
-
-    def message(self, msg=''):
-        """Message method."""
-        if not self.quiet:
-            out = "%s  .  %s%s" % (self.BOLD, self.end, msg)
-            print(out, file=sys.stdout)
-
-    def echo(self, msg=''):
-        """Echo a message after a tab."""
-        if not self.quiet:
-            print("\t%s" % msg, file=sys.stdout)
-
-    def success(self, msg=''):
-        """Success method."""
-        if not self.quiet:
-            out = "%s (*) %s%s%s%s" % (self.GREEN, self.end, self.green, msg,
-                                       self.end)
-            print(out, file=sys.stdout)
-
-    def warning(self, msg=''):
-        """Warning method."""
-        if not self.quiet:
-            out = "%s  w  %s%s%s%s" % (self.YELLOW, self.end, self.yellow, msg,
-                                       self.end)
-            print(out, file=sys.stdout)
-
-    def error(self, msg=''):
-        """Error method."""
-        out = "%s [x] %s%sError: %s%s" % (self.RED, self.end, self.BOLD,
-                                          self.end, msg)
-        print(out, file=sys.stderr)
-
-    def die(self, msg=''):
-        """Show an error and exit the program."""
-        self.error(msg)
-        exit(1)
-
-
 def getpassword(path):
     """Get the master password."""
     return getpass.getpass("Password for %s: " % path)
@@ -1859,31 +1772,8 @@ class ArgParser(ArgumentParser):
         return arg
 
 
-def listimporters(msg):
-    """List supported password managers."""
-    msg.success("The %s supported password managers are:" % len(IMPORTERS))
-    if msg.quiet:
-        print('\n'.join(IMPORTERS))
-    else:
-        for importer in sorted(IMPORTERS):
-            doc = IMPORTERS[importer].doc()
-            msg.message("%s%-21s%s%s" % (msg.BOLD, importer, msg.end,
-                                         doc['url']))
-    exit(0)
-
-
-class Settings(dict):
-    """Settings dictionary with specific merge method."""
-
-    def merge(self, other):
-        """Update the dictionary only if the value is not null."""
-        for key, value in other.items():
-            if value is not None:
-                self[key] = value
-
-
-def getsettings(arg):
-    """Generate settings merged from args, config file and default.
+class Config(dict):
+    """Manage configuration, settings and output messages.
 
     Order of presedance of the settings:
     1. Program options,
@@ -1891,156 +1781,259 @@ def getsettings(arg):
     3. Default values.
 
     """
-    defaults = {'separator': '-',
-                'delimiter': ',',
-                'cleans': {" ": '-', "&": "and", "@": "At", "'": "",
-                           "[": "", "]": "", "\t": ''},
-                'protocols': ['http://', 'https://'],
-                'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*',
-                             '\0']}
-    settings = Settings(defaults)
-    configs = {}
+    # Normal colors
+    green = '\033[32m'
+    yellow = '\033[33m'
+    magenta = '\033[35m'
+    end = '\033[0m'
 
-    if os.path.isfile(arg['config']):
-        configpath = arg['config']
+    # Bold colors
+    RED = '\033[1m\033[91m'
+    GREEN = '\033[1m\033[92m'
+    YELLOW = '\033[1m\033[93m'
+    MAGENTA = '\033[1m\033[95m'
+    BOLD = '\033[1m'
+
+    def __init__(self, verbose=0, quiet=False):
+        defaults = {'separator': '-',
+                    'delimiter': ',',
+                    'cleans': {" ": '-', "&": "and", "@": "At", "'": "",
+                               "[": "", "]": "", "\t": ''},
+                    'protocols': ['http://', 'https://'],
+                    'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*',
+                                 '\0']}
+        super(Config, self).__init__(defaults)
+        self.verb = verbose
+        self.quiet = quiet
+        if self.quiet:
+            self.verb = 0
+
+    def readconfig(self, args):
+        """Read and merge config from args, config file and default."""
+        configs = dict()
+        if os.path.isfile(args.get('config', '')):
+            configpath = args['config']
+        else:
+            configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
+                                      '.import')
+        print(configpath)
+        if os.path.isfile(configpath):
+            with open(configpath, 'r') as file:
+                configs = yaml.safe_load(file)
+        self.merge(configs)
+        self.merge(args)
+        self['cleans'][' '] = self['separator']
+
+    def merge(self, other):
+        """Update the dictionary only if the value is not null."""
+        for key, value in other.items():
+            if value is not None:
+                self[key] = value
+
+    def show(self, entry):
+        """Show a password entry."""
+        if self.verb >= 2:
+            ignore = {'data', 'password', 'title', 'group', 'path'}
+            path = os.path.join(self.get('root', ''), entry['path'])
+            self.verbose("Path", path)
+            res = entry.get('password', '') + '\n'
+            for key, value in entry.items():
+                if key in ignore:
+                    continue
+                res += "%s: %s\n" % (key, value)
+            self.verbose("Data", res.replace('\n', '\n           '))
+
+    def verbose(self, title='', msg=''):
+        """Verbose method, takes title and msg. msg can be empty."""
+        if self.verb >= 1 and msg == '':
+            out = "%s  .  %s%s%s%s" % (self.MAGENTA, self.end, self.magenta,
+                                       title, self.end)
+            print(out, file=sys.stdout)
+        elif self.verb >= 1:
+            out = "%s  .  %s%s%s: %s%s" % (self.MAGENTA, self.end,
+                                           self.magenta, title, self.end, msg)
+            print(out, file=sys.stdout)
+
+    def debug(self, title='', msg=''):
+        """Debug method."""
+        if self.verb >= 3:
+            self.verbose(title, msg)
+
+    def message(self, msg=''):
+        """Message method."""
+        if not self.quiet:
+            out = "%s  .  %s%s" % (self.BOLD, self.end, msg)
+            print(out, file=sys.stdout)
+
+    def echo(self, msg=''):
+        """Echo a message after a tab."""
+        if not self.quiet:
+            print("\t%s" % msg, file=sys.stdout)
+
+    def success(self, msg=''):
+        """Success method."""
+        if not self.quiet:
+            out = "%s (*) %s%s%s%s" % (self.GREEN, self.end, self.green, msg,
+                                       self.end)
+            print(out, file=sys.stdout)
+
+    def warning(self, msg=''):
+        """Warning method."""
+        if not self.quiet:
+            out = "%s  w  %s%s%s%s" % (self.YELLOW, self.end, self.yellow, msg,
+                                       self.end)
+            print(out, file=sys.stdout)
+
+    def error(self, msg=''):
+        """Error method."""
+        out = "%s [x] %s%sError: %s%s" % (self.RED, self.end, self.BOLD,
+                                          self.end, msg)
+        print(out, file=sys.stderr)
+
+    def die(self, msg=''):
+        """Show an error and exit the program."""
+        self.error(msg)
+        exit(1)
+
+
+def listimporters(conf):
+    """List supported password managers."""
+    conf.success("The %s supported password managers are:" % len(IMPORTERS))
+    if conf.quiet:
+        print('\n'.join(IMPORTERS))
     else:
-        configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
-                                  arg.get('root', ''), '.import')
-
-    if os.path.isfile(configpath):
-        with open(configpath, 'r') as file:
-            configs = yaml.safe_load(file)
-    settings.merge(configs)
-    settings.merge(arg)
-    settings['cleans'][' '] = settings['separator']
-    return settings
+        for importer in sorted(IMPORTERS):
+            doc = IMPORTERS[importer].doc()
+            conf.message("%s%-21s%s%s" % (conf.BOLD, importer, conf.end,
+                                          doc['url']))
+    exit(0)
 
 
-def sanitychecks(arg, msg):
+def sanitychecks(conf):
     """Sanity checks."""
-    if arg['manager'] == '':
-        msg.die("password manager not present. See 'pass import -h'")
-    if arg['manager'] not in IMPORTERS:
-        msg.die("%s is not a supported password manager" % arg['manager'])
+    if conf['manager'] == '':
+        conf.die("password manager not present. See 'pass import -h'")
+    if conf['manager'] not in IMPORTERS:
+        conf.die("%s is not a supported password manager" % conf['manager'])
 
     # File opened by the importer
     pathonly = ('keepass', 'keepassxc', 'keepassx2', 'google-authenticator')
-    if arg['manager'] in pathonly and os.path.isfile(arg['file']):
-        file = arg['file']
+    if conf['manager'] in pathonly and os.path.isfile(conf['file']):
+        file = conf['file']
 
     # Ini file import or dir of ini file or default dir
-    elif arg['manager'] == 'networkmanager' and (
-            arg['file'] == '' or os.path.isdir(arg['file'])):
-        file = arg['file']
+    elif conf['manager'] == 'networkmanager' and (
+            conf['file'] == '' or os.path.isdir(conf['file'])):
+        file = conf['file']
 
     # Direct import from the keyring using Dbus
-    elif arg['manager'] == 'gnome-keyring':
-        file = arg['file']
+    elif conf['manager'] == 'gnome-keyring':
+        file = conf['file']
 
     # File is is the path to the pass repo
-    elif arg['manager'] == 'pass' and os.path.isdir(arg['file']):
-        file = arg['file']
+    elif conf['manager'] == 'pass' and os.path.isdir(conf['file']):
+        file = conf['file']
 
     # Default: open the file
-    elif os.path.isfile(arg['file']):
+    elif os.path.isfile(conf['file']):
         encoding = 'utf-8'
-        if arg['manager'] == '1password4pif':
+        if conf['manager'] == '1password4pif':
             encoding = 'utf-8-sig'
-        file = open(arg['file'], 'r', encoding=encoding)
+        file = open(conf['file'], 'r', encoding=encoding)
     else:
-        msg.die("%s is not a file" % arg['file'])
+        conf.die("%s is not a file" % conf['file'])
 
     return file
 
 
-def report(arg, msg, paths):
+def report(conf, paths):
     """Print final success report."""
-    msg.success("Importing passwords from %s" % arg['manager'])
-    msg.message("File: %s" % arg['file'])
-    if arg['root'] != '':
-        msg.message("Root path: %s" % arg['root'])
-    msg.message("Number of password imported: %s" % len(paths))
-    if arg['convert']:
-        msg.message("Forbidden chars converted")
-        msg.message("Path separator used: %s" % arg['separator'])
-    if arg['clean']:
-        msg.message("Imported data cleaned")
-    if arg['all']:
-        msg.message("All data imported")
+    conf.success("Importing passwords from %s" % conf['manager'])
+    conf.message("File: %s" % conf['file'])
+    if conf['root'] != '':
+        conf.message("Root path: %s" % conf['root'])
+    conf.message("Number of password imported: %s" % len(paths))
+    if conf['convert']:
+        conf.message("Forbidden chars converted")
+        conf.message("Path separator used: %s" % conf['separator'])
+    if conf['clean']:
+        conf.message("Imported data cleaned")
+    if conf['all']:
+        conf.message("All data imported")
     if paths:
-        msg.message("Passwords imported:")
+        conf.message("Passwords imported:")
         paths.sort()
         for path in paths:
-            msg.echo(os.path.join(arg['root'], path))
+            conf.echo(os.path.join(conf['root'], path))
 
 
 def main():
     """pass-import main function."""
     parser = ArgParser()
     arg = parser.parse_args(sys.argv)
-    msg = Msg(arg['verbose'], arg['quiet'])
+    conf = Config(arg['verbose'], arg['quiet'])
     try:
-        arg = getsettings(arg)
+        conf.readconfig(arg)
     except AttributeError as error:
-        msg.verbose(error)
-        msg.die("configuration file not valid.")
+        conf.verbose(error)
+        conf.die("configuration file not valid.")
 
-    if arg['list']:
-        listimporters(msg)
-    file = sanitychecks(arg, msg)
+    if conf['list']:
+        listimporters(conf)
+    file = sanitychecks(conf)
 
     # Import and clean data.
-    cls = IMPORTERS[arg['manager']]
-    importer = cls(arg['all'], arg['separator'], arg['cleans'],
-                   arg['protocols'], arg['invalids'], arg['cols'],
-                   arg['delimiter'])
+    cls = IMPORTERS[conf['manager']]
+    importer = cls(conf['all'], conf['separator'], conf['cleans'],
+                   conf['protocols'], conf['invalids'], conf['cols'],
+                   conf['delimiter'])
     try:
         importer.parse(file)
-        importer.clean(arg['clean'], arg['convert'])
+        importer.clean(conf['clean'], conf['convert'])
     except (yaml.scanner.ScannerError,
             FormatError, AttributeError, ValueError) as error:
-        msg.debug(traceback.format_exc())
-        msg.warning(error)
-        msg.die("%s is not a valid exported %s file." % (arg['file'],
-                                                         arg['manager']))
+        conf.debug(traceback.format_exc())
+        conf.warning(error)
+        conf.die("%s is not a valid exported %s file." % (conf['file'],
+                                                          conf['manager']))
     except ImportError as error:
-        msg.debug(traceback.format_exc())
-        msg.verbose(error)
-        msg.die("Importing %s, missing required dependency: %s\n"
-                "You can install it with:\n"
-                "  'sudo apt-get install python3-%s', or\n"
-                "  'pip3 install %s'" % (arg['manager'], error.name,
-                                         error.name, error.name))
+        conf.debug(traceback.format_exc())
+        conf.verbose(error)
+        conf.die("Importing %s, missing required dependency: %s\n"
+                 "You can install it with:\n"
+                 "  'sudo apt-get install python3-%s', or\n"
+                 "  'pip3 install %s'" % (conf['manager'], error.name,
+                                          error.name, error.name))
     except PermissionError as error:  # pragma: no cover
-        msg.debug(traceback.format_exc())
-        msg.die(error)
+        conf.debug(traceback.format_exc())
+        conf.die(error)
     finally:
-        if arg['manager'] not in ('networkmanager', 'keepass', 'keepassxc',
-                                  'keepassx2', 'pass', 'gnome-keyring',
-                                  'google-authenticator'):
+        if conf['manager'] not in ('networkmanager', 'keepass', 'keepassxc',
+                                   'keepassx2', 'pass', 'gnome-keyring',
+                                   'google-authenticator'):
             file.close()
 
     # Insert data into the password store
     paths = []
     store = PasswordStore()
     if not store.exist():
-        msg.die("password store not initialized")
+        conf.die("password store not initialized")
     if not store.is_valid_recipients():
-        msg.die('invalid user ID, password encryption aborted.')
+        conf.die('invalid user ID, password encryption aborted.')
     for entry in importer.data:
         try:
-            passpath = os.path.join(arg['root'], entry['path'])
-            msg.show(entry, arg['root'])
+            passpath = os.path.join(conf['root'], entry['path'])
+            conf.show(entry)
             data = importer.get(entry)
-            store.insert(passpath, data, arg['force'])
+            store.insert(passpath, data, conf['force'])
         except PasswordStoreError as error:
-            msg.warning("Impossible to insert %s into the store: %s"
-                        % (passpath, error))
+            conf.warning("Impossible to insert %s into the store: %s"
+                         % (passpath, error))
         else:
             paths.append(passpath)
 
     # Success!
-    report(arg, msg, paths)
+    report(conf, paths)
 
 
 if __name__ == "__main__":

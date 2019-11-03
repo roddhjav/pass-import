@@ -23,11 +23,27 @@ import tests
 class TestMsg(tests.Test):
 
     def setUp(self):
-        self.msg = pass_import.Msg(0, False)
+        self.conf = pass_import.Config(0, False)
+
+    def test_readconfig(self):
+        """Testing: read configuration file."""
+        args = {'separator': '6', 'config': self.assets + 'config.yml'}
+        conf = pass_import.Config()
+        conf.readconfig(args)
+
+        ref = {
+            'separator': '6',
+            'delimiter': ',',
+            'cleans': {' ': '6'},
+            'protocols': [],
+            'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00'],
+            'config': 'tests/assets/config.yml'
+        }
+        self.assertEqual(conf, ref)
 
     def test_showentry(self):
         """Testing: show a password entry."""
-        msg = pass_import.Msg(2, False)
+        conf = pass_import.Config(2, False)
         entry = {
             'path': 'Social/mastodon.social',
             'password': 'EaP:bCmLZliqa|]WR/#HZP',
@@ -38,16 +54,16 @@ class TestMsg(tests.Test):
                'n.social\n\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mData: \x1b[0mEaP:'
                'bCmLZliqa|]WR/#HZP\n           login: roddhjav')
         with tests.captured() as (out, err):
-            msg.show(entry)
+            conf.show(entry)
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ref)
 
     def test_debug(self):
         """Testing: debug message."""
-        msg = pass_import.Msg(3, False)
+        conf = pass_import.Config(3, False)
         with tests.captured() as (out, err):
-            msg.debug('pass', 'debug message')
+            conf.debug('pass', 'debug message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
@@ -56,23 +72,23 @@ class TestMsg(tests.Test):
     def test_verbose_simple(self):
         """Testing: message verbose simple."""
         with tests.captured() as (out, err):
-            self.msg.verbose('pass', 'verbose message')
+            self.conf.verbose('pass', 'verbose message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '')
 
     def test_verbose(self):
         """Testing: message verbose."""
-        msg = pass_import.Msg(1, False)
+        conf = pass_import.Config(1, False)
         with tests.captured() as (out, err):
-            msg.verbose('pass', 'verbose msg')
+            conf.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
                                    'pass: \x1b[0mverbose msg'))
 
         with tests.captured() as (out, err):
-            msg.verbose('pass')
+            conf.verbose('pass')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass'
@@ -81,14 +97,14 @@ class TestMsg(tests.Test):
     def test_message(self):
         """Testing: classic message message."""
         with tests.captured() as (out, err):
-            self.msg.message('classic message')
+            self.conf.message('classic message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
 
-        msg = pass_import.Msg(True, True)
+        conf = pass_import.Config(True, True)
         with tests.captured() as (out, err):
-            msg.message('classic message')
+            conf.message('classic message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '')
@@ -96,7 +112,7 @@ class TestMsg(tests.Test):
     def test_echo(self):
         """Testing: small echo."""
         with tests.captured() as (out, err):
-            self.msg.echo('smal echo')
+            self.conf.echo('smal echo')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, 'smal echo')
@@ -104,7 +120,7 @@ class TestMsg(tests.Test):
     def test_success(self):
         """Testing: success message."""
         with tests.captured() as (out, err):
-            self.msg.success('success message')
+            self.conf.success('success message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[92m (*) \x1b[0m\x1b[32m'
@@ -113,7 +129,7 @@ class TestMsg(tests.Test):
     def test_warning(self):
         """Testing: warning message."""
         with tests.captured() as (out, err):
-            self.msg.warning('warning message')
+            self.conf.warning('warning message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[93m  w  \x1b[0m\x1b[33m'
@@ -122,7 +138,7 @@ class TestMsg(tests.Test):
     def test_error(self):
         """Testing: error message."""
         with tests.captured() as (out, err):
-            self.msg.error('error message')
+            self.conf.error('error message')
             message = err.getvalue().strip()
         self.assertEqual(out.getvalue().strip(), '')
         self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
@@ -132,7 +148,7 @@ class TestMsg(tests.Test):
         """Testing: die message."""
         with tests.captured() as (out, err):
             with self.assertRaises(SystemExit) as cm:
-                self.msg.die('critical error')
+                self.conf.die('critical error')
             message = err.getvalue().strip()
             self.assertEqual(cm.exception.code, 1)
         self.assertEqual(out.getvalue().strip(), '')
