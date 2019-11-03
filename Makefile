@@ -73,7 +73,7 @@ lint:
 		tests/*.py
 
 security:
-	@bandit *.py tests/*.py .updatedoc.py
+	@bandit --ini .bandit -r pass_import.py tests setup.py .updatedoc.py
 
 clean:
 	@rm -vrf tests/test-results/ tests/gnupg/random_seed

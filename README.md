@@ -245,7 +245,7 @@ You might also want to update the passwords imported using [`pass-update`][updat
 
 | **Dependency** | **Required for** | **apt** | **pip** |
 |:--------------:|:----------------:|:-------:|:-------:|
-| [defusedxml] | XML based importers | `apt install python3-defusedxml` | `pip3 install defusedxml` |
+| [defusedxml] | Recommended XML library | `apt install python3-defusedxml` | `pip3 install defusedxml` |
 | [pykeepass] | Keepass import from KDBX file | N/A | `pip3 install pykeepass` |
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
 | [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |

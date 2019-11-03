@@ -33,6 +33,12 @@ from datetime import datetime
 from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 
+try:
+    from defusedxml import ElementTree
+except ImportError:
+    from xml.etree import ElementTree
+
+
 __version__ = '2.6'
 
 
@@ -133,7 +139,7 @@ class Msg():
 
 try:
     import yaml
-except ImportError:  # pragma: no cover
+except ImportError:
     err = Msg()  # pylint: disable=invalid-name
     err.die("pyaml is not present, you can install it with:\n"
             "  'sudo apt-get install python3-yaml', or\n"
@@ -635,15 +641,11 @@ class PasswordManagerXML(PasswordManager):
         raise NotImplementedError()
 
     def parse(self, file):
-        """Parse XML based file. Requires defusedxml.
+        """Parse XML based file.
 
         :param io.IOBase file: File to parse
 
         """
-        try:
-            from defusedxml import ElementTree
-        except ImportError as error:
-            raise ImportError(error, name='defusedxml')
         tree = ElementTree.XML(file.read())
         self._checkformat(tree)
         root = self._getroot(tree)
@@ -1091,11 +1093,6 @@ class AppleKeychain(PasswordManager):
 
     def _decode_data(self, entry):
         """Decode data field (password or comments)."""
-        try:
-            from defusedxml import ElementTree
-        except ImportError as error:
-            raise ImportError(error, name='defusedxml')
-
         key = entry.get('type', 'password')
         key = 'comments' if key == 'note' else key
         data = entry.pop('data', '')
@@ -1119,8 +1116,6 @@ class AppleKeychain(PasswordManager):
 
     def parse(self, file):
         """Parse apple-keychain format by converting it in yaml first.
-
-        Requires python3-defusedxml due to internal XML string to decode.
 
         :param io.IOBase file: File to parse
 
