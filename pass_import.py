@@ -43,10 +43,6 @@ class FormatError(Exception):
     """Password importer format (CSV, XML, JSON or TXT) not recognized."""
 
 
-class VersionError(Exception):
-    """The python version is not a supported version."""
-
-
 class Msg():
     """General class to manage output messages."""
     green = '\033[32m'
@@ -1969,7 +1965,7 @@ def main(argv):
                 "  'sudo apt-get install python3-%s', or\n"
                 "  'pip3 install %s'" % (arg['manager'], error.name,
                                          error.name, error.name))
-    except (PermissionError, VersionError) as error:  # pragma: no cover
+    except PermissionError as error:  # pragma: no cover
         msg.die(error)
     finally:
         if arg['manager'] not in ('networkmanager', 'keepass', 'keepassxc',
