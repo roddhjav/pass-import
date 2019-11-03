@@ -378,11 +378,11 @@ class PasswordManager():
                 'group']
 
     def __init__(self, extra=False, separator='-', cleans=None, protocols=None,
-                 invalids=None, cols='', csv_delimiter=','):
+                 invalids=None, cols='', delimiter=','):
         self.data = []
         self.all = extra
         self.separator = str(separator)
-        self.csv_delimiter = csv_delimiter
+        self.delimiter = delimiter
         self.cols = cols
         self.protocols = protocols if protocols else ['http://', 'https://']
         if cleans:
@@ -586,7 +586,7 @@ class PasswordManagerCSV(PasswordManager):
 
         """
         reader = csv.DictReader(file, fieldnames=self.fieldnames,
-                                delimiter=self.csv_delimiter, quotechar='"')
+                                delimiter=self.delimiter, quotechar='"')
         self._checkformat(reader.fieldnames)
 
         keys = self._invkeys()
@@ -1807,19 +1807,20 @@ def argumentsparse():
                         help='Make the paths more command line friendly.')
     parser.add_argument('-C', '--convert', action='store_true',
                         help='Convert invalid caracters present in the paths.')
-    parser.add_argument('-s', '--sep', action='store', dest='separator',
-                        metavar='CAR',
-                        help="""Provide a caracter of replacement for the path
-                         separator. Default: '-' """)
-    parser.add_argument('-d', '--csv-delimiter', default=',',
-                        help="Provide an alternative CSV delimiter character."
-                             " Default: ','")
+
+    parser.add_argument('--sep', dest='separator', metavar='CAR',
+                        help="Provide a caracter of replacement for the path "
+                             "separator. Default: '-'")
+    parser.add_argument('--del', dest='delimiter', metavar='CAR',
+                        help="Provide an alternative CSV delimiter character. "
+                             "Default: ','")
     parser.add_argument('--cols', action='store', default='',
                         help='CSV expected columns to map columns to '
                              'credential attributes. Only used for the generic'
                              ' csv importer.')
     parser.add_argument('--config', action='store', default='',
                         help="Set a config file. Default: '.import'")
+
     parser.add_argument('-l', '--list', action='store_true',
                         help='List the supported password managers.')
     parser.add_argument('-f', '--force', action='store_true',
@@ -1877,6 +1878,7 @@ def getsettings(arg):
 
     """
     defaults = {'separator': '-',
+                'delimiter': ',',
                 'cleans': {" ": '-', "&": "and", "@": "At", "'": "",
                            "[": "", "]": "", "\t": ''},
                 'protocols': ['http://', 'https://'],
@@ -1976,7 +1978,7 @@ def main(argv):
     cls = IMPORTERS[arg['manager']]
     importer = cls(arg['all'], arg['separator'], arg['cleans'],
                    arg['protocols'], arg['invalids'], arg['cols'],
-                   arg['csv_delimiter'])
+                   arg['delimiter'])
     try:
         importer.parse(file)
         importer.clean(arg['clean'], arg['convert'])
