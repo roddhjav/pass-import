@@ -1816,7 +1816,7 @@ class Config(dict):
         else:
             configpath = os.path.join(os.environ.get('PASSWORD_STORE_DIR', ''),
                                       '.import')
-        print(configpath)
+
         if os.path.isfile(configpath):
             with open(configpath, 'r') as file:
                 configs = yaml.safe_load(file)
@@ -1909,13 +1909,31 @@ def listimporters(conf):
     exit(0)
 
 
-def sanitychecks(conf):
-    """Sanity checks."""
+def setup():
+    """Read progam configuration & sanity checks."""
+    parser = ArgParser()
+    arg = parser.parse_args(sys.argv)
+    conf = Config(arg['verbose'], arg['quiet'])
+    try:
+        conf.readconfig(arg)
+    except AttributeError as error:
+        conf.verbose(error)
+        conf.die("configuration file not valid.")
+
+    if conf['list']:
+        listimporters(conf)
+
     if conf['manager'] == '':
         conf.die("password manager not present. See 'pass import -h'")
+
     if conf['manager'] not in IMPORTERS:
         conf.die("%s is not a supported password manager" % conf['manager'])
 
+    return conf
+
+
+def open_importer(conf):
+    """Open the manager file or directory."""
     # File opened by the importer
     pathonly = ('keepass', 'keepassxc', 'keepassx2', 'google-authenticator')
     if conf['manager'] in pathonly and os.path.isfile(conf['file']):
@@ -1969,18 +1987,8 @@ def report(conf, paths):
 
 def main():
     """pass-import main function."""
-    parser = ArgParser()
-    arg = parser.parse_args(sys.argv)
-    conf = Config(arg['verbose'], arg['quiet'])
-    try:
-        conf.readconfig(arg)
-    except AttributeError as error:
-        conf.verbose(error)
-        conf.die("configuration file not valid.")
-
-    if conf['list']:
-        listimporters(conf)
-    file = sanitychecks(conf)
+    conf = setup()
+    file = open_importer(conf)
 
     # Import and clean data.
     cls = IMPORTERS[conf['manager']]
