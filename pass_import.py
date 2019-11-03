@@ -143,6 +143,13 @@ def getpassword(path):
     return getpass.getpass("Password for %s: " % path)
 
 
+def replaces(caracters, string):
+    """Global replace function."""
+    for key in caracters:
+        string = string.replace(key, caracters[key])
+    return string
+
+
 class PasswordStore():
     """Simple Password Store wrapper for python.
 
@@ -450,17 +457,10 @@ class PasswordManager():
                 string += "%s: %s\n" % (key, value)
         return string
 
-    @staticmethod
-    def _replaces(caracters, string):
-        """Global replace method."""
-        for key in caracters:
-            string = string.replace(key, caracters[key])
-        return string
-
     def _clean_protocol(self, string):
         """Remove the protocol prefix in a string."""
         caracters = dict(zip(self.protocols, [''] * len(self.protocols)))
-        return self._replaces(caracters, string)
+        return replaces(caracters, string)
 
     def _clean_group(self, string):
         """Remove invalids caracters in a group. Convert sep to os.sep."""
@@ -468,22 +468,22 @@ class PasswordManager():
                              [self.separator] * len(self.invalids)))
         caracters['/'] = os.sep
         caracters['\\'] = os.sep
-        return self._replaces(caracters, string)
+        return replaces(caracters, string)
 
     def _convert(self, string):
         """Convert invalid caracters by the separator in a string."""
         caracters = dict(zip(self.invalids,
                              [self.separator] * len(self.invalids)))
-        return self._replaces(caracters, string)
+        return replaces(caracters, string)
 
     def _clean_title(self, string):
         """Clean the title from separator before addition to a path."""
         caracters = {'/': self.separator, '\\': self.separator}
-        return self._replaces(caracters, string)
+        return replaces(caracters, string)
 
     def _clean_cmdline(self, string):
         """Make the string more command line friendly."""
-        return self._replaces(self.cleans, string)
+        return replaces(self.cleans, string)
 
     def _duplicate_paths(self, clean, convert):
         """Create subfolders for duplicated paths."""

@@ -51,14 +51,6 @@ class TestPasswordManagerGeneral(TestPasswordManager):
         entry_expected = '\n'
         self.assertEqual(self.importer.get(entry), entry_expected)
 
-    def test_replaces(self):
-        """Testing: _replace method."""
-        string = ''
-        string_expected = ''
-        caracters = {}
-        string = self.importer._replaces(caracters, string)
-        self.assertEqual(string, string_expected)
-
     def test_clean_cmdline(self):
         """Testing: _clean_cmdline method."""
         string = 'Root Group&Named@root\'[directory]'
