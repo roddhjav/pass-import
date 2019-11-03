@@ -37,6 +37,7 @@ try:
     from defusedxml import ElementTree
 except ImportError:
     from xml.etree import ElementTree
+import yaml
 
 
 __version__ = '2.6'
@@ -135,15 +136,6 @@ class Msg():
         """Show an error and exit the program."""
         self.error(msg)
         exit(1)
-
-
-try:
-    import yaml
-except ImportError:
-    err = Msg()  # pylint: disable=invalid-name
-    err.die("pyaml is not present, you can install it with:\n"
-            "  'sudo apt-get install python3-yaml', or\n"
-            "  'pip3 install pyaml'")
 
 
 def getpassword(path):
