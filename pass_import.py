@@ -146,6 +146,11 @@ except ImportError:
             "  'pip3 install pyaml'")
 
 
+def getpassword(path):
+    """Get the master password."""
+    return getpass.getpass("Password for %s: " % path)
+
+
 class PasswordStore():
     """Simple Password Store wrapper for python.
 
@@ -794,7 +799,7 @@ class PasswordManagerKDBX(PasswordManager):
         except ImportError as error:
             raise ImportError(error, name='pykeepass')
 
-        password = getpass.getpass(prompt="Password for %s:" % path)
+        password = getpassword(path)
         with PyKeePass(path, password) as keepass:
             for kpentry in keepass.entries:
                 entry = self._getentry(kpentry)
@@ -908,7 +913,7 @@ class Aegis(PasswordManagerOTP):
         except ImportError as error:
             raise ImportError(error, name='cryptography')
 
-        password = getpass.getpass(prompt="Password for %s:" % path)
+        password = getpassword(path)
 
         master_key = None
         for slot in jsons['header']['slots']:
@@ -1008,7 +1013,7 @@ class AndOTP(PasswordManagerOTP):
         finally:
             file.close()
 
-        password = getpass.getpass(prompt="Password for %s:" % path)
+        password = getpassword(path)
         with open(path, 'rb') as aesfile:
             data = aesfile.read()
 
