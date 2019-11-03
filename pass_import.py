@@ -25,13 +25,13 @@ import json
 import glob
 import shutil
 import getpass
-import argparse
 import traceback
 import configparser
 from pathlib import Path
 from datetime import datetime
 from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 try:
     from defusedxml import ElementTree
@@ -1782,59 +1782,76 @@ IMPORTERS = {
 }
 
 
-def argumentsparse():
-    """Geting arguments for 'pass import'."""
-    parser = argparse.ArgumentParser(
-        prog='pass import',
-        description="""
+class ArgParser(ArgumentParser):
+    """Manages argument parsing and adds some defaults."""
+
+    def __init__(self):
+        super(ArgParser, self).__init__(
+            prog='pass import',
+            description="""
   Import data from most of the password manager. Passwords
   are imported in the existing default password store, therefore
   the password store must have been initialised before with 'pass init'""",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="More information may be found in the pass-import(1) man page.")
+            formatter_class=RawDescriptionHelpFormatter,
+            epilog="More information may be found in the pass-import(1) "
+                   "man page.",
+            add_help=False)
 
-    parser.add_argument('manager', type=str, nargs='?', default='',
-                        help="Can be: %s" % ', '.join(IMPORTERS) + '.')
-    parser.add_argument('file', type=str, nargs='?', default='',
-                        help="""Path to the file or directory that contains the
-                        data to import. Can also be a label.""")
+        self.add_arguments()
 
-    parser.add_argument('-p', '--path', action='store', dest='root',
-                        default='', metavar='PATH',
-                        help='Import the passwords to a specific subfolder.')
-    parser.add_argument('-a', '--all', action='store_true',
-                        help='Also import all the extra data present.')
-    parser.add_argument('-c', '--clean', action='store_true',
-                        help='Make the paths more command line friendly.')
-    parser.add_argument('-C', '--convert', action='store_true',
-                        help='Convert invalid caracters present in the paths.')
+    def add_arguments(self):
+        """Get arguments for `pass import`."""
+        self.add_argument('manager', type=str, nargs='?', default='',
+                          help="Can be: %s" % ', '.join(IMPORTERS) + '.')
+        self.add_argument('file', type=str, nargs='?', default='',
+                          help='Path to the file or directory that contains '
+                               'the data to import. Can also be a label.')
 
-    parser.add_argument('--sep', dest='separator', metavar='CAR',
-                        help="Provide a caracter of replacement for the path "
-                             "separator. Default: '-'")
-    parser.add_argument('--del', dest='delimiter', metavar='CAR',
-                        help="Provide an alternative CSV delimiter character. "
-                             "Default: ','")
-    parser.add_argument('--cols', action='store', default='',
-                        help='CSV expected columns to map columns to '
-                             'credential attributes. Only used for the generic'
-                             ' csv importer.')
-    parser.add_argument('--config', action='store', default='',
-                        help="Set a config file. Default: '.import'")
+        self.add_argument('-p', '--path', action='store', dest='root',
+                          default='', metavar='PATH',
+                          help='Import the passwords to a specific subfolder.')
+        self.add_argument('-a', '--all', action='store_true',
+                          help='Also import all the extra data present.')
+        self.add_argument('-c', '--clean', action='store_true',
+                          help='Make the paths more command line friendly.')
+        self.add_argument('-C', '--convert', action='store_true',
+                          help='Convert invalid caracters present in '
+                               'the paths.')
 
-    parser.add_argument('-l', '--list', action='store_true',
-                        help='List the supported password managers.')
-    parser.add_argument('-f', '--force', action='store_true',
-                        help='Overwrite existing path.')
-    parser.add_argument('-V', '--version', action='version',
-                        version='%(prog)s ' + __version__,
-                        help='Show the program version and exit.')
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-q', '--quiet', action='store_true', help='Be quiet.')
-    group.add_argument('-v', '--verbose', action='count', default=0,
-                       help='Set verbosity level.')
+        self.add_argument('--sep', dest='separator', metavar='CAR',
+                          help="Provide a caracter of replacement for the path"
+                               " separator. Default: '-'")
+        self.add_argument('--del', dest='delimiter', metavar='CAR',
+                          help="Provide an alternative CSV delimiter character"
+                               ". Default: ','")
+        self.add_argument('--cols', action='store', default='',
+                          help='CSV expected columns to map columns to '
+                               'credential attributes. Only used for the '
+                               'generic csv importer.')
+        self.add_argument('--config', action='store', default='',
+                          help="Set a config file. Default: '.import'")
 
-    return parser
+        self.add_argument('-l', '--list', action='store_true',
+                          help='List the supported password managers.')
+        self.add_argument('-f', '--force', action='store_true',
+                          help='Overwrite existing path.')
+        self.add_argument('-V', '--version', action='version',
+                          version='%(prog)s ' + __version__,
+                          help='Show the program version and exit.')
+        self.add_argument('-h', '--help', action='store_true',
+                          help='Show this help message and exit.')
+        group = self.add_mutually_exclusive_group()
+        group.add_argument('-q', '--quiet', action='store_true',
+                           help='Be quiet.')
+        group.add_argument('-v', '--verbose', action='count', default=0,
+                           help='Set verbosity level.')
+
+    def parse_args(self, args=None, namespace=None):
+        arg = vars(super(ArgParser, self).parse_args(args, namespace))
+        if arg['help']:
+            self.print_help()
+            exit(0)
+        return arg
 
 
 def getdoc(importer):
@@ -1961,9 +1978,10 @@ def report(arg, msg, paths):
             msg.echo(os.path.join(arg['root'], path))
 
 
-def main(argv):
+def main():
     """pass-import main function."""
-    arg = vars(argumentsparse().parse_args(argv))
+    parser = ArgParser()
+    arg = parser.parse_args(sys.argv)
     msg = Msg(arg['verbose'], arg['quiet'])
     try:
         arg = getsettings(arg)
@@ -2031,4 +2049,4 @@ def main(argv):
 
 if __name__ == "__main__":
     sys.argv.pop(0)
-    main(sys.argv)
+    main()

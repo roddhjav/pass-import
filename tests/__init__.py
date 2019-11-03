@@ -76,11 +76,12 @@ class Test(unittest.TestCase):
     # Main related method
 
     def _passimport(self, cmd, code=None):
+        sys.argv = cmd
         if code is None:
-            pass_import.main(cmd)
+            pass_import.main()
         else:
             with self.assertRaises(SystemExit) as cm:
-                pass_import.main(cmd)
+                pass_import.main()
             self.assertEqual(cm.exception.code, code)
 
     # Export related method

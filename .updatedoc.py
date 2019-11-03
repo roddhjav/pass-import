@@ -77,7 +77,7 @@ def importers_usage():
 def helpmessage():
     """Generate the new pass-import usage."""
     string = io.StringIO()
-    parser = pass_import.argumentsparse()
+    parser = pass_import.ArgParser()
     parser.print_help(string)
     return "\n```\n%s\n```\n" % string.getvalue()
 
