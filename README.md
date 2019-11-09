@@ -1,25 +1,12 @@
-<h1 align="center">pass import</h1>
-<p align="center">
-    <a href="https://travis-ci.org/roddhjav/pass-import">
-        <img src="https://img.shields.io/travis/roddhjav/pass-import/master.svg?style=flat-square"
-             alt="Build Status" /></a>
-    <a href="https://gitlab.com/roddhjav/pass-import/pipelines">
-        <img src="https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg?style=flat-square"
-             alt="Pipeline Status" /></a>
-    <a href="https://roddhjav.gitlab.io/pass-import/">
-        <img src="https://gitlab.com/roddhjav/pass-import/badges/master/coverage.svg?style=flat-square"
-             alt="Code Coverage" /></a>
-    <a href="https://www.codacy.com/app/roddhjav/pass-import">
-        <img src="https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg?style=flat-square"
-             alt="Code Quality" /></a>
-    <a href="https://github.com/roddhjav/pass-import/releases/latest">
-        <img src="https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600&style=flat-square"
-             alt="Last Release" /></a>
-</p>
-<p align="center">
-    A <a href="https://www.passwordstore.org/">pass</a> extension for importing
-    data from most of the existing password manager.
-</p>
+[<img src="https://gitlab.com/uploads/-/system/project/avatar/2296403/logo.png" align="right" height="110"/>][github-link]
+
+# pass import
+
+[![][travis]][travis-link] [![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![
+][release]][release-link]
+
+**A [pass] extension for importing data from most of the existing password manager.**
+
 
 ## Description
 `pass import` is a password store extension allowing you to import your password
@@ -87,8 +74,9 @@ OTP secret in a way that is compatible with [pass-otp].
 
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-h] [-p PATH] [-a] [-c] [-C] [--sep CAR] [--del CAR]
-                   [--cols COLS] [--config CONFIG] [-l] [-f] [-V] [-q | -v]
+usage: pass import [-p PATH] [-a] [-c] [-C] [--sep CAR] [--del CAR]
+                   [--cols COLS] [--config CONFIG] [-l] [-f] [-V] [-h]
+                   [-q | -v]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -109,7 +97,6 @@ positional arguments:
                         to import. Can also be a label.
 
 optional arguments:
-  -h, --help            show this help message and exit
   -p PATH, --path PATH  Import the passwords to a specific subfolder.
   -a, --all             Also import all the extra data present.
   -c, --clean           Make the paths more command line friendly.
@@ -124,6 +111,7 @@ optional arguments:
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.
   -V, --version         Show the program version and exit.
+  -h, --help            Show this help message and exit.
   -q, --quiet           Be quiet.
   -v, --verbose         Set verbosity level.
 
@@ -324,6 +312,19 @@ Feedback, contributors, pull requests are all very welcome. Please read the
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+[github-link]: https://github.com/roddhjav/pass-import
+[travis]: https://img.shields.io/travis/roddhjav/pass-import/master.svg?style=flat-square
+[travis-link]: https://travis-ci.org/roddhjav/pass-import
+[gitlab]: https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg?style=flat-square
+[gitlab-link]: https://gitlab.com/roddhjav/pass-import/pipelines
+[coverage]: https://gitlab.com/roddhjav/pass-import/badges/master/coverage.svg?style=flat-square
+[coverage-link]: https://roddhjav.gitlab.io/pass-import/
+[quality]: https://img.shields.io/codacy/grade/783d8cf291434d2b8f1c063b51cfebbb/master.svg?style=flat-square
+[quality-link]: https://www.codacy.com/app/roddhjav/pass-import
+[release]: https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600&style=flat-square
+[release-link]: https://github.com/roddhjav/pass-import/releases/latest
+
+[pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
 [aur]: https://aur.archlinux.org/packages/pass-import
 [releases]: https://github.com/roddhjav/pass-import/releases

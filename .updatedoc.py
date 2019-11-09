@@ -62,7 +62,7 @@ def importers_usage():
     """Generate the new supported table."""
     res = ''
     for importer in sorted(pass_import.IMPORTERS):
-        doc = pass_import.getdoc(importer)
+        doc = pass_import.IMPORTERS[importer].doc()
         export = rmarkdown(rspace(doc['export']))
         res += ("\n.TP\n\\fB%s\\fP\n"
                 "Website: \\fI%s\\fP\n\n" % (importer, doc['url']))
