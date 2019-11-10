@@ -701,31 +701,36 @@ class PasswordManagerKDBX(PasswordManager):
         """
         try:
             from pykeepass import PyKeePass
+            from pykeepass.exceptions import CredentialsIntegrityError
         except ImportError as error:
             raise ImportError(error, name='pykeepass')
 
         password = getpassword(path)
-        with PyKeePass(path, password) as keepass:
-            for kpentry in keepass.entries:
-                entry = self._getentry(kpentry)
-                entry['group'] = os.path.dirname(entry['group'])
+        try:
+            keepass = PyKeePass(path, password=password)
+        except CredentialsIntegrityError as error:  # pragma: no cover
+            raise PermissionError(error)
 
-                for hentry in kpentry.history:
-                    history = self._getentry(hentry)
-                    history['group'] = os.path.join('History', entry['group'])
-                    self.data.append(history)
+        for kpentry in keepass.entries:
+            entry = self._getentry(kpentry)
+            entry['group'] = os.path.dirname(entry['group'])
 
-                for att in kpentry.attachments:
-                    attachment = dict()
-                    attachment['group'] = entry['group']
-                    attachment['title'] = att.filename
-                    attachment['data'] = att.data
-                    self.data.append(attachment)
-                    if entry.get('attachments', None):
-                        entry['attachments'] += ", %s" % att.filename
-                    else:
-                        entry['attachments'] = att.filename
-                self.data.append(entry)
+            for hentry in kpentry.history:
+                history = self._getentry(hentry)
+                history['group'] = os.path.join('History', entry['group'])
+                self.data.append(history)
+
+            for att in kpentry.attachments:
+                attachment = dict()
+                attachment['group'] = entry['group']
+                attachment['title'] = att.filename
+                attachment['data'] = att.data
+                self.data.append(attachment)
+                if entry.get('attachments', None):
+                    entry['attachments'] += ", %s" % att.filename
+                else:
+                    entry['attachments'] = att.filename
+            self.data.append(entry)
 
 
 class PasswordManagerOTP(PasswordManager):
