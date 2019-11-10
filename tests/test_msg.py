@@ -20,9 +20,11 @@ import pass_import
 import tests
 
 
-class TestMsg(tests.Test):
+class TestConfig(tests.Test):
+    """Test the Config class."""
 
     def setUp(self):
+        """Initialse a config object."""
         self.conf = pass_import.Config(0, False)
 
     def test_readconfig(self):

@@ -33,6 +33,7 @@ REFERENCE_KDBX = yaml.safe_load(open(DB + 'keepass-kdbx.yml', 'r'))
 
 
 class TestImporters(tests.Test):
+    """Test the parse method of the importers against the reference data."""
 
     def test_importers_generic(self):
         """Testing: parse method for all importers."""

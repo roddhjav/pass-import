@@ -12,35 +12,32 @@ setup(
     author="Alexandre Pujol",
     author_email="alexandre@pujol.io",
     url=__url__,
-    download_url="%s/releases/download/v%s/pass-import-%s.tar.gz" % (
-                 __url__, __version__, __version__),
+    download_url="%s/releases/download/v%s/pass-import-%s.tar.gz" %
+    (__url__, __version__, __version__),
     description=('A pass extension for importing data from most of '
                  'the existing password manager.'),
     license='GPL3',
-
     py_modules=['pass_import'],
-
-    install_requires=[
-        'pyaml'
-        ],
+    install_requires=['pyaml'],
     extras_require={
         'xml': ['defusedxml'],
         'keepass': ['pykeepass'],
         'gnomekeyring': ['secretstorage'],
         'encrypted_otp': ['cryptography'],
-        'all': ['defusedxml', 'pykeepass', 'secretstorage', 'cryptography'],
-        },
-    tests_require=[
-        'green'
-        ],
+        'all': ['defusedxml', 'pykeepass', 'secretstorage', 'cryptography']
+    },
+    tests_require=['green'],
     test_suite='tests',
     python_requires='>=3.5',
     zip_safe=True,
-
     keywords=[
-        'password-store', 'password', 'pass', 'pass-extension',
-        'password-manager', 'importer',
-        ],
+        'password-store',
+        'password',
+        'pass',
+        'pass-extension',
+        'password-manager',
+        'importer'
+    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -55,6 +52,6 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Topic :: Security :: Cryptography',
-        ],
+        'Topic :: Security :: Cryptography'
+    ],
 )

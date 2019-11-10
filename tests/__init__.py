@@ -62,9 +62,8 @@ class Test(unittest.TestCase):
     masterpassword = 'correct horse battery staple'
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
 
-    def __init__(self, methodName='runTest'):
+    def __init__(self, methodName='runTest'):  # noqa
         super(Test, self).__init__(methodName)
-        self.importers = pass_import.IMPORTERS
         with open('tests/tests.yml', 'r') as file:
             self.tests = yaml.safe_load(file)
 
@@ -151,7 +150,7 @@ class Test(unittest.TestCase):
             for key in delete:
                 entry.pop(key, None)
 
-    def assertImport(self, data, refdata, keep=None):
+    def assertImport(self, data, refdata, keep=None):  # noqa
         """Compare imported data with the reference data."""
         self._clear(data, keep)
         for entry in data:

@@ -23,13 +23,16 @@ import tests
 
 
 class TestPassImportBase(tests.Test):
+    """Base class for pass-import tests."""
 
     def setUp(self):
+        """Create a password store repository."""
         self._tmpdir()
         self._passinit()
 
 
 class TestPassImport(TestPassImportBase):
+    """Test common pass-import features and corner cases."""
 
     def test_pass_import_list(self):
         """Testing: pass import --list."""
@@ -147,6 +150,7 @@ class TestPassImport(TestPassImportBase):
 
 
 class TestPassImportManagers(TestPassImportBase):
+    """Test pass-import for some special managers."""
 
     def test_pass_import_networkmanager(self):
         """Testing: pass import networkmanager db/networkmanager/eduroam."""

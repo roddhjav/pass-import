@@ -1079,6 +1079,7 @@ class Buttercup(PasswordManagerCSV):
     ignore = ['!group_id', 'id']
 
     def parse(self, file):
+        """Parse Buttercup CSV file."""
         super(Buttercup, self).parse(file)
         for entry in self.data:
             for key in self.ignore:
@@ -1126,6 +1127,7 @@ class CSV(PasswordManagerCSV):
     """
 
     def parse(self, file):
+        """Parse Generic CSV file."""
         file.readline()
         if ',' in self.cols:
             self.fieldnames = self.cols.split(',')
@@ -1173,6 +1175,7 @@ class Enpass(PasswordManagerCSV):
             'url': 'URL', 'comments': 'notes', 'group': 'group'}
 
     def parse(self, file):
+        """Parse Enpass CSV file."""
         self._checkline(file)
         reader = csv.reader(file)
         keys = self._invkeys()
@@ -1262,6 +1265,7 @@ class Gorilla(PasswordManagerCSV):
             'url': 'url', 'comments': 'notes', 'group': 'group'}
 
     def parse(self, file):
+        """Parse Gorilla CSV file."""
         super(Gorilla, self).parse(file)
         for entry in self.data:
             group = re.sub(r'(?<=[^\\])\.', os.sep, entry.get('group', ''))
@@ -1455,6 +1459,7 @@ class Lastpass(PasswordManagerCSV):
             'url': 'url', 'comments': 'extra', 'group': 'grouping'}
 
     def parse(self, file):
+        """Parse Lastpass CSV file."""
         super(Lastpass, self).parse(file)
         for entry in self.data:
             entry['group'] = entry.get('group', '').replace('\\', os.sep)
@@ -1765,6 +1770,7 @@ class ArgParser(ArgumentParser):
                            help='Set verbosity level.')
 
     def parse_args(self, args=None, namespace=None):
+        """Parse pass-import arguments & print help."""
         arg = vars(super(ArgParser, self).parse_args(args, namespace))
         if arg['help']:
             self.print_help()

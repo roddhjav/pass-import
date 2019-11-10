@@ -24,6 +24,7 @@ import tests
 
 
 class TestImporterFormat(tests.Test):
+    """Ensure the parse method fail when a malformed file is given."""
     formaterror = (FormatError, AttributeError, ValueError,
                    yaml.scanner.ScannerError)
 

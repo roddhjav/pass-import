@@ -23,13 +23,16 @@ import tests
 
 
 class TestPasswordManager(tests.Test):
+    """Base class for manager tests."""
 
     @classmethod
     def setUpClass(cls):
+        """Initialse an importer object."""
         cls.importer = pass_import.PasswordManager()
 
 
 class TestPasswordManagerGeneral(TestPasswordManager):
+    """Test internal clean methods."""
 
     def test_get_data(self):
         """Testing: convert dict to password entry."""
@@ -97,6 +100,7 @@ class TestPasswordManagerGeneral(TestPasswordManager):
 
 
 class TestPasswordManagerClean(TestPasswordManager):
+    """Test clean features."""
 
     def test_data(self):
         """Testing: clean data."""
@@ -140,7 +144,7 @@ class TestPasswordManagerClean(TestPasswordManager):
         self.importer.clean(clean=True, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
-    def tests_url(self):
+    def test_url(self):
         """Testing: clean data - url as path name."""
         self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7',
                                'login': 'lnqYm3ZWtm',
@@ -152,7 +156,7 @@ class TestPasswordManagerClean(TestPasswordManager):
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
-    def tests_login(self):
+    def test_login(self):
         """Testing: clean data - login as path name."""
         self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7',
                                'login': 'lnqYm3ZWtm'}]
@@ -162,7 +166,7 @@ class TestPasswordManagerClean(TestPasswordManager):
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
-    def tests_notitle(self):
+    def test_notitle(self):
         """Testing: clean data - notitle as path name."""
         self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7'}]
         data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
@@ -170,14 +174,14 @@ class TestPasswordManagerClean(TestPasswordManager):
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
-    def tests_title(self):
+    def test_title(self):
         """Testing: clean data - remove separator from title."""
         self.importer.data = [{'title': 'twi/tter\\.com'}]
         data_expected = [{'path': 'twi-tter-.com'}]
         self.importer.clean(clean=False, convert=False)
         self.assertEqual(self.importer.data, data_expected)
 
-    def tests_empty(self):
+    def test_empty(self):
         """Testing: clean data - empty title and clean enabled."""
         self.importer.data = [{'password': 'UuQHzvv6IHRIJGjwKru7'}]
         data_expected = [{'password': 'UuQHzvv6IHRIJGjwKru7',
@@ -203,6 +207,7 @@ class TestPasswordManagerClean(TestPasswordManager):
 
 
 class TestPasswordManagerDuplicate(TestPasswordManager):
+    """Test duplicate path management."""
 
     def test_paths(self):
         """Testing: duplicate paths."""

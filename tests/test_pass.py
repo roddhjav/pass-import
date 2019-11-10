@@ -26,12 +26,13 @@ class TestPass(tests.Test):
     """Base class for password store tests."""
 
     def setUp(self):
-        """Setup a directory for a new password store repository."""
+        """Create a directory for a new password store repository."""
         self._tmpdir()
         self.store.all = True
 
 
 class TestPassStore(TestPass):
+    """Test pass general features."""
 
     def test_environment_no_prefix(self):
         """Testing: no prefix."""
@@ -105,9 +106,10 @@ class TestPassStore(TestPass):
 
 
 class TestPassStoreList(TestPass):
+    """Test pass insert features."""
 
     def setUp(self):
-        # Use the password store in tests/pass-store
+        """Use the password repository in tests/assets/pass-store."""
         self.prefix = self.assets + 'pass-store'
         os.environ['PASSWORD_STORE_DIR'] = self.prefix
         self.store = pass_import.PasswordStore()
