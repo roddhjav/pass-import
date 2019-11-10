@@ -64,12 +64,12 @@ $(T):
 
 lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
-		-t profile-validator -t pyflakes -t pyroma -t vulture \
+		-t dodgy -t mccabe -t pep257 -t pep8 \
+		-t profile-validator -t pyroma -t vulture \
 		pass_import.py setup.py .updatedoc.py
 	@prospector --profile tests/.prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
-		-t profile-validator -t pyflakes -t pyroma \
+		-t dodgy -t mccabe -t pep257 -t pep8 \
+		-t profile-validator -t pyroma \
 		tests/*.py
 
 security:
