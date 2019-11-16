@@ -132,7 +132,7 @@ class Test(unittest.TestCase):
     def __init__(self, methodName='runTest'):  # noqa
         super(Test, self).__init__(methodName)
 
-        # GPG keyring, pass & lastpass settings
+        # GPG keyring, pass & settings
         os.environ.pop('GPG_AGENT_INFO', None)
         os.environ.pop('PASSWORD_STORE_SIGNING_KEY', None)
         os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), assets + 'gnupg')

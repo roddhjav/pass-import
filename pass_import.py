@@ -1779,7 +1779,7 @@ class ArgParser(ArgumentParser):
         arg = vars(super(ArgParser, self).parse_args(args, namespace))
         if arg['help']:
             self.print_help()
-            exit(0)
+            sys.exit(0)
         return arg
 
 
@@ -1904,7 +1904,7 @@ class Config(dict):
     def die(self, msg=''):
         """Show an error and exit the program."""
         self.error(msg)
-        exit(1)
+        sys.exit(1)
 
 
 def listimporters(conf):
@@ -1917,7 +1917,7 @@ def listimporters(conf):
             doc = IMPORTERS[importer].doc()
             conf.message("%s%-21s%s%s" % (conf.BOLD, importer, conf.end,
                                           doc['url']))
-    exit(0)
+    sys.exit(0)
 
 
 def setup():
