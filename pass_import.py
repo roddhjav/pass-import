@@ -771,7 +771,7 @@ class PasswordManagerOTP(PasswordManager):
 class OnePassword4PIF(PasswordManagerPIF):
     """Importer for 1password 4 in PIF format.
     url: https://1password.com/
-    export: See this [guide](https://support.1password.com/export/)
+    export: See this guide https://support.1password.com/export/
     import: pass import 1password4pif file.1pif
     """
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
@@ -781,7 +781,7 @@ class OnePassword4PIF(PasswordManagerPIF):
 class OnePassword4(PasswordManagerCSV):
     """Importer for 1password 4 in CSV format.
     url: https://1password.com/
-    export: See this [guide](https://support.1password.com/export)
+    export: See this guide https://support.1password.com/export
     import: pass import 1password4 file.csv
     """
     keys = {'title': 'title', 'password': 'password', 'login': 'username',
@@ -791,7 +791,7 @@ class OnePassword4(PasswordManagerCSV):
 class OnePassword(PasswordManagerCSV):
     """Importer for 1password 6 in CSV format.
     url: https://1password.com/
-    export: See this [guide](https://support.1password.com/export/)
+    export: See this guide https://support.1password.com/export/
     import: pass import 1password file.csv
     """
     keys = {'title': 'Title', 'password': 'Password', 'login': 'Username',
@@ -958,8 +958,8 @@ class AndOTP(PasswordManagerOTP):
 class AppleKeychain(PasswordManager):
     """Importer for Apple Keychain.
     url: https://support.apple.com/guide/keychain-access
-    export: See this [guide](https://gist.github.com/santigz/601f4fd2f039d6ceb
-        2198e2f9f4f01e0)
+    export: See this guide https://gist.github.com/santigz/601f4fd2f039d6ceb
+        2198e2f9f4f01e0
     import: pass import apple-keychain file.txt
     """
     keys = {'title': 7, 'login': 'acct', 'authentication_type': 'atyp',
@@ -1094,8 +1094,8 @@ class Buttercup(PasswordManagerCSV):
 class Chrome(PasswordManagerCSV):
     """Importer for Chrome in CSV format.
     url: https://support.google.com/chrome
-    export: See this [guide](https://www.axllent.org/docs/view/export-chrome-
-        passwords/)
+    export: See this guide https://www.axllent.org/docs/view/export-chrome-
+        passwords/
     import: pass import chrome file.csv
     """
     keys = {'title': 'name', 'password': 'password', 'login': 'username',
@@ -1105,8 +1105,8 @@ class Chrome(PasswordManagerCSV):
 class ChromeSQLite(PasswordManagerCSV):
     """Importer for Chrome SQLite in CSV format.
     url: https://support.google.com/chrome
-    export: See this [guide](https://www.axllent.org/docs/view/export-chrome-
-        passwords/)
+    export: See this guide https://www.axllent.org/docs/view/export-chrome-
+        passwords/
     import: pass import chromesqlite file.csv
     """
     keys = {'title': 'display_name', 'password': 'password_value',
@@ -1155,8 +1155,8 @@ class Dashlane(PasswordManagerCSV):
 class Encryptr(PasswordManagerCSV):
     """Importer for Encryptr in CSV format.
     url: https://spideroak.com/encryptr/
-    export: Compile from source and follow instructions from this [guide](htt
-        ps://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)
+    export: Compile from source and follow instructions from this guide htt
+        ps://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705
     import: pass import encryptr file.csv
     """
     keys = {'title': 'Label', 'password': 'Password', 'login': 'Username',
@@ -1528,9 +1528,9 @@ class NetworkManager(PasswordManager):
 class Myki(PasswordManagerCSV):
     """Importer for Myki in CSV format.
     url: https://myki.com/
-    export: See this [guide](https://support.myki.com/myki-app/exporting-your
+    export: See this guide https://support.myki.com/myki-app/exporting-your
         -passwords-from-the-myki-app/how-to-export-your-passwords-account-data
-        -from-myki)
+        -from-myki
     import: pass import myki file.csv
     """
     keys = {'title': 'Name', 'password': 'Password', 'login': 'Username',

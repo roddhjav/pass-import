@@ -9,6 +9,7 @@ _pass-import () {
 		_files
 	else
 		local -a subcommands
+		# subcommands begin
 		subcommands=(
 			'1password:Importer for 1password 6 in CSV format.'
 			'1password4:Importer for 1password 4 in CSV format.'
@@ -50,6 +51,7 @@ _pass-import () {
 			'roboform:Importer for Roboform in CSV format.'
 			'upm:Importer for Universal Password Manager (UPM) in CSV format.'
 		)
+		# subcommands end
 		_arguments : \
 			{-h,--help}'[display help information]' \
 			{-V,--version}'[display version information]' \

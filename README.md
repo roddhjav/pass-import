@@ -26,22 +26,22 @@ OTP secret in a way that is compatible with [pass-otp].
 
 **The following password managers are supported:**
 
-<!-- SUPPORTED LIST BEGIN -->
+<!-- LIST BEGIN -->
 | **Password Manager** | **How to export Data** | **Command line** |
 |:--------------------:|:----------------------:|:----------------:|
-| [1password](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password file.csv` |
-| [1password4](https://1password.com/) | *See this [guide](https://support.1password.com/export)* | `pass import 1password4 file.csv` |
-| [1password4pif](https://1password.com/) | *See this [guide](https://support.1password.com/export/)* | `pass import 1password4pif file.1pif` |
+| [1password](https://1password.com/) | *See [this guide](https://support.1password.com/export/)* | `pass import 1password file.csv` |
+| [1password4](https://1password.com/) | *See [this guide](https://support.1password.com/export)* | `pass import 1password4 file.csv` |
+| [1password4pif](https://1password.com/) | *See [this guide](https://support.1password.com/export/)* | `pass import 1password4pif file.1pif` |
 | [aegis](https://github.com/beemdevelopment/Aegis) | *Settings> Tools: Export (Plain or encrypted)* | `pass import aegis file.json` |
 | [andotp](https://github.com/andOTP/andOTP) | *Backups> Backup plain, gpg or password encrypted* | `pass import andotp file.{json, json.aes, gpg}` |
-| [apple-keychain](https://support.apple.com/guide/keychain-access) | *See this [guide](https://gist.github.com/santigz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
+| [apple-keychain](https://support.apple.com/guide/keychain-access) | *See [this guide](https://gist.github.com/santigz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import apple-keychain file.txt` |
 | [bitwarden](https://bitwarden.com/) | *Tools: Export* | `pass import bitwarden file.csv` |
 | [buttercup](https://buttercup.pw/) | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
-| [chrome](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chrome file.csv` |
-| [chromesqlite](https://support.google.com/chrome) | *See this [guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chromesqlite file.csv` |
+| [chrome](https://support.google.com/chrome) | *See [this guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chrome file.csv` |
+| [chromesqlite](https://support.google.com/chrome) | *See [this guide](https://www.axllent.org/docs/view/export-chrome-passwords/)* | `pass import chromesqlite file.csv` |
 | [csv]() | *generic csv importer* | `pass import csv file.csv --cols 'url,login,,password'` |
 | [dashlane](https://www.dashlane.com/) | *File > Export > Unsecured Archive in CSV* | `pass import dashlane file.csv` |
-| [encryptr](https://spideroak.com/encryptr/) | *Compile from source and follow instructions from this [guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
+| [encryptr](https://spideroak.com/encryptr/) | *Compile from source and follow instructions from [this guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
 | [enpass](https://www.enpass.io/) | *File > Export > As CSV* | `pass import enpass file.csv` |
 | [enpass6](https://www.enpass.io/) | *Menu > File > Export > As JSON* | `pass import enpass6 file.json` |
 | [fpm](http://fpm.sourceforge.net/) | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
@@ -59,7 +59,7 @@ OTP secret in a way that is compatible with [pass-otp].
 | [keepassxc-csv](https://keepassxc.org/) | *Database > Export to CSV File* | `pass import keepassxc-csv file.csv` |
 | [keeper](https://keepersecurity.com/) | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
 | [lastpass](https://www.lastpass.com/) | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
-| [myki](https://myki.com/) | *See this [guide](https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki)* | `pass import myki file.csv` |
+| [myki](https://myki.com/) | *See [this guide](https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki)* | `pass import myki file.csv` |
 | [networkmanager](https://wiki.gnome.org/Projects/NetworkManager) | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
 | [pass](https://passwordstore.org) | *Nothing to do* | `pass import pass path/to/store` |
 | [passpie](https://passpie.readthedocs.io) | *`passpie export file.yml`* | `pass import passpie file.yml` |
@@ -68,15 +68,15 @@ OTP secret in a way that is compatible with [pass-otp].
 | [revelation](https://revelation.olasagasti.info/) | *File > Export: XML* | `pass import revelation file.xml` |
 | [roboform](https://www.roboform.com/) | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
 | [upm](http://upm.sourceforge.net/) | *Database > Export* | `pass import upm file.csv` |
-<!-- SUPPORTED LIST END -->
+
+<!-- LIST END -->
 
 ## Usage
 
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-p PATH] [-a] [-c] [-C] [--sep CAR] [--del CAR]
-                   [--cols COLS] [--config CONFIG] [-l] [-f] [-V] [-h]
-                   [-q | -v]
+usage: pass import [-p PATH] [-a] [-c] [-C] [--sep CAR] [--del CAR] [--cols COLS] [--config CONFIG] [-l] [-f] [-V]
+                   [-h] [-q | -v]
                    [manager] [file]
 
   Import data from most of the password manager. Passwords
@@ -84,29 +84,22 @@ usage: pass import [-p PATH] [-a] [-c] [-C] [--sep CAR] [--del CAR]
   the password store must have been initialised before with 'pass init'
 
 positional arguments:
-  manager               Can be: 1password, 1password4, 1password4pif, aegis,
-                        andotp, apple-keychain, bitwarden, buttercup, chrome,
-                        chromesqlite, csv, dashlane, encryptr, enpass,
-                        enpass6, fpm, gnome-authenticator, gnome-keyring,
-                        gorilla, kedpm, keepass, keepass-csv, keepass-xml,
-                        keepassx, keepassx2, keepassx2-csv, keepassxc,
-                        keepassxc-csv, keeper, lastpass, networkmanager, myki,
-                        pass, passpie, passwordexporter, pwsafe, revelation,
-                        roboform, upm.
-  file                  Path to the file or directory that contains the data
-                        to import. Can also be a label.
+  manager               Can be: 1password, 1password4, 1password4pif, aegis, andotp, apple-keychain, bitwarden,
+                        buttercup, chrome, chromesqlite, csv, dashlane, encryptr, enpass, enpass6, fpm, gnome-
+                        authenticator, gnome-keyring, gorilla, kedpm, keepass, keepass-csv, keepass-xml, keepassx,
+                        keepassx2, keepassx2-csv, keepassxc, keepassxc-csv, keeper, lastpass, networkmanager, myki,
+                        pass, passpie, passwordexporter, pwsafe, revelation, roboform, upm.
+  file                  Path to the file or directory that contains the data to import. Can also be a label.
 
 optional arguments:
   -p PATH, --path PATH  Import the passwords to a specific subfolder.
   -a, --all             Also import all the extra data present.
   -c, --clean           Make the paths more command line friendly.
   -C, --convert         Convert invalid caracters present in the paths.
-  --sep CAR             Provide a caracter of replacement for the path
-                        separator. Default: '-'
-  --del CAR             Provide an alternative CSV delimiter character.
-                        Default: ','
-  --cols COLS           CSV expected columns to map columns to credential
-                        attributes. Only used for the generic csv importer.
+  --sep CAR             Provide a caracter of replacement for the path separator. Default: '-'
+  --del CAR             Provide an alternative CSV delimiter character. Default: ','
+  --cols COLS           CSV expected columns to map columns to credential attributes. Only used for the generic csv
+                        importer.
   --config CONFIG       Set a config file. Default: '.import'
   -l, --list            List the supported password managers.
   -f, --force           Overwrite existing path.
