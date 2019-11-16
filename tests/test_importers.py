@@ -61,9 +61,8 @@ class TestImporters(tests.Test):
 
     def test_importers_csv(self):
         """Testing: parse method for the generic CSV importer."""
-        csv = ['1password4', 'dashlane', 'roboform']
+        csv = ['1password4', 'roboform']
         cols = {'1password4': 'title,comments,login,password,url',
-                'dashlane': 'title,url,login,password,comments,,',
                 'roboform': 'title,url,login,password,comments,group,,'}
         for manager in csv:
             with self.subTest(manager):

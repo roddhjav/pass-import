@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """pass-import test suite common resources.
-This exports:
+It provides:
   - tests.tmp Path to the test temporary directory.
   - tests.tests Root path for tests
   - tests.assets Root path of tests assets.
