@@ -29,7 +29,7 @@ class TestConfig(tests.Test):
 
     def test_readconfig(self):
         """Testing: read configuration file."""
-        args = {'separator': '6', 'config': self.assets + 'config.yml'}
+        args = {'separator': '6', 'config': tests.assets + 'config.yml'}
         conf = pass_import.Config()
         conf.readconfig(args)
 
@@ -39,7 +39,7 @@ class TestConfig(tests.Test):
             'cleans': {' ': '6'},
             'protocols': [],
             'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00'],
-            'config': 'tests/assets/config.yml'
+            'config': tests.assets + 'config.yml'
         }
         self.assertEqual(conf, ref)
 

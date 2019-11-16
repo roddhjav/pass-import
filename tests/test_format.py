@@ -31,13 +31,13 @@ class TestImporterFormat(tests.Test):
     def test_importer_format(self):
         """Testing: file format for all importers."""
         ignore = ['dashlane', 'keeper', 'upm']
-        for manager in self.tests:
+        for manager in tests.conf:
             if manager in ignore:
                 continue
             with self.subTest(manager):
-                importer = self._class(manager)
-                ext = self.tests[manager]['extension']
-                testpath = os.path.join(self.format, 'dummy.' + ext)
+                importer = tests.cls(manager)
+                ext = tests.conf[manager]['extension']
+                testpath = os.path.join(tests.formats, 'dummy.' + ext)
 
                 with self.assertRaises(self.formaterror):
                     with open(testpath, 'r', encoding='utf-8') as file:
@@ -45,16 +45,16 @@ class TestImporterFormat(tests.Test):
 
     def test_importer_format_otp(self):
         """Testing: file format for OTP based importers."""
-        importer = self._class('aegis')
-        testpath = os.path.join(self.db, 'andotp.json')
+        importer = tests.cls('aegis')
+        testpath = os.path.join(tests.db, 'andotp.json')
         with self.assertRaises(self.formaterror):
             with open(testpath, 'r', encoding='utf-8') as file:
                 importer.parse(file)
 
     def test_importer_format_csv(self):
         """Testing: file format for generic CSV importer."""
-        importer = self._class('csv')
-        testpath = os.path.join(self.db, 'lastpass.csv')
+        importer = tests.cls('csv')
+        testpath = os.path.join(tests.db, 'lastpass.csv')
         importer.cols = ''
         with self.assertRaises(self.formaterror):
             with open(testpath, 'r', encoding='utf-8') as file:

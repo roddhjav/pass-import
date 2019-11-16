@@ -48,7 +48,7 @@ class TestPassStore(TestPass):
 
     def test_prefix(self):
         """Testing: prefix get/set."""
-        prefix = self.assets + 'pass-store'
+        prefix = tests.assets + 'pass-store'
         store = pass_import.PasswordStore(prefix)
         self.assertEqual(prefix, store.prefix)
         store.prefix = self.store.prefix
@@ -110,7 +110,7 @@ class TestPassStoreList(TestPass):
 
     def setUp(self):
         """Use the password repository in tests/assets/pass-store."""
-        self.prefix = self.assets + 'pass-store'
+        self.prefix = os.path.join(tests.assets, 'pass-store')
         os.environ['PASSWORD_STORE_DIR'] = self.prefix
         self.store = pass_import.PasswordStore()
 

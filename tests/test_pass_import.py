@@ -76,13 +76,13 @@ class TestPassImport(TestPassImportBase):
 
     def test_pass_import_storenotinitialized(self):
         """Testing: store not initialized."""
-        cmd = ['1password', self.db + '1password.csv']
+        cmd = ['1password', tests.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
         self._passimport(cmd, 1)
 
     def test_pass_import_invalidid(self):
         """Testing: invalid user ID."""
-        cmd = ['1password', self.db + '1password.csv']
+        cmd = ['1password', tests.db + '1password.csv']
         os.remove(os.path.join(self.store.prefix, '.gpg-id'))
         self.gpgids = ['']
         self._passinit()
@@ -90,27 +90,27 @@ class TestPassImport(TestPassImportBase):
 
     def test_pass_import_file(self):
         """Testing: pass import 1password4pif db/1password4pif.1pif -vvv."""
-        cmd = ['1password4pif', self.db + '1password4pif.1pif', '-vvv']
+        cmd = ['1password4pif', tests.db + '1password4pif.1pif', '-vvv']
         self._passimport(cmd)
 
     def test_pass_import_root(self):
         """Testing: pass import 1password db/1password.csv --path root."""
-        cmd = ['1password', self.db + '1password.csv', '--path', 'root']
+        cmd = ['1password', tests.db + '1password.csv', '--path', 'root']
         self._passimport(cmd)
 
     def test_pass_import_clean(self):
         """Testing: pass import 1password db/1password.csv --clean."""
-        cmd = ['1password', self.db + '1password.csv', '--clean', '--quiet']
+        cmd = ['1password', tests.db + '1password.csv', '--clean', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_all(self):
         """Testing: pass import 1password db/1password.csv --all."""
-        cmd = ['1password', self.db + '1password.csv', '--all', '--quiet']
+        cmd = ['1password', tests.db + '1password.csv', '--all', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_force(self):
         """Testing: pass import 1password db/1password.csv --force."""
-        cmd = ['1password', self.db + '1password.csv']
+        cmd = ['1password', tests.db + '1password.csv']
         self._passimport(cmd)
         self._passimport(cmd)
         cmd.append('--force')
@@ -118,12 +118,12 @@ class TestPassImport(TestPassImportBase):
 
     def test_pass_import_format(self):
         """Testing: pass import passwordexporter db/lastpass.csv."""
-        cmd = ['passwordexporter', self.db + '1password.csv']
+        cmd = ['passwordexporter', tests.db + '1password.csv']
         self._passimport(cmd, 1)
 
     def test_pass_import_convert(self):
         """Testing: pass import --convert db/keepass-xml.xml."""
-        cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert', '-q']
+        cmd = ['keepass-xml', tests.db + 'keepass-xml.xml', '--convert', '-q']
         self._passimport(cmd)
 
         path = os.path.join(self.store.prefix, '.import')
@@ -133,18 +133,18 @@ class TestPassImport(TestPassImportBase):
         cmd += ['--sep=~']
         self._passimport(cmd)
 
-        cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert', '-q']
+        cmd = ['keepass-xml', tests.db + 'keepass-xml.xml', '--convert', '-q']
         self._passimport(cmd)
 
     def test_pass_import_config(self):
         """Testing: pass import --convert db/keepass-xml.xml with conf file."""
-        cmd = ['keepass-xml', self.db + 'keepass-xml.xml', '--convert',
-               '--config', self.assets + 'config.yml']
+        cmd = ['keepass-xml', tests.db + 'keepass-xml.xml', '--convert',
+               '--config', tests.assets + 'config.yml']
         self._passimport(cmd)
 
     def test_pass_import_badconfig(self):
         """Testing: pass import with bad config file."""
-        cmd = ['keepassxml', self.db + 'keepassxml.xml', '--convert',
+        cmd = ['keepassxml', tests.db + 'keepassxml.xml', '--convert',
                '--config', 'tests/assets/format/dummy.xml']
         self._passimport(cmd, 1)
 
@@ -154,17 +154,17 @@ class TestPassImportManagers(TestPassImportBase):
 
     def test_pass_import_networkmanager(self):
         """Testing: pass import networkmanager db/networkmanager/eduroam."""
-        cmd = ['networkmanager', self.db + 'networkmanager/eduroam', '--quiet']
+        cmd = ['networkmanager', tests.db + 'networkmanager/eduroam', '-q']
         self._passimport(cmd)
 
     def test_pass_import_networkmanager_dir(self):
         """Testing: pass import networkmanager db/networkmanager/."""
-        cmd = ['networkmanager', self.db + 'networkmanager/', '--quiet']
+        cmd = ['networkmanager', tests.db + 'networkmanager/', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_pass(self):
         """Testing: pass import pass db/pass."""
-        cmd = ['pass', self.db + 'pass', '--quiet']
+        cmd = ['pass', tests.db + 'pass', '--quiet']
         self._passimport(cmd)
 
     def test_pass_import_gnomekeyring(self):
@@ -175,6 +175,6 @@ class TestPassImportManagers(TestPassImportBase):
     @patch("getpass.getpass")
     def test_pass_import_keepass(self, pw):
         """Testing: pass import keepass db/keepass.kdbx."""
-        cmd = ['keepass', self.db + 'keepass.kdbx', '--quiet']
-        pw.return_value = self.masterpassword
+        cmd = ['keepass', tests.db + 'keepass.kdbx', '--quiet']
+        pw.return_value = tests.masterpassword
         self._passimport(cmd)

@@ -19,17 +19,15 @@
 import os
 from unittest.mock import patch
 
-import yaml
 import tests
 
 
-DB = tests.Test.assets + 'references/'
-REFERENCE_OTP = yaml.safe_load(open(DB + 'otp.yml', 'r'))
-REFERENCE_WIFI = yaml.safe_load(open(DB + 'networkmanager-wifi.yml', 'r'))
-REFERENCE_NOTE = yaml.safe_load(open(DB + 'applekeychain-note.yml', 'r'))
-REFERENCE_CARD = yaml.safe_load(open(DB + 'encryptr-card.yml', 'r'))
-REFERENCE_OTHER = yaml.safe_load(open(DB + 'keepass-other.yml', 'r'))
-REFERENCE_KDBX = yaml.safe_load(open(DB + 'keepass-kdbx.yml', 'r'))
+REFERENCE_OTP = tests.yaml_load('otp.yml')
+REFERENCE_WIFI = tests.yaml_load('networkmanager-wifi.yml')
+REFERENCE_NOTE = tests.yaml_load('applekeychain-note.yml')
+REFERENCE_CARD = tests.yaml_load('encryptr-card.yml')
+REFERENCE_OTHER = tests.yaml_load('keepass-other.yml')
+REFERENCE_KDBX = tests.yaml_load('keepass-kdbx.yml')
 
 
 class TestImporters(tests.Test):
@@ -37,12 +35,12 @@ class TestImporters(tests.Test):
 
     def test_importers_generic(self):
         """Testing: parse method for all importers."""
-        for manager in self.tests:
+        for manager in tests.conf:
             with self.subTest(manager):
-                importer = self._class(manager)
-                testpath = self._path(manager)
-                reference = self._reference(manager)
-                encoding = self.tests[manager]['encoding']
+                importer = tests.cls(manager)
+                testpath = tests.path(manager)
+                reference = tests.reference(manager)
+                encoding = tests.conf[manager]['encoding']
                 with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 
@@ -54,8 +52,8 @@ class TestImporters(tests.Test):
         otp = ['andotp', 'gnome-authenticator', 'aegis']
         for manager in otp:
             with self.subTest(manager):
-                importer = self._class(manager)
-                testpath = os.path.join(self.db, manager + '.json')
+                importer = tests.cls(manager)
+                testpath = os.path.join(tests.db, manager + '.json')
                 with open(testpath, 'r') as file:
                     importer.parse(file)
 
@@ -69,11 +67,11 @@ class TestImporters(tests.Test):
                 'roboform': 'title,url,login,password,comments,group,,'}
         for manager in csv:
             with self.subTest(manager):
-                importer = self._class('csv')
+                importer = tests.cls('csv')
                 importer.cols = cols[manager]
-                testpath = self._path(manager)
-                reference = self._reference(manager)
-                encoding = self.tests[manager]['encoding']
+                testpath = tests.path(manager)
+                reference = tests.reference(manager)
+                encoding = tests.conf[manager]['encoding']
                 with open(testpath, 'r', encoding=encoding) as file:
                     importer.parse(file)
 
@@ -81,9 +79,9 @@ class TestImporters(tests.Test):
 
     def test_importers_pass(self):
         """Testing: parse method for password-store."""
-        importer = self._class('pass')
-        reference = self._reference()
-        prefix = os.path.join(self.db, 'pass')
+        importer = tests.cls('pass')
+        reference = tests.reference()
+        prefix = os.path.join(tests.db, 'pass')
         importer.parse(prefix)
 
         #
@@ -98,10 +96,10 @@ class TestImporters(tests.Test):
     @patch("getpass.getpass")
     def test_importers_keepass(self, pw):
         """Testing: parse method for Keepass Kdbx."""
-        importer = self._class('keepass')
-        reference = self._reference()
-        pw.return_value = self.masterpassword
-        testpath = os.path.join(self.db, 'keepass.kdbx')
+        importer = tests.cls('keepass')
+        reference = tests.reference()
+        pw.return_value = tests.masterpassword
+        testpath = os.path.join(tests.db, 'keepass.kdbx')
         importer.parse(testpath)
 
         reference.extend(REFERENCE_KDBX)
@@ -113,31 +111,31 @@ class TestImporters(tests.Test):
 
     def test_importers_networkmanager(self):
         """Testing: parse method for Network Manager."""
-        importer = self._class('networkmanager')
-        testpath = os.path.join(self.db, 'networkmanager')
+        importer = tests.cls('networkmanager')
+        testpath = os.path.join(tests.db, 'networkmanager')
         importer.parse(testpath)
         self.assertImport(importer.data, REFERENCE_WIFI)
 
     def test_importers_applekeychain_note(self):
         """Testing: parse method for AppleKeychain with notes."""
-        importer = self._class('apple-keychain')
-        testpath = os.path.join(self.db, 'apple-keychain-note.txt')
+        importer = tests.cls('apple-keychain')
+        testpath = os.path.join(tests.db, 'apple-keychain-note.txt')
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_NOTE)
 
     def test_importers_keepassother(self):
         """Testing: parse method for Keepass with special cases."""
-        importer = self._class('keepass-xml')
-        testpath = os.path.join(self.db, 'keepass-other.xml')
+        importer = tests.cls('keepass-xml')
+        testpath = os.path.join(tests.db, 'keepass-other.xml')
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_OTHER)
 
     def test_importers_keepassxother(self):
         """Testing: parse method for KeepassX with special cases."""
-        importer = self._class('keepassx')
-        testpath = os.path.join(self.db, 'keepassx-other.xml')
+        importer = tests.cls('keepassx')
+        testpath = os.path.join(tests.db, 'keepassx-other.xml')
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_OTHER)
@@ -146,8 +144,8 @@ class TestImporters(tests.Test):
         """Testing: parse method for Encryptr with credit card."""
         keep = ['title', 'Type', 'Name on card', 'Card Number', 'CVV',
                 'Expiry', 'group']
-        importer = self._class('encryptr')
-        testpath = os.path.join(self.db, 'encryptr-card.csv')
+        importer = tests.cls('encryptr')
+        testpath = os.path.join(tests.db, 'encryptr-card.csv')
         with open(testpath, 'r') as file:
             importer.parse(file)
         self.assertImport(importer.data, REFERENCE_CARD, keep)
@@ -156,9 +154,9 @@ class TestImporters(tests.Test):
     def test_importers_aegis(self, pw):
         """Testing: parse method for Aegis encrypted with AES."""
         keep = ['title', 'otpauth', 'type']
-        importer = self._class('aegis')
-        pw.return_value = self.masterpassword
-        testpath = os.path.join(self.db, 'aegis.cipher.json')
+        importer = tests.cls('aegis')
+        pw.return_value = tests.masterpassword
+        testpath = os.path.join(tests.db, 'aegis.cipher.json')
         with open(testpath, 'r') as file:
             importer.parse(file)
 
@@ -168,9 +166,9 @@ class TestImporters(tests.Test):
     def test_importers_andotpaes(self, pw):
         """Testing: parse method for andOTP encrypted with AES."""
         keep = ['title', 'otpauth', 'type']
-        importer = self._class('andotp')
-        pw.return_value = self.masterpassword
-        testpath = os.path.join(self.db, 'andotp.json.aes')
+        importer = tests.cls('andotp')
+        pw.return_value = tests.masterpassword
+        testpath = os.path.join(tests.db, 'andotp.json.aes')
         with open(testpath, 'r') as file:
             importer.parse(file)
 
@@ -179,8 +177,8 @@ class TestImporters(tests.Test):
     def test_importers_andotpgpg(self):
         """Testing: parse method for andOTP encrypted with GPG."""
         keep = ['title', 'otpauth', 'type']
-        importer = self._class('andotp')
-        testpath = os.path.join(self.db, 'andotp.gpg')
+        importer = tests.cls('andotp')
+        testpath = os.path.join(tests.db, 'andotp.gpg')
         with open(testpath, 'r') as file:
             importer.parse(file)
 
@@ -189,8 +187,8 @@ class TestImporters(tests.Test):
     def test_importers_gnomekeyring(self):
         """Testing: parse method for Gnome Keyring."""
         collection = 'pass-import'
-        importer = self._class('gnome-keyring')
-        reference = self._reference()
+        importer = tests.cls('gnome-keyring')
+        reference = tests.reference()
         importer.parse(collection)
 
         for key in ['group', 'login', 'url', 'comments']:

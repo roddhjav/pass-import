@@ -1,6 +1,12 @@
 [paths]
 source = pass_import.py
 
+[run]
+omit =
+    */virtualenv/*
+    */.local/*
+    /usr/*
+
 [report]
 exclude_lines =
     pragma: no cover
