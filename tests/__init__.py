@@ -173,5 +173,6 @@ class Test(unittest.TestCase):
     def assertImport(self, data, refdata, keep=None):  # noqa
         """Compare imported data with the reference data."""
         clear(data, keep)
+        self.assertEqual(len(data), len(refdata))
         for entry in data:
             self.assertIn(entry, refdata)
