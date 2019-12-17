@@ -18,7 +18,10 @@
 
 # This script updates the readme file in this repo.
 
+import sys
 import io
+
+sys.path.insert(0, '../')
 import pass_import
 
 MANAGERS = pass_import.IMPORTERS
@@ -179,7 +182,7 @@ def zsh_completion():
 
 
 UPDATE = {
-    'README.md': [
+    '../README.md': [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', importers_nb),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', markdown_table),
         ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', helpmessage)
@@ -188,10 +191,10 @@ UPDATE = {
         (r'\# NB BEGIN', r'\# NB END', importers_nb_line),
         (r'\# SUPPORTED LIST BEGIN', r'\# SUPPORTED LIST END', importers_usage)
     ],
-    'completion/pass-import.bash': [
+    '../completion/pass-import.bash': [
         ('# importers begin', '# importers end', bash_completion)
     ],
-    'completion/pass-import.zsh': [
+    '../completion/pass-import.zsh': [
         ('# subcommands begin', '# subcommands end', zsh_completion)
     ]
 }
