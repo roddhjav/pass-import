@@ -1,24 +1,35 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# pass import - Passwords importer swiss army knife
+# Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 
+import os
 from setuptools import setup
-from pass_import import __version__
 
-__url__ = 'https://github.com/roddhjav/pass-import'
+
+about = dict()
+with open(os.path.join('pass_import', '__about__.py')) as file:
+    exec(file.read(), about)  # nosec
+
+
+with open('README.md') as file:
+    long_description = file.read()
+
 
 setup(
-    name="pass-import",
-    version=__version__,
-    author="Alexandre Pujol",
-    author_email="alexandre@pujol.io",
-    url=__url__,
-    download_url="%s/releases/download/v%s/pass-import-%s.tar.gz" %
-    (__url__, __version__, __version__),
-    description=('A pass extension for importing data from most of '
-                 'the existing password manager.'),
-    license='GPL3',
-    py_modules=['pass_import'],
-    install_requires=['pyaml'],
+    name=about['__title__'],
+    version=about['__version__'],
+    author=about['__author__'],
+    author_email=about['__email__'],
+    description=about['__summary__'],
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    license=about['__license__'],
+    url=about['__uri__'],
+    download_url=("%s/releases/download/v%s/%s-%s.tar.gz" %
+                  (about['__uri__'], about['__version__'], about['__title__'],
+                   about['__version__'])),
+    packages=['pass_import'],
+    install_requires=['pyaml', 'file-magic'],
     extras_require={
         'xml': ['defusedxml'],
         'keepass': ['pykeepass'],
@@ -31,12 +42,8 @@ setup(
     python_requires='>=3.5',
     zip_safe=True,
     keywords=[
-        'password-store',
-        'password',
-        'pass',
-        'pass-extension',
-        'password-manager',
-        'importer'
+        'password-store', 'password', 'pass', 'pass-extension',
+        'password-manager', 'importer'
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -52,6 +59,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Topic :: Security :: Cryptography'
+        'Programming Language :: Python :: 3.8',
+        'Topic :: Security :: Cryptography',
     ],
 )
