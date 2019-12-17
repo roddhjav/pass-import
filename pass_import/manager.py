@@ -5,6 +5,7 @@
 
 from abc import abstractmethod
 
+import pass_import.clean as clean
 from pass_import.core import Asset, Cap
 
 
@@ -129,3 +130,10 @@ class PasswordExporter(PasswordManager):
             If ``True``, convert the invalid caracters present in the paths.
 
         """
+        for entry in self.data:
+            entry = clean.unused(entry)
+            path = clean.group(clean.protocol(entry.pop('group', '')))
+            entry['path'] = clean.cpath(entry, path, cmdclean, convert)
+
+        clean.dpaths(self.data, cmdclean, convert)
+        clean.duplicate(self.data)
