@@ -24,6 +24,7 @@ import traceback
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
 from pass_import import Managers, Detecters, __version__
+from pass_import.auto import AutoDetect
 from pass_import.core import Cap
 from pass_import.errors import PMError, FormatError
 from pass_import.tools import Config, get_magics
@@ -267,9 +268,173 @@ def listmanagers(conf):
     sys.exit(0)
 
 
+def decryptsource(conf):
+    """Decrypt source file if required."""
+    path = conf['src'][1] if len(conf['src']) >= 2 else conf['src'][0]
+    if os.path.isfile(path):
+        decrypters = Detecters(Cap.DECRYPT)
+        frmt, encoding = get_magics(path)
+        if encoding:
+            conf['encoding'] = encoding
+        if frmt in decrypters:
+            with decrypters[frmt](path) as file:
+                conf['plaintext'] = file.decrypt()
+                conf['decrypted'] = True
+            conf.verbose("Source file decrypted using %s." % frmt)
+
+
+def detectmanager(conf):
+    """Detect file format and password manager."""
+    prefix = ''
+    warn = True
+    if len(conf['src']) == 1:
+        name = conf['src'][0]
+        if name in MANAGERS.names():
+            conf.verbose("Using default manager.")
+            detect = AutoDetect(name)
+            pm = detect.default()
+            warn = False
+
+        else:
+            conf.verbose("Trying to guess file format and manager name.")
+            prefix = to_detect = name
+            if conf['decrypted']:
+                to_detect = conf['plaintext']
+
+            detect = AutoDetect(stream=conf['decrypted'])
+            detect.delimiter = conf['delimiter']
+            pm = detect.manager(to_detect)
+            if pm is None:
+                conf.die("Unable to detect the manager. Please try with: "
+                         "%s <manager> %s" % (conf['prog'], prefix))
+
+    else:
+        name = conf['src'][0]
+        prefix = conf['src'][1]
+        if name in MANAGERS.names():
+            conf.verbose("Trying to guess file format.")
+            to_detect = prefix
+            if conf['decrypted']:
+                to_detect = conf['plaintext']
+
+            detect = AutoDetect(name, stream=conf['decrypted'])
+            detect.delimiter = conf['delimiter']
+            pm = detect.format(to_detect)
+            warn = False
+
+        else:
+            conf.die("%s is not a supported source password manager." % name)
+
+    conf.verbose("Importer: %s, Format: %s, Version:"
+                 " %s" % (pm.name, pm.format, pm.version))
+    if warn and pm == detect.default(pm.name):
+        conf.warning("Unable to detect the %s format for %s, using the "
+                     "default %s importer" % (pm.name, prefix, pm.name))
+
+    if 'plaintext' in conf:
+        conf['in'] = io.StringIO(conf['plaintext'])
+    else:
+        conf['in'] = prefix
+    conf['importer'] = pm.name
+    return pm
+
+
+def pass_import(conf, cls_import):
+    """Import data."""
+    try:
+        settings = conf.getsettings(conf['sroot'])
+        with cls_import(conf['in'], settings=settings) as importer:
+            importer.parse()
+            if not importer.secure:  # pragma: no cover
+                conf.warning("The password manager %s has been flagged as "
+                             "unsecure, you should update all your newly "
+                             "imported credentials." % conf['importer'])
+            return importer.data
+    except (FormatError, AttributeError, ValueError, TypeError) as error:
+        conf.debug(traceback.format_exc())
+        conf.warning(error)
+        conf.die("%s is not a valid exported %s file." %
+                 (conf['in'], conf['importer']))
+    except ImportError as error:
+        conf.verbose(error)
+        conf.die("Importing %s, missing required dependency: %s\n"
+                 "You can install it with:\n"
+                 "  'sudo apt-get install python3-%s', or\n"
+                 "  'pip3 install %s'" % (conf['manager'], error.name,
+                                          error.name, error.name))
+
+    except (PermissionError, PMError) as error:
+        conf.debug(traceback.format_exc())
+        conf.die(error)
+
+
+def pass_export(conf, cls_export, data):
+    """Insert cleaned data into the password repository."""
+    try:
+        settings = conf.getsettings(conf['droot'], 'export')
+        with cls_export(conf['out'], settings=settings) as exporter:
+            paths = []
+            exporter.data = data
+            exporter.clean(conf['clean'], conf['convert'])
+            for entry in exporter.data:
+                pmpath = os.path.join(conf['droot'], entry['path'])
+                conf.show(entry)
+                try:
+                    exporter.insert(entry)
+                except PMError as error:
+                    conf.debug(traceback.format_exc())
+                    conf.warning("Impossible to insert %s into %s: %s" %
+                                 (pmpath, conf['exporter'], error))
+                else:
+                    paths.append(pmpath)
+            return paths
+    except PMError as error:
+        conf.debug(traceback.format_exc())
+        conf.die(error)
+
+
+def report(conf, paths):
+    """Print final success report."""
+    conf.success("Importing passwords from %s to %s" %
+                 (conf['importer'], conf['exporter']))
+    conf.message("Passwords imported from: %s" % conf['in'])
+    conf.message("Passwords exported to: %s" % conf['out'])
+    if conf['sroot'] != '':
+        conf.message("Root path: %s" % conf['sroot'])
+    if conf['droot'] != '':
+        conf.message("Root path: %s" % conf['droot'])
+    conf.message("Number of password imported: %s" % len(paths))
+    if conf['convert']:
+        conf.message("Forbidden chars converted")
+        conf.message("Path separator used: %s" % conf['separator'])
+    if conf['clean']:
+        conf.message("Imported data cleaned")
+    if conf['all']:
+        conf.message("All data imported")
+    if paths:
+        conf.message("Passwords imported:")
+        paths.sort()
+        for path in paths:
+            conf.echo(path)
+
+
 def main():
     """`pimport` and `pass import` common main."""
     conf = setup()
+    decryptsource(conf)
+
+    # Password managers detection
+    cls_import = detectmanager(conf)
+    cls_export = MANAGERS.get(conf['exporter'], cap=Cap.EXPORT)
+    conf.verbose("Importing passwords from %s to %s" %
+                 (cls_import.__name__, cls_export.__name__))
+
+    # Import & export
+    data = pass_import(conf, cls_import)
+    paths = pass_export(conf, cls_export, data)
+
+    # Success!
+    report(conf, paths)
 
 
 if __name__ == "__main__":
