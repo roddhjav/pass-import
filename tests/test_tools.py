@@ -1,51 +1,57 @@
-#!/usr/bin/env python3
-# pass import - Password Store Extension (https://www.passwordstore.org/)
-# Copyright (C) 2017-2019 Alexandre PUJOL <alexandre@pujol.io>.
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# -*- encoding: utf-8 -*-
+# pass-import - test suite
+# Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
-import pass_import
+import os
+from unittest.mock import patch
+
+import pass_import.clean as clean
+import pass_import.tools
 import tests
+
+
+class TestStatic(tests.Test):
+    """Test the static functions."""
+
+    @patch("getpass.getpass")
+    def test_getpassword(self, passwd):
+        """Testing: getpassword function."""
+        passwd.return_value = self.masterpassword
+        password = pass_import.tools.getpassword('Dummy')
+        self.assertEqual(password, self.masterpassword)
 
 
 class TestConfig(tests.Test):
     """Test the Config class."""
 
     def setUp(self):
-        """Initialse a config object."""
-        self.conf = pass_import.Config(0, False)
+        self.conf = pass_import.tools.Config()
 
-    def test_readconfig(self):
-        """Testing: read configuration file."""
-        args = {'separator': '6', 'config': tests.assets + 'config.yml'}
-        conf = pass_import.Config()
+    def test_settings(self):
+        """Testing: read configuration file and gen settings."""
+        os.environ['PASSWORD_STORE_DIR'] = 'pass/to/store'
+        args = {'config': tests.assets + 'config.yml'}
+        conf = pass_import.tools.Config()
         conf.readconfig(args)
+        settings = conf.getsettings('')
 
-        ref = {
-            'separator': '6',
+        self.assertEqual(clean.SEPARATOR, '5')
+        self.assertEqual(clean.CLEANS, {' ': '5'})
+        self.assertEqual(clean.PROTOCOLS, [])
+        self.assertEqual(
+            clean.INVALIDS,
+            ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00'])
+        self.assertEqual(settings, {
+            'action': 'import',
             'delimiter': ',',
-            'cleans': {' ': '6'},
-            'protocols': [],
-            'invalids': ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00'],
-            'config': tests.assets + 'config.yml'
-        }
-        self.assertEqual(conf, ref)
+            'root': '',
+        })
 
     def test_showentry(self):
         """Testing: show a password entry."""
-        conf = pass_import.Config(2, False)
+        conf = pass_import.tools.Config()
+        conf.verbosity(2)
         entry = {
             'path': 'Social/mastodon.social',
             'password': 'EaP:bCmLZliqa|]WR/#HZP',
@@ -63,7 +69,8 @@ class TestConfig(tests.Test):
 
     def test_debug(self):
         """Testing: debug message."""
-        conf = pass_import.Config(3, False)
+        conf = pass_import.tools.Config()
+        conf.verbosity(3)
         with tests.captured() as (out, err):
             conf.debug('pass', 'debug message')
             message = out.getvalue().strip()
@@ -81,7 +88,8 @@ class TestConfig(tests.Test):
 
     def test_verbose(self):
         """Testing: message verbose."""
-        conf = pass_import.Config(1, False)
+        conf = pass_import.tools.Config()
+        conf.verbosity(True, False)
         with tests.captured() as (out, err):
             conf.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
@@ -104,7 +112,8 @@ class TestConfig(tests.Test):
         self.assertEqual(err.getvalue().strip(), '')
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
 
-        conf = pass_import.Config(True, True)
+        conf = pass_import.tools.Config()
+        conf.verbosity(True, True)
         with tests.captured() as (out, err):
             conf.message('classic message')
             message = out.getvalue().strip()
@@ -114,10 +123,10 @@ class TestConfig(tests.Test):
     def test_echo(self):
         """Testing: small echo."""
         with tests.captured() as (out, err):
-            self.conf.echo('smal echo')
+            self.conf.echo('small echo')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
-        self.assertEqual(message, 'smal echo')
+        self.assertEqual(message, 'small echo')
 
     def test_success(self):
         """Testing: success message."""
