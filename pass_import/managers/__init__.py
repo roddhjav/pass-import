@@ -1,0 +1,1 @@
+from pass_import.managers.passwordstore import PasswordStore
