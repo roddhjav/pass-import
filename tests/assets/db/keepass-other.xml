@@ -3,14 +3,14 @@
 	<Meta>
 		<Generator>KeePass</Generator>
 		<DatabaseName />
-		<DatabaseNameChanged>2017-11-18T00:16:09Z</DatabaseNameChanged>
+		<DatabaseNameChanged>2017-01-01T00:00:00Z</DatabaseNameChanged>
 		<DatabaseDescription />
-		<DatabaseDescriptionChanged>2017-11-18T00:16:09Z</DatabaseDescriptionChanged>
+		<DatabaseDescriptionChanged>2017-01-01T00:00:00Z</DatabaseDescriptionChanged>
 		<DefaultUserName />
-		<DefaultUserNameChanged>2017-11-18T00:16:09Z</DefaultUserNameChanged>
+		<DefaultUserNameChanged>2017-01-01T00:00:00Z</DefaultUserNameChanged>
 		<MaintenanceHistoryDays>365</MaintenanceHistoryDays>
 		<Color />
-		<MasterKeyChanged>2017-11-18T00:16:09Z</MasterKeyChanged>
+		<MasterKeyChanged>2017-01-01T00:00:00Z</MasterKeyChanged>
 		<MasterKeyChangeRec>-1</MasterKeyChangeRec>
 		<MasterKeyChangeForce>-1</MasterKeyChangeForce>
 		<MemoryProtection>
@@ -22,9 +22,9 @@
 		</MemoryProtection>
 		<RecycleBinEnabled>False</RecycleBinEnabled>
 		<RecycleBinUUID>AAAAAAAAAAAAAAAAAAAAAA==</RecycleBinUUID>
-		<RecycleBinChanged>2017-11-18T00:17:17Z</RecycleBinChanged>
+		<RecycleBinChanged>2017-01-01T00:00:00Z</RecycleBinChanged>
 		<EntryTemplatesGroup>AAAAAAAAAAAAAAAAAAAAAA==</EntryTemplatesGroup>
-		<EntryTemplatesGroupChanged>2017-11-18T00:16:09Z</EntryTemplatesGroupChanged>
+		<EntryTemplatesGroupChanged>2017-01-01T00:00:00Z</EntryTemplatesGroupChanged>
 		<HistoryMaxItems>1</HistoryMaxItems>
 		<HistoryMaxSize>6291456</HistoryMaxSize>
 		<LastSelectedGroup>AAAAAAAAAAAAAAAAAAAAAA==</LastSelectedGroup>
@@ -39,13 +39,13 @@
 			<Notes />
 			<IconID>49</IconID>
 			<Times>
-				<CreationTime>2017-11-18T00:16:09Z</CreationTime>
-				<LastModificationTime>2017-11-18T00:16:09Z</LastModificationTime>
-				<LastAccessTime>2017-11-18T18:08:26Z</LastAccessTime>
-				<ExpiryTime>2017-11-18T00:14:25Z</ExpiryTime>
+				<CreationTime>2017-01-01T00:00:00Z</CreationTime>
+				<LastModificationTime>2017-01-01T00:00:00Z</LastModificationTime>
+				<LastAccessTime>2017-01-01T00:00:00Z</LastAccessTime>
+				<ExpiryTime>2017-01-01T00:00:00Z</ExpiryTime>
 				<Expires>False</Expires>
 				<UsageCount>64</UsageCount>
-				<LocationChanged>2017-11-18T00:16:09Z</LocationChanged>
+				<LocationChanged>2017-01-01T00:00:00Z</LocationChanged>
 			</Times>
 			<IsExpanded>True</IsExpanded>
 			<DefaultAutoTypeSequence />
@@ -58,13 +58,13 @@
 				<Notes />
 				<IconID>48</IconID>
 				<Times>
-					<CreationTime>2017-11-18T00:21:21Z</CreationTime>
-					<LastModificationTime>2017-11-18T00:21:23Z</LastModificationTime>
-					<LastAccessTime>2017-11-18T18:08:25Z</LastAccessTime>
-					<ExpiryTime>2017-11-18T00:00:00Z</ExpiryTime>
+					<CreationTime>2017-01-01T00:00:00Z</CreationTime>
+					<LastModificationTime>2017-01-01T00:00:00Z</LastModificationTime>
+					<LastAccessTime>2017-01-01T00:00:00Z</LastAccessTime>
+					<ExpiryTime>2017-01-01T00:00:00Z</ExpiryTime>
 					<Expires>False</Expires>
 					<UsageCount>6</UsageCount>
-					<LocationChanged>2017-11-18T00:21:21Z</LocationChanged>
+					<LocationChanged>2017-01-01T00:00:00Z</LocationChanged>
 				</Times>
 				<IsExpanded>True</IsExpanded>
 				<DefaultAutoTypeSequence />
@@ -79,13 +79,13 @@
 					<OverrideURL />
 					<Tags />
 					<Times>
-						<CreationTime>2017-11-18T00:32:50Z</CreationTime>
-						<LastModificationTime>2017-11-18T00:33:19Z</LastModificationTime>
-						<LastAccessTime>2017-11-18T00:33:19Z</LastAccessTime>
-						<ExpiryTime>2017-11-18T00:14:25Z</ExpiryTime>
+						<CreationTime>2017-01-01T00:00:00Z</CreationTime>
+						<LastModificationTime>2017-01-01T00:00:00Z</LastModificationTime>
+						<LastAccessTime>2017-01-01T00:00:00Z</LastAccessTime>
+						<ExpiryTime>2017-01-01T00:00:00Z</ExpiryTime>
 						<Expires>False</Expires>
 						<UsageCount>1</UsageCount>
-						<LocationChanged>2017-11-18T00:32:50Z</LocationChanged>
+						<LocationChanged>2017-01-01T00:00:00Z</LocationChanged>
 					</Times>
 					<String>
 						<Key>Notes</Key>
@@ -121,13 +121,13 @@
 					<OverrideURL />
 					<Tags />
 					<Times>
-						<CreationTime>2017-11-18T00:33:25Z</CreationTime>
-						<LastModificationTime>2017-11-18T00:33:40Z</LastModificationTime>
-						<LastAccessTime>2017-11-18T00:33:46Z</LastAccessTime>
-						<ExpiryTime>2017-11-18T00:14:25Z</ExpiryTime>
+						<CreationTime>2017-01-01T00:00:00Z</CreationTime>
+						<LastModificationTime>2017-01-01T00:00:00Z</LastModificationTime>
+						<LastAccessTime>2017-01-01T00:00:00Z</LastAccessTime>
+						<ExpiryTime>2017-01-01T00:00:00Z</ExpiryTime>
 						<Expires>False</Expires>
 						<UsageCount>2</UsageCount>
-						<LocationChanged>2017-11-18T00:33:25Z</LocationChanged>
+						<LocationChanged>2017-01-01T00:00:00Z</LocationChanged>
 					</Times>
 					<String>
 						<Key>Notes</Key>

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "cipher": "aes",
+  "mode": "ccm",
+  "keySize": 256,
+  "iter": 50000,
+  "ts": 64,
+  "salt": "LLDuJa6vI23emVgMUMGT+Q==",
+  "iv": "4EX9HHfBP++p7ffhRts1yQ==",
+  "adata": "FsR/Aps8a8BdRL3+yMgAYA==",
+  "ct": "36b/b3qcjHgEmzkS+1QszixEHHDYp2ZXOv0+2LZvGQhZtcv8CUe0I8RgfoIjD7d1QHMZoWWS/DT8k1grTFvvGxXyqxjv6+EVkuCsWSK/CvvhbVAV6qpHvCUWgPhytZJqFVffCkS1KSySopnb11uN1MyGGZ55LJIXcTk+ShiAYv3wA9PEjbFRPhZ92R1oJs+85f4FbRf2W7ktl7LaJGsz5xdhC3EneTyw/rpRoUrUZ42KgKJ47avFlRwPJ4jrtvaCOmBPxnUwQOb7+59bTHwyTPu3V7+EyV1bfUZdt3ILQ1TSxRMGprnybt34A1pUnbBXV9veeHJve1HPlRDGuXFvg3CA8lJPrLK+xvcRIQDewEdWK0vgKmRlcyT9g/DJqOfQVl/FyhfuM5D7VQGuCqpJDTb9RAFHfmWMtKYVkF+Hc3qjz7UTsPYewXrtbfeeH9L5ElNVoESDaw3tuAZvDFyf5C1cuLkEwM0NSK1SPoylxfJcCIJoGWkaPYsKUglJWBY/Ev86hxIA8e7NZcZpwNTzs7vTvLgKpI+JRqdcGGpJRir35jtRiQZign9yChEjNzHoQlvERyMrMKq6hlP97zaWsfINz6hIJC9Xz5lduRBzlcjm8Fqv1YfxDXXrwNADCabuP97KvVfywEDom93LnHXURQfjz7KW63DeoKiQd0rCfEmCEeTESlTluPeTXreQ/wznTcPZrGA322+AsaPZyF3AMVbe1XDsdsNnK7nzXqMZhWV1Bi2u7o8ysefHzKCX7UHpAeD2PNphOWv2I6G4vG8LSmr4DEjwo4mlgRu3Q/29HGg1DmY8plv5HWtCk9/AUsarQq0j7L4UOSFOtC9vQCrqJh8HP+vH5Qm+dUuhsRJqgG0mNHJtU9PvsPv7vyqYm5u/OivQRNkWVAkwxIFN5KXf"
+}

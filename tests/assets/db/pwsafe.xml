@@ -4,7 +4,7 @@
 <passwordsafe
 delimiter="»"
 Database="pwsafe.psafe3"
-ExportTimeStamp="2017-11-18T19:46:01"
+ExportTimeStamp="2017-01-01T00:00:00"
 FromDatabaseFormat="3.00"
 Database_uuid="00000000-0000-0000-0000-000000000000"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -28,8 +28,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14]]></password>
 		<url><![CDATA[https://onlinebanking.aib.ie]]></url>
 		<uuid><![CDATA[66ade93b8f264e46520794c5f97aed91]]></uuid>
-		<pmtimex>2017-11-18T19:32:19</pmtimex>
-		<rmtimex>2017-11-18T19:32:19</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="2">
@@ -37,7 +37,7 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<title><![CDATA[empty entry]]></title>
 		<password><![CDATA[]]></password>
 		<uuid><![CDATA[e8591b4f8d9c4c946b3a0d4ca6e190f5]]></uuid>
-		<rmtimex>2017-11-18T19:35:05</rmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="3">
@@ -47,7 +47,7 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[]]></password>
 		<url><![CDATA[https://nhysdo.wg]]></url>
 		<uuid><![CDATA[50c52bce96a343dd5a5a87a63717cc0d]]></uuid>
-		<rmtimex>2017-11-18T19:35:24</rmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="4">
@@ -56,22 +56,22 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[]]></password>
 		<notes><![CDATA[This is a multiline note entry. Cube shank petroleum guacamole dart mower»acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.]]></notes>
 		<uuid><![CDATA[c3053566d75946d04755d8caac43680c]]></uuid>
-		<rmtimex>2017-11-18T19:35:36</rmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 		<pwhistory>
 			<status>1</status>
 			<max>3</max>
 			<num>3</num>
 			<history_entries>
 				<history_entry num="1">
-					<changedx>2017-03-02T15:55:14</changedx>
+					<changedx>2017-01-01T00:00:00</changedx>
 					<oldpassword><![CDATA[123test]]></oldpassword>
 				</history_entry>
 				<history_entry num="2">
-					<changedx>2017-04-02T15:55:59</changedx>
+					<changedx>2017-01-01T00:00:00</changedx>
 					<oldpassword><![CDATA[fhZR.aQc)r{!]]></oldpassword>
 				</history_entry>
 				<history_entry num="3">
-					<changedx>2017-05-02T15:56:08</changedx>
+					<changedx>2017-01-01T00:00:00</changedx>
 					<oldpassword><![CDATA[&a<H{P*y0,R3]]></oldpassword>
 				</history_entry>
 			</history_entries>
@@ -86,8 +86,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[]stDKo{%pk]]></password>
 		<url><![CDATA[https://nhysdo.wg]]></url>
 		<uuid><![CDATA[3779a0935810416c642c6f43a43826e0]]></uuid>
-		<pmtimex>2017-11-18T19:34:53</pmtimex>
-		<rmtimex>2017-11-18T19:34:53</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="6">
@@ -97,8 +97,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[9KVHnx:.S_S;cF`=CE@e\p{v6]]></password>
 		<url><![CDATA[https://afoqwdr.tx]]></url>
 		<uuid><![CDATA[578d2a642e3048384a2cbfff3e9ec4f8]]></uuid>
-		<pmtimex>2017-11-18T19:32:53</pmtimex>
-		<rmtimex>2017-11-18T19:32:53</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="7">
@@ -108,8 +108,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[2cUqe}e9}>IVZf)Ye>3C8ZN,r]]></password>
 		<notes><![CDATA[This is a garbage address]]></notes>
 		<uuid><![CDATA[9424605870364d33466b453ceb4d80a2]]></uuid>
-		<pmtimex>2017-11-18T19:33:44</pmtimex>
-		<rmtimex>2017-11-18T19:33:44</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="8">
@@ -119,8 +119,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[mt}h'hSUCY;SU;;A!l[8y3O:8]]></password>
 		<notes><![CDATA[For financial purpose only!]]></notes>
 		<uuid><![CDATA[88dfe38ddd34423060e04ec1c0a175b5]]></uuid>
-		<pmtimex>2017-11-18T19:34:31</pmtimex>
-		<rmtimex>2017-11-18T19:34:31</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="9">
@@ -130,8 +130,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[rPCkmNkhIa>{izt3C3F823!Go]]></password>
 		<url><![CDATA[https://mail.mnyfymt.ws]]></url>
 		<uuid><![CDATA[1dfbf2fc21a74843722a22fcff3e7ff3]]></uuid>
-		<pmtimex>2017-11-18T19:34:06</pmtimex>
-		<rmtimex>2017-11-18T19:34:06</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="10">
@@ -141,8 +141,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[3Z-VW!i,j(&!zRGPu(hFe]s'(]]></password>
 		<url><![CDATA[https://www.ovh.com/manager/web/]]></url>
 		<uuid><![CDATA[ce9402a3e4804fd9456b4af18101dc75]]></uuid>
-		<pmtimex>2017-11-18T19:31:41</pmtimex>
-		<rmtimex>2017-11-18T19:31:41</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="11">
@@ -152,8 +152,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[^Vr/|o>_H8X%T]7>f}7|:U!Zs]]></password>
 		<url><![CDATA[https://www.ovh.com/manager/web/]]></url>
 		<uuid><![CDATA[627816be93f04c5956ba7ae1536f8868]]></uuid>
-		<pmtimex>2017-11-18T19:31:19</pmtimex>
-		<rmtimex>2017-11-18T19:31:19</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="12">
@@ -163,8 +163,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[D<INNeT?#?Bf4%`zA/4i!/'$T]]></password>
 		<url><![CDATA[https://mastodon.social/]]></url>
 		<uuid><![CDATA[542657a4e96e4f1c795808e271ebab02]]></uuid>
-		<pmtimex>2017-11-18T19:29:32</pmtimex>
-		<rmtimex>2017-11-18T19:29:32</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="13">
@@ -174,8 +174,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[1)Btf2EI~Tfb7g2A!Sy',*Sj#]]></password>
 		<url><![CDATA[https://news.ycombinator.com]]></url>
 		<uuid><![CDATA[2f7972171292455f78dcd74605327450]]></uuid>
-		<pmtimex>2017-11-18T19:30:33</pmtimex>
-		<rmtimex>2017-11-18T19:30:33</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 	<entry id="14">
@@ -185,8 +185,8 @@ xsi:noNamespaceSchemaLocation="pwsafe.xsd">
 		<password><![CDATA[SoNEwvU,kJ%-cIKJ9[c#S;]jB]]></password>
 		<url><![CDATA[https://twitter.com/]]></url>
 		<uuid><![CDATA[b0080e4fa7dd411645f4567c8084fa33]]></uuid>
-		<pmtimex>2017-11-18T19:30:04</pmtimex>
-		<rmtimex>2017-11-18T19:30:04</rmtimex>
+		<pmtimex>2017-01-01T00:00:00</pmtimex>
+		<rmtimex>2017-01-01T00:00:00</rmtimex>
 	</entry>
 
 </passwordsafe>

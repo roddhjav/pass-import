@@ -4,49 +4,49 @@
             "icon": "1008",
             "parent_uuid": "",
             "title": "Social",
-            "updated_at": 1511037346,
+            "updated_at": 1483228800,
             "uuid": "d6bd7f39-97cf-47a5-98ed-6c0c6cfede59"
         },
         {
             "icon": "1008",
             "parent_uuid": "",
             "title": "Servers",
-            "updated_at": 1511037360,
+            "updated_at": 1483228800,
             "uuid": "1ba7f6f2-e93c-4196-b0f9-fc0e3877bd30"
         },
         {
             "icon": "1008",
             "parent_uuid": "",
             "title": "Bank",
-            "updated_at": 1511037368,
+            "updated_at": 1483228800,
             "uuid": "1206a3e9-87b0-4de8-93e5-80761154b7de"
         },
         {
             "icon": "1008",
             "parent_uuid": "",
             "title": "Emails",
-            "updated_at": 1511037396,
+            "updated_at": 1483228800,
             "uuid": "210d8cd1-565e-45ae-ba96-cdac510c2308"
         },
         {
             "icon": "1008",
             "parent_uuid": "210d8cd1-565e-45ae-ba96-cdac510c2308",
             "title": "WS",
-            "updated_at": 1511037383,
+            "updated_at": 1483228800,
             "uuid": "e0723fcb-ce24-48d4-8e31-d1656abcc110"
         },
         {
             "icon": "1008",
             "parent_uuid": "",
             "title": "CornerCases",
-            "updated_at": 1511037393,
+            "updated_at": 1483228800,
             "uuid": "60c84369-c20c-4531-acba-ba62bb2fdaf4"
         },
         {
             "icon": "1008",
             "parent_uuid": "",
             "title": "Files",
-            "updated_at": 1547298519,
+            "updated_at": 1483228800,
             "uuid": "51f6f743-f045-4fe8-9dde-4225cd4c8ef6"
         }
     ],
@@ -62,9 +62,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "dpbx@fner.ws",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -72,9 +72,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "password",
@@ -82,9 +82,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -92,9 +92,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "https://onlinebanking.aib.ie",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -102,9 +102,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037692,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -112,9 +112,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -122,9 +122,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037692,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -132,9 +132,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -142,9 +142,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037649,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037649
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "pin",
@@ -152,9 +152,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 8124,
-                    "updated_at": 1511037680,
+                    "updated_at": 1483228800,
                     "value": "462916",
-                    "value_updated_at": 1511037680
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -172,7 +172,7 @@
             "subtitle": "dpbx@fner.ws",
             "template_type": "login.default",
             "title": "aib",
-            "updated_at": 1511037692,
+            "updated_at": 1483228800,
             "uuid": "01483e75-489c-4402-91c9-e9a97292b921"
         },
         {
@@ -186,9 +186,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "dpbx",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "e-mail",
@@ -196,9 +196,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -206,9 +206,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "9KVHnx:.S_S;cF`=CE@e\\p{v6",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -216,9 +216,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "https://afoqwdr.tx",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -226,9 +226,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037720,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -236,9 +236,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -246,9 +246,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037720,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -256,9 +256,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -266,9 +266,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037706,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037706
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -286,7 +286,7 @@
             "subtitle": "dpbx",
             "template_type": "login.default",
             "title": "dpbx@afoqwdr.tx",
-            "updated_at": 1511037720,
+            "updated_at": 1483228800,
             "uuid": "3120abed-e977-469c-8385-8b26394b3326"
         },
         {
@@ -300,9 +300,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "dpbx",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -310,9 +310,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -320,9 +320,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "mt}h'hSUCY;SU;;A!l[8y3O:8",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -330,9 +330,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -340,9 +340,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037791,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -350,9 +350,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -360,9 +360,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037791,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -370,9 +370,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -380,9 +380,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037775,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037775
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -400,7 +400,7 @@
             "subtitle": "dpbx",
             "template_type": "login.default",
             "title": "dpbx@fner.ws",
-            "updated_at": 1511037791,
+            "updated_at": 1483228800,
             "uuid": "6b5d4251-c469-4a57-b1db-966c70216c2f"
         },
         {
@@ -414,9 +414,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "dpbx",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -424,9 +424,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -434,9 +434,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "2cUqe}e9}>IVZf)Ye>3C8ZN,r",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -444,9 +444,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -454,9 +454,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037744,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -464,9 +464,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -474,9 +474,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037744,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -484,9 +484,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -494,9 +494,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037722,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037722
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -514,7 +514,7 @@
             "subtitle": "dpbx",
             "template_type": "login.default",
             "title": "dpbx@klivak.xb",
-            "updated_at": 1511037744,
+            "updated_at": 1483228800,
             "uuid": "858d1a2d-a9a5-453b-930f-d14a1a8f0b68"
         },
         {
@@ -528,9 +528,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "dpbx",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -538,9 +538,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -548,9 +548,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "rPCkmNkhIa>{izt3C3F823!Go",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -558,9 +558,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "https://mail.mnyfymt.ws",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -568,9 +568,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037769,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -578,9 +578,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -588,9 +588,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037769,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -598,9 +598,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -608,9 +608,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037755,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037755
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -628,7 +628,7 @@
             "subtitle": "dpbx",
             "template_type": "login.default",
             "title": "dpbx@mnyfymt.ws",
-            "updated_at": 1511037769,
+            "updated_at": 1483228800,
             "uuid": "02c90d22-3fd8-4b2b-9415-f01083c8fc3c"
         },
         {
@@ -642,9 +642,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -652,9 +652,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -662,9 +662,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -672,9 +672,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -682,9 +682,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037833,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -692,9 +692,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -702,9 +702,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037833,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -712,9 +712,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -722,9 +722,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037829,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037829
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -742,7 +742,7 @@
             "subtitle": "",
             "template_type": "login.default",
             "title": "empty entry",
-            "updated_at": 1511037833,
+            "updated_at": 1483228800,
             "uuid": "722f1634-f932-4547-bb7c-6d73e2174847"
         },
         {
@@ -756,9 +756,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "vkeelpbu",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -766,9 +766,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -776,9 +776,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -786,9 +786,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "https://nhysdo.wg",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -796,9 +796,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037847,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -806,9 +806,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -816,9 +816,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037847,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -826,9 +826,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -836,9 +836,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037835,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037835
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -856,7 +856,7 @@
             "subtitle": "vkeelpbu",
             "template_type": "login.default",
             "title": "empty password",
-            "updated_at": 1511037847,
+            "updated_at": 1483228800,
             "uuid": "bb64fedb-74bc-45b7-9628-a60a2d3b9785"
         },
         {
@@ -870,9 +870,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "ostqxi",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -880,9 +880,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -890,9 +890,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "D<INNeT?#?Bf4%`zA/4i!/'$T",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -900,9 +900,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "https://mastodon.social/",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -910,9 +910,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037465,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -920,9 +920,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -930,9 +930,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037465,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -940,9 +940,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -950,9 +950,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037422,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037422
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -970,7 +970,7 @@
             "subtitle": "ostqxi",
             "template_type": "login.default",
             "title": "mastodon.social",
-            "updated_at": 1511037465,
+            "updated_at": 1483228800,
             "uuid": "b55b8328-0d7a-4d83-8823-e01ecaa73b27"
         },
         {
@@ -984,9 +984,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "ostqxi",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -994,9 +994,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -1004,9 +1004,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "1)Btf2EI~Tfb7g2A!Sy',*Sj#",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -1014,9 +1014,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "https://news.ycombinator.com",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -1024,9 +1024,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037568,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -1034,9 +1034,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -1044,9 +1044,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037568,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -1054,9 +1054,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -1064,9 +1064,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037550,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037550
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -1084,7 +1084,7 @@
             "subtitle": "ostqxi",
             "template_type": "login.default",
             "title": "https://news.ycombinator.com",
-            "updated_at": 1511037568,
+            "updated_at": 1483228800,
             "uuid": "59597403-5a99-4ba6-90b0-0122a45b2f60"
         },
         {
@@ -1098,9 +1098,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -1108,9 +1108,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -1118,9 +1118,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -1128,9 +1128,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -1138,9 +1138,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037861,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -1148,9 +1148,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -1158,9 +1158,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037861,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -1168,9 +1168,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -1178,9 +1178,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037856,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037856
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -1198,7 +1198,7 @@
             "subtitle": "",
             "template_type": "login.default",
             "title": "note",
-            "updated_at": 1511037861,
+            "updated_at": 1483228800,
             "uuid": "54e49238-d15b-4aa8-95c0-62eb8dcf90cd"
         },
         {
@@ -1212,9 +1212,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "jsdkyvbwjn",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -1222,9 +1222,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -1232,9 +1232,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "^Vr/|o>_H8X%T]7>f}7|:U!Zs",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -1242,9 +1242,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "https://www.ovh.com/manager/web/",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -1252,9 +1252,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037593,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -1262,9 +1262,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -1272,9 +1272,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037593,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -1282,9 +1282,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -1292,9 +1292,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037577,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037577
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -1312,7 +1312,7 @@
             "subtitle": "jsdkyvbwjn",
             "template_type": "login.default",
             "title": "ovh.com",
-            "updated_at": 1511037593,
+            "updated_at": 1483228800,
             "uuid": "43baf6fd-93c8-4168-a6dc-c834b630c164"
         },
         {
@@ -1326,9 +1326,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "bynbyjhqjz",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -1336,9 +1336,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -1346,9 +1346,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "3Z-VW!i,j(&!zRGPu(hFe]s'(",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -1356,9 +1356,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "https://www.ovh.com/manager/web/",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -1366,9 +1366,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037617,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -1376,9 +1376,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -1386,9 +1386,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037617,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -1396,9 +1396,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -1406,9 +1406,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037596,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037596
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -1426,7 +1426,7 @@
             "subtitle": "bynbyjhqjz",
             "template_type": "login.default",
             "title": "ovh.com",
-            "updated_at": 1511037617,
+            "updated_at": 1483228800,
             "uuid": "07490332-ae33-45ce-abf2-086367f26177"
         },
         {
@@ -1440,9 +1440,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "vkeelpbu",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -1450,9 +1450,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -1460,9 +1460,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "]stDKo{%pk",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -1470,9 +1470,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "https://nhysdo.wg",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -1480,9 +1480,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037828,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -1490,9 +1490,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -1500,9 +1500,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037828,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -1510,9 +1510,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -1520,9 +1520,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037809,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037809
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -1540,7 +1540,7 @@
             "subtitle": "vkeelpbu",
             "template_type": "login.default",
             "title": "space title",
-            "updated_at": 1511037828,
+            "updated_at": 1483228800,
             "uuid": "7d401238-ef3c-48d3-9a5e-6f352f1c71f8"
         },
         {
@@ -1554,9 +1554,9 @@
                     "sensitive": 0,
                     "type": "username",
                     "uid": 10,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "ostqxi",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "E-mail",
@@ -1564,9 +1564,9 @@
                     "sensitive": 0,
                     "type": "email",
                     "uid": 12,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Password",
@@ -1574,9 +1574,9 @@
                     "sensitive": 1,
                     "type": "password",
                     "uid": 11,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "SoNEwvU,kJ%-cIKJ9[c#S;]jB",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Website",
@@ -1584,9 +1584,9 @@
                     "sensitive": 0,
                     "type": "url",
                     "uid": 13,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "https://twitter.com/",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "ADDITIONAL DETAILS",
@@ -1594,9 +1594,9 @@
                     "sensitive": 0,
                     "type": "section",
                     "uid": 101,
-                    "updated_at": 1511037543,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Phone number",
@@ -1604,9 +1604,9 @@
                     "sensitive": 0,
                     "type": "phone",
                     "uid": 14,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "TOTP",
@@ -1614,9 +1614,9 @@
                     "sensitive": 0,
                     "type": "totp",
                     "uid": 102,
-                    "updated_at": 1511037543,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1547298268
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security question",
@@ -1624,9 +1624,9 @@
                     "sensitive": 0,
                     "type": "text",
                     "uid": 15,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 },
                 {
                     "label": "Security answer",
@@ -1634,9 +1634,9 @@
                     "sensitive": 1,
                     "type": "text",
                     "uid": 16,
-                    "updated_at": 1511037524,
+                    "updated_at": 1483228800,
                     "value": "",
-                    "value_updated_at": 1511037524
+                    "value_updated_at": 1483228800
                 }
             ],
             "folders": [
@@ -1654,7 +1654,7 @@
             "subtitle": "ostqxi",
             "template_type": "login.default",
             "title": "twitter.com",
-            "updated_at": 1511037543,
+            "updated_at": 1483228800,
             "uuid": "ce71506d-9ac0-4532-bb04-5b9f6cbfcdf0"
         }
     ]

@@ -1,0 +1,48 @@
+{
+  "tokenOrder": [
+    "bob@google.com:hack",
+    "alice@google.com:work"
+  ],
+  "tokens": [
+    {
+      "algo": "SHA1",
+      "counter": 10,
+      "digits": 6,
+      "issuerExt": "bob@google.com",
+      "label": "hack",
+      "secret": [
+        72,
+        101,
+        108,
+        108,
+        111,
+        33,
+        -34,
+        -83,
+        -66,
+        -17
+      ],
+      "type": "HOTP"
+    },
+    {
+      "algo": "SHA1",
+      "digits": 6,
+      "issuerExt": "alice@google.com",
+      "label": "work",
+      "period": 30,
+      "secret": [
+        72,
+        101,
+        108,
+        108,
+        111,
+        33,
+        -34,
+        -83,
+        -66,
+        -17
+      ],
+      "type": "TOTP"
+    }
+  ]
+}
