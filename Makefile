@@ -64,7 +64,11 @@ lint:
 		tests/
 
 security:
-	@bandit --ini .bandit -r pass_import tests setup.py docs/.updatedoc.py
+	@bandit --ini .bandit -r pass_import tests setup.py docs/updatedoc.py
+
+export PYTHONPATH = ./
+docs:
+	@python3 docs/updatedoc.py
 
 clean:
 	@rm -rf __pycache__/ .mypy_cache/ .ropeproject/ htmlcov/ \
@@ -72,4 +76,4 @@ clean:
 		tests/assets/test-results/ tests/assets/gnupg/random_seed \
 		.coverage config.json
 
-.PHONY: install uninstall local tests lint security clean
+.PHONY: install uninstall local tests lint security docs clean

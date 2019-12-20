@@ -4,16 +4,15 @@ PASSWORD_STORE_EXTENSION_COMMANDS+=(import)
 
 __password_store_extension_complete_import() {
 	# importers begin
-	local importers=(1password 1password4 1password4pif aegis andotp 
-		apple-keychain bitwarden buttercup chrome chromesqlite csv dashlane 
-		encryptr enpass enpass6 fpm gnome-authenticator gnome-keyring gorilla 
-		kedpm keepass keepass-csv keepass-xml keepassx keepassx2 keepassx2-csv 
-		keepassxc keepassxc-csv keeper lastpass myki networkmanager pass 
-		passpie passwordexporter pwsafe revelation roboform upm)
+	local importers=(1password aegis andotp apple-keychain bitwarden blur 
+		buttercup chrome clipperz csv dashlane encryptr enpass firefox fpm 
+		freeotp+ gnome gnome-auth gorilla kedpm keepass keepassx keepassx2 
+		keepassxc keeper lastpass myki network-manager padlock pass passman 
+		passpack passpie pwsafe revelation roboform saferpass upm zoho)
 	# importers end
-	local args=(-h --help -p --path -a --all -c --clean -C --convert -s --sep
-		  --cols --config -l --list -f --force -q --quiet -v --verbose -V
-		  --version)
+	local args=(-r --root -p --path -k --key -a --all -f --force -c --clean
+		-C --convert --sep --del --cols --config -l --list -h --help
+		-V --version -v --verbose -q --quiet)
 	local lastarg="${COMP_WORDS[$COMP_CWORD-1]}"
 	if [[ $lastarg == "-p" || $lastarg == "--path" ]]; then
 		_pass_complete_folders
