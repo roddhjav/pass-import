@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# pass import - Password Store Extension (https://www.passwordstore.org/)
-# Copyright (C) 2017-2019 Alexandre PUJOL <alexandre@pujol.io>.
+# pass import - Passwords importer swiss army knife
+# Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 
 # This script updates the readme file in this repo.
 
-import sys
 import io
 
-sys.path.insert(0, '../')
 import pass_import
+from pass_import.core import Cap
+from pass_import.__main__ import ArgParser
 
-MANAGERS = pass_import.IMPORTERS
+MANAGERS = pass_import.Managers()
 
 
 # Internal tools
@@ -39,10 +39,10 @@ def replace(marker_begin, marker_end, string, newcontent):
 
 class ManagerMeta():
     """Generate currated password managers metadata."""
-    guide = 'this guide '
+    guide = 'this guide: '
 
     def __init__(self, pm, md=True):
-        self.doc = pm.doc()
+        self.pm = pm
         self.md = md
 
     def urlto_markdown(self, string):
@@ -60,28 +60,40 @@ class ManagerMeta():
             string += '\\fP'
         return string
 
-    def rspace(self, string):
-        """Remove space from url after 'guide'."""
-        if self.guide in string:
-            begin = string.find(self.guide) + len(self.guide)
-            end = len(string)
-            url_space = string[begin:end]
-            string = string.replace(url_space, url_space.replace(' ', ''))
-        return string
+    @property
+    def format(self):
+        """Get format formated."""
+        res = ''
+        if self.pm.format != '':
+            if self.md:
+                res = "`%s`" % self.pm.format
+            else:
+                res = "(%s)" % self.pm.format
+        return res
+
+    @property
+    def version(self):
+        """Get version formated."""
+        res = ''
+        if self.pm.version != '':
+            if self.md:
+                res = "`%s`" % self.pm.version
+            else:
+                res = "v%s" % self.pm.version
+        return res
 
     @property
     def url(self):
         """Get url formated."""
-        return self.doc.get('url', '')
+        return self.pm.url
 
     @property
     def hexport(self):
         """Get export help formated."""
-        usage = self.rspace(self.doc.get('export', ''))
         if self.md:
-            res = self.urlto_markdown(usage)
+            res = self.urlto_markdown(self.pm.hexport)
         else:
-            res = self.urlto_man(usage)
+            res = self.urlto_man(self.pm.hexport)
         if res == '':
             res = 'Nothing to do'
         return res
@@ -89,7 +101,9 @@ class ManagerMeta():
     @property
     def himport(self):
         """Get import help formated."""
-        res = self.doc.get('import', '')
+        res = self.pm.himport
+        if res == '':
+            res = '**pass import %s file.%s**' % (self.pm.name, self.pm.format)
         if not self.md:
             res = res.replace('**', '')
         return res
@@ -97,7 +111,7 @@ class ManagerMeta():
     @property
     def usage(self):
         """Get usage formated."""
-        res = self.doc.get('extra', '')
+        res = self.pm.usage()
         if res != '':
             res = "%s\n\n" % res
         return res
@@ -105,7 +119,7 @@ class ManagerMeta():
     @property
     def description(self):
         """Get description formated."""
-        return self.doc.get('title', '')
+        return self.pm.description()
 
 
 # Generator functions
@@ -120,23 +134,26 @@ def importers_nb():
 
 def markdown_table():
     """Generate the new supported table."""
-    # pylint: disable=line-too-long
-    res = ('| **Password Manager** | **How to export Data** | **Command line** |\n'  # noqa
-           '|:--------------------:|:----------------------:|:----------------:|\n')  # noqa
+    res = (
+        '| **Password Manager** | **Format** | **v** | **How to export Data** | **Command line** |\n'  # noqa
+        '|:--------------------:|:----------:|:-----:|:----------------------:|:----------------:|\n'  # noqa
+    )
 
-    for name in sorted(MANAGERS):
-        mm = ManagerMeta(MANAGERS[name], md=True)
-        res += "| [%s](%s) | *%s* | `%s` |\n" % (name, mm.url, mm.hexport,
-                                                 mm.himport)
+    matrix = MANAGERS.matrix()
+    for name in sorted(matrix):
+        for pm in matrix[name]:
+            mm = ManagerMeta(pm, md=True)
+            res += "| [%s](%s) | %s | %s | *%s* | `%s` |\n" % (
+                name, mm.url, mm.format, mm.version, mm.hexport, mm.himport)
     return "\n%s\n" % res
 
 
 def helpmessage():
     """Generate the new pass-import usage."""
     string = io.StringIO()
-    parser = pass_import.ArgParser()
+    parser = ArgParser(True)
     parser.print_help(string)
-    return "\n```\n%s\n```\n" % string.getvalue()
+    return "\n```\n%s```\n" % string.getvalue()
 
 
 # pass-import.1
@@ -149,13 +166,15 @@ def importers_nb_line():
 def importers_usage():
     """Generate the new supported table."""
     res = ''
-    for name in sorted(MANAGERS):
-        mm = ManagerMeta(MANAGERS[name], md=False)
-        res += ("\n.TP\n\\fB%s\\fP\n"
-                "Website: \\fI%s\\fP\n\n" % (name, mm.url))
-        res += mm.usage
-        res += ("Export: %s\n\n"
-                "Command: %s\n" % (mm.hexport, mm.himport))
+    matrix = MANAGERS.matrix()
+    for name in sorted(matrix):
+        for pm in matrix[name]:
+            mm = ManagerMeta(pm, md=False)
+            res += "\n.TP\n\\fB%s %s %s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
+                name, mm.format, mm.version, mm.url)
+            res += mm.usage
+            res += ("Export: %s\n\n"
+                    "Command: %s\n" % (mm.hexport, mm.himport))
     return "\n%s" % res
 
 
@@ -164,7 +183,7 @@ def importers_usage():
 def bash_completion():
     """Re-generate command for bash completion."""
     res = "\n\tlocal importers=("
-    for name in sorted(MANAGERS):
+    for name in sorted(MANAGERS.names()):
         if len(res.split('\n').pop()) + len(name) + 1 < 74:
             res += "%s " % name
         else:
@@ -175,27 +194,37 @@ def bash_completion():
 def zsh_completion():
     """Re-generate command for zsh completion."""
     res = "\n\t\tsubcommands=(\n"
-    for name in sorted(MANAGERS):
-        mm = ManagerMeta(MANAGERS[name])
-        res += "\t\t\t'%s:%s'\n" % (name, mm.description)
+    matrix = MANAGERS.matrix()
+    for name in sorted(matrix):
+        supported = []
+        capability = 'Importer'
+        for pm in matrix[name]:
+            if Cap.EXPORT in pm.cap:
+                capability = 'Importer & Exporter'
+            support = pm.format.upper()
+            if pm.version != '':
+                support += ' v%s' % pm.version
+            supported.append(support)
+        desc = '%s for %s in %s' % (capability, name, ', '.join(supported))
+        res += "\t\t\t'%s:%s'\n" % (name, desc)
     return res + '\t\t)\n\t\t'
 
 
 UPDATE = {
-    '../README.md': [
+    'README.md': [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', importers_nb),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', markdown_table),
-        ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', helpmessage)
+        ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', helpmessage),
     ],
-    'pass-import.1': [
+    'docs/pass-import.1': [
         (r'\# NB BEGIN', r'\# NB END', importers_nb_line),
-        (r'\# SUPPORTED LIST BEGIN', r'\# SUPPORTED LIST END', importers_usage)
+        (r'\# LIST BEGIN', r'\# LIST END', importers_usage),
     ],
-    '../completion/pass-import.bash': [
-        ('# importers begin', '# importers end', bash_completion)
+    'completion/pass-import.bash': [
+        ('# importers begin', '# importers end', bash_completion),
     ],
-    '../completion/pass-import.zsh': [
-        ('# subcommands begin', '# subcommands end', zsh_completion)
+    'completion/pass-import.zsh': [
+        ('# subcommands begin', '# subcommands end', zsh_completion),
     ]
 }
 
@@ -206,8 +235,9 @@ def main():
         with open(path, 'r') as file:
             data = file.read()
 
-        for item in pattern:
-            data = replace(item[0], item[1], data, item[2]())
+        for begin, end, fct in pattern:
+            # print(fct())
+            data = replace(begin, end, data, fct())
 
         with open(path, 'w') as file:
             file.write(data)
