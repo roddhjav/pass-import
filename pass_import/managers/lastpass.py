@@ -12,7 +12,6 @@ from pass_import.formats.csv import CSV
 class LastpassCSV(CSV):
     """Importer for Lastpass in CSV format."""
     name = 'lastpass'
-    default = False
     url = 'https://www.lastpass.com'
     hexport = 'More Options > Advanced > Export'
     keys = {

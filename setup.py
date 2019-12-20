@@ -29,13 +29,17 @@ setup(
                   (about['__uri__'], about['__version__'], about['__title__'],
                    about['__version__'])),
     packages=['pass_import'],
-    install_requires=['pyaml', 'file-magic'],
+    install_requires=['pyaml'],
     extras_require={
         'xml': ['defusedxml'],
         'keepass': ['pykeepass'],
         'gnomekeyring': ['secretstorage'],
         'encrypted_otp': ['cryptography'],
-        'all': ['defusedxml', 'pykeepass', 'secretstorage', 'cryptography']
+        'decrypt': ['file-magic'],
+        'all': [
+            'defusedxml', 'pykeepass', 'secretstorage', 'cryptography',
+            'file-magic'
+        ]
     },
     tests_require=['green'],
     test_suite='tests',

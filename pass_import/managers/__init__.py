@@ -16,7 +16,7 @@ from pass_import.managers.freeotp import FreeOTPPlus
 from pass_import.managers.gnomeauthenticator import GnomeAuthenticator
 from pass_import.managers.gnomekeyring import GnomeKeyring
 from pass_import.managers.gorilla import Gorilla
-from pass_import.managers.keepass import (Keepass, KeepassCSV, KeepassXML)
+from pass_import.managers.keepass import Keepass, KeepassCSV, KeepassXML
 from pass_import.managers.keepassx2 import Keepassx2CSV, Keepassx2KDBX
 from pass_import.managers.keepassxc import KeepassxcCSV, KeepassxcKDBX
 from pass_import.managers.keepassx import KeepassxXML

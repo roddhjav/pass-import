@@ -56,6 +56,14 @@ class GnomeKeyring(PasswordImporter):
 
     # Context manager methods
 
+    def exist(self):
+        """Nothing to do."""
+        return True
+
+    def isvalid(self):
+        """Nothing to do."""
+        return True
+
     def open(self):
         """Nothing to open."""
 

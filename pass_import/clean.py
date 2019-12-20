@@ -87,7 +87,7 @@ def protocol(string):
 def replaces(caracters, string):
     """General purpose replace function."""
     for key in caracters:
-        string = string.replace(key, caracters[key])  # re.sub ?
+        string = string.replace(key, caracters[key])
     return string
 
 
