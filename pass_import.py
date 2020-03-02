@@ -2026,11 +2026,12 @@ def main():
     except ImportError as error:
         conf.debug(traceback.format_exc())
         conf.verbose(error)
-        conf.die("Importing %s, missing required dependency: %s\n"
-                 "You can install it with:\n"
-                 "  'sudo apt-get install python3-%s', or\n"
-                 "  'pip3 install %s'" % (conf['manager'], error.name,
-                                          error.name, error.name))
+        err = ("Importing %s, missing required dependency: %s\n"
+               "You can install it with:\n  'pip3 install %s'" %
+               (conf['manager'], error.name, error.name))
+        if error.name not in ['pykeepass']:
+            err += ", or\n  'sudo apt-get install python3-%s'" % error.name
+        conf.die(err)
     except PermissionError as error:  # pragma: no cover
         conf.debug(traceback.format_exc())
         conf.die(error)
