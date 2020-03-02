@@ -16,6 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import base64
 import os
 import re
 import io
@@ -33,10 +34,33 @@ from subprocess import Popen, PIPE  # nosec
 from collections import defaultdict
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
+
+CRYPTOGRAPHY = SECRETSTORAGE = PYKEEPASS = True
+try:
+    import cryptography
+    from cryptography.hazmat.backends import default_backend
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+except ImportError:
+    CRYPTOGRAPHY = False
+
 try:
     from defusedxml import ElementTree
 except ImportError:
     from xml.etree import ElementTree
+
+try:
+    import secretstorage
+except ImportError:
+    SECRETSTORAGE = False
+
+try:
+    from pykeepass import PyKeePass
+    from pykeepass.exceptions import CredentialsIntegrityError
+except ImportError:
+    PYKEEPASS = False
+
 import yaml
 
 
@@ -699,11 +723,8 @@ class PasswordManagerKDBX(PasswordManager):
         :param str path: Path to the KDBX file to parse.
 
         """
-        try:
-            from pykeepass import PyKeePass
-            from pykeepass.exceptions import CredentialsIntegrityError
-        except ImportError as error:
-            raise ImportError(error, name='pykeepass')
+        if not PYKEEPASS:
+            raise ImportError(name='pykeepass')
 
         password = getpassword(path)
         try:
@@ -814,14 +835,8 @@ class Aegis(PasswordManagerOTP):
         Format documentation:
         https://github.com/beemdevelopment/Aegis/blob/master/docs/vault.md
         """
-        try:
-            import base64
-            import cryptography
-            from cryptography.hazmat.backends import default_backend
-            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-            from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-        except ImportError as error:
-            raise ImportError(error, name='cryptography')
+        if not CRYPTOGRAPHY:
+            raise ImportError(name='cryptography')
 
         password = getpassword(path)
 
@@ -912,16 +927,11 @@ class AndOTP(PasswordManagerOTP):
     @staticmethod
     def _aes_decrypt(file):
         """Import file is AES GCM encrypted, let's decrypt it."""
-        try:
-            from cryptography.hazmat.backends import default_backend
-            from cryptography.hazmat.primitives import hashes
-            from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-        except ImportError as error:
-            raise ImportError(error, name='cryptography')
-        else:
-            path = file.name
-        finally:
-            file.close()
+        if not CRYPTOGRAPHY:
+            raise ImportError(name='cryptography')
+
+        path = file.name
+        file.close()
 
         password = getpassword(path)
         with open(path, 'rb') as aesfile:
@@ -1300,10 +1310,8 @@ class GnomeKeyring(PasswordManager):
             import all collection.
 
         """
-        try:
-            import secretstorage
-        except ImportError as error:
-            raise ImportError(error, name='secretstorage')
+        if not SECRETSTORAGE:
+            raise ImportError(name='secretstorage')
 
         keys = self._invkeys()
         connection = secretstorage.dbus_init()
