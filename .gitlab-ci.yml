@@ -50,7 +50,7 @@ shellcheck:
   stage: lint
   image: koalaman/shellcheck-alpine
   script:
-    - shellcheck --shell=bash import.bash tests/commons.sh
+    - shellcheck --shell=bash scripts/*
 
 prospector:
   stage: lint
