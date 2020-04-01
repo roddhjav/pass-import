@@ -5,15 +5,12 @@
 import os
 from setuptools import setup
 
-
 about = dict()
 with open(os.path.join('pass_import', '__about__.py')) as file:
     exec(file.read(), about)  # nosec
 
-
 with open('README.md') as file:
     long_description = file.read()
-
 
 setup(
     name=about['__title__'],
@@ -28,7 +25,12 @@ setup(
     download_url=("%s/releases/download/v%s/%s-%s.tar.gz" %
                   (about['__uri__'], about['__version__'], about['__title__'],
                    about['__version__'])),
-    packages=['pass_import'],
+    packages=[
+        'pass_import',
+        'pass_import.decrypters',
+        'pass_import.formats',
+        'pass_import.managers',
+    ],
     install_requires=['pyaml'],
     extras_require={
         'xml': ['defusedxml'],
@@ -41,8 +43,6 @@ setup(
             'file-magic'
         ]
     },
-    tests_require=['green'],
-    test_suite='tests',
     python_requires='>=3.5',
     zip_safe=True,
     keywords=[
