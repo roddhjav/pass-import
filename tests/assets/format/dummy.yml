@@ -1,0 +1,8 @@
+credentials:
+- comment: ''
+  login: ''
+  name: ''
+  password: ''
+
+handler: pass
+version: 2.0

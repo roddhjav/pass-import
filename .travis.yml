@@ -1,35 +1,38 @@
 sudo: false
+dist: xenial
 
+language: python
 cache: pip
 
 matrix:
   include:
-    - os: linux
-      language: python
-      python: 3.6
-    - os: linux
-      language: python
-      python: 3.5
-    - os: linux
-      language: python
-      python: 3.4
+    - python: 3.7
+    - python: 3.6
+    - python: 3.5
 
 env:
   global:
     - PASS_VERSION=1.7.3
+
+addons:
+  apt:
+    packages:
+      - gnome-keyring
 
 install:
   - export PREFIX=$HOME/.bin/usr PATH="$PATH:$HOME/.bin/usr/bin"
   - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
   - tar -xf password-store-$PASS_VERSION.tar.xz
   - make --directory=password-store-$PASS_VERSION install
-  - pip3 install green coverage codacy-coverage defusedxml
+  - mkdir -p ~/.local/share/keyrings/
+  - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage
 
 script:
-  - make tests
+  - dbus-run-session -- make tests
 
 after_success:
-  - cd tests && coverage xml
+  - coverage xml
   - python-codacy-coverage -r coverage.xml
 
 notifications:

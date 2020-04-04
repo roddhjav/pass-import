@@ -1,0 +1,24 @@
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+
+    0x00000007 <blob>="mastodon.social"
+    0x00000008 <blob>=<NULL>
+    ""<blob>="ostqxi"
+    "cdat"<timedate>=0x32303139303431383138343235325A00  "20190418184252Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343235325A00  "20190418184252Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="mastodon.social"
+    "type"<uint32>=<NULL>
+data:
+"D<INNeT?#?Bf4%`zA/4i!/'$T"
+"D<INNeT?#?Bf4%`zA/4i!/'$T"

@@ -1,4 +1,4 @@
-<h1 align="center">Contribution</h1>
+# Contribution
 
 You want to contribute to `pass import`, **thank a lot for this.** You will find
 in this page all the useful information needed to contribute to `pass-import`.
@@ -9,11 +9,26 @@ in this page all the useful information needed to contribute to `pass-import`.
 for all the parts of the program. Moreover, it provides test coverage and code
 health reports.
 
-In order to run the tests, you need to install the following programs:
-* [python-green][pgreen] as python test runner.
-* [python-coverage][pcoverage] as code coverage system.
+##### Tests
+To run the tests, you need to install the following programs:
+* [python-green] as python test runner.
+* [python-coverage] as code coverage system.
 
-To run the tests, simply run: `make tests`
+Then simply run: `make tests`
+
+##### Code health
+To run the code health report, you need to install the following programs:
+
+* [prospector]: `pip install prospector[with_everything]`
+
+Then simply run: `make lint`
+
+##### Security check
+To run the security check, you need to install the following programs:
+
+* [bandit]: `pip install bandit`
+
+Then simply run: `make security`
 
 
 ## How to contribute?
@@ -44,38 +59,76 @@ you'll see a Compare & pull request button, fill and submit the pull request.
 
 ## How to add the support for a new password manager?
 
-1. Add your importer name and details in the following files:
-  * In `lib/import.py`:
+1. Add your importer name and details in the `importers` dictionary of
+`pass_import.py`. You should respect the alphabetic order with the other
+importer. *Example*:
 ```python
 importers = {
-          ...
-          'mymanager': ['MyManager', 'https://mymanager.com/'],
+	'1password': 'OnePassword',
+	...
+	'mymanager': 'MyManager',
+	...
+	'upm': 'UPM',
 }
 ```
 
-  * In `tests/40_import.sh:`
-```sh
-PASSWORDS_MANAGERS=(... "mymanager" ...)
+2. Add a `MyManager` class that inherits from one of the parent importer class
+`PasswordManager{CSV, XML, JSON, PIF}` and write the necessary code and
+variables. You also need to add the correct docstring for your class. If the
+file format is not supporter yet, you might have to create a new parent class.
+To quickly find the class, your implementation must follows the same alphabetic
+order after the parent classes. *Example*:
+
+```python
+# Parent classes
+class PasswordManager():
+class PasswordManagerCSV(PasswordManager):
+class PasswordManagerXML(PasswordManager):
+...
+
+# Child classes
+class OnePassword(PasswordManagerCSV):
+...
+class MyManager(PasswordManagerCSV):
+	"""Importer for My Manager in CSV format.
+    url: https://mymanager.com
+    export: File > Export > Unsecured Archive in CSV
+    import: pass import mymanager file.csv
+    """
+	keys = {'title': 'title', 'password': 'password', 'login': 'login',
+			    'url': 'url', 'comments': 'comments', 'group': 'group'}
+...
+class UPM(PasswordManagerCSV):
 ```
 
-2. Add a `MyManager` class that inherits from one of the main importer class
-`PasswordManagerXML` or `PasswordManagerCSV` (either you need to read XML or CSV
-file) and write the necessary code and variables.
-```python
-class MyManager(PasswordManagerCSV):
-      keys = {'title': 'title', 'password': 'password', 'login': 'login',
-            'url': 'url', 'comments': 'comments', 'group': 'group'}
-```
 
 3. Add a file named `tests/db/mymanager[.csv,.xml]`. **No Contribution
 will be accepted without this file.** This file must contain the exported data
 from *your manager*. It has to be the exact export of the main test password
-repository. This test data can be found in the `tests/exporteddb/.template.csv`.
+repository. This test data can be found in the `tests/references/main.yml`.
 
-4. Check the tests success, the coverage does not decrease and the code health.
+4. Enable and configure the generic import and file format test for your new
+importer. Add an entry in `tests/importers.yml` with your importer settings.
+*Example*:
+```yaml
+mymanager:
+  extension: csv
+  encoding: utf-8
+```
+
+5. Check the tests success, ensure the coverage does not decrease and the code
+health passes.
 
 
-## Data Structure explained
+## Data Organization
+
+By definition, password-store does not impose any particular schema or type of
+organisation of data. Nevertheless, `pass-import` respects the most common case
+storing a single password per entry alongside with additional information like
+emails, pseudo, URL and other sensitive data or metadata. Although the exact
+list of data stored with the password can vary from entries in the password
+store, the data imported always respects a simple `key: value` format at the
+exception of the password that is always present in the first line.
 
 `PasswordManager` is the main class that manage import from all the supported
 password manager. `PasswordManagerXML` or `PasswordManagerCSV` inherit from it.
@@ -88,10 +141,11 @@ dictionary's key are divided in two sets:
 `group`.
 2. The *extra* keys that differ from password managers and contain the
 description of any extra data we can find in the exported file.
-contain the following standard keys:
 
 
 [mt]: https://en.wikipedia.org/wiki/Mutation_testing
-[pgreen]: https://github.com/CleanCut/green
-[pcoverage]: http://nedbatchelder.com/code/coverage/
+[python-green]: https://github.com/CleanCut/green
+[python-coverage]: http://nedbatchelder.com/code/coverage/
+[prospector]: https://github.com/PyCQA/prospector
+[bandit]: https://github.com/PyCQA/bandit
 [git]: https://help.github.com/articles/set-up-git/

@@ -1,0 +1,321 @@
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="mastodon.social"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="ostqxi"
+    "cdat"<timedate>=0x32303139303431383138343235325A00  "20190418184252Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343235325A00  "20190418184252Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="mastodon.social/"
+    "type"<uint32>=<NULL>
+data:
+"D<INNeT?#?Bf4%`zA/4i!/'$T"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 512
+class: "inet"
+attributes:
+    0x00000007 <blob>="twitter.com"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="ostqxi"
+    "atyp"<blob>="dflt"
+    "cdat"<timedate>=0x32303139303431383138343433375A00  "20190418184437Z\000"
+    "crtr"<uint32>="aapl"
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343433375A00  "20190418184437Z\000"
+    "nega"<sint32>=<NULL>
+    "path"<blob>=<NULL>
+    "port"<uint32>=0x00000000
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "sdmn"<blob>=<NULL>
+    "srvr"<blob>="twitter.com/"
+    "type"<uint32>=<NULL>
+data:
+"SoNEwvU,kJ%-cIKJ9[c#S;]jB"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="https://news.ycombinator.com"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="ostqxi"
+    "cdat"<timedate>=0x32303139303431383138343435345A00  "20190418184454Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343435345A00  "20190418184454Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="news.ycombinator.com"
+    "type"<uint32>=<NULL>
+data:
+"1)Btf2EI~Tfb7g2A!Sy',*Sj#"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="ovh.com"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="jsdkyvbwjn"
+    "cdat"<timedate>=0x32303139303431383138343531375A00  "20190418184517Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343531375A00  "20190418184517Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="www.ovh.com/manager/web/"
+    "type"<uint32>=<NULL>
+data:
+"^Vr/|o>_H8X%T]7>f}7|:U!Zs"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="ovh.com"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="bynbyjhqjz"
+    "cdat"<timedate>=0x32303139303431383138343535305A00  "20190418184550Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343535305A00  "20190418184550Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="www.ovh.com/manager/web/"
+    "type"<uint32>=<NULL>
+data:
+"3Z-VW!i,j(&!zRGPu(hFe]s'("
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="aib"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="dpbx@fner.ws"
+    "cdat"<timedate>=0x32303139303431383138343631345A00  "20190418184614Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343631345A00  "20190418184614Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="onlinebanking.aib.ie"
+    "type"<uint32>=<NULL>
+data:
+"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="dpbx@afoqwdr.tx"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="dpbx"
+    "cdat"<timedate>=0x32303139303431383138343633315A00  "20190418184631Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343633315A00  "20190418184631Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="afoqwdr.tx"
+    "type"<uint32>=<NULL>
+data:
+0x394B56486E783A2E535F533B6346603D434540655C707B7636  "9KVHnx:.S_S;cF`=CE@e\134p{v6"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="dpbx@klivak.xb"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="dpbx"
+    "cdat"<timedate>=0x32303139303431383138343634375A00  "20190418184647Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343634375A00  "20190418184647Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="dpbx@klivak.xb"
+    "type"<uint32>=<NULL>
+data:
+"2cUqe}e9}>IVZf)Ye>3C8ZN,r"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="dpbx@mnyfymt.ws"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="dpbx"
+    "cdat"<timedate>=0x32303139303431383138343730335A00  "20190418184703Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343730335A00  "20190418184703Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="mail.mnyfymt.ws"
+    "type"<uint32>=<NULL>
+data:
+"rPCkmNkhIa>{izt3C3F823!Go"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="dpbx@fner.ws"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="dpbx"
+    "cdat"<timedate>=0x32303139303431383138343732365A00  "20190418184726Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343732365A00  "20190418184726Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="dpbx@fner.ws"
+    "type"<uint32>=<NULL>
+data:
+"mt}h'hSUCY;SU;;A!l[8y3O:8"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="space title"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="vkeelpbu"
+    "cdat"<timedate>=0x32303139303431383138343734335A00  "20190418184743Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138343734335A00  "20190418184743Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="nhysdo.wg"
+    "type"<uint32>=<NULL>
+data:
+"]stDKo{%pk"
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="note"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>=<NULL>
+    "cdat"<timedate>=0x32303139303431383138353135325A00  "20190418185152Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>="secure note"
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383138353135325A00  "20190418185152Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="note"
+    "type"<uint32>="note"
+data:
+0x0A
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="empty entry"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>=<NULL>
+    "cdat"<timedate>=0x32303139303431383139333430315A00  "20190418193401Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383139333933335A00  "20190418193933Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "scrp"<sint32>=<NULL>
+    "svce"<blob>="empty entry"
+    "type"<uint32>=<NULL>
+data:
+0x0A
+keychain: "/Users/user/Desktop/apple-keychain.keychain"
+version: 256
+class: "genp"
+attributes:
+    0x00000007 <blob>="empty password"
+    0x00000008 <blob>=<NULL>
+    "acct"<blob>="vkeelpbu"
+    "cdat"<timedate>=0x32303139303431383139333430315A00  "20190418193401Z\000"
+    "crtr"<uint32>=<NULL>
+    "cusi"<sint32>=<NULL>
+    "desc"<blob>=<NULL>
+    "gena"<blob>=<NULL>
+    "icmt"<blob>=<NULL>
+    "invi"<sint32>=<NULL>
+    "mdat"<timedate>=0x32303139303431383139343034305A00  "20190418194040Z\000"
+    "nega"<sint32>=<NULL>
+    "prot"<blob>=<NULL>
+    "ptcl"<uint32>="htps"
+    "scrp"<sint32>=<NULL>
+    "srvr"<blob>="nhysdo.wg"
+    "type"<uint32>=<NULL>
+data:
+0x0A

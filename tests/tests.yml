@@ -1,0 +1,135 @@
+---
+
+1password:
+  extension: csv
+  encoding: utf-8
+
+1password4:
+  without: ['group']
+  extension: csv
+  encoding: utf-8
+
+1password4pif:
+  extension: 1pif
+  encoding: utf-8-sig
+
+apple-keychain:
+  without: ['group', 'comments']
+  extension: txt
+  encoding: utf-8
+
+bitwarden:
+  extension: csv
+  encoding: utf-8
+
+buttercup:
+  extension: csv
+  encoding: utf-8
+
+chrome:
+  without: ['group', 'comments']
+  extension: csv
+  encoding: utf-8
+
+chromesqlite:
+  without: ['group', 'comments']
+  extension: csv
+  encoding: utf-8
+
+dashlane:
+  without: ['group']
+  extension: csv
+  encoding: utf-8
+
+encryptr:
+  without: ['group']
+  extension: csv
+  encoding: utf-8
+
+enpass:
+  without: ['group']
+  extension: csv
+  encoding: utf-8
+
+enpass6:
+  extension: json
+  encoding: utf-8
+
+fpm:
+  extension: xml
+  encoding: utf-8
+
+gorilla:
+  extension: csv
+  encoding: utf-8
+
+kedpm:
+  extension: xml
+  encoding: utf-8
+
+keepass-xml:
+  root: keepass/
+  extension: xml
+  encoding: utf-8
+
+keepass-csv:
+  without: ['group']
+  extension: csv
+  encoding: utf-8
+
+keepassx:
+  extension: xml
+  encoding: utf-8
+
+keepassx2-csv:
+  root: Root/
+  extension: csv
+  encoding: utf-8
+
+keepassxc-csv:
+  root: Root/
+  extension: csv
+  encoding: utf-8
+
+keeper:
+  extension: csv
+  encoding: utf-8
+
+lastpass:
+  extension: csv
+  encoding: utf-8
+
+myki:
+  extension: csv
+  encoding: utf-8
+
+passwordexporter:
+  without:
+    - group
+    - comments
+    - url
+  extension: csv
+  encoding: utf-8
+
+passpie:
+  without: ['url', 'group']
+  extension: yml
+  encoding: utf-8
+
+pwsafe:
+  extension: xml
+  encoding: utf-8
+
+revelation:
+  extension: xml
+  encoding: utf-8
+
+roboform:
+  root: /
+  extension: csv
+  encoding: utf-8
+
+upm:
+  without: ['group']
+  extension: csv
+  encoding: utf-8

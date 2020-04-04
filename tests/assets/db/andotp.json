@@ -1,0 +1,29 @@
+[
+  {
+    "secret": "JBSWY3DPEHPK3PXP",
+    "label": "alice@google.com",
+    "digits": 6,
+    "type": "TOTP",
+    "algorithm": "SHA1",
+    "thumbnail": "Default",
+    "last_used": 1558994221340,
+    "period": 30,
+    "tags": [
+      "work"
+    ]
+  },
+  {
+    "secret": "JBSWY3DPEHPK3PXP",
+    "label": "bob@google.com",
+    "digits": 6,
+    "type": "HOTP",
+    "algorithm": "SHA1",
+    "thumbnail": "Default",
+    "last_used": 1558994265415,
+    "counter": 10,
+    "tags": [
+      "hack",
+      "work"
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+[paths]
+source = pass_import.py
+
+[run]
+omit =
+    */virtualenv/*
+    */.local/*
+    /usr/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    raise ImportError
+    except ImportError
+    if __name__ == .__main__.:

@@ -1,0 +1,124 @@
+---
+
+include:
+  - template: SAST.gitlab-ci.yml
+
+stages:
+  - lint
+  - tests
+  - dist
+  - deploy
+
+variables:
+  PASS_VERSION: 1.7.3
+
+
+# Dependencies definitions
+# ------------------------
+
+.script: &script
+  script:
+    - mkdir -p ~/.local/share/keyrings/
+    - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage
+    - make
+    - dbus-run-session -- make tests
+    - make install
+    - cd ~
+    - pass import --help
+
+.tests: &tests
+  stage: tests
+  before_script:
+    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring
+  <<: *script
+
+.distribution: &distribution
+  stage: dist
+  <<: *script
+  only:
+   - tags
+   - web
+
+
+# Jobs definitions
+# ----------------
+
+# Code Linter
+
+shellcheck:
+  stage: lint
+  image: koalaman/shellcheck-alpine
+  script:
+    - shellcheck --shell=bash import.bash tests/commons.sh
+
+prospector:
+  stage: lint
+  image: python:latest
+  allow_failure: True
+  before_script:
+    - pip install prospector[with_everything] defusedxml
+  script:
+    - make lint
+
+sast:
+  stage: lint
+
+# Code tests
+
+python:
+  image: python:3.8
+  coverage: '/\d+\%\s*$/'
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - htmlcov/
+  <<: *tests
+
+# Distribution tests
+
+archlinux:
+  image: archlinux/base
+  before_script:
+    - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
+        dbus gnome-keyring
+  <<: *distribution
+
+ubuntu:
+  image: ubuntu
+  before_script:
+    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus
+        gnome-keyring
+  <<: *distribution
+
+debian:
+  image: debian
+  before_script:
+    - apt-get update -q && apt-get install -y make pass python3-pip grep wget
+        dbus gnome-keyring
+    - wget https://git.zx2c4.com/password-store/snapshot/password-store-$PASS_VERSION.tar.xz
+    - tar -xf password-store-$PASS_VERSION.tar.xz
+    - make --directory=password-store-$PASS_VERSION install
+  <<: *distribution
+
+fedora:
+  image: fedora
+  before_script:
+    - dnf -y install make gpg pass python3-pip grep which dbus dbus-daemon
+        gnome-keyring --setopt=install_weak_deps=False
+  <<: *distribution
+
+# Code coverage deployment
+
+pages:
+  stage: deploy
+  dependencies:
+    - python
+  script:
+    - mv htmlcov/ public/
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - public
+  only:
+    - master

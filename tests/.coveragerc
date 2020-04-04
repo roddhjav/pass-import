@@ -1,9 +1,0 @@
-[paths]
-source = ../lib/import.py
-
-[report]
-exclude_lines =
-    pragma: no cover
-    arg.file is None:
-    except PermissionError as e:
-    if __name__ == .__main__.:
