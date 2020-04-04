@@ -301,8 +301,7 @@ def detectmanager(conf):
             if conf['decrypted']:
                 to_detect = conf['plaintext']
 
-            detect = AutoDetect(stream=conf['decrypted'])
-            detect.delimiter = conf['delimiter']
+            detect = AutoDetect(settings=conf.getsettings())
             pm = detect.manager(to_detect)
             if pm is None:
                 conf.die("Unable to detect the manager. Please try with: "
@@ -317,8 +316,7 @@ def detectmanager(conf):
             if conf['decrypted']:
                 to_detect = conf['plaintext']
 
-            detect = AutoDetect(name, stream=conf['decrypted'])
-            detect.delimiter = conf['delimiter']
+            detect = AutoDetect(name, settings=conf.getsettings())
             pm = detect.format(to_detect)
             warn = False
 

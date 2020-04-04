@@ -73,13 +73,13 @@ class AutoDetect():
 
     """
 
-    def __init__(self,  name='', stream=False, settings=None):
+    def __init__(self, name='', settings=None):
         self.settings = {} if settings is None else settings
         self.managers = pass_import.Managers()
         self.formats = pass_import.Detecters(Cap.FORMAT)
         self.decrypters = pass_import.Detecters(Cap.DECRYPT)
         self.classes = self.managers.matrix().get(name, [])
-        self.stream = stream
+        self.stream = self.settings.get('decrypted', False)
 
     def default(self, name=''):
         """Retrieve the class of the default importer."""

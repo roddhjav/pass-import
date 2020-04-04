@@ -153,7 +153,8 @@ class Config(dict):
         """Return a currated setting dict for use in a manager class."""
         settings = {'action': action, 'root': root}
         keep = {
-            'all', 'force', 'delimiter', 'cols', '1password', 'lastpass', 'key'
+            'all', 'force', 'delimiter', 'cols', '1password', 'lastpass',
+            'key', 'decrypted'
         }
         for key in self:
             if key in keep:

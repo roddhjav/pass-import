@@ -43,6 +43,7 @@ class TestConfig(tests.Test):
             clean.INVALIDS,
             ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00'])
         self.assertEqual(settings, {
+            'decrypted': False,
             'action': 'import',
             'delimiter': ',',
             'root': '',
