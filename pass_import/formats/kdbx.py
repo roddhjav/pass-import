@@ -31,7 +31,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     cap = Cap.FORMAT | Cap.IMPORT | Cap.EXPORT
     name = 'keepass'
     format = 'kdbx'
-    magic = b'\x03\xd9\xa2\x9ag\xfbK\xb5'
+    magic = b'\x03\xd9\xa2\x9a'
     keys = {'login': 'username', 'comments': 'notes', 'group': 'path'}
     attributes = {
         'title', 'username', 'password', 'url', 'notes', 'icon', 'tags',
@@ -156,7 +156,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
 
     def is_format(self):
         """Return True if the file is a KDBX file."""
-        sign = self.file.read(8)
+        sign = self.file.read(4)
         if sign != self.magic:
             return False
         return True
