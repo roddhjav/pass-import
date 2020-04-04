@@ -1,0 +1,15 @@
+Package: pass-import
+Version: 2.6-1
+Section: base
+Priority: optional
+Architecture: all
+Depends: pass (>= 1.7.0), python3 (>= 3.4), python3-yaml (>= 0.0)
+Recommends: python3-defusedxml, python3-secretstorage, python3-cryptography
+Maintainer: roddhjav <no@email.com>
+Description: pass-import
+ pass import is a password store extension allowing you to import your password database to a password store repository conveniently. 
+ It natively supports import from 39 different password managers. More manager support can easily be added.
+ Passwords are imported into the existing default password store, therefore the password store must have been initialised before with pass init.
+ By default, pass imports entries at the root of the password store and only keeps the main data (password, login, email, URL, group). 
+ This behaviour can be changed using  the provided options.
+ Pass import handles duplicates and is compatible with browserpass. It imports OTP secret in a way that is compatible with pass-otp.

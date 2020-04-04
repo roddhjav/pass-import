@@ -107,3 +107,12 @@ venv.bak/
 tests/assets/gnupg/
 tests/test-results/
 tests/assets/database
+
+# Jetbrains IntelliJ IDEA
+.idea
+
+# debian package build artifacts
+build-deb/pass-import/etc/
+build-deb/pass-import/usr/
+# debian package
+build-deb/pass-import.deb
