@@ -3,8 +3,6 @@
 # Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
-import os
-
 from pass_import.core import Cap
 from pass_import.errors import PMError
 from pass_import.managers.csv import GenericCSV

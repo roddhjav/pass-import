@@ -57,15 +57,15 @@ tests:
 
 lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pep257 -t pep8 \
+		-t dodgy -t mccabe -t pep257 -t pep8 -t pylint \
 		-t profile-validator -t pyflakes -t pyroma \
 		pass_import/
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pep257 -t pep8 \
+		-t dodgy -t mccabe -t pep257 -t pep8 -t pylint \
 		-t profile-validator -t pyflakes -t pyroma \
 		docs/updatedoc.py setup.py
 	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 \
+		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 -t pylint \
 		-t profile-validator -t pyflakes -t pyroma \
 		tests/
 
@@ -77,8 +77,8 @@ docs:
 	@python3 docs/updatedoc.py
 
 clean:
-	@rm -rf __pycache__/ .mypy_cache/ .ropeproject/ htmlcov/ \
-		pass_import/**/__pycache__/ tests/**/__pycache__/ \
+	@rm -rf __pycache__/ .mypy_cache/ .ropeproject/ htmlcov/ *.egg-info\
+		pass_import/**/__pycache__/ tests/**/__pycache__/ */__pycache__/ \
 		tests/assets/test-results/ tests/assets/gnupg/random_seed \
 		.coverage config.json
 

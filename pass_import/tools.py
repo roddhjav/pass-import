@@ -100,10 +100,8 @@ class Config(dict):
         self.verb = 0
         self.quiet = False
 
-        if os.environ.get('_PASSWORD_STORE_IMPORT', '') == 'extension':
-            self.passwordstore = True
-        else:
-            self.passwordstore = False
+        self.passwordstore = bool(
+            os.environ.get('_PASSWORD_STORE_IMPORT', '') == 'extension')
 
     def verbosity(self, verbose=0, quiet=False):
         """Set program verbosity."""
@@ -149,7 +147,7 @@ class Config(dict):
             self['list_importers'] = self.get('list', False)
             self['list_exporters'] = False
 
-    def getsettings(self, root, action='import'):
+    def getsettings(self, root='', action='import'):
         """Return a currated setting dict for use in a manager class."""
         settings = {'action': action, 'root': root}
         keep = {

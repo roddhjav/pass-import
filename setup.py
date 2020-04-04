@@ -7,7 +7,7 @@ from setuptools import setup
 
 about = dict()
 with open(os.path.join('pass_import', '__about__.py')) as file:
-    exec(file.read(), about)  # nosec
+    exec(file.read(), about)  # nosec pylint: disable=exec-used
 
 with open('README.md') as file:
     long_description = file.read()

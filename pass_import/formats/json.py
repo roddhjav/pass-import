@@ -52,6 +52,7 @@ class JSON(Formatter, PasswordImporter):
             True or False either the header match the json data.
 
         """
+        # pylint: disable=too-many-return-statements
         if isinstance(header, type):
             if data is not None and not isinstance(data, header):
                 return False
