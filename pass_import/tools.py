@@ -7,7 +7,12 @@ import getpass
 import os
 import sys
 
-import magic
+try:
+    import magic
+    MAGIC = True
+except ImportError:
+    MAGIC = False
+
 import yaml
 import pass_import.clean as clean
 
@@ -28,6 +33,9 @@ def get_magics(path):
     in various distribution.
 
     """
+    if not MAGIC:
+        return None, None
+
     with open(path, 'rb') as file:
         header = file.read(2048)
 
