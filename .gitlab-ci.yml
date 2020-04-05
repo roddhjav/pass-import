@@ -66,13 +66,21 @@ sast:
 
 # Code tests
 
-python:
+python 3.8:
   image: python:3.8
   coverage: '/\d+\%\s*$/'
   artifacts:
     expire_in: 2 days
     paths:
       - htmlcov/
+  <<: *tests
+
+python 3.7:
+  image: python:3.7
+  <<: *tests
+
+python 3.6:
+  image: python:3.6
   <<: *tests
 
 # Distribution tests
