@@ -218,7 +218,7 @@ You might also want to update the passwords imported using [`pass-update`][updat
 
 **Requirements**
 * `pass 1.7.0` or greater.
-* Python 3.4+
+* Python 3.6+
 * `python3-setuptools` to build and install it.
 * `python3-yaml` (`apt install python3-yaml` or `pip3 install pyaml`)
 
