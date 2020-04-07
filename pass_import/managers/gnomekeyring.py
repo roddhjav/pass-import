@@ -9,7 +9,7 @@ try:
 except ImportError:
     SECRETSTORAGE = False
 
-from pass_import.core import register_managers, Cap
+from pass_import.core import register_managers
 from pass_import.manager import PasswordImporter
 
 
@@ -21,7 +21,6 @@ class GnomeKeyring(PasswordImporter):
     to import all collections.
 
     """
-    cap = Cap.IMPORT | Cap.EXPORT
     name = 'gnome'
     format = 'libsecret'
     url = 'https://wiki.gnome.org/Projects/GnomeKeyring'
