@@ -15,14 +15,17 @@ all:
 	@echo
 
 install:
-	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
-	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
-	@install -v -d "$(DESTDIR)$(BASHCOMPDIR)" "$(DESTDIR)$(ZSHCOMPDIR)"
-	@install -v -m 0755 "scripts/import.bash" "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
-	@install -v -m 0755 "scripts/pimport" "$(DESTDIR)$(BINDIR)/pimport"
-	@install -v -m 0644 "docs/pass-import.1" "$(DESTDIR)$(MANDIR)/man1/pass-import.1"
-	@install -v -m 0644 "completion/pass-import.bash" "$(DESTDIR)$(BASHCOMPDIR)/pass-import"
-	@install -v -m 0644 "completion/pass-import.zsh" "$(DESTDIR)$(ZSHCOMPDIR)/_pass-import"
+	@install -vd "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/" "$(DESTDIR)$(BINDIR)/" \
+				 "$(DESTDIR)$(MANDIR)/man1" "$(DESTDIR)$(BASHCOMPDIR)" \
+				 "$(DESTDIR)$(ZSHCOMPDIR)"
+	@install -vm 0755 scripts/import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
+	@install -vm 0755 scripts/pimport "$(DESTDIR)$(BINDIR)/pimport"
+	@install -vm 0644 docs/pass-import.1 "$(DESTDIR)$(MANDIR)/man1/pass-import.1"
+	@install -vm 0644 docs/pimport.1 "$(DESTDIR)$(MANDIR)/man1/pimport.1"
+	@install -vm 0644 completion/pass-import.bash "$(DESTDIR)$(BASHCOMPDIR)/pass-import"
+	@install -vm 0644 completion/pass-import.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pass-import"
+	@install -vm 0644 completion/pimport.bash "$(DESTDIR)$(BASHCOMPDIR)/pimport"
+	@install -vm 0644 completion/pimport.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pimport"
 	@python3 setup.py install --root="$(DESTDIR)" --optimize=1 --skip-build
 	@echo
 	@echo "pass-import is installed succesfully"
@@ -42,12 +45,12 @@ uninstall:
 PASSWORD_STORE_DIR ?= $(HOME)/.password-store
 PASSWORD_STORE_EXTENSIONS_DIR ?= $(PASSWORD_STORE_DIR)/.extensions
 local:
-	@install -v -d "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
-	@install -v -m 0755 "import.bash" "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
-	@python3 setup.py install --user --prefix= --optimize=1
+	@install -vd "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
+	@install -vm 0755 import.bash "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
+	@python3 setup.py install --user --optimize=1
 	@echo
-	@echo "pass-$(PROG) is localy installed succesfully."
-	@echo "Remember to set to 'true' PASSWORD_STORE_ENABLE_EXTENSIONS for the extension to be enabled."
+	@echo "pass-import is localy installed succesfully."
+	@echo "Remember to set PASSWORD_STORE_ENABLE_EXTENSIONS to 'true' for the extension to be enabled."
 	@echo "Warning, because it is a local installation, there is no manual page or shell completion."
 
 
@@ -79,7 +82,7 @@ docs:
 clean:
 	@rm -rf __pycache__/ .mypy_cache/ .ropeproject/ htmlcov/ *.egg-info\
 		pass_import/**/__pycache__/ tests/**/__pycache__/ */__pycache__/ \
-		tests/assets/test-results/ tests/assets/gnupg/random_seed \
-		.coverage config.json
+		tests/assets/test-results/ tests/assets/gnupg/random_seed build \
+		session.baseline.sqlite session.sqlite .coverage config.json
 
 .PHONY: install uninstall local tests lint security docs clean
