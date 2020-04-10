@@ -17,7 +17,7 @@ class PasswordManager(Asset):
     :param str url: Public website of the password manager.
     :param str hexport: How to export data from the password manager.
     :param str himport: How to import data from the password manager.
-    :param bool secure: A flag, to set to ``False`` if the passsword manager is
+    :param bool secure: A flag, to set to ``False`` if the password manager is
         considered not secure.
 
     **Set by reading settings**
@@ -25,7 +25,7 @@ class PasswordManager(Asset):
     :param Action action: The current action for what the object is used.
     :param str root: Internal root where to import the passwords inside the pm.
     :param str delimiter: CSV delimiter character. Default: ``,``
-    :param str cols: String that show the list of CSV expected
+    :param str cols: String that shows the list of CSV expected
         columns to map columns to credential attributes. Only used for the CSV
         generic importer.
 
@@ -65,14 +65,14 @@ class PasswordManager(Asset):
 
 
 class PasswordImporter(PasswordManager):
-    """Interface for all password managers that support importing password.
+    """Interface for all password managers that support importing passwords.
 
     :param list[dict] data: The list of password entries imported by the parse
         method. Each password entry is a dictionary.
     :param list keyslist: The list of core key that will be present into the
-        password entry even without the extra option.
+        password entry, even without the extra option.
     :param dict keys: Correspondence dictionary between the password-store key
-        name (``password``, ``title``, ``login``...) and the key name from the
+        name (``password``, ``title``, ``login``...), and the key name from the
         password manager considered.
 
     """
@@ -88,11 +88,11 @@ class PasswordImporter(PasswordManager):
 
 
 class PasswordExporter(PasswordManager):
-    """Interface for all password managers that support exporting password.
+    """Interface for all password managers that support exporting passwords.
 
     **Set by reading settings**
 
-    :param bool all: Etheir or not import all the data. Default: ``False``
+    :param bool all: Ethier or not import all the data. Default: ``False``
     :param bool force: Either or not to force the insert if the path already
         exist. Default: ``False``
 
@@ -120,14 +120,14 @@ class PasswordExporter(PasswordManager):
         **Features:**
 
         1. Remove unused keys and empty values.
-        2. Clean protocol name in title.
-        3. Clean group from unwanted value in Unix or Windows paths.
+        2. Clean the protocol's name in the title.
+        3. Clean group from unwanted values in Unix or Windows paths.
         4. Duplicate paths.
 
         :param bool cmdclean:
             If ``True``, make the paths more command line friendly.
         :param bool convert:
-            If ``True``, convert the invalid caracters present in the paths.
+            If ``True``, convert the invalid characters present in the paths.
 
         """
         for entry in self.data:

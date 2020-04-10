@@ -72,8 +72,8 @@ _pass_import_arguments () {
 		{-a,--all}'[also import all the extra data present]' \
 		{-f,--force}'[overwrite existing path]' \
 		{-c,--clean}'[make the paths more command line friendly]' \
-		{-C,--convert}'[convert the invalid caracters present in the paths]' \
-		--sep'[provide a caracter of replacement for the path]:-' \
+		{-C,--convert}'[convert the invalid characters present in the paths]' \
+		--sep'[provide a character of replacement for the path]:-' \
 		--del'[provide an alternative CSV delimiter character]:,' \
 		--cols'[csv expected columns to map columns to credential attributes. Only used for the generic csv importer.]' \
 		--config'[set a config file]:_files' \

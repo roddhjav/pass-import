@@ -25,12 +25,12 @@ def getpassword(path):
 def get_magics(path):
     """Get file format and encoding.
 
-    The magic library is not really got at detecting text file based format
-    like CSV, JSON, YAML or XML so we only use it to detect binary format and
+    The magic library is not really good at detecting text file-based format
+    like CSV, JSON, YAML or, XML so we only use it to detect binary format and
     the encoding.
 
     Support both file-magic and magic as both as shipped under the same name
-    in various distribution.
+    in various distributions.
 
     """
     if not MAGIC:
@@ -59,15 +59,15 @@ def get_magics(path):
 
 
 class Config(dict):
-    """Manage configuration, settings and output messages.
+    """Manage configuration, settings, and output messages.
 
-    **Order of presedance of the settings:**
+    **Order of precedence of the settings:**
 
     1. Program options,
     2. Config file,
     3. Default values.
 
-    :param bool passwordstore: If ``True`` consider pass-import is runned as
+    :param bool passwordstore: If ``True`` consider pass-import is run as
         the password-store extension. Use :func:`~currate` to preset
         password-store settings.
     :param int verb:

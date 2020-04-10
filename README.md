@@ -18,7 +18,7 @@ Passwords are imported into the existing default password store, therefore
 the password store must have been initialised before with `pass init`.
 
 By default, pass imports entries at the root of the password store and only keeps
-the main data (password, login, email, URL, group). This behaviour can be changed
+the main data (password, login, email, URL, group). This behavior can be changed
 using the provided options.
 
 Pass import handles duplicates and is compatible with [browserpass]. It imports
@@ -156,9 +156,9 @@ pass import keepassxml keepass.xml -p Import/
 
 ## Configuration file
 
-Some configuration can be read from a configuration file called `.import` if it
+Some configurations can be read from a configuration file called `.import` if it
 is present at the root of the password repository. The configuration read from
-this file will be overwritten by their coresponding command line option
+this file will be overwritten by their corresponding command-line option
 if present.
 
 Example of the `.import` configuration file for the default password repository in `~/.password-store/.import`:
@@ -178,12 +178,12 @@ cleans:
   '[': ''
   ']': ''
 
-# The list of protocol. To be removed from the title.
+# The list of protocols. To be removed from the title.
 protocols:
   - http://
   - https://
 
-# The list of invalid caracters. Replaced by the separator.
+# The list of invalid characters. Replaced by the separator.
 invalids:
   - '<'
   - '>'
@@ -199,11 +199,16 @@ invalids:
 
 ## Security consideration
 
+**Direct import**
+
 Passwords should not be written in plain text form on the drive.
-Therefore when possible you should import it directly from the encrypted data:
+Therefore when possible, you should import it directly from the encrypted data.
+For instance, with an encrypted keepass database:
 ```sh
 pass import keepass file.kdbx
 ```
+
+**Secure erasure**
 
 Otherwise, if your password manager does not support it, you should take care
 of securely removing the plain text password database:
@@ -290,7 +295,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 
 ## License
 
-    Copyright (C) 2017-2019  Alexandre PUJOL
+    Copyright (C) 2017-2020  Alexandre PUJOL
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -307,7 +312,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 
 [github-link]: https://github.com/roddhjav/pass-import
 [travis]: https://img.shields.io/travis/roddhjav/pass-import/master.svg?style=flat-square
-[travis-link]: https://travis-ci.org/roddhjav/pass-import
+[travis-link]: https://travis-ci.com/roddhjav/pass-import
 [gitlab]: https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg?style=flat-square
 [gitlab-link]: https://gitlab.com/roddhjav/pass-import/pipelines
 [coverage]: https://gitlab.com/roddhjav/pass-import/badges/master/coverage.svg?style=flat-square

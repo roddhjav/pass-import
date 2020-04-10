@@ -151,8 +151,8 @@ class PasswordStore(CLI, Formatter):
             <key>: <value>
 
         If ``PasswordManager.all`` is true, all the entry values are printed.
-        Otherwise only the key present in ``PasswordManager.keyslist`` are
-        printed following the order from this list. The title, path and group
+        Otherwise, only the key present in ``PasswordManager.keyslist`` are
+        printed following the order from this list. The title, path, and group
         keys are ignored.
 
         If ``PasswordManager.force`` is true, it will overwrite previous entry.

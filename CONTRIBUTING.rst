@@ -86,8 +86,8 @@ How to add the support for a new password manager?
 --------------------------------------------------
 
 1) To add support for a new password manager named ``mymanager``, add the file
-``pass_import/managers/mymanager.py``. The code itself will depends of the
-format of the file it should import. Here's the bare-minimum for a CSV based
+``pass_import/managers/mymanager.py``. The code itself will depend on the
+format of the file it should import. Here is the bare minimum for a CSV based
 importer:
 
 .. code-block:: python
@@ -125,7 +125,7 @@ importer:
 2) Then, you will want to import the class ``MyManagerCSV`` in ``pass_import/managers/__init__.py``.
 
 3) Add a file named ``tests/assets/db/mymanager[.csv,.xml,...]``. **No
-Contribution will be accepted without this file.** This file must contain the
+contribution will be accepted without this file.** This file must contain the
 exported data from *your manager*. It has to be the exact export of the main
 test password repository. This test data can be found in the
 `tests/assets/references/main.yml`.
@@ -140,16 +140,16 @@ importer. Add an entry in ``tests/tests.yml`` with your importer settings.
       path: mymanager.csv
 
 
-5) Check the tests success, ensure the coverage does not decrease and the code
-health passes.
+5) Check the success of the tests, ensure the coverage does not decrease and the
+code health passes.
 
 Naming convention
 ~~~~~~~~~~~~~~~~~
 
-- The classname is not linked to the command name. It is common to name it as
+- The class name is not linked to the command name. It is common to name it as
   follow: ``ManagerNameFormat()``.
 - If a class has both import and export capabilities, it is common to name it
-  direcly by its manager. It should also be the default class for the manager.
+  directly by its manager. It should also be the default class for the manager.
 - Always sort the classes in alphabetic order.
 
 
@@ -164,14 +164,14 @@ list of data stored with the password can vary from entries in the password
 store, the data imported always respects a simple `key: value` format at the
 exception of the password that is always present in the first line.
 
-`pass_import.manager.PasswordManager` is the main class that manage import
+`pass_import.manager.PasswordManager` is the main class that manages import
 from all the supported password manager. Then the classes in
 `pass_import.formats` inherit from it. It manages data formatting from all the
 password manager.
 
 Data are imported in PasswordManager.data, this is a list of ordered dict. Each
-entry is a dictionary that contain the data for a password store entry. The
-dictionary's key are divided in two sets:
+entry is a dictionary that contains the data for a password store entry. The
+dictionary's keys are divided into two sets:
 
 1) The *standard keys*: `title`, `password`, `login`, `url`, `comments` and
 `group`.

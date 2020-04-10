@@ -16,11 +16,10 @@ from pass_import.errors import PMError
 class DummyDetecter(Formatter):
     """Dummy detecter class.
 
-    In the detector context manager if the :func:`~detecter_open` method of a
+    In the detector context manager, if the :func:`~detecter_open` method of a
     Detecter object fails, it means the format tested is not the format
     considered. Then, we fall back to this dummy password manager class to fail
-    silently an continue the research of the file password manager or/and
-    format.
+    silently and continue the search of the file password manager and format.
 
     """
 
@@ -61,14 +60,14 @@ def detector(cls, prefix, settings=None):
 
 
 class AutoDetect():
-    """Give a file, detect the format and the password manager.
+    """Give a file, detect the format, and the password manager.
 
-    Considering a manager name and optional version number, tell if a given
-    path is supported by the password manager and if yes, tell what format is
+    Considering a manager's name and optional version number, tell if a given
+    path is supported by the password manager and, if yes, tell what format is
     supported.
 
     :param str name: (optional) Name of the password manager. Only the
-        guessmanager method can be used without the manager name.
+        ``manager`` method can be used without the manager name.
     :param str version: (optional) Version number of the password manager.
 
     """
@@ -100,7 +99,7 @@ class AutoDetect():
           open it if this is the last remaining.
         - Get the default format otherwise
 
-        :param str path: Path, directory or plain data of the manager.
+        :param str path: Path, directory, or plain data of the manager.
         :returns PasswordManager: The detected password manager class.
             ``None`` if not found.
 
@@ -119,7 +118,7 @@ class AutoDetect():
         return self.default()  # pragma: no cover
 
     def manager(self, path):
-        """Full format detection of a file without knowing the manager name.
+        """Full format detection of a file without knowing the  manager's name.
 
         :algorithm:
 
@@ -132,7 +131,7 @@ class AutoDetect():
                     For all managers that support the format:
                         Compare manager header for the file header.
 
-        :param str path: Path, directory or plain data of the manager.
+        :param str path: Path, directory, or plain data of the manager.
         :returns PasswordManager: The detected password manager class.
             ``None`` if not found.
 
@@ -152,7 +151,7 @@ class AutoDetect():
         return None
 
     def _tryopen(self, path):
-        """Knowing the manager name try to open the path in all format.
+        """Knowing the manager's name, try to open the path in all formats.
 
         :algorithm:
 
@@ -166,7 +165,7 @@ class AutoDetect():
                 Else:
                     The could format could be this one, update unknowns list.
 
-        :param str path: Path, directory or plain data of the manager.
+        :param str path: Path, directory, or plain data of the manager.
         :returns PasswordManager: The detected password manager class.
             ``None`` if not found.
         :returns list: List of untested :term:`pm`, format could be any of

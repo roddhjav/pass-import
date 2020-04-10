@@ -56,8 +56,8 @@ class Asset(ABC):
     :param bool default: ``True`` is the pm is the default pm with its name.
     :param bool only: On header check, set if the file can have more header
         than the headers set in the header list or dict given by
-        :func:`~header`. Default: ``False``. Required by some manager that
-        contains only very generic header.
+        :func:`~header`. Default: ``False``. Required by some managers that
+        contain only a very generic header.
     :param str encoding: File encoding, default: ``utf-8``
     :param str mode: File reading mode, default: ``r``
 
@@ -75,7 +75,7 @@ class Asset(ABC):
         """Asset manager initialisation.
 
         :param prefix: (optional) Path, identifiant of the pm. It can also
-            be a file object. Therefore the password are read from this stream.
+            be a file object. Therefore, the passwords are read from it.
         :param dict settings: (optional) Additional settings for the pm.
 
         """

@@ -52,7 +52,7 @@ class AppleKeychain(Formatter, PasswordImporter):
         """Convert keychain to yaml."""
         yamls = []
         data = file.read()
-        caracters = {
+        characters = {
             'data:\n': 'data: ',
             '<NULL>': '',
             r'<[\w]*>=': ': ',
@@ -60,8 +60,8 @@ class AppleKeychain(Formatter, PasswordImporter):
             '0x00000008 :': '0x00000008:',
             'keychain: "([^"]*)"': '---'
         }
-        for key in caracters:
-            data = re.sub(key, caracters[key], data)
+        for key in characters:
+            data = re.sub(key, characters[key], data)
         data = data.strip('---').split('---')
         for block in data:
             yamls.append(yaml.safe_load(block))

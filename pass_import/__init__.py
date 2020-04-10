@@ -22,11 +22,11 @@ __all__ = [
 
 
 class ManagerError(Exception):
-    """Error related to managers management. Most likely a bug if raised."""
+    """Errors related to managers' management. Most likely a bug if raised."""
 
 
 class Managers(set):
-    """Provide an interface to manage the managers class easily."""
+    """Provide an interface to manage the managers' classes easily."""
 
     def __init__(self):
         super(Managers, self).__init__(get_managers())

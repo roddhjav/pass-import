@@ -17,8 +17,9 @@ class NetworkManager(Formatter, PasswordImporter):
     """Importer for Network Manager.
 
     :usage:
-    Support import from the installed network configuration but also from
-    specific directory of networkmanger configuration file or from given file.
+    Support import from the installed network configuration but also from a
+    specific directory of NetworkManager configuration file or from a given
+    file.
 
     Example:
     -------

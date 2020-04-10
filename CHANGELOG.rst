@@ -9,22 +9,22 @@ The format is based on `Keep a Changelog`_.
 `3.0`_ - 2020-xx-xx
 -------------------
 
-This is the second major rewrite of pass-import. pass import was originally
-written as a wrapper for a few script to import passwords to password store.
-Then, in version ``2.0``, a first full re-write has been done. pass-import was
+It is the second major rewrite of pass-import. pass import was originally
+written as a wrapper for a few scripts to import passwords to password-store.
+Then, in version ``2.0``, a first full rewrite has been done. pass-import was
 a small python script that can natively import password to pass.
 
 From ``v3.0``, pass-import became a real python program that can be used as it
-or as a library to import password. It also support more than pass as targeted
-password manager.
+or as a library to import passwords. It also supports more than pass as a
+targeted password manager.
 
 
 Added
 ~~~~~
 - pass-import is now password manager agnostic, meaning it is not linked to
-  pass any more. More destination password manager support will be added in
-  future release. In this release, it supports the following destination
-  password manager:
+  password-store anymore. More destination password manager support will be
+  added in future releases. In this release, it supports the following
+  destination password manager:
     * ``keepass``
     * ``csv``
     * and also to ``pass``.
@@ -155,7 +155,7 @@ Added
 - Ensure the success messages print real data. `#54 <https://github.com/roddhjav/pass-import/issues/54>`__
 - Added completion for bash.
 - Add a ``--convert``, ``-C`` option to convert not allowed in path. `#55 <https://github.com/roddhjav/pass-import/issues/55>`__
-- Add a ``--separator`` option to set a different caracter of replacement when converting not allowed caracters. `#56 <https://github.com/roddhjav/pass-import/issues/56>`__
+- Add a ``--separator`` option to set a different character of replacement when converting not allowed characters. `#56 <https://github.com/roddhjav/pass-import/issues/56>`__
 - Add a ``.import`` configuration file for import personalisation. `#56 <https://github.com/roddhjav/pass-import/issues/56>`__
 
 Changed

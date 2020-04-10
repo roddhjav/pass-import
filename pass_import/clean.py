@@ -30,17 +30,17 @@ def cmdline(string, cleans=None):
 
 
 def convert(string):
-    """Convert invalid caracters by the separator in a string."""
-    caracters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
-    return replaces(caracters, string)
+    """Convert invalid characters by the separator in a string."""
+    characters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
+    return replaces(characters, string)
 
 
 def group(string):
-    """Remove invalids caracters in a group. Convert sep to os.sep."""
-    caracters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
-    caracters['/'] = os.sep
-    caracters['\\'] = os.sep
-    return replaces(caracters, string)
+    """Remove invalids characters in a group. Convert sep to os.sep."""
+    characters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
+    characters['/'] = os.sep
+    characters['\\'] = os.sep
+    return replaces(characters, string)
 
 
 def cpath(entry, path, cmdclean, conv):
@@ -79,21 +79,21 @@ def dpaths(data, cmdclean, conv):
 
 def protocol(string):
     """Remove the protocol prefix in a string."""
-    caracters = dict(zip(PROTOCOLS, [''] * len(PROTOCOLS)))
-    return replaces(caracters, string)
+    characters = dict(zip(PROTOCOLS, [''] * len(PROTOCOLS)))
+    return replaces(characters, string)
 
 
-def replaces(caracters, string):
+def replaces(characters, string):
     """General purpose replace function."""
-    for key in caracters:
-        string = string.replace(key, caracters[key])
+    for key in characters:
+        string = string.replace(key, characters[key])
     return string
 
 
 def title(string):
     """Clean the title from separator before addition to a path."""
-    caracters = {'/': SEPARATOR, '\\': SEPARATOR}
-    return replaces(caracters, string)
+    characters = {'/': SEPARATOR, '\\': SEPARATOR}
+    return replaces(characters, string)
 
 
 def unused(entry):

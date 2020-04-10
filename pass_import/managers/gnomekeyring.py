@@ -17,7 +17,7 @@ class GnomeKeyring(PasswordImporter):
     """Importer & exporter for Gnome Keyring.
 
     :usage:
-    You can provide a gnome keyring collection label to import. It can be empty
+    You can provide a gnome-keyring collection label to import. It can be empty
     to import all collections.
 
     """

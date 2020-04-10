@@ -31,9 +31,9 @@ class PassmanCSV(CSV):
     def parse(self):
         """Parse Passman CSV file."""
         super(PassmanCSV, self).parse()
-        caracters = {'\\': os.sep, '[': '', ']': ''}
+        characters = {'\\': os.sep, '[': '', ']': ''}
         for entry in self.data:
-            entry['group'] = replaces(caracters, entry.get('group', ''))
+            entry['group'] = replaces(characters, entry.get('group', ''))
 
 
 class PassmanJSON(JSON):

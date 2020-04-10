@@ -75,8 +75,8 @@ class GenericCSV(CSV, PasswordExporter):
         :param dict entry: The password entry to insert.
 
         If ``all`` is true, all the entry values are printed.
-        Otherwise only the key present in ``keyslist`` are
-        printed following the order from this list. The title, path and group
+        Otherwise, only the key present in ``keyslist`` are
+        printed following the order from this list. The title, path, and group
         keys are ignored.
 
         Binary attachment is not supported.

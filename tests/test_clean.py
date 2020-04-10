@@ -62,8 +62,8 @@ class TestStatic(tests.Test):
         """Testing: clean.replaces."""
         string = ''
         string_expected = ''
-        caracters = {}
-        string = pass_import.clean.replaces(caracters, string)
+        characters = {}
+        string = pass_import.clean.replaces(characters, string)
         self.assertEqual(string, string_expected)
 
 

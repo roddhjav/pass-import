@@ -42,13 +42,13 @@ class ArgParser(ArgumentParser):
             prog = 'pass import'
             description = """
   Import data from most of the password manager. Passwords are imported into
-  the existing default password store, therefore the password store must have
+  the existing default password store; therefore, the password store must have
   been initialised before with 'pass init'."""
         else:
             prog = 'pimport'
             description = """
   Import data from most of the password manager. Passwords are imported into
-  an existing password repository, therefore the password repository must have
+  an existing password repository; therefore, the password repository must have
   been initialised before."""
 
         super(ArgParser, self).__init__(
@@ -72,7 +72,7 @@ class ArgParser(ArgumentParser):
         pmarg.add_argument(
             'src', type=str, nargs='*', default=[],
             help='Path to the data to import. Can also be the password manager'
-                 ' named followed by the path to the data to import. The passw'
+                 ' name followed by the path to the data to import. The passw'
                  'ord manager name can be: %s' % ', '.join(MANAGERS.names()))
 
         if not self.passwordstore:
@@ -102,13 +102,13 @@ class ArgParser(ArgumentParser):
                             help='Make the paths more command line friendly.')
         common.add_argument(
             '-C', '--convert', action='store_true',
-            help='Convert invalid caracters present in the paths.')
+            help='Convert invalid characters present in the paths.')
 
         # Extra options
         extra = self.add_argument_group(title='Extra optional arguments')
         extra.add_argument(
             '--sep', dest='separator', metavar='CAR', default='-',
-            help="Provide a caracter of replacement for the path separator. "
+            help="Provide a characters of replacement for the path separator. "
                  "Default: '-'")
         extra.add_argument(
             '--del', dest='delimiter', metavar='CAR', default=',',
@@ -141,7 +141,7 @@ class ArgParser(ArgumentParser):
                            help='Show the program version and exit.')
         group = usage.add_mutually_exclusive_group()
         group.add_argument('-v', '--verbose', action='count', default=0,
-                           help='Set verbosity level.')
+                           help='Set verbosity level, can be used more than once.')
         group.add_argument('-q', '--quiet', action='store_true',
                            help='Be quiet.')
 
