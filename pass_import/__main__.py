@@ -107,11 +107,11 @@ class ArgParser(ArgumentParser):
         # Extra options
         extra = self.add_argument_group(title='Extra optional arguments')
         extra.add_argument(
-            '--sep', dest='separator', metavar='CAR', default='-',
+            '--sep', dest='separator', metavar='CHAR', default='-',
             help="Provide a characters of replacement for the path separator. "
                  "Default: '-'")
         extra.add_argument(
-            '--del', dest='delimiter', metavar='CAR', default=',',
+            '--del', dest='delimiter', metavar='CHAR', default=',',
             help="Provide an alternative CSV delimiter character. "
                  "Default: ','")
         extra.add_argument(
@@ -141,7 +141,8 @@ class ArgParser(ArgumentParser):
                            help='Show the program version and exit.')
         group = usage.add_mutually_exclusive_group()
         group.add_argument('-v', '--verbose', action='count', default=0,
-                           help='Set verbosity level, can be used more than once.')
+                           help='Set verbosity level, '
+                                'can be used more than once.')
         group.add_argument('-q', '--quiet', action='store_true',
                            help='Be quiet.')
 

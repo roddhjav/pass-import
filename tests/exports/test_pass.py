@@ -16,7 +16,6 @@ class TestPass(tests.Test):
     def setUp(self):
         """Create a directory for a new password store repository."""
         self._tmpdir()
-        os.environ['PASSWORD_STORE_IMPORT'] = 'extension'  # nosec
         os.environ['PASSWORD_STORE_DIR'] = self.prefix
         self.store = PasswordStore(self.prefix)
         self.store.all = True
