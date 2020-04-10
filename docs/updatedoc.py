@@ -41,16 +41,17 @@ class ManagerMeta():
     """Generate currated password managers metadata."""
     guide = 'this guide: '
 
-    def __init__(self, pm, md=True):
+    def __init__(self, pm, ext=True, md=True):
         self.pm = pm
         self.md = md
+        self.prog = 'pass import' if ext else 'pimport'
 
     def urlto_markdown(self, string):
         """Markdonize link."""
         if self.guide in string:
             msg = string.split(self.guide)
             url = msg.pop()
-            string = ''.join(msg) + "[this guide](%s)" % url
+            string = ''.join(msg) + '[this guide](%s)' % url
         return string
 
     def urlto_man(self, string):
@@ -66,9 +67,9 @@ class ManagerMeta():
         res = ''
         if self.pm.format != '':
             if self.md:
-                res = "`%s`" % self.pm.format
+                res = self.pm.format
             else:
-                res = "(%s)" % self.pm.format
+                res = '(%s)' % self.pm.format
         return res
 
     @property
@@ -76,10 +77,7 @@ class ManagerMeta():
         """Get version formated."""
         res = ''
         if self.pm.version != '':
-            if self.md:
-                res = "`%s`" % self.pm.version
-            else:
-                res = "v%s" % self.pm.version
+            res = ' v%s' % self.pm.version
         return res
 
     @property
@@ -103,7 +101,8 @@ class ManagerMeta():
         """Get import help formated."""
         res = self.pm.himport
         if res == '':
-            res = '**pass import %s file.%s**' % (self.pm.name, self.pm.format)
+            res = '**%s %s file.%s**' % (self.prog, self.pm.name,
+                                         self.pm.format)
         if not self.md:
             res = res.replace('**', '')
         return res
@@ -113,7 +112,7 @@ class ManagerMeta():
         """Get usage formated."""
         res = self.pm.usage()
         if res != '':
-            res = "%s\n\n" % res
+            res = '%s\n\n' % res
         return res
 
     @property
@@ -127,28 +126,50 @@ class ManagerMeta():
 
 # README.md
 
-def importers_nb():
-    """Return a string of the importer len."""
-    return "%d" % len(MANAGERS)
-
-
-def markdown_table():
-    """Generate the new supported table."""
+def table_importer():
+    """Generate the new importer table."""
     res = (
-        '| **Password Manager** | **Format** | **v** | **How to export Data** | **Command line** |\n'  # noqa
-        '|:--------------------:|:----------:|:-----:|:----------------------:|:----------------:|\n'  # noqa
+        '| **Password Manager** | **Formats** | **How to export Data** | **Command line** |\n'  # noqa
+        '|:--------------------:|:-----------:|:----------------------:|:----------------:|\n'  # noqa
     )
 
     matrix = MANAGERS.matrix()
     for name in sorted(matrix):
+        formats = []
+        hexports = []
+        himports = []
         for pm in matrix[name]:
             mm = ManagerMeta(pm, md=True)
-            res += "| [%s](%s) | %s | %s | *%s* | `%s` |\n" % (
-                name, mm.url, mm.format, mm.version, mm.hexport, mm.himport)
+            formats.append('`%s%s`' % (mm.format, mm.version))
+            if len(hexports) == 0 or hexports[0] != mm.hexport:
+                hexports.append(mm.hexport)
+            himports.append(mm.himport)
+        frmt = ', '.join(formats)
+        hexport = '* **OR** *'.join(hexports)
+        himport = '` **OR** `'.join(himports)
+
+        res += "| [%s](%s) | %s | *%s* | `%s` |\n" % (name, mm.url, frmt,
+                                                      hexport, himport)
     return "\n%s\n" % res
 
 
-def helpmessage():
+def table_exporter():
+    """Generate the new exporter table."""
+    res = (
+        '| **Exporters Password Manager** | **Format** | **Command line** |\n'
+        '|:------------------------------:|:----------:|:----------------:|\n'
+    )
+
+    matrix = MANAGERS.matrix(Cap.EXPORT)
+    for name in sorted(matrix):
+        for pm in matrix[name]:
+            mm = ManagerMeta(pm, md=True)
+            res += "| [%s](%s) | %s | `pimport %s src [src]` |\n" % (
+                name, mm.url, mm.format, name)
+    return "\n%s\n" % res
+
+
+def usage():
     """Generate the new pass-import usage."""
     string = io.StringIO()
     parser = ArgParser(True)
@@ -156,21 +177,16 @@ def helpmessage():
     return "\n```\n%s```\n" % string.getvalue()
 
 
-# pass-import.1
+# Manual pages
 
-def importers_nb_line():
-    """Return a line of the importer len."""
-    return "\n%d\n" % len(MANAGERS)
-
-
-def importers_usage():
-    """Generate the new supported table."""
+def usage_importer(ext=True):
+    """Generate the usage for importer."""
     res = ''
     matrix = MANAGERS.matrix()
     for name in sorted(matrix):
         for pm in matrix[name]:
-            mm = ManagerMeta(pm, md=False)
-            res += "\n.TP\n\\fB%s %s %s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
+            mm = ManagerMeta(pm, ext, md=False)
+            res += "\n.TP\n\\fB%s %s%s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
                 name, mm.format, mm.version, mm.url)
             res += mm.usage
             res += ("Export: %s\n\n"
@@ -178,12 +194,26 @@ def importers_usage():
     return "\n%s" % res
 
 
+def usage_exporter():
+    """Generate the usage for exporter."""
+    res = ''
+    matrix = MANAGERS.matrix(Cap.EXPORT)
+    for name in sorted(matrix):
+        for pm in matrix[name]:
+            mm = ManagerMeta(pm, md=False)
+            res += "\n.TP\n\\fB%s %s %s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
+                name, mm.format, mm.version, mm.url)
+            res += mm.usage
+            res += "Command: pimport %s src [src]\n" % name
+    return "\n%s" % res
+
+
 # Shell Completion
 
-def bash_completion():
+def bash_cmd(var, cap):
     """Re-generate command for bash completion."""
-    res = "\n\tlocal importers=("
-    for name in sorted(MANAGERS.names()):
+    res = "\n\tlocal %s=(" % var
+    for name in sorted(MANAGERS.names(cap)):
         if len(res.split('\n').pop()) + len(name) + 1 < 74:
             res += "%s " % name
         else:
@@ -191,53 +221,89 @@ def bash_completion():
     return res[:-1] + ')\n\t'
 
 
-def zsh_completion():
+def bash_importer():
+    """Re-generate importer command for bash completion."""
+    return bash_cmd('importers', Cap.IMPORT)
+
+
+def bash_exporter():
+    """Re-generate exporter command for bash completion."""
+    return bash_cmd('exporters', Cap.EXPORT)
+
+
+def zsh_cmd(cap):
     """Re-generate command for zsh completion."""
     res = "\n\t\tsubcommands=(\n"
-    matrix = MANAGERS.matrix()
+    matrix = MANAGERS.matrix(cap)
     for name in sorted(matrix):
-        supported = []
+        formats = []
         capability = 'Importer'
         for pm in matrix[name]:
-            if Cap.EXPORT in pm.cap:
-                capability = 'Importer & Exporter'
-            support = pm.format.upper()
-            if pm.version != '':
-                support += ' v%s' % pm.version
-            supported.append(support)
-        desc = '%s for %s in %s' % (capability, name, ', '.join(supported))
+            if cap is Cap.EXPORT:
+                capability = 'Exporter'
+
+            frmt = pm.format.upper()
+            if pm.version:
+                frmt += ' v%s' % pm.version
+            formats.append(frmt)
+        desc = '%s for %s in %s' % (capability, name, ', '.join(formats))
         res += "\t\t\t'%s:%s'\n" % (name, desc)
     return res + '\t\t)\n\t\t'
 
 
+def zsh_importer():
+    """Re-generate importer command for zsh completion."""
+    return zsh_cmd(Cap.IMPORT)
+
+
+def zsh_exporter():
+    """Re-generate exporter command for zsh completion."""
+    return zsh_cmd(Cap.EXPORT)
+
+
 UPDATE = {
     'README.md': [
-        ('<!-- NB BEGIN -->', '<!-- NB END -->', importers_nb),
-        ('<!-- LIST BEGIN -->', '<!-- LIST END -->', markdown_table),
-        ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', helpmessage),
+        ('<!-- NB BEGIN -->', '<!-- NB END -->', '%d' % len(MANAGERS)),
+        ('<!-- LIST BEGIN -->', '<!-- LIST END -->', table_importer()),
+        ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', table_exporter()),
+        ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', usage()),
     ],
     'docs/pass-import.1': [
-        (r'\# NB BEGIN', r'\# NB END', importers_nb_line),
-        (r'\# LIST BEGIN', r'\# LIST END', importers_usage),
+        (r'\# NB BEGIN', r'\# NB END', '\n%d\n' % len(MANAGERS)),
+        (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
+    ],
+    'docs/pimport.1': [
+        (r'\# NB BEGIN', r'\# NB END', '\n%d\n' % len(MANAGERS)),
+        (r'\# NB EXPORT BEGIN', r'\# NB EXPORT END',
+         '\n%d\n' % len(MANAGERS.names(Cap.EXPORT))),
+        (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
+        (r'\# LIST DST BEGIN', r'\# LIST DST END', usage_exporter()),
     ],
     'completion/pass-import.bash': [
-        ('# importers begin', '# importers end', bash_completion),
+        ('# importers begin', '# importers end', bash_importer()),
     ],
     'completion/pass-import.zsh': [
-        ('# subcommands begin', '# subcommands end', zsh_completion),
-    ]
+        ('# importers begin', '# importers end', zsh_importer()),
+    ],
+    'completion/pimport.bash': [
+        ('# importers begin', '# importers end', bash_importer()),
+        ('# exporter begin', '# importers begin', bash_exporter()),
+    ],
+    'completion/pimport.zsh': [
+        ('# importers begin', '# importers end', zsh_importer()),
+        ('# exporter begin', '# exporter end', zsh_exporter()),
+    ],
 }
 
 
 def main():
-    """Update the documentation files last usage and importer list."""
+    """Update the documentation files last usage and manager lists."""
     for path, pattern in UPDATE.items():
         with open(path, 'r') as file:
             data = file.read()
 
-        for begin, end, fct in pattern:
-            # print(fct())
-            data = replace(begin, end, data, fct())
+        for begin, end, res in pattern:
+            data = replace(begin, end, data, res)
 
         with open(path, 'w') as file:
             file.write(data)

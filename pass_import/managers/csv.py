@@ -15,6 +15,7 @@ from pass_import.manager import PasswordExporter
 class GenericCSV(CSV, PasswordExporter):
     """Importer & Exporter in generic CSV format.
 
+    :usage:
     You should use the --cols option to map columns to credential attributes.
     The recognized column names by pass-import are the following:
         'title', 'password', 'login', 'email', 'url', 'comments',

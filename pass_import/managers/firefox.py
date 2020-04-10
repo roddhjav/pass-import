@@ -11,7 +11,7 @@ class FirefoxPasswordExporter(CSV):
     name = 'firefox'
     url = 'https://github.com/kspearrin/ff-password-exporter'
     hexport = 'Add-ons Prefs: Export Passwords: CSV'
-    himport = 'pass import passwordexporter file.csv'
+    himport = 'pass import firefox file.csv'
     keys = {'title': 'hostname', 'password': 'password', 'login': 'username'}
 
 

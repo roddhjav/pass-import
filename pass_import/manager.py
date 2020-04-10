@@ -54,9 +54,12 @@ class PasswordManager(Asset):
     def usage(cls):
         """Get password manager usage."""
         res = '\n'.join(cls.__doc__.split('\n')[1:-1])
-        while '  ' in res:
-            res = res.replace('  ', ' ')
-        return res
+        if ':usage:' in res:
+            res = res.split(':usage:')[1]
+            while '  ' in res:
+                res = res.replace('  ', ' ')
+            return res
+        return ''
 
     @classmethod
     def description(cls):
