@@ -35,6 +35,7 @@ class ZohoCSV(CSV):
 class ZohoCSVVault(CSV):
     """Importer for Zoho Vault in CSV format."""
     name = 'zoho'
+    default = False
     url = 'https://www.zoho.com/vault'
     hexport = 'Tools > Export Secrets: Zoho Vault Format CSV'
     himport = 'pass import zoho file.csv'

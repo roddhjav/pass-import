@@ -26,6 +26,7 @@ class ChromeCSV(CSV):
 class ChromeCSVSQLite(CSV):
     """Importer for Chrome SQLite in CSV format."""
     name = 'chrome'
+    default = False
     url = 'https://support.google.com/chrome'
     hexport = ('Sqlite. See this guide: https://www.axllent.org/docs/view/'
                'export-chrome-passwords')

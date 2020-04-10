@@ -71,10 +71,29 @@ class Managers(set):
         return sorted(names)
 
     def matrix(self, cap=Cap.IMPORT):
-        """Return a dict of supported managers classes for all names."""
-        matrix = defaultdict(list)
+        """Return a dict of ordered managers classes and formats.
+
+        :return dict matrix:
+            { name: [pm_1, pm_2, ..., pm_n] } such as pm1 is the dedault pm and
+            the other pm are ordered by they format.
+        """
+        umatrix = defaultdict(list)  # unordered  matrix
         for pm in self.classes(cap):
-            matrix[pm.name].append(pm)
+            umatrix[pm.name].append(pm)
+
+        matrix = defaultdict(list)
+        for name in umatrix:
+            formats = []
+            default = None
+            for pm in umatrix[name]:
+                if pm.default:
+                    default = pm
+                else:
+                    formats.append(pm)
+
+            formats.sort(key=lambda x: x.format)
+            formats.insert(0, default)
+            matrix[name] = formats
         return matrix
 
 

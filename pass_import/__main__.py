@@ -233,33 +233,16 @@ def listmanagers(conf):
     conf.success(msg)
 
     listing = dict()
-    detect = AutoDetect()
     matrix = MANAGERS.matrix(cap)
     for name in matrix:
-        # For each manager, generate the list of supported format & version
-        formats = {}
+        formats = []
         for pm in matrix[name]:
-            if pm.format not in formats:
-                formats[pm.format] = []
-            if pm.version != '':
-                formats[pm.format].append('v%s' % pm.version)
+            res = pm.format
+            if pm.version:
+                res += ' (v%s)' % pm.version
+            formats.append(res)
+        listing[name] = ', '.join(formats)
 
-        # Print the default format first
-        line = []
-        default = detect.default(name)
-        versions = formats.pop(default.format)
-        res = default.format
-        if versions:
-            res += ' (%s)' % ', '.join(versions)
-        line.append(res)
-        for frmt, versions in formats.items():
-            res = '%s' % frmt
-            if versions:
-                res += ' (%s)' % ', '.join(versions)
-            line.append(res)
-        listing[name] = ', '.join(line)
-
-    # Finally print a currated list of supported manager, format & version
     padding1 = len(max(MANAGERS.names(cap), key=len)) + 1
     padding2 = len(max(listing.values(), key=len)) + 1
     for name in sorted(listing):
