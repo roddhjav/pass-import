@@ -1,0 +1,40 @@
+# pimport completion file for bash
+
+_pimport() {
+	COMPREPLY=()
+	local cur="${COMP_WORDS[COMP_CWORD]}"
+	# exporter begin
+	local exporters=(csv keepass keepassx2 keepassxc pass)
+	# importers begin
+	local importers=(1password aegis andotp apple-keychain bitwarden blur 
+		buttercup chrome clipperz csv dashlane encryptr enpass firefox fpm 
+		freeotp+ gnome gnome-auth gorilla kedpm keepass keepassx keepassx2 
+		keepassxc keeper lastpass myki network-manager padlock pass passman 
+		passpack passpie pwsafe revelation roboform saferpass upm zoho)
+	# importers end
+	local args=(-r --root -p --path -k --key -a --all -f --force -c --clean
+		-C --convert --sep --del --cols --config -l --list -h --help
+		-V --version -v --verbose -q --quiet)
+	local lastarg="${COMP_WORDS[$COMP_CWORD-1]}"
+	if [[ $COMP_CWORD -eq 1 ]]; then
+		COMPREPLY+=($(compgen -W "${exporters[*]} ${args[*]}" -- ${cur}))
+	elif [[ $lastarg == "-p" || $lastarg == "--path" ]]; then
+		_complete_folders
+		compopt -o nospace
+	elif [[ $COMP_CWORD -gt 2 ]]; then
+		COMPREPLY+=($(compgen -W "${args[*]}" -- ${cur}))
+	else
+		COMPREPLY+=($(compgen -W "${importers[*]} ${args[*]}" -- ${cur}))
+	fi
+}
+
+_complete_folders () {
+	local IFS=$'\n'
+	local items=($(compgen -d $cur))
+	for item in "${items[@]}"; do
+		[[ $item == .* ]] && continue
+		COMPREPLY+=("${item}")
+	done
+}
+
+complete -o filenames -F _pimport pimport

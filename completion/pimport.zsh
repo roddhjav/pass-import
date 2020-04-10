@@ -1,13 +1,15 @@
-#compdef pass-import
-#description Import data from most of the existing password manager
+#compdef pimport
+#autoload
 
-_pass-import () {
-	if (( CURRENT > 2)); then
+_pimport () {
+	if (( CURRENT > 3)); then
 		(( CURRENT-- ))
 		shift words
-		_pass_import_arguments
+		_pimport_arguments
 		_files
-	else
+	elif (( CURRENT > 2)); then
+		(( CURRENT-- ))
+		shift words
 		local -a subcommands
 		# importers begin
 		subcommands=(
@@ -52,22 +54,37 @@ _pass-import () {
 			'zoho:Importer for zoho in CSV, CSV'
 		)
 		# importers end
+		_pimport_arguments
+		_describe -t commands 'importers' subcommands
+		_files
+	else
+		local -a subcommands
+		# exporter begin
+		subcommands=(
+			'csv:Exporter for csv in CSV'
+			'keepass:Exporter for keepass in KDBX'
+			'keepassx2:Exporter for keepassx2 in KDBX'
+			'keepassxc:Exporter for keepassxc in KDBX'
+			'pass:Exporter for pass in PASS'
+		)
+		# exporter end
 		_arguments : \
-			{-l,--list}'[list the supported password managers]' \
 			{-h,--help}'[display help information]' \
 			{-V,--version}'[display version information]' \
-			{-v,--verbose}'[set verbosity level]' \
+			{-l,--list-importers}'[list the supported password managers]' \
+			{-e,--list-exporters}'[list the supported password exporters]' \
 			{-q,--quiet}'[be quiet]'
-		_describe -t commands 'pass import' subcommands
-		_files
+		_describe -t commands 'exporters' subcommands
 	fi
 }
 
-_pass_import_arguments () {
+_pimport_arguments () {
 	_arguments : \
-		{-l,--list}'[list the supported password managers]' \
+		{-o,--out}'[Where the destination password manager lives. Can be a file, a directory or even a login]:_files' \
+		{-l,--list-importers}'[list the supported password managers]' \
+		{-e,--list-exporters}'[list the supported password exporters]' \
 		{-r,--root}'[only import the password from a specific subfolder]' \
-		{-p,--path}'[import the passwords to a specific subfolder]:dir:_pass_complete_entries_with_dirs' \
+		{-p,--path}'[import the passwords to a specific subfolder]' \
 		{-k,--key}'[path to a keyfile if required by a manager]:_files' \
 		{-a,--all}'[also import all the extra data present]' \
 		{-f,--force}'[overwrite existing path]' \
@@ -84,8 +101,5 @@ _pass_import_arguments () {
 
 }
 
-_pass_complete_entries_with_dirs () {
-	_pass_complete_entries_helper -type d
-}
 
-_pass-import "$@"
+_pimport "$@"
