@@ -41,7 +41,7 @@ class TestConfig(tests.Test):
         self.assertEqual(clean.PROTOCOLS, [])
         self.assertEqual(
             clean.INVALIDS,
-            ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00'])
+            ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00', '\t'])
         self.assertEqual(settings, {
             'decrypted': False,
             'action': 'import',

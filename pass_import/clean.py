@@ -10,15 +10,14 @@ from collections import defaultdict
 # Cleaning variables.
 SEPARATOR = '-'
 PROTOCOLS = ['http://', 'https://']
-INVALIDS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0']
+INVALIDS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0', '\t']
 CLEANS = {
-    " ": '-',
-    "&": "and",
-    "@": "At",
-    "'": "",
-    "[": "",
-    "]": "",
-    "\t": ''
+    ' ': '-',
+    '&': 'and',
+    '@': 'At',
+    "'": '',
+    '[': '',
+    ']': '',
 }
 
 
