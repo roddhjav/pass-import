@@ -1,43 +1,46 @@
 .TH MARK 1 "April 2020" "pass-import"
 
 .SH NAME
-pass-import \- A \fBpass\fP(1) extension for importing data from most of
-the existing password manager.
+pimport \- A passwords importer swiss army knife
 
 
 .SH SYNOPSIS
-\fBpass import\fP [options] src [src]
+\fBpimport\fP [options] dst src [src]
 
 .SH DESCRIPTION
-\fBpass import\fP is a password store extension allowing you to import your
-password database to a password store repository conveniently. It natively
-supports import from \# NB BEGIN
+\fBpimport\fP is a passwords importer swiss army knife allowing you to import
+your password database to your new password manager repository conveniently.
+It natively supports import from \# NB BEGIN
 53
 \# NB END
-different password managers. More manager support can easily be added.
+password managers, and export to \# NB EXPORT BEGIN
+5
+\# NB EXPORT END
+destination password managers. More manager support can easily be added.
 
-Passwords are imported into the existing default password store; therefore,
-the password store must have been initialised before with \fBpass init\fP.
-
-By default, pass imports entries at the root of the password store and only
-keeps the primary data (password, login, email, URL, group). This behavior can
-be changed using the provided options.
-
-Pass import handles duplicates and is compatible with \fIbrowserpass\fP. It
-imports OTP secret in a way that is compatible with \fIpass-otp\fP.
+By default, pimport imports entries at the root of the password store and only
+keeps the primary data (password, login, email, URL, group). This behaviour can
+be changed using the provided options. It also handles duplicates and support
+OTP secret.
 
 .SH COMMAND
 .TP
-\fBpass import\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--root <path>\fP, \fI-r <path>\fP ]
-     [ \fI--key <file>\fP, \fI-k <file>\fP ] [ \fI--all\fP, \fI-a\fP ] [ \fI--force\fP, \fI-f\fP ]
-     [ \fI--clean\fP, \fI-c\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--sep <char>\fP ]
-     [ \fI--del <char>\fP ] [ \fI--cols <cols>\fP ] [ \fI--config <file>\fP ] [\fI--list\fP, \fI-l\fP]
-     [\fI--help\fP, \fI-h\fP] [\fI--version\fP, \fI-V\fP] [ \fI--verbose\fP, \fI-v\fP ] [ \fI--quiet\fP, \fI-q\fP ]
-     \fIsrc\fP [\fIsrc\fP]
+\fBpimport\fP [ \fI--path <path>\fP, \fI-p <path>\fP ] [ \fI--root <path>\fP, \fI-r <path>\fP ]
+ [ \fI--key <file>\fP, \fI-k <file>\fP ] [ \fI--all\fP, \fI-a\fP ] [ \fI--force\fP, \fI-f\fP ]
+ [ \fI--clean\fP, \fI-c\fP ] [\fI--convert\fP, \fI-Cl\fP] [ \fI--sep <char>\fP ] [ \fI--del <char>\fP ]
+ [ \fI--cols <cols>\fP ] [ \fI--config <file>\fP ] [ \fI--out <path>\fP, \fI-o <path>\fP ]
+ [\fI----list-importers\fP, \fI-l\fP] [\fI--list-exporters\fP, \fI-l\fP] [\fI--help\fP, \fI-h\fP]
+ [\fI--version\fP, \fI-V\fP] [ \fI--verbose\fP, \fI-v\fP ] [ \fI--quiet\fP, \fI-q\fP ]
+ \fIdst\fP \fIsrc\fP [\fIsrc\fP]
 
 Import data from most of the password manager. Passwords are imported into
-the existing default password store; therefore, the password store must have
-been initialised before with \fIpass init\fP.
+an existing password repository; therefore, the password repository must have
+been initialised before.
+
+.I dst
+refer to one of the supported destination password managers to which you want
+to export your data. The complete list of supported destination managers can be
+found in the section \fISUPPORTED DESTINATION MANAGERS\fP.
 
 .I src [\fIsrc\fP]
 can refer to two things: the path to the data to import or to the password
@@ -45,6 +48,10 @@ manager name followed by the path to the data to import. If only the path to the
 data to import is given, pass-import automatically detects the data format to
 import. The complete list of supported managers can be found in the section
 \fISUPPORTED MANAGERS\fP.
+
+If \fI--out\fP or \fI-o\fP is specified along with an argument, provide a path
+where the destination password manager lives. It can be a file, a directory, or
+even a login depending on the manager.
 
 Specific root directory to use in the password store can be given using
 \fI--path\fP or \fI-p\fP or \fI--root\fP or \fI-r\fP, along with an argument.
@@ -80,8 +87,11 @@ to map columns to credential attributes. Only used for the generic csv importer.
 If \fI--config\fP is specified along with an argument, pass-import will consider
 this config file instead of the default one '.import'.
 
-If \fI--list\fP or \fI-l\fP is specified, print the list of the available
-password manager.
+If \fI--list-importers\fP or \fI-l\fP is specified, print the list of the
+available password manager.
+
+If \fI--list-exporters\fP or \fI-e\fP is specified, print the list of the
+available destination password manager.
 
 If \fI--help\fP or \fI-h\fP is specified without argument, print the program
 usage. If the option is specified along with an argument and if this argument is
@@ -90,7 +100,13 @@ a supported password manager, print usage for this manager.
 If \fI--verbose\fP or \fI-v\fP is specified, be more verbose. This option
 can be specified multiple times to set the verbosity level.
 
+
 .SH OPTIONS
+
+.TP
+\fB\-o <path>\fB, \-\-out=<path>\fR
+Where the destination password manager lives. Can be a file, a directory or even
+a login depending of the manager.
 
 .TP
 \fB\-r <path>\fB, \-\-root=<path>\fR
@@ -138,8 +154,12 @@ generic csv importer.
 Set a config file. Default: '.import'
 
 .TP
-\fB\-l\fB, \-\-list\fR
+\fB\-l\fB, \-\-list-importers\fR
 List the supported password managers.
+
+.TP
+\fB\-e\fB, \-\-list-exporters\fR
+List the supported password exporters.
 
 .TP
 \fB\-h\fB, \-\-help\fR
@@ -157,11 +177,18 @@ Set verbosity level, can be used more than once.
 \fB\-q\fB, \-\-quiet\fR
 Be quiet.
 
+
 .SH EXAMPLES
 
+.TP Import Lastpass file to a keepass kdbx file
+.B $ pimport keepass lastpass.csv --out keepass.kdbx`
+
+.TP Import a password store to a CSV file
+.B $ pimport csv ~/.password-store --out file.csv`
+
 .TP
-Import password from KeePass
-.B zx2c4@laptop ~ $ pass import keepass.xml
+Import password from KeePass to password store
+.B $ pimport pass keepass.xml --out ~/.password-store
 .br
 (*) Importing passwords from keepass to pass
 .br
@@ -186,16 +213,8 @@ Import password from KeePass
        Bank/aib
 
 .TP
-Import password to a different password store
-.B zx2c4@laptop ~ $ export PASSWORD_STORE_DIR="~/.mypassword-store"
-.br
-.B zx2c4@laptop ~ $ pass init <gpg-id>
-.br
-.B zx2c4@laptop ~ $ pass import keepass.kdbx
-
-.TP
 Import password to a subfolder
-.B zx2c4@laptop ~ $ pass import bitwarden.json -p Import/
+.B $ pimport pass bitwarden.json -p Import/ --out ~/.password-store
 .br
 (*) Importing passwords from bitwarden to pass
 .br
@@ -223,7 +242,8 @@ Import password to a subfolder
 
 .TP
 If the manager is not correctly detected, you can pass it at source argument
-.B zx2c4@laptop ~ $ pass import dashlane dashlane.csv
+.B $ pimport pass dashlane dashlane.csv --out ~/.password-store
+
 
 .SH CONFIGURATION FILE
 
@@ -233,8 +253,8 @@ this file will be overwritten by their corresponding command-line option
 if present.
 
 .TP
-Example of the .import configuration file for the default password repository
-.B zx2c4@laptop ~ $ cat ~/.password-store/.import
+Example of the .import configuration file
+.B $ cat .import
 .br
 ---
 
@@ -266,6 +286,51 @@ invalids:
 .br
   - '>'
 
+.SH SUPPORTED DESTINATION MANAGERS
+
+\# LIST DST BEGIN
+
+.TP
+\fBcsv (csv) \fP
+Website: \fI\fP
+
+
+ You should use the --cols option to map columns to credential attributes.
+ The recognized column names by pass-import are the following:
+ 'title', 'password', 'login', 'email', 'url', 'comments',
+ 'otpauth', 'group'
+ ``title`` and ``group`` field are used to generate the password
+ path. If you have otp data, they should be named as ``otpauth``.
+ These are the *standard* field names. You can add any other field
+ you want.
+
+
+Command: pimport csv src [src]
+
+.TP
+\fBkeepass (kdbx) \fP
+Website: \fIhttps://www.keepass.info\fP
+
+Command: pimport keepass src [src]
+
+.TP
+\fBkeepassx2 (kdbx) \fP
+Website: \fIhttps://www.keepassx.org\fP
+
+Command: pimport keepassx2 src [src]
+
+.TP
+\fBkeepassxc (kdbx) \fP
+Website: \fIhttps://keepassxc.org\fP
+
+Command: pimport keepassxc src [src]
+
+.TP
+\fBpass (pass) \fP
+Website: \fIhttps://passwordstore.org\fP
+
+Command: pimport pass src [src]
+\# LIST DST END
 
 .SH SUPPORTED MANAGERS
 
@@ -729,31 +794,27 @@ Command: pass import zoho file.csv
 .TP
 Passwords should not be written in plain text form on the drive. Therefore when possible, you should import it directly from the encrypted data. For instance, with an encrypted Keepass database:
 
-.B user@laptop ~ $ pass import keepass file.kdbx
+.B $ pimport pass keepass file.kdbx --out ~/.password-store
 
 .TP
 Otherwise, if your password manager does not support it, you should take care of securely removing the plain text password database:
 
-.B user@laptop ~ $ pass import lastpass data.csv
+.B $ pimport pass lastpass data.csv --out ~/.password-store
 .br
-.B user@laptop ~ $ shred -u data.csv
+.B $ shred -u data.csv
 
 .TP
 Alternatively, pass-import can decrypt gpg encrypted file before importing it. For example:
 
-.B user@laptop ~ $ pass import lastpass lastpass.csv.gpg
+.B $ pimport pass lastpass lastpass.csv.gpg --out ~/.password-store
+
 
 .SH SEE ALSO
-.BR pass(1),
-.BR pass-tomb(1),
-.BR pass-update(1),
-.BR pass-otp(1),
-.BR pimport(1),
-.BR pass-audit(1).
+.BR pass-import(1),
 
 
 .SH AUTHORS
-.B pass import
+.B pimport
 was written by
 .MT alexandre@pujol.io
 Alexandre Pujol
