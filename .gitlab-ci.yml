@@ -121,7 +121,7 @@ fedora:
 pages:
   stage: deploy
   dependencies:
-    - python
+    - python 3.8
   script:
     - mv htmlcov/ public/
   artifacts:
