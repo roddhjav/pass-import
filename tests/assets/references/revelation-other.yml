@@ -1,0 +1,86 @@
+---
+
+- title: Creditcard
+  description: Entry of type Creditcard
+  password: '12345'
+  group: Types
+
+- title: Crypto Key
+  description: Entry of type Crypto Key
+  host: host.example.org
+  password: 'WdAM9ZfxA8'
+  group: Types
+
+- title: Database
+  description: Entry of type Database
+  host: dbhost.example.org
+  database: testdb
+  login: dbuser
+  password: 'FuC7vddj33'
+  group: Types
+
+- title: Door lock
+  description: Entry of type Door lock
+  location: Home, Front
+  password: '12345'
+  group: Types
+
+- title: Email
+  description: Entry of type Email
+  host: mail.example.org
+  login: user
+  password: 'hzuLT4iAV9'
+  email: user@example.org
+  group: Types
+
+- title: FTP
+  description: Entry of type FTP
+  host: ftp.example.org
+  port: '21'
+  login: ftpuser
+  password: 'H3a2Zp9cJb'
+  group: Types
+
+- title: Generic
+  description: Entry of type Generic
+  host: host.example.org
+  login: user
+  password: 'ocDb2QvE9v'
+  group: Types
+
+- title: Phone
+  description: Entry of type Phone
+  phone: '+1 234 5678-90'
+  password: '1234'
+  group: Types
+
+- title: Remote Desktop
+  description: Entry of type Remote Desktop
+  host: host.example.org
+  port: '3389'
+  login: user
+  password: '69jJoVUNXc'
+  group: Types
+
+- title: Shell
+  description: Entry of type Shell
+  host: host.example.org
+  login: user
+  password: 'T2EoPkN3dn'
+  group: Types
+
+- title: VNC
+  description: Entry of type VNC
+  host: host.example.org
+  port: '5900'
+  login: user
+  password: 'MhzWJ2i4if'
+  group: Types
+
+- title: Website
+  description: Entry of type Website
+  url: http://www.example.org/
+  login: user
+  password: 'muxJMn8a99'
+  email: user@example.org
+  group: Types
