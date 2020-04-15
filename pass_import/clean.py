@@ -9,6 +9,7 @@ from collections import defaultdict
 
 # Cleaning variables.
 SEPARATOR = '-'
+NOTITLE = 'notitle'
 PROTOCOLS = ['http://', 'https://']
 INVALIDS = ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\0', '\t']
 CLEANS = {
@@ -35,6 +36,14 @@ def convert(string):
     return replaces(characters, string)
 
 
+def domain(string):
+    """Return the hostname part of a (potential) URLs."""
+    for component in string.split('/'):
+        if component != '':
+            return component
+    return string
+
+
 def group(string):
     """Remove invalids characters in a group. Convert sep to os.sep."""
     characters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
@@ -46,19 +55,26 @@ def group(string):
 def cpath(entry, path, cmdclean, conv):
     """Create path from title and group."""
     ptitle = ''
-    for key in ['title', 'login', 'url']:
-        if key in entry:
-            ptitle = protocol(entry[key])
+    for key in ['title', 'host', 'url', 'login']:
+        if key in entry and entry[key]:
+            ptitle = entry[key]
+            if key in ['title', 'host', 'url']:
+                ptitle = protocol(ptitle)
+                if key in ['host', 'url']:
+                    ptitle = domain(ptitle)
+
             ptitle = title(ptitle)
             if cmdclean:
                 ptitle = cmdline(ptitle)
             if conv:
                 ptitle = convert(ptitle)
-            path = os.path.join(path, ptitle)
-            break
+            if ptitle != '':
+                if os.path.basename(path) != ptitle:
+                    path = os.path.join(path, ptitle)
+                    break
 
-    if ptitle == '':
-        path = os.path.join(path, 'notitle')
+    if ptitle == '' and os.path.basename(path) != NOTITLE:
+        path = os.path.join(path, NOTITLE)
     entry.pop('title', '')
     return path
 

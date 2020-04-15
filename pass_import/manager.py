@@ -139,4 +139,5 @@ class PasswordExporter(PasswordManager):
             entry['path'] = clean.cpath(entry, path, cmdclean, convert)
 
         clean.dpaths(self.data, cmdclean, convert)
+        clean.dpaths(self.data, cmdclean, convert)
         clean.duplicate(self.data)
