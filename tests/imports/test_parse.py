@@ -15,6 +15,7 @@ REFERENCE_NOTE = tests.yaml_load('applekeychain-note.yml')
 REFERENCE_CARD = tests.yaml_load('encryptr-card.yml')
 REFERENCE_OTHER = tests.yaml_load('keepass-other.yml')
 REFERENCE_KDBX = tests.yaml_load('keepass-kdbx.yml')
+REFERENCE_REVELATION = tests.yaml_load('revelation-other.yml')
 
 
 class TestParse(tests.Test):
@@ -152,3 +153,14 @@ class TestParse(tests.Test):
                 entry['group'] = 'Servers'
                 entry['title'] = 'ovh.com'
         self.assertImport(data, reference)
+
+    def test_importers_revelation(self):
+        """Testing: parse method for Revelation with special cases."""
+        keep = [
+            'title', 'password', 'login', 'database', 'host', 'port', 'url',
+            'email', 'phone', 'location', 'description', 'comments', 'group'
+        ]
+        prefix = os.path.join(tests.db, 'revelation-other.xml')
+        with tests.cls('Revelation', prefix) as importer:
+            importer.parse()
+            self.assertImport(importer.data, REFERENCE_REVELATION, keep)
