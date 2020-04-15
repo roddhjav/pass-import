@@ -466,9 +466,7 @@ class PasswordManager():
                     # Only use hostname part of (potential) URLs
                     if key in ['host', 'url']:
                         for component in title.split('/'):
-                            if component == '':
-                                continue
-                            else:
+                            if component != '':
                                 title = component
                                 break
                 title = self._clean_title(title)
@@ -515,8 +513,8 @@ class PasswordManager():
                                                                     '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
-        for _ in range(2):
-            self._duplicate_paths(clean, convert)
+        self._duplicate_paths(clean, convert)
+        self._duplicate_paths(clean, convert)
         self._duplicate_numerise()
 
 
