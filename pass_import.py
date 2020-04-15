@@ -458,18 +458,30 @@ class PasswordManager():
     def _create_path(self, entry, path, clean, convert):
         """Create path from title and group."""
         title = ''
-        for key in ['title', 'login', 'url']:
-            if key in entry:
-                title = self._clean_protocol(entry[key])
+        for key in ['title', 'host', 'url', 'login']:
+            if key in entry and entry[key]:
+                title = entry[key]
+                if key in ['title', 'host', 'url']:
+                    title = self._clean_protocol(title)
+                    # Only use hostname part of (potential) URLs
+                    if key in ['host', 'url']:
+                        for component in title.split('/'):
+                            if component == '':
+                                continue
+                            else:
+                                title = component
+                                break
                 title = self._clean_title(title)
                 if clean:
                     title = self._clean_cmdline(title)
                 if convert:
                     title = self._convert(title)
-                path = os.path.join(path, title)
-                break
+                if title != '':
+                    if os.path.basename(path) != title:
+                        path = os.path.join(path, title)
+                        break
 
-        if title == '':
+        if title == '' and os.path.basename(path) != 'notitle':
             path = os.path.join(path, 'notitle')
         entry.pop('title', '')
         return path
@@ -503,7 +515,8 @@ class PasswordManager():
                                                                     '')))
             entry['path'] = self._create_path(entry, path, clean, convert)
 
-        self._duplicate_paths(clean, convert)
+        for _ in range(2):
+            self._duplicate_paths(clean, convert)
         self._duplicate_numerise()
 
 
