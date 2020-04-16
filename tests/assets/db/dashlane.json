@@ -1,0 +1,135 @@
+{
+  "AUTHENTIFIANT": [
+    {
+      "domain": "https://news.ycombinator.com",
+      "email": "",
+      "login": "ostqxi",
+      "note": "",
+      "password": "1)Btf2EI~Tfb7g2A!Sy',*Sj#",
+      "secondaryLogin": "",
+      "title": "https://news.ycombinator.com"
+    },
+    {
+      "domain": "https://nhysdo.wg",
+      "email": "",
+      "login": "vkeelpbu",
+      "note": "",
+      "password": "",
+      "secondaryLogin": "",
+      "title": "empty password"
+    },
+    {
+      "domain": "https://nhysdo.wg",
+      "email": "",
+      "login": "vkeelpbu",
+      "note": "",
+      "password": "]stDKo{%pk",
+      "secondaryLogin": "",
+      "title": "space title"
+    },
+    {
+      "domain": "",
+      "email": "",
+      "login": "",
+      "note": "",
+      "password": "",
+      "secondaryLogin": "",
+      "title": "empty entry"
+    },
+    {
+      "domain": "",
+      "email": "",
+      "login": "",
+      "note": "This is a multiline note entry. Cube shank petroleum guacamole dart mower\nacutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",
+      "password": "",
+      "secondaryLogin": "",
+      "title": "note"
+    },
+    {
+      "domain": "",
+      "email": "",
+      "login": "dpbx",
+      "note": "This is a garbage address",
+      "password": "2cUqe}e9}>IVZf)Ye>3C8ZN,r",
+      "secondaryLogin": "",
+      "title": "dpbx@klivak.xb"
+    },
+    {
+      "domain": "",
+      "email": "",
+      "login": "dpbx",
+      "note": "For financial purpose only!",
+      "password": "mt}h'hSUCY;SU;;A!l[8y3O:8",
+      "secondaryLogin": "",
+      "title": "dpbx@fner.ws"
+    },
+    {
+      "domain": "https://mail.mnyfymt.ws",
+      "email": "",
+      "login": "dpbx",
+      "note": "",
+      "password": "rPCkmNkhIa>{izt3C3F823!Go",
+      "secondaryLogin": "",
+      "title": "dpbx@mnyfymt.ws"
+    },
+    {
+      "domain": "https://mastodon.social/",
+      "email": "",
+      "login": "ostqxi",
+      "note": "",
+      "password": "D<INNeT?#?Bf4%`zA/4i!/'$T",
+      "secondaryLogin": "",
+      "title": "mastodon.social"
+    },
+    {
+      "domain": "https://www.ovh.com/manager/web/",
+      "email": "",
+      "login": "bynbyjhqjz",
+      "note": "",
+      "password": "3Z-VW!i,j(&!zRGPu(hFe]s'(",
+      "secondaryLogin": "",
+      "title": "ovh.com"
+    },
+    {
+      "domain": "https://www.ovh.com/manager/web/",
+      "email": "",
+      "login": "jsdkyvbwjn",
+      "note": "",
+      "password": "^Vr/|o>_H8X%T]7>f}7|:U!Zs",
+      "secondaryLogin": "",
+      "title": "ovh.com"
+    },
+    {
+      "domain": "https://onlinebanking.aib.ie",
+      "email": "",
+      "login": "dpbx@fner.ws",
+      "note": "",
+      "password": "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",
+      "secondaryLogin": "",
+      "title": "aib"
+    },
+    {
+      "domain": "https://twitter.com/",
+      "email": "",
+      "login": "ostqxi",
+      "note": "",
+      "password": "SoNEwvU,kJ%-cIKJ9[c#S;]jB",
+      "secondaryLogin": "",
+      "title": "twitter.com"
+    },
+    {
+      "domain": "https://afoqwdr.tx",
+      "email": "",
+      "login": "dpbx",
+      "note": "",
+      "password": "9KVHnx:.S_S;cF`=CE@e\\p{v6",
+      "secondaryLogin": "",
+      "title": "dpbx@afoqwdr.tx"
+    }
+  ],
+  "EMAIL": [
+    {
+      "email": "login@example.com"
+    }
+  ]
+}

@@ -1,14 +1,14 @@
-sudo: false
+os: linux
 dist: xenial
 
 language: python
 cache: pip
 
-matrix:
+jobs:
   include:
+    - python: 3.8
     - python: 3.7
     - python: 3.6
-    - python: 3.5
 
 env:
   global:
@@ -26,7 +26,7 @@ install:
   - make --directory=password-store-$PASS_VERSION install
   - mkdir -p ~/.local/share/keyrings/
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage file-magic
 
 script:
   - dbus-run-session -- make tests

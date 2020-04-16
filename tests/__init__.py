@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
 # pass-import - test suite common resources
-# Copyright (C) 2017-2019 Alexandre PUJOL <alexandre@pujol.io>.
+# Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,12 +22,11 @@ It provides:
   - tests.assets Root path of tests assets.
   - tests.db Root path of db where the files to import live.
   - tests.formats Root path with basic malformed formats.
-  - tests.masterpassword Master password used for a password manager.
+  - tests.managers Interface to manage the managers classes.
   - tests.conf Dictionary with managers tests settings.
   - tests.Tests() Base test class.
   - tests.yaml_load() Open and load a yaml reference resource.
   - tests.cls() Load a password manager object.
-  - tests.path() Get database file to test fir a given manager.
   - tests.reference() Set the expected reference data for a given manager.
   - tests.clear() Clear data from key not in keep.
   - tests.captured() Context manager to capture stdout.
@@ -42,13 +41,15 @@ from contextlib import contextmanager
 import yaml
 
 import pass_import
+import pass_import.__main__
 
-tmp = '/tmp/tests/pass-import/python/'  # nosec
+
+tmp = '/tmp/tests/pass-import/'  # nosec
 tests = os.path.abspath('tests')
 assets = os.path.join(tests, 'assets') + os.sep
 formats = os.path.join(assets, 'format') + os.sep
 db = os.path.join(assets, 'db') + os.sep
-masterpassword = 'correct horse battery staple'
+managers = pass_import.Managers()
 with open(os.path.join(tests, 'tests.yml'), 'r') as cfile:
     conf = yaml.safe_load(cfile)
 
@@ -72,15 +73,14 @@ def yaml_load(ref_path):
         return yaml.safe_load(file)
 
 
-def cls(name, **args):
+def cls(name, prefix=None, **args):
     """Load a password manager object."""
-    return pass_import.IMPORTERS[name](extra=True, **args)
-
-
-def path(name):
-    """Get database file to test fir a given manager."""
-    ext = conf[name]['extension']
-    return os.path.join(db, "%s.%s" % (name, ext))
+    if not prefix:
+        prefix = os.path.join(db, conf[name]['path'])
+    settings = {'extra': True}
+    for key, value in args.items():
+        settings[key] = value
+    return managers.get(name)(prefix, settings=settings)
 
 
 def reference(name=None):
@@ -120,55 +120,66 @@ def clear(data, keep=None):
 class Test(unittest.TestCase):
     """Common resources for all tests.
 
-    :param str prefix: Prefix of the password store repository.
+    :param str key: Optional key for a password manager.
+    :param str token: Optional token for a password manager.
+    :param str login: Login for a password manager.
+    :param str prefix: Path to a password repository.
+    :param str masterpassword: Master password used for a password manager.
     :param list gpgids: Test GPGIDs.
-    :param PasswordStore store: Password store object to test.
 
     """
+    key = ''
+    token = ''
+    login = ''
     prefix = ''
-    store = None
+    masterpassword = 'correct horse battery staple'
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
 
     def __init__(self, methodName='runTest'):  # noqa
         super(Test, self).__init__(methodName)
 
-        # GPG keyring, pass & settings
+        # GPG keyring & pass settings
         os.environ.pop('GPG_AGENT_INFO', None)
         os.environ.pop('PASSWORD_STORE_SIGNING_KEY', None)
         os.environ['GNUPGHOME'] = os.path.join(os.getcwd(), assets + 'gnupg')
 
     # Main related method
 
-    def _passimport(self, cmd, code=None):
+    def main(self, cmd, code=None, msg=''):
+        """Call to the main function."""
         sys.argv = cmd
         if code is None:
-            pass_import.main()
-        else:
+            pass_import.__main__.main()
+        elif msg == '':
             with self.assertRaises(SystemExit) as cm:
-                pass_import.main()
+                pass_import.__main__.main()
             self.assertEqual(cm.exception.code, code)
+        else:
+            with captured() as (out, err):
+                with self.assertRaises(SystemExit) as cm:
+                    pass_import.__main__.main()
+                if code == 0:
+                    message = out.getvalue().strip()
+                else:
+                    message = err.getvalue().strip()
+                self.assertIn(msg, message)
+                self.assertEqual(cm.exception.code, code)
 
-    # Export related methods
+    # Export related method
 
-    def _tmpdir(self):
+    def _tmpdir(self, path=''):
         """Create a temporary test directory named after the testname."""
         self.prefix = os.path.join(tmp, self._testMethodName)
-
-        # Set PASSWORD_STORE_DIR & declare a passwordstore object
-        os.environ['PASSWORD_STORE_DIR'] = self.prefix
-        self.store = pass_import.PasswordStore()
 
         # Re-initialize the test directory
         if os.path.isdir(self.prefix):
             shutil.rmtree(self.prefix, ignore_errors=True)
         os.makedirs(self.prefix, exist_ok=True)
 
-    def _passinit(self):
-        """Initialize a new password store repository."""
-        with open(os.path.join(self.prefix, '.gpg-id'), 'w') as file:
-            file.write('\n'.join(self.gpgids))
+        if path != '':
+            self.prefix = os.path.join(self.prefix, path)
 
-    # Import related method
+    # Import related methods
 
     def assertImport(self, data, refdata, keep=None):  # noqa
         """Compare imported data with the reference data."""
@@ -176,3 +187,14 @@ class Test(unittest.TestCase):
         self.assertEqual(len(data), len(refdata))
         for entry in data:
             self.assertIn(entry, refdata)
+
+    # Special exporter access methods
+
+    def _init_pass(self):
+        """Initialize a new password store repository."""
+        with open(os.path.join(self.prefix, '.gpg-id'), 'w') as file:
+            file.write('\n'.join(self.gpgids))
+
+    def _init_keepass(self):
+        """Initialize a new keepass repository."""
+        shutil.copyfile(assets + 'export/keepass.kdbx', self.prefix)

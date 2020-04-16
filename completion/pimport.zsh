@@ -1,0 +1,105 @@
+#compdef pimport
+#autoload
+
+_pimport () {
+	if (( CURRENT > 3)); then
+		(( CURRENT-- ))
+		shift words
+		_pimport_arguments
+		_files
+	elif (( CURRENT > 2)); then
+		(( CURRENT-- ))
+		shift words
+		local -a subcommands
+		# importers begin
+		subcommands=(
+			'1password:Importer for 1password in CSV v6, 1PIF v4, CSV v4'
+			'aegis:Importer for aegis in JSON, JSON'
+			'andotp:Importer for andotp in JSON'
+			'apple-keychain:Importer for apple-keychain in KEYCHAIN'
+			'bitwarden:Importer for bitwarden in CSV, JSON'
+			'blur:Importer for blur in JSON, CSV'
+			'buttercup:Importer for buttercup in CSV'
+			'chrome:Importer for chrome in CSV, CSV'
+			'clipperz:Importer for clipperz in HTML'
+			'csv:Importer for csv in CSV'
+			'dashlane:Importer for dashlane in CSV, JSON'
+			'encryptr:Importer for encryptr in CSV'
+			'enpass:Importer for enpass in JSON v6, CSV'
+			'firefox:Importer for firefox in CSV'
+			'fpm:Importer for fpm in XML'
+			'freeotp+:Importer for freeotp+ in JSON'
+			'gnome:Importer for gnome in LIBSECRET'
+			'gnome-auth:Importer for gnome-auth in JSON'
+			'gorilla:Importer for gorilla in CSV'
+			'kedpm:Importer for kedpm in XML'
+			'keepass:Importer for keepass in KDBX, CSV, XML'
+			'keepassx:Importer for keepassx in XML'
+			'keepassx2:Importer for keepassx2 in KDBX, CSV'
+			'keepassxc:Importer for keepassxc in KDBX, CSV'
+			'keeper:Importer for keeper in CSV'
+			'lastpass:Importer for lastpass in CSV'
+			'myki:Importer for myki in CSV'
+			'network-manager:Importer for network-manager in NM'
+			'padlock:Importer for padlock in CSV'
+			'pass:Importer for pass in PASS'
+			'passman:Importer for passman in CSV, JSON'
+			'passpack:Importer for passpack in CSV'
+			'passpie:Importer for passpie in YAML v1.0'
+			'pwsafe:Importer for pwsafe in XML'
+			'revelation:Importer for revelation in XML'
+			'roboform:Importer for roboform in CSV'
+			'saferpass:Importer for saferpass in CSV'
+			'upm:Importer for upm in CSV'
+			'zoho:Importer for zoho in CSV, CSV'
+		)
+		# importers end
+		_pimport_arguments
+		_describe -t commands 'importers' subcommands
+		_files
+	else
+		local -a subcommands
+		# exporter begin
+		subcommands=(
+			'csv:Exporter for csv in CSV'
+			'keepass:Exporter for keepass in KDBX'
+			'keepassx2:Exporter for keepassx2 in KDBX'
+			'keepassxc:Exporter for keepassxc in KDBX'
+			'pass:Exporter for pass in PASS'
+		)
+		# exporter end
+		_arguments : \
+			{-h,--help}'[display help information]' \
+			{-V,--version}'[display version information]' \
+			{-l,--list-importers}'[list the supported password managers]' \
+			{-e,--list-exporters}'[list the supported password exporters]' \
+			{-q,--quiet}'[be quiet]'
+		_describe -t commands 'exporters' subcommands
+	fi
+}
+
+_pimport_arguments () {
+	_arguments : \
+		{-o,--out}'[Where the destination password manager lives. Can be a file, a directory or even a login]:_files' \
+		{-l,--list-importers}'[list the supported password managers]' \
+		{-e,--list-exporters}'[list the supported password exporters]' \
+		{-r,--root}'[only import the password from a specific subfolder]' \
+		{-p,--path}'[import the passwords to a specific subfolder]' \
+		{-k,--key}'[path to a keyfile if required by a manager]:_files' \
+		{-a,--all}'[also import all the extra data present]' \
+		{-f,--force}'[overwrite existing path]' \
+		{-c,--clean}'[make the paths more command line friendly]' \
+		{-C,--convert}'[convert the invalid characters present in the paths]' \
+		--sep'[provide a character of replacement for the path]:-' \
+		--del'[provide an alternative CSV delimiter character]:,' \
+		--cols'[csv expected columns to map columns to credential attributes. Only used for the generic csv importer.]' \
+		--config'[set a config file]:_files' \
+		{-h,--help}'[display help information]' \
+		{-V,--version}'[display version information]' \
+		{-v,--verbose}'[set verbosity level]' \
+		{-q,--quiet}'[be quiet]'
+
+}
+
+
+_pimport "$@"

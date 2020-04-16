@@ -1,7 +1,7 @@
-PROG ?= import
 PREFIX ?= /usr
 DESTDIR ?= /
 LIBDIR ?= $(PREFIX)/lib
+BINDIR ?= $(PREFIX)/bin
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 MANDIR ?= $(PREFIX)/share/man
 
@@ -11,71 +11,78 @@ ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 all:
 	@python3 setup.py build
 	@echo
-	@echo "pass-$(PROG) was built successfully. You can now install it with \"make install\""
+	@echo "pass-import was built successfully. You can now install it wit \"make install\""
 	@echo
-	@echo "To run pass $(PROG) one needs to have some tools installed on the system:"
-	@echo "     pass, python3 and python3-defusedxml"
 
 install:
-	@install -v -d "$(DESTDIR)$(MANDIR)/man1"
-	@install -v -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/"
-	@install -v -d "$(DESTDIR)$(BASHCOMPDIR)" "$(DESTDIR)$(ZSHCOMPDIR)"
-	@install -v -m 0755 "$(PROG).bash" "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash"
-	@install -v -m 0644 "pass-$(PROG).1" "$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1"
-	@install -v -m 0644 "completion/pass-$(PROG).bash" "$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)"
-	@install -v -m 0644 "completion/pass-$(PROG).zsh" "$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
+	@install -vd "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/" "$(DESTDIR)$(BINDIR)/" \
+				 "$(DESTDIR)$(MANDIR)/man1" "$(DESTDIR)$(BASHCOMPDIR)" \
+				 "$(DESTDIR)$(ZSHCOMPDIR)"
+	@install -vm 0755 scripts/import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
+	@install -vm 0755 scripts/pimport "$(DESTDIR)$(BINDIR)/pimport"
+	@install -vm 0644 docs/pass-import.1 "$(DESTDIR)$(MANDIR)/man1/pass-import.1"
+	@install -vm 0644 docs/pimport.1 "$(DESTDIR)$(MANDIR)/man1/pimport.1"
+	@install -vm 0644 completion/pass-import.bash "$(DESTDIR)$(BASHCOMPDIR)/pass-import"
+	@install -vm 0644 completion/pass-import.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pass-import"
+	@install -vm 0644 completion/pimport.bash "$(DESTDIR)$(BASHCOMPDIR)/pimport"
+	@install -vm 0644 completion/pimport.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pimport"
 	@python3 setup.py install --root="$(DESTDIR)" --optimize=1 --skip-build
 	@echo
-	@echo "pass-$(PROG) is installed succesfully"
+	@echo "pass-import is installed succesfully"
 	@echo
 
 uninstall:
-	@rm -vrf \
-		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/$(PROG).bash" \
-		"$(DESTDIR)$(MANDIR)/man1/pass-$(PROG).1" \
-		"$(DESTDIR)$(BASHCOMPDIR)/pass-$(PROG)" \
-		"$(DESTDIR)$(ZSHCOMPDIR)/_pass-$(PROG)"
-
+	@rm -vf \
+		"$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash" \
+		"$(DESTDIR)$(BINDIR)/pimport" \
+		"$(DESTDIR)$(MANDIR)/man1/pass-import.1" \
+		"$(DESTDIR)$(MANDIR)/man1/pimport.1" \
+		"$(DESTDIR)$(BASHCOMPDIR)/pass-import" \
+		"$(DESTDIR)$(ZSHCOMPDIR)/_pass-import" \
+		"$(DESTDIR)$(BASHCOMPDIR)/pimport" \
+		"$(DESTDIR)$(ZSHCOMPDIR)/_pimport"
 
 PASSWORD_STORE_DIR ?= $(HOME)/.password-store
 PASSWORD_STORE_EXTENSIONS_DIR ?= $(PASSWORD_STORE_DIR)/.extensions
 local:
-	@install -v -d "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
-	@install -v -m 0755 "$(PROG).bash" "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/$(PROG).bash"
-	@python3 setup.py install --user --prefix= --optimize=1
+	@install -vd "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
+	@install -vm 0755 import.bash "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
+	@python3 setup.py install --user --optimize=1
 	@echo
-	@echo "pass-$(PROG) is localy installed succesfully."
-	@echo "Remember to set to 'true' PASSWORD_STORE_ENABLE_EXTENSIONS for the extension to be enabled."
+	@echo "pass-import is localy installed succesfully."
+	@echo "Remember to set PASSWORD_STORE_ENABLE_EXTENSIONS to 'true' for the extension to be enabled."
 	@echo "Warning, because it is a local installation, there is no manual page or shell completion."
 
-
-TESTS_OPTS ?= --verbose --immediate --chain-lint --root=/tmp/sharness
-T = $(sort $(wildcard tests/test_*.sh))
 
 tests:
 	@python3 -m green -vvv --run-coverage --termcolor --processes $(shell nproc)
 	@coverage html
-	@make tests_bash
-
-tests_bash: $(T)
-
-$(T):
-	@$@ $(TESTS_OPTS)
 
 lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pep257 -t pep8 \
-		-t profile-validator -t pyroma -t vulture \
-		pass_import.py setup.py .updatedoc.py
-	@prospector --profile tests/.prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pep257 -t pep8 \
-		-t profile-validator -t pyroma \
-		tests/*.py
+		-t dodgy -t mccabe -t pep257 -t pep8 -t pylint \
+		-t profile-validator -t pyflakes -t pyroma \
+		pass_import/
+	@prospector --profile .prospector.yaml --strictness veryhigh \
+		-t dodgy -t mccabe -t pep257 -t pep8 -t pylint \
+		-t profile-validator -t pyflakes -t pyroma \
+		docs/updatedoc.py setup.py
+	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
+		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 -t pylint \
+		-t profile-validator -t pyflakes -t pyroma \
+		tests/
 
 security:
-	@bandit --ini .bandit -r pass_import.py tests setup.py .updatedoc.py
+	@bandit --ini .bandit -r pass_import tests setup.py docs/updatedoc.py
+
+export PYTHONPATH = ./
+docs:
+	@python3 docs/updatedoc.py
 
 clean:
-	@rm -vrf tests/test-results/ tests/gnupg/random_seed
+	@rm -rf __pycache__/ .mypy_cache/ .ropeproject/ htmlcov/ *.egg-info\
+		pass_import/**/__pycache__/ tests/**/__pycache__/ */__pycache__/ \
+		tests/assets/test-results/ tests/assets/gnupg/random_seed build \
+		session.baseline.sqlite session.sqlite .coverage config.json
 
-.PHONY: install uninstall local tests tests_bash $(T) lint security clean
+.PHONY: install uninstall local tests lint security docs clean

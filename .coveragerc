@@ -1,5 +1,5 @@
 [paths]
-source = pass_import.py
+source = pass_import
 
 [run]
 omit =
@@ -10,7 +10,9 @@ omit =
 [report]
 exclude_lines =
     pragma: no cover
-    raise NotImplementedError
-    raise ImportError
     except ImportError
+    raise ImportError
+    raise NotImplementedError
+    except CredentialsIntegrityError
+    'empty password store.'
     if __name__ == .__main__.:

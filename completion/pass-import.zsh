@@ -9,73 +9,79 @@ _pass-import () {
 		_files
 	else
 		local -a subcommands
-		# subcommands begin
+		# importers begin
 		subcommands=(
-			'1password:Importer for 1password 6 in CSV format.'
-			'1password4:Importer for 1password 4 in CSV format.'
-			'1password4pif:Importer for 1password 4 in PIF format.'
-			'aegis:Importer for Aegis otp plain or encrypted JSON format.'
-			'andotp:Importer for AndOTP plain or encrypted JSON format.'
-			'apple-keychain:Importer for Apple Keychain.'
-			'bitwarden:Importer for Bitwarden in CSV format.'
-			'buttercup:Importer for Buttercup in CSV format.'
-			'chrome:Importer for Chrome in CSV format.'
-			'chromesqlite:Importer for Chrome SQLite in CSV format.'
-			'csv:Importer in generic CSV format.'
-			'dashlane:Importer for Dashlane in CSV format.'
-			'encryptr:Importer for Encryptr in CSV format.'
-			'enpass:Importer for Enpass in CSV format.'
-			'enpass6:Importer for Enpass 6 in CSV format.'
-			'fpm:Importer for Figaro Password Manager in XML format.'
-			'gnome-authenticator:Importer for Gnome Authenticator in JSON format.'
-			'gnome-keyring:Importer for Gnome Keyring.'
-			'gorilla:Importer for Gorilla in CSV format.'
-			'kedpm:Importer for Figaro Password Manager in XML format.'
-			'keepass:Importer for Keepass encrypted KDBX format.'
-			'keepass-csv:Importer for Keepass in CSV format.'
-			'keepass-xml:Importer for Keepass in XML format.'
-			'keepassx:Importer for KeepassX in XML format.'
-			'keepassx2:Importer for KeepassX2 encrypted KDBX format.'
-			'keepassx2-csv:Importer for KeepassX2 in CSV format.'
-			'keepassxc:Importer for KeepassXC encrypted KDBX format.'
-			'keepassxc-csv:Importer for KeepassXC in CSV format.'
-			'keeper:Importer for Keeper in CSV format.'
-			'lastpass:Importer for Lastpass in CSV format.'
-			'myki:Importer for Myki in CSV format.'
-			'networkmanager:Importer for Network Manager.'
-			'pass:Importer for password-store.'
-			'passpie:Importer for Passpie in YAML format.'
-			'passwordexporter:Importer for Firefox password exporter extension in CSV format.'
-			'pwsafe:Importer for Pwsafe in XML format.'
-			'revelation:Importer for Revelation in XML format.'
-			'roboform:Importer for Roboform in CSV format.'
-			'upm:Importer for Universal Password Manager (UPM) in CSV format.'
+			'1password:Importer for 1password in CSV v6, 1PIF v4, CSV v4'
+			'aegis:Importer for aegis in JSON, JSON'
+			'andotp:Importer for andotp in JSON'
+			'apple-keychain:Importer for apple-keychain in KEYCHAIN'
+			'bitwarden:Importer for bitwarden in CSV, JSON'
+			'blur:Importer for blur in JSON, CSV'
+			'buttercup:Importer for buttercup in CSV'
+			'chrome:Importer for chrome in CSV, CSV'
+			'clipperz:Importer for clipperz in HTML'
+			'csv:Importer for csv in CSV'
+			'dashlane:Importer for dashlane in CSV, JSON'
+			'encryptr:Importer for encryptr in CSV'
+			'enpass:Importer for enpass in JSON v6, CSV'
+			'firefox:Importer for firefox in CSV'
+			'fpm:Importer for fpm in XML'
+			'freeotp+:Importer for freeotp+ in JSON'
+			'gnome:Importer for gnome in LIBSECRET'
+			'gnome-auth:Importer for gnome-auth in JSON'
+			'gorilla:Importer for gorilla in CSV'
+			'kedpm:Importer for kedpm in XML'
+			'keepass:Importer for keepass in KDBX, CSV, XML'
+			'keepassx:Importer for keepassx in XML'
+			'keepassx2:Importer for keepassx2 in KDBX, CSV'
+			'keepassxc:Importer for keepassxc in KDBX, CSV'
+			'keeper:Importer for keeper in CSV'
+			'lastpass:Importer for lastpass in CSV'
+			'myki:Importer for myki in CSV'
+			'network-manager:Importer for network-manager in NM'
+			'padlock:Importer for padlock in CSV'
+			'pass:Importer for pass in PASS'
+			'passman:Importer for passman in CSV, JSON'
+			'passpack:Importer for passpack in CSV'
+			'passpie:Importer for passpie in YAML v1.0'
+			'pwsafe:Importer for pwsafe in XML'
+			'revelation:Importer for revelation in XML'
+			'roboform:Importer for roboform in CSV'
+			'saferpass:Importer for saferpass in CSV'
+			'upm:Importer for upm in CSV'
+			'zoho:Importer for zoho in CSV, CSV'
 		)
-		# subcommands end
+		# importers end
 		_arguments : \
+			{-l,--list}'[list the supported password managers]' \
 			{-h,--help}'[display help information]' \
 			{-V,--version}'[display version information]' \
-			{-l,--list}'[list the supported password managers]' \
+			{-v,--verbose}'[set verbosity level]' \
 			{-q,--quiet}'[be quiet]'
 		_describe -t commands 'pass import' subcommands
+		_files
 	fi
 }
 
 _pass_import_arguments () {
 	_arguments : \
-		{-h,--help}'[display help information]' \
-		{-V,--version}'[display version information]' \
 		{-l,--list}'[list the supported password managers]' \
+		{-r,--root}'[only import the password from a specific subfolder]' \
 		{-p,--path}'[import the passwords to a specific subfolder]:dir:_pass_complete_entries_with_dirs' \
+		{-k,--key}'[path to a keyfile if required by a manager]:_files' \
 		{-a,--all}'[also import all the extra data present]' \
+		{-f,--force}'[overwrite existing path]' \
 		{-c,--clean}'[make the paths more command line friendly]' \
-		{-C,--convert}'[convert the invalid caracters present in the paths]' \
-		{-s,--sep}'[provide a caracter of replacement for the path]:-' \
+		{-C,--convert}'[convert the invalid characters present in the paths]' \
+		--sep'[provide a character of replacement for the path]:-' \
+		--del'[provide an alternative CSV delimiter character]:,' \
 		--cols'[csv expected columns to map columns to credential attributes. Only used for the generic csv importer.]' \
 		--config'[set a config file]:_files' \
-		{-f,--force}'[overwrite existing path]' \
-		{-q,--quiet}'[be quiet]' \
-		{-v,--verbose}'[be verbose]'
+		{-h,--help}'[display help information]' \
+		{-V,--version}'[display version information]' \
+		{-v,--verbose}'[set verbosity level]' \
+		{-q,--quiet}'[be quiet]'
+
 }
 
 _pass_complete_entries_with_dirs () {

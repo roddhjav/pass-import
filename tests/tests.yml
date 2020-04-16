@@ -1,135 +1,210 @@
 ---
 
-1password:
-  extension: csv
-  encoding: utf-8
+#
+# ClassName:        # The name of the manager class to test
+#   parse: True     # Either or not run automatic parse test on it with and to
+#                   # check the result against the reference data. Default True
+#   path: file.csv  # Test path in tests/assets/db
+#   without:        # List of keys to remove from data before check against
+#     - group       # the reference data
+#     - comments
+#   root: /         # Root path to add on the group before the check
+#
 
-1password4:
-  without: ['group']
-  extension: csv
-  encoding: utf-8
+Aegis:
+  parse: False
+  path: aegis.json
 
-1password4pif:
-  extension: 1pif
-  encoding: utf-8-sig
+AegisCipher:
+  parse: False
+  path: aegiscipher.json
 
-apple-keychain:
-  without: ['group', 'comments']
-  extension: txt
-  encoding: utf-8
+AndOTP:
+  parse: False
+  path: andotp.json
 
-bitwarden:
-  extension: csv
-  encoding: utf-8
+AppleKeychain:
+  path: apple-keychain.txt
+  without:
+    - group
+    - comments
 
-buttercup:
-  extension: csv
-  encoding: utf-8
+BitwardenCSV:
+  path: bitwarden.csv
 
-chrome:
-  without: ['group', 'comments']
-  extension: csv
-  encoding: utf-8
+BitwardenJSON:
+  path: bitwarden.json
 
-chromesqlite:
-  without: ['group', 'comments']
-  extension: csv
-  encoding: utf-8
+BlurCSV:
+  path: blur.csv
+  without:
+    - group
+    - comments
 
-dashlane:
-  without: ['group']
-  extension: csv
-  encoding: utf-8
+BlurJSON:
+  path: blur.json
+  without:
+    - group
+    - comments
 
-encryptr:
-  without: ['group']
-  extension: csv
-  encoding: utf-8
+Buttercup:
+  path: buttercup.csv
 
-enpass:
-  without: ['group']
-  extension: csv
-  encoding: utf-8
+ChromeCSV:
+  path: chrome.csv
+  without:
+    - group
+    - comments
 
-enpass6:
-  extension: json
-  encoding: utf-8
+ChromeCSVSQLite:
+  path: chromesqlite.csv
+  without:
+    - group
+    - comments
 
-fpm:
-  extension: xml
-  encoding: utf-8
+ClipperzHTML:
+  path: clipperz.html
 
-gorilla:
-  extension: csv
-  encoding: utf-8
+DashlaneCSV:
+  path: dashlane.csv
+  without:
+    - group
 
-kedpm:
-  extension: xml
-  encoding: utf-8
+DashlaneJSON:
+  path: dashlane.json
+  without:
+    - group
 
-keepass-xml:
-  root: keepass/
-  extension: xml
-  encoding: utf-8
+Encryptr:
+  path: encryptr.csv
+  without:
+    - group
 
-keepass-csv:
-  without: ['group']
-  extension: csv
-  encoding: utf-8
+Enpass:
+  path: enpass.csv
+  without:
+    - group
 
-keepassx:
-  extension: xml
-  encoding: utf-8
+Enpass6:
+  path: enpass.json
 
-keepassx2-csv:
-  root: Root/
-  extension: csv
-  encoding: utf-8
+FigaroPM:
+  path: fpm.xml
 
-keepassxc-csv:
-  root: Root/
-  extension: csv
-  encoding: utf-8
-
-keeper:
-  extension: csv
-  encoding: utf-8
-
-lastpass:
-  extension: csv
-  encoding: utf-8
-
-myki:
-  extension: csv
-  encoding: utf-8
-
-passwordexporter:
+FirefoxPasswordExporter:
+  path: firefox.csv
   without:
     - group
     - comments
     - url
-  extension: csv
-  encoding: utf-8
 
-passpie:
-  without: ['url', 'group']
-  extension: yml
-  encoding: utf-8
+FreeOTPPlus:
+  parse: False
+  path: freeotp.json
 
-pwsafe:
-  extension: xml
-  encoding: utf-8
+GnomeAuthenticator:
+  parse: False
+  path: gnomeauthenticator.json
+  keep: ['title', 'otpauth', 'type']
 
-revelation:
-  extension: xml
-  encoding: utf-8
+GnomeKeyring:
+  parse: False
+  path: label
 
-roboform:
+Gorilla:
+  path: gorilla.csv
+
+Keepass:
+  parse: False
+  path: keepass.kdbx
+
+KeepassCSV:
+  path: keepass.csv
+  without:
+    - group
+
+KeepassXML:
+  path: keepass.xml
+  root: keepass/
+
+KeepassxXML:
+  path: keepassx.xml
+
+Keepassx2CSV:
+  path: keepassx2.csv
+  root: Root/
+
+KeeperCSV:
+  path: keeper.csv
+
+LastpassCSV:
+  path: lastpass.csv
+
+Myki:
+  path: myki.csv
+
+NetworkManager:
+  parse: False
+  path: networkmanager
+
+OnePasswordCSV:
+  path: 1password.csv
+
+OnePassword4CSV:
+  path: 1password4.csv
+  without:
+    - group
+
+OnePassword4PIF:
+  path: 1password.1pif
+
+PadlockCSV:
+  path: padlock.csv
+
+PassmanCSV:
+  path: passman.csv
+
+PassmanJSON:
+  path: passman.json
+
+Passpack:
+  parse: False
+  path: passpack.csv
+
+Passpie:
+  path: passpie.yml
+  without:
+    - group
+    - url
+
+PasswordStore:
+  parse: False
+  path: pass
+
+Pwsafe:
+  path: pwsafe.xml
+
+Revelation:
+  path: revelation.xml
+
+Roboform:
+  path: roboform.csv
   root: /
-  extension: csv
-  encoding: utf-8
 
-upm:
-  without: ['group']
-  extension: csv
-  encoding: utf-8
+SaferPass:
+  path: saferpass.csv
+  without:
+    - group
+
+UPM:
+  path: upm.csv
+  without:
+    - group
+
+ZohoCSV:
+  path: zoho.csv
+  without:
+    - group
+
+ZohoCSVVault:
+  path: zoho.vault.csv

@@ -2,32 +2,22 @@
 
 output-format: text
 
-allow-shorthand: false
+ignore-paths:
+  - tests/
+  - pass_import/managers/__init__.py
+  - pass_import/formats/__init__.py
+  - pass_import/decrypters/__init__.py
 
 ignore-patterns:
   - (^|/)\..+
 
 pylint:
   disable:
-    - too-many-arguments
-    - too-many-locals
-    - too-many-lines
+    - invalid-name
+    - too-many-ancestors
 
   options:
     max-locals: 17
-    max-returns: 6
-    max-branches: 15
-    max-statements: 60
-    max-parents: 7
-    max-attributes: 7
-    min-public-methods: 2
-    max-public-methods: 20
-    max-module-lines: 1000
-
-mypy:
-  options:
-    ignore-missing-imports: true
-    follow-imports: skip
 
 pyroma:
   disable:
@@ -37,26 +27,10 @@ mccabe:
   options:
     max-complexity: 15
 
-pep8:
-  disable:
-   - E123
-   - W605
-
-  options:
-    single-line-if-stmt: n
-
 pep257:
   disable:
-    - D000
     - D100
-    - D102
     - D107
-    - D104
     - D203
     - D204
-    - D205
     - D213
-
-vulture:
-  disable:
-    - unused-variable
