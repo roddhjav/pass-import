@@ -5,6 +5,7 @@
 
 import os
 import shutil
+from abc import abstractmethod
 from subprocess import Popen, PIPE  # nosec
 
 from pass_import.core import Cap
@@ -55,3 +56,11 @@ class CLI(PasswordImporter, PasswordExporter):
     def exist(self):
         """Nothing to do."""
         return True
+
+    @abstractmethod
+    def parse(self):
+        """Parse the password manager repository and retrieve passwords."""
+
+    @abstractmethod
+    def insert(self, entry):
+        """Insert a password entry into the password repository."""

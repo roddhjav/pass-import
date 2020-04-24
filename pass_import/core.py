@@ -71,7 +71,7 @@ class Asset(ABC):
     encoding = 'utf-8'
     mode = 'r'
 
-    def __init__(self, prefix=None, settings=None):
+    def __init__(self, prefix=None):
         """Asset manager initialisation.
 
         :param prefix: (optional) Path, identifiant of the pm. It can also
@@ -103,7 +103,8 @@ class Asset(ABC):
             return True
         return os.path.isfile(self.prefix)
 
-    def isvalid(self):
+    @classmethod
+    def isvalid(cls):
         """Ensure the user has the credential to use the file/repository."""
         return True
 

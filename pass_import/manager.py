@@ -48,7 +48,7 @@ class PasswordManager(Asset):
         self.cols = settings.get('cols', '')
         self.action = settings.get('action', Cap.IMPORT)
         self.delimiter = str(settings.get('delimiter', ','))
-        super(PasswordManager, self).__init__(prefix, settings)
+        super(PasswordManager, self).__init__(prefix)
 
     @classmethod
     def usage(cls):

@@ -103,7 +103,7 @@ class Detecters(OrderedDict):
     This format dictionary is ordered to take care of the following
     requirements:
 
-    - Most format common first
+    - Most common format first
     - Parent format first. Eg: ``XML`` before ``HTML``,
       ``JSON`` before ``YAML``...
 
