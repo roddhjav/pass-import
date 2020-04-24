@@ -1,15 +1,16 @@
 PREFIX ?= /usr
 DESTDIR ?= /
-LIBDIR ?= $(PREFIX)/lib
 BINDIR ?= $(PREFIX)/bin
-SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
+LIBDIR ?= $(PREFIX)/lib
 MANDIR ?= $(PREFIX)/share/man
+PYTHON ?= yes
+SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 
-BASHCOMPDIR ?= /etc/bash_completion.d
+BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
 ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 
 all:
-	@python3 setup.py build
+	@[ "$(PYTHON)" = "yes" ] || exit 0; python3 setup.py build
 	@echo
 	@echo "pass-import was built successfully. You can now install it wit \"make install\""
 	@echo
@@ -26,7 +27,7 @@ install:
 	@install -vm 0644 completion/pass-import.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pass-import"
 	@install -vm 0644 completion/pimport.bash "$(DESTDIR)$(BASHCOMPDIR)/pimport"
 	@install -vm 0644 completion/pimport.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pimport"
-	@python3 setup.py install --root="$(DESTDIR)" --optimize=1 --skip-build
+	@[ "$(PYTHON)" = "yes" ] || exit 0; python3 setup.py install --root="$(DESTDIR)" --optimize=1 --skip-build
 	@echo
 	@echo "pass-import is installed succesfully"
 	@echo

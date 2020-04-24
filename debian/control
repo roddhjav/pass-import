@@ -1,0 +1,31 @@
+Source: pass-import
+Section: admin
+Priority: optional
+Maintainer: Alexandre Pujol <alexandre@pujol.io>
+Build-Depends:
+  debhelper-compat (= 12),
+  dh-python,
+  python3,
+  python3-setuptools,
+Standards-Version: 4.5.0
+Homepage: https://github.com/roddhjav/pass-import
+Testsuite: autopkgtest-pkg-python
+
+Package: pass-extension-import
+Architecture: all
+Depends:
+  ${misc:Depends},
+  ${python3:Depends},
+  pass (>= 1.7.0),
+  python3 (>= 3.6),
+  python3-yaml,
+Recommends:
+  python3-defusedxml,
+  python3-secretstorage,
+  python3-cryptography,
+Description: passwords importer swiss army knife (pass extensions)
+ An extension to import data from most of the existing password manager.
+ .
+ This package provides an extension for the password store that allows one to
+ use import passwords. It also provide the pimport script to support other
+ passwod managers as destination.
