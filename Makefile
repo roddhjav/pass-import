@@ -80,9 +80,11 @@ docs:
 	@python3 docs/updatedoc.py
 
 clean:
-	@rm -rf __pycache__/ .mypy_cache/ .ropeproject/ htmlcov/ *.egg-info\
-		pass_import/**/__pycache__/ tests/**/__pycache__/ */__pycache__/ \
-		tests/assets/test-results/ tests/assets/gnupg/random_seed build \
-		session.baseline.sqlite session.sqlite .coverage config.json
+	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \
+		debian/.debhelper debian/debhelper* debian/pass-extension-import* \
+		dist *.egg-info htmlcov pass_import/**/__pycache__/ */__pycache__/ \
+		__pycache__ session.baseline.sqlite session.sqlite \
+		tests/assets/gnupg/random_seed tests/assets/test-results/ \
+		tests/**/__pycache__/
 
 .PHONY: install uninstall local tests lint security docs clean
