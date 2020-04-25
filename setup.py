@@ -31,6 +31,7 @@ setup(
         'pass_import.formats',
         'pass_import.managers',
     ],
+    scripts=['scripts/pimport'],
     install_requires=['pyaml'],
     extras_require={
         'xml': ['defusedxml'],
