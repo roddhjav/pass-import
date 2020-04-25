@@ -58,13 +58,13 @@ database to a generic CSV file...
 | [keepassx2](https://www.keepassx.org) | `kdbx`, `csv` | *Nothing to do* **OR** *Database > Export to CSV File* | `pass import keepassx2 file.kdbx` **OR** `pass import keepassx2 file.csv` |
 | [keepassxc](https://keepassxc.org) | `kdbx`, `csv` | *Nothing to do* **OR** *Database > Export to CSV File* | `pass import keepassxc file.kdbx` **OR** `pass import keepassxc file.csv` |
 | [keeper](https://keepersecurity.com) | `csv` | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
-| [lastpass](https://www.lastpass.com) | `csv` | *More Options > Advanced > Export* | `**pass import lastpass file.csv**` |
+| [lastpass](https://www.lastpass.com) | `csv` | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
 | [myki](https://myki.com) | `csv` | *See [this guide](https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki)* | `pass import myki file.csv` |
 | [network-manager](https://wiki.gnome.org/Projects/NetworkManager) | `nm` | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
 | [padlock](https://padloc.app) | `csv` | *Settings > Export Data and copy text into a .csv file* | `pass import padlock file.csv` |
 | [pass](https://passwordstore.org) | `pass` | *Nothing to do* | `pass import pass path/to/store` |
 | [passman](https://passman.cc) | `csv`, `json` | *Settings > Export credentials  > Export type: CSV* **OR** *Settings > Export credentials  > Export type: JSON* | `pass import passman file.csv` **OR** `pass import passman file.json` |
-| [passpack](https://www.passpack.com) | `csv` | *Settings > Export > Save to CSV* | `**pass import passpack file.csv**` |
+| [passpack](https://www.passpack.com) | `csv` | *Settings > Export > Save to CSV* | `pass import passpack file.csv` |
 | [passpie](https://www.enpass.io) | `yaml v1.0` | *`passpie export file.yml`* | `pass import passpie file.yml` |
 | [pwsafe](https://pwsafe.org) | `xml` | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
 | [revelation](https://revelation.olasagasti.info) | `xml` | *File > Export: XML* | `pass import revelation file.xml` |

@@ -101,10 +101,7 @@ class ManagerMeta():
         """Get import help formated."""
         res = self.pm.himport
         if res == '':
-            res = '**%s %s file.%s**' % (self.prog, self.pm.name,
-                                         self.pm.format)
-        if not self.md:
-            res = res.replace('**', '')
+            res = '%s %s file.%s' % (self.prog, self.pm.name, self.pm.format)
         return res
 
     @property
