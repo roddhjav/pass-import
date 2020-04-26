@@ -76,8 +76,9 @@ class TestConfig(tests.Test):
             conf.debug('pass', 'debug message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
-                                   'pass: \x1b[0mdebug message'))
+        self.assertEqual(
+            message,
+            '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass: \x1b[0mdebug message')
 
     def test_verbose_simple(self):
         """Testing: message verbose simple."""
@@ -90,23 +91,24 @@ class TestConfig(tests.Test):
     def test_verbose(self):
         """Testing: message verbose."""
         conf = pass_import.tools.Config()
-        conf.verbosity(True, False)
+        conf.verbosity(1, False)
         with tests.captured() as (out, err):
             conf.verbose('pass', 'verbose msg')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35m'
-                                   'pass: \x1b[0mverbose msg'))
+        self.assertEqual(
+            message,
+            '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass: \x1b[0mverbose msg')
 
         with tests.captured() as (out, err):
             conf.verbose('pass')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass'
-                                   '\x1b[0m'))
+        self.assertEqual(message,
+                         '\x1b[1m\x1b[95m  .  \x1b[0m\x1b[35mpass\x1b[0m')
 
     def test_message(self):
-        """Testing: classic message message."""
+        """Testing: classic message."""
         with tests.captured() as (out, err):
             self.conf.message('classic message')
             message = out.getvalue().strip()
@@ -114,7 +116,7 @@ class TestConfig(tests.Test):
         self.assertEqual(message, '\x1b[1m  .  \x1b[0mclassic message')
 
         conf = pass_import.tools.Config()
-        conf.verbosity(True, True)
+        conf.verbosity(1, True)
         with tests.captured() as (out, err):
             conf.message('classic message')
             message = out.getvalue().strip()
@@ -135,8 +137,9 @@ class TestConfig(tests.Test):
             self.conf.success('success message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[92m (*) \x1b[0m\x1b[32m'
-                                   'success message\x1b[0m'))
+        self.assertEqual(
+            message,
+            '\x1b[1m\x1b[92m (*) \x1b[0m\x1b[32msuccess message\x1b[0m')
 
     def test_warning(self):
         """Testing: warning message."""
@@ -144,8 +147,9 @@ class TestConfig(tests.Test):
             self.conf.warning('warning message')
             message = out.getvalue().strip()
         self.assertEqual(err.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[93m  w  \x1b[0m\x1b[33m'
-                                   'warning message\x1b[0m'))
+        self.assertEqual(
+            message,
+            '\x1b[1m\x1b[93m  w  \x1b[0m\x1b[33mwarning message\x1b[0m')
 
     def test_error(self):
         """Testing: error message."""
@@ -153,8 +157,9 @@ class TestConfig(tests.Test):
             self.conf.error('error message')
             message = err.getvalue().strip()
         self.assertEqual(out.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
-                                   'Error: \x1b[0merror message'))
+        self.assertEqual(
+            message,
+            '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0merror message')
 
     def test_die(self):
         """Testing: die message."""
@@ -164,5 +169,6 @@ class TestConfig(tests.Test):
             message = err.getvalue().strip()
             self.assertEqual(cm.exception.code, 1)
         self.assertEqual(out.getvalue().strip(), '')
-        self.assertEqual(message, ('\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1m'
-                                   'Error: \x1b[0mcritical error'))
+        self.assertEqual(
+            message,
+            '\x1b[1m\x1b[91m [x] \x1b[0m\x1b[1mError: \x1b[0mcritical error')

@@ -187,7 +187,7 @@ class PasswordStore(CLI, Formatter):
                         continue
                     data += "%s: %s\n" % (key, value)
 
-        arg = ['insert', '--multiline', '--force', path]
+        arg = ['insert', '--multiline', '--force', '--', path]
         return self._command(arg, data)
 
     # Context manager methods

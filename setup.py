@@ -22,9 +22,6 @@ setup(
     long_description_content_type='text/markdown',
     license=about['__license__'],
     url=about['__uri__'],
-    download_url=("%s/releases/download/v%s/%s-%s.tar.gz" %
-                  (about['__uri__'], about['__version__'], about['__title__'],
-                   about['__version__'])),
     packages=[
         'pass_import',
         'pass_import.decrypters',
