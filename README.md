@@ -368,9 +368,9 @@ sudo make install  # For OSX: make install PREFIX=/usr/local
 
 **Stable version**
 ```sh
-wget https://github.com/roddhjav/pass-import/releases/download/v2.6/pass-import-2.6.tar.gz
-tar xzf pass-import-2.6.tar.gz
-cd pass-import-2.6
+wget https://github.com/roddhjav/pass-import/releases/download/v3.0/pass-import-3.0.tar.gz
+tar xzf pass-import-3.0.tar.gz
+cd pass-import-3.0
 make
 sudo make install  # For OSX: make install PREFIX=/usr/local
 ```
@@ -378,9 +378,9 @@ sudo make install  # For OSX: make install PREFIX=/usr/local
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 You should check the key's fingerprint and verify the signature:
 ```sh
-wget https://github.com/roddhjav/pass-import/releases/download/v2.6/pass-import-2.6.tar.gz.asc
+wget https://github.com/roddhjav/pass-import/releases/download/v3.0/pass-import-3.0.tar.gz.asc
 gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
-gpg --verify pass-import-2.6.tar.gz.asc
+gpg --verify pass-import-3.0.tar.gz.asc
 ```
 
 **Local install**
