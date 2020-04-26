@@ -4,6 +4,7 @@ BINDIR ?= $(PREFIX)/bin
 LIBDIR ?= $(PREFIX)/lib
 MANDIR ?= $(PREFIX)/share/man
 PYTHON ?= yes
+
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
 
 BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions

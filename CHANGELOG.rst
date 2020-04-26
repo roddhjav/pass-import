@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog`_.
 
 
-`3.0`_ - 2020-xx-xx
+`3.0`_ - 2020-04-26
 -------------------
 
 It is the second major rewrite of pass-import. pass import was originally
@@ -50,13 +50,18 @@ Added
     - Saferpass (csv)
     - Zoho (csv)
 
+- Added Debian packaging.
+- Added pip packaging.
+
 Changed
 ~~~~~~~
 - The command line interface changed completly. See ``pass import -h``
 - The old password manager name are not valid anymore
 - Removed old bash tests
-- Dropped support for python 3.4
+- Dropped support for python 3.4 & python 3.5
 - Implement changing of CSV delimiter character `#88 <https://github.com/roddhjav/pass-import/pull/88>`__
+- Handle field names of Revelation entry types other than Generic `#82 <https://github.com/roddhjav/pass-import/pull/82>`__
+- Better entry name deduplication `#81 <https://github.com/roddhjav/pass-import/pull/81>`__
 
 Fixed
 ~~~~~

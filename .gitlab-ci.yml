@@ -89,7 +89,7 @@ archlinux:
   image: archlinux/base
   before_script:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
-        dbus gnome-keyring
+        dbus gnome-keyring file
   <<: *distribution
 
 ubuntu:
