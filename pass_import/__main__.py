@@ -354,7 +354,7 @@ def pass_import(conf, cls_import):
 def pass_export(conf, cls_export, data):
     """Insert cleaned data into the password repository."""
     try:
-        settings = conf.getsettings(conf['droot'], 'export')
+        settings = conf.getsettings(conf['droot'], Cap.EXPORT)
         with cls_export(conf['out'], settings=settings) as exporter:
             paths = []
             exporter.data = data

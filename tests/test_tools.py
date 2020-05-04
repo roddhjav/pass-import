@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 import pass_import.clean as clean
 import pass_import.tools
+from pass_import.core import Cap
 import tests
 
 
@@ -44,7 +45,7 @@ class TestConfig(tests.Test):
             ['<', '>', ':', '"', '/', '\\', '|', '?', '*', '\x00', '\t'])
         self.assertEqual(settings, {
             'decrypted': False,
-            'action': 'import',
+            'action': Cap.IMPORT,
             'delimiter': ',',
             'root': '',
         })

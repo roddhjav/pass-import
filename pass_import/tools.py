@@ -15,6 +15,7 @@ except ImportError:
 
 import yaml
 import pass_import.clean as clean
+from pass_import.core import Cap
 
 
 def getpassword(path):
@@ -147,7 +148,7 @@ class Config(dict):
             self['list_importers'] = self.get('list', False)
             self['list_exporters'] = False
 
-    def getsettings(self, root='', action='import'):
+    def getsettings(self, root='', action=Cap.IMPORT):
         """Return a currated setting dict for use in a manager class."""
         settings = {'action': action, 'root': root}
         keep = {
