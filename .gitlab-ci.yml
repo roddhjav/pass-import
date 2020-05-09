@@ -10,6 +10,7 @@ stages:
   - deploy
 
 variables:
+  DEBIAN_FRONTEND: noninteractive
   PASS_VERSION: 1.7.3
 
 
