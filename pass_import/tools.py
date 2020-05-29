@@ -9,7 +9,7 @@ import sys
 
 try:
     import magic
-    MAGIC = True
+    MAGIC = hasattr(magic, 'open')
 except ImportError:
     MAGIC = False
 
