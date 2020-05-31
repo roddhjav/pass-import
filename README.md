@@ -336,7 +336,7 @@ yay -S pass-import  # or your preferred AUR install method
 my GPG key: [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 ```sh
 wget -qO - https://pkg.pujol.io/debian/gpgkey | sudo apt-key add -
-sudo echo 'deb https://pkg.pujol.io/debian/repo all main' > /etc/apt/sources.list.d/pkg.pujol.io.list
+echo 'deb [arch=amd64] https://pkg.pujol.io/debian/repo all main' | sudo tee /etc/apt/sources.list.d/pkg.pujol.io.list
 sudo apt-get update
 sudo apt-get install pass-extension-import
 ```
