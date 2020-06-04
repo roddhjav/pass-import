@@ -48,7 +48,7 @@ PASSWORD_STORE_DIR ?= $(HOME)/.password-store
 PASSWORD_STORE_EXTENSIONS_DIR ?= $(PASSWORD_STORE_DIR)/.extensions
 local:
 	@install -vd "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
-	@install -vm 0755 import.bash "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
+	@install -vm 0755 scripts/import.bash "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
 	@python3 setup.py install --user --optimize=1
 	@echo
 	@echo "pass-import is localy installed succesfully."
