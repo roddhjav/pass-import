@@ -40,7 +40,7 @@ database to a generic CSV file...
 | [bitwarden](https://bitwarden.com) | `csv`, `json` | *Tools> Export Vault> File Format: .csv* **OR** *Tools> Export Vault> File Format: .json* | `pass import bitwarden file.csv` **OR** `pass import bitwarden file.json` |
 | [blur](https://abine.com) | `json`, `csv` | *Settings: Export Data: Export Blur Data* **OR** *Settings: Export Data: Export CSV: Accounts: Export CSV* | `pass import blur file.json` **OR** `pass import blur file.csv` |
 | [buttercup](https://buttercup.pw) | `csv` | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
-| [chrome](https://support.google.com/chrome) | `csv`, `csv` | *See [this guide](https://www.axllent.org/docs/view/export-chrome-passwords)* | `pass import chrome file.csv` **OR** `pass import chrome file.csv` |
+| [chrome](https://support.google.com/chrome) | `csv`, `csv` | *See [this guide](https://support.google.com/chrome/answer/95606#see)* | `pass import chrome file.csv` **OR** `pass import chrome file.csv` |
 | [clipperz](https://clipperz.is) | `html` | *Settings > Data > Export: HTML + JSON* | `pass import clipperz file.html` |
 | [csv]() | `csv` | *Nothing to do* | `pass import csv file.csv --cols 'url,login,,password'` |
 | [dashlane](https://www.dashlane.com) | `csv`, `json` | *File > Export > Unsecured Archive in CSV* **OR** *File > Export > Unsecured Archive in JSON* | `pass import dashlane file.csv` **OR** `pass import dashlane file.json` |
@@ -93,8 +93,9 @@ database to a generic CSV file...
 
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR] [--del CHAR] [--cols COLS]
-                   [--config CONFIG] [-l] [-h] [-V] [-v | -q]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C]
+                   [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG]
+                   [-l] [-h] [-V] [-v | -q]
                    [src [src ...]]
 
   Import data from most of the password manager. Passwords are imported into
@@ -102,12 +103,16 @@ usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR]
   been initialised before with 'pass init'.
 
 Password managers:
-  src                   Path to the data to import. Can also be the password manager name followed by the path to
-                        the data to import. The password manager name can be: 1password, aegis, andotp, apple-
-                        keychain, bitwarden, blur, buttercup, chrome, clipperz, csv, dashlane, encryptr, enpass,
-                        firefox, fpm, freeotp+, gnome, gnome-auth, gorilla, kedpm, keepass, keepassx, keepassx2,
-                        keepassxc, keeper, lastpass, myki, network-manager, padlock, pass, passman, passpack,
-                        passpie, pwsafe, revelation, roboform, saferpass, upm, zoho
+  src                   Path to the data to import. Can also be the password
+                        manager name followed by the path to the data to
+                        import. The password manager name can be: 1password,
+                        aegis, andotp, apple-keychain, bitwarden, blur,
+                        buttercup, chrome, clipperz, csv, dashlane, encryptr,
+                        enpass, firefox, fpm, freeotp+, gnome, gnome-auth,
+                        gorilla, kedpm, keepass, keepassx, keepassx2,
+                        keepassxc, keeper, lastpass, myki, network-manager,
+                        padlock, pass, passman, passpack, passpie, pwsafe,
+                        revelation, roboform, saferpass, upm, zoho
 
 Common optional arguments:
   -r path, --root path  Only import the password from a specific subfolder.
@@ -119,9 +124,12 @@ Common optional arguments:
   -C, --convert         Convert invalid characters present in the paths.
 
 Extra optional arguments:
-  --sep CHAR            Provide a characters of replacement for the path separator. Default: '-'
-  --del CHAR            Provide an alternative CSV delimiter character. Default: ','
-  --cols COLS           CSV expected columns to map columns to credential attributes. Only used by the csv importer.
+  --sep CHAR            Provide a characters of replacement for the path
+                        separator. Default: '-'
+  --del CHAR            Provide an alternative CSV delimiter character.
+                        Default: ','
+  --cols COLS           CSV expected columns to map columns to credential
+                        attributes. Only used by the csv importer.
   --config CONFIG       Set a config file. Default: '.import'
 
 Help related optional arguments:
