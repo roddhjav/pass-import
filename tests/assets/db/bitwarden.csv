@@ -1,5 +1,5 @@
 folder,favorite,type,name,notes,fields,login_uri,login_username,login_password,login_totp
-Bank,,login,aib,,,https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",
+Bank,,login,aib,,,https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",S3K3TPI5MYA2M67V
 Emails,,login,dpbx@afoqwdr.tx,,,https://afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,
 Emails/WS,,login,dpbx@fner.ws,For financial purpose only!,,,dpbx,mt}h'hSUCY;SU;;A!l[8y3O:8,
 Emails,,login,dpbx@klivak.xb,This is a garbage address,,,dpbx,"2cUqe}e9}>IVZf)Ye>3C8ZN,r",
@@ -14,3 +14,5 @@ Servers,,login,ovh.com,,,https://www.ovh.com/manager/web/,bynbyjhqjz,"3Z-VW!i,j(
 Servers,,login,ovh.com,,,https://www.ovh.com/manager/web/,jsdkyvbwjn,^Vr/|o>_H8X%T]7>f}7|:U!Zs,
 CornerCases,,login,space title,,,https://nhysdo.wg,vkeelpbu,]stDKo{%pk,
 Social,,login,twitter.com,,,https://twitter.com/,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",
+,,note,Some Note,This is a note sample.,,,,,
+,1,login,Some note only item,Hello World!,,,,,

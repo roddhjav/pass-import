@@ -43,7 +43,7 @@
         ],
         "username": "dpbx@fner.ws",
         "password": "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",
-        "totp": null
+        "totp": "S3K3TPI5MYA2M67V"
       },
       "collectionIds": null
     },
@@ -293,6 +293,82 @@
         "username": "ostqxi",
         "password": "SoNEwvU,kJ%-cIKJ9[c#S;]jB",
         "totp": null
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "70488eea-fb65-4a26-a1a4-a8aa01734b3f",
+      "organizationId": null,
+      "folderId": null,
+      "type": 2,
+      "name": "Some Note",
+      "notes": "This is a note sample.",
+      "favorite": false,
+      "secureNote": {
+        "type": 0
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "098e3ac2-f485-407f-b094-a80c00efe83c",
+      "organizationId": null,
+      "folderId": null,
+      "type": 1,
+      "name": "Some note only item",
+      "notes": "Hello World!",
+      "favorite": true,
+      "login": {
+        "username": null,
+        "password": null,
+        "totp": null
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "40775305-9751-4818-bf31-a8a700abc17d",
+      "organizationId": null,
+      "folderId": null,
+      "type": 3,
+      "name": "Visa Card",
+      "notes": null,
+      "favorite": false,
+      "card": {
+        "cardholderName": "DOE John",
+        "brand": "Visa",
+        "number": "4111111111111111",
+        "expMonth": "4",
+        "expYear": "2024",
+        "code": "492"
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "02c654b7-c18c-49c9-9d42-abe9018a831d",
+      "organizationId": null,
+      "folderId": null,
+      "type": 4,
+      "name": "John DOE",
+      "notes": null,
+      "favorite": false,
+      "identity": {
+        "title": "M.",
+        "firstName": "John",
+        "middleName": "Rober",
+        "lastName": "DOE",
+        "address1": "6 Rose street",
+        "address2": null,
+        "address3": null,
+        "city": "New York",
+        "state": null,
+        "postalCode": null,
+        "country": null,
+        "company": null,
+        "email": "john.doe@email.com",
+        "phone": null,
+        "ssn": null,
+        "username": null,
+        "passportNumber": null,
+        "licenseNumber": null
       },
       "collectionIds": null
     }

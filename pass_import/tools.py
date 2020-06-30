@@ -140,7 +140,7 @@ class Config(dict):
             clean.CLEANS[' '] = self['separator']
 
     def currate(self):
-        """Generate currated config from pass-import and pimport arguments."""
+        """Generate curated config from pass-import and pimport arguments."""
         self['exporter'] = self.pop('dst', '')
         if self.passwordstore:
             self['exporter'] = 'pass'
@@ -149,7 +149,7 @@ class Config(dict):
             self['list_exporters'] = False
 
     def getsettings(self, root='', action=Cap.IMPORT):
-        """Return a currated setting dict for use in a manager class."""
+        """Return a curated setting dict for use in a manager class."""
         settings = {'action': action, 'root': root}
         keep = {
             'all', 'force', 'delimiter', 'cols', '1password', 'lastpass',

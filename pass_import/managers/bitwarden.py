@@ -22,7 +22,8 @@ class BitwardenCSV(CSV):
         'login': 'login_username',
         'url': 'login_uri',
         'comments': 'notes',
-        'group': 'folder'
+        'group': 'folder',
+        'otpauth': 'login_totp',
     }
 
 
@@ -33,7 +34,7 @@ class BitwardenJSON(JSON):
     url = 'https://bitwarden.com'
     hexport = 'Tools> Export Vault> File Format: .json'
     himport = 'pass import bitwarden file.json'
-    ignore = {'login', 'id', 'folderId'}
+    ignore = {'login', 'id', 'folderId', 'secureNote', 'type', 'favorite'}
     keys = {
         'title': 'name',
         'password': 'password',
@@ -53,10 +54,6 @@ class BitwardenJSON(JSON):
             'type': int,
             'name': str,
             'favorite': bool,
-            'login': {
-                'username': str,
-                'password': str,
-            },
         }],
     }
 

@@ -38,7 +38,7 @@ def replace(marker_begin, marker_end, string, newcontent):
 
 
 class ManagerMeta():
-    """Generate currated password managers metadata."""
+    """Generate curated password managers metadata."""
     guide = 'this guide: '
 
     def __init__(self, pm, ext=True, md=True):
