@@ -75,16 +75,22 @@ class PasswordStore(CLI, Formatter):
         :return list: Return the list of paths in a store.
 
         """
-        prefix = os.path.join(self.prefix, path)
-        if os.path.isfile(prefix + '.gpg'):
+        prefix = Path(self.prefix) / path
+        if Path(str(prefix) + '.gpg').is_file():
             paths = [path]
         else:
             paths = []
-            for ppath in Path(prefix).rglob('*.gpg'):
-                file = os.sep + str(ppath)[len(self.prefix) + 1:]
-                if "%s." % os.sep not in file:
-                    file = os.path.splitext(file)[0][1:]
-                    paths.append(file)
+            hiddens = []
+            for ppath in prefix.rglob('.*'):
+                if ppath.is_dir():
+                    hiddens.extend(list(ppath.rglob('*.gpg')))
+                else:
+                    hiddens.append(ppath)
+            for ppath in prefix.rglob('*.gpg'):
+                if ppath in hiddens:
+                    continue
+                passname = ppath.relative_to(self.prefix).with_suffix('')
+                paths.append(str(passname))
         paths.sort()
         return paths
 
