@@ -47,7 +47,7 @@ class DashlaneJSON(JSON):
     }
 
     def parse(self):
-        """Parse Bitwarden JSON file."""
+        """Parse Dashlane JSON file."""
         jsons = json.loads(self.file.read())
         keys = self.invkeys()
         for item in jsons.get('AUTHENTIFIANT', {}):

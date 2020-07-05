@@ -1,0 +1,50 @@
+---
+
+- title: aib
+  password: "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14"
+  login: dpbx@fner.ws
+  url: https://onlinebanking.aib.ie
+  group: Bank
+  otpauth: "S3K3TPI5MYA2M67V"
+
+- title: Some Note
+  comments: "This is a note sample."
+  group: CornerCases
+
+- title: Some note only item
+  comments: "Hello World!"
+
+- title: Visa Card
+  brand: Visa
+  cardholderName: DOE John
+  code: 492
+  expMonth: 4
+  expYear: 2024
+  number: 4111111111111111
+
+- title: John DOE
+  address1: 6 Rose street
+  address2: None
+  address3: None
+  city: New York
+  company: None
+  country: None
+  email: john.doe@email.com
+  firstName: John
+  lastName: DOE
+  licenseNumber: None
+  middleName: Rober
+  passportNumber: None
+  phone: None
+  postalCode: None
+  ssn: None
+  username: None
+  passportNumber: None
+  licenseNumber: None
+
+- title: test-item
+  comments: "Notes field allowing for freeform text input"
+  my text field: a value
+  my hidden field: another value
+  a boolean field which is off: false
+  a boolean field which is on: true

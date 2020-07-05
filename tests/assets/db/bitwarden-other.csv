@@ -1,0 +1,4 @@
+folder,favorite,type,name,notes,fields,login_uri,login_username,login_password,login_totp
+Bank,,login,aib,,,https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",S3K3TPI5MYA2M67V
+,,note,Some Note,This is a note sample.,,,,,
+,1,login,Some note only item,Hello World!,,,,,

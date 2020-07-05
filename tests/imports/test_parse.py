@@ -16,6 +16,7 @@ REFERENCE_CARD = tests.yaml_load('encryptr-card.yml')
 REFERENCE_OTHER = tests.yaml_load('keepass-other.yml')
 REFERENCE_KDBX = tests.yaml_load('keepass-kdbx.yml')
 REFERENCE_REVELATION = tests.yaml_load('revelation-other.yml')
+REFERENCE_BITWARDEN = tests.yaml_load('bitwarden-other.yml')
 
 
 class TestParse(tests.Test):
@@ -164,3 +165,22 @@ class TestParse(tests.Test):
         with tests.cls('Revelation', prefix) as importer:
             importer.parse()
             self.assertImport(importer.data, REFERENCE_REVELATION, keep)
+
+    def test_importers_bitwarden(self):
+        """Testing: parse method for Bitwarden with special cases."""
+        keep = [
+            'title', 'password', 'login', 'database', 'host', 'port', 'url',
+            'email', 'phone', 'location', 'description', 'comments', 'group',
+            'otpauth', 'title', 'brand', 'cardholderName', 'code', 'expMonth',
+            'expYear', 'number', 'title', 'address1', 'address2', 'address3',
+            'city', 'company', 'country', 'email', 'firstName', 'lastName',
+            'licenseNumber', 'middleName', 'passportNumber', 'phone',
+            'postalCode', 'ssn', 'username', 'passportNumber',
+            'licenseNumber', 'title', 'comments', 'my text field',
+            'my hidden field', 'a boolean field which is off',
+            'a boolean field which is on', 'secureNote'
+        ]
+        prefix = os.path.join(tests.db, 'bitwarden-other.json')
+        with tests.cls('BitwardenJSON', prefix) as importer:
+            importer.parse()
+            self.assertImport(importer.data, REFERENCE_BITWARDEN, keep)

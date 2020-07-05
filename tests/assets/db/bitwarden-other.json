@@ -1,0 +1,174 @@
+{
+  "folders": [
+    {
+      "id": "f694c031-d547-421c-93e1-aad30008b3e1",
+      "name": "Bank"
+    },
+    {
+      "id": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
+      "name": "CornerCases"
+    },
+    {
+      "id": "bcda1361-ed24-4b10-90ba-aad30008b3e1",
+      "name": "Emails"
+    },
+    {
+      "id": "b4eaaf60-9486-4cbb-b178-aad30008b3e1",
+      "name": "Emails/WS"
+    },
+    {
+      "id": "5da50eb7-767b-4d93-aa47-aad30008b3e1",
+      "name": "Servers"
+    },
+    {
+      "id": "9acaec4b-f9b8-476c-8c96-aad30008b3e1",
+      "name": "Social"
+    }
+  ],
+  "items": [
+    {
+      "id": "6f71426f-fc6e-4d81-a85b-aad30008b3e1",
+      "organizationId": null,
+      "folderId": "f694c031-d547-421c-93e1-aad30008b3e1",
+      "type": 1,
+      "name": "aib",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://onlinebanking.aib.ie"
+          }
+        ],
+        "username": "dpbx@fner.ws",
+        "password": "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",
+        "totp": "S3K3TPI5MYA2M67V"
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "70488eea-fb65-4a26-a1a4-a8aa01734b3f",
+      "organizationId": null,
+      "folderId": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
+      "type": 2,
+      "name": "Some Note",
+      "notes": "This is a note sample.",
+      "favorite": false,
+      "secureNote": {
+        "type": 0
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "098e3ac2-f485-407f-b094-a80c00efe83c",
+      "organizationId": null,
+      "folderId": null,
+      "type": 1,
+      "name": "Some note only item",
+      "notes": "Hello World!",
+      "favorite": true,
+      "login": {
+        "username": null,
+        "password": null,
+        "totp": null
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "40775305-9751-4818-bf31-a8a700abc17d",
+      "organizationId": null,
+      "folderId": null,
+      "type": 3,
+      "name": "Visa Card",
+      "notes": null,
+      "favorite": false,
+      "card": {
+        "cardholderName": "DOE John",
+        "brand": "Visa",
+        "number": "4111111111111111",
+        "expMonth": "4",
+        "expYear": "2024",
+        "code": "492"
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "02c654b7-c18c-49c9-9d42-abe9018a831d",
+      "organizationId": null,
+      "folderId": null,
+      "type": 4,
+      "name": "John DOE",
+      "notes": null,
+      "favorite": false,
+      "identity": {
+        "title": "M.",
+        "firstName": "John",
+        "middleName": "Rober",
+        "lastName": "DOE",
+        "address1": "6 Rose street",
+        "address2": null,
+        "address3": null,
+        "city": "New York",
+        "state": null,
+        "postalCode": null,
+        "country": null,
+        "company": null,
+        "email": "john.doe@email.com",
+        "phone": null,
+        "ssn": null,
+        "username": null,
+        "passportNumber": null,
+        "licenseNumber": null
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "c17a6a37-1868-4e07-973d-abee015b06c6",
+      "organizationId": null,
+      "folderId": "bcda1361-ed24-4b10-90ba-aad30008b3e1",
+      "type": 1,
+      "name": "test-item",
+      "notes": "Notes field allowing for freeform text input",
+      "favorite": true,
+      "fields": [
+        {
+          "name": "my text field",
+          "value": "a value",
+          "type": 0
+        },
+        {
+          "name": "my hidden field",
+          "value": "another value",
+          "type": 1
+        },
+        {
+          "name": "a boolean field which is off",
+          "value": "false",
+          "type": 2
+        },
+        {
+          "name": "a boolean field which is on",
+          "value": "true",
+          "type": 2
+        }
+      ],
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://test-uri-1"
+          },
+          {
+            "match": null,
+            "uri": "https://test-uri-2"
+          }
+        ],
+        "username": "username",
+        "password": "password",
+        "totp": "1019"
+      },
+      "collectionIds": null
+    }
+  ]
+}
