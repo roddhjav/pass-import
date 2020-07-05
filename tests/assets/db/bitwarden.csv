@@ -16,3 +16,7 @@ CornerCases,,login,space title,,,https://nhysdo.wg,vkeelpbu,]stDKo{%pk,
 Social,,login,twitter.com,,,https://twitter.com/,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",
 ,,note,Some Note,This is a note sample.,,,,,
 ,1,login,Some note only item,Hello World!,,,,,
+Business,1,login,test-item,Notes field allowing for freeform text input,"my text field: a value
+my hidden field: another value
+a boolean field which is off: false
+a boolean field which is on: true","https://test-uri-1,https://test-uri-2",username,password,1019
