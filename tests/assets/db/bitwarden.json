@@ -371,6 +371,53 @@
         "licenseNumber": null
       },
       "collectionIds": null
+    },
+    {
+      "id": "c17a6a37-1868-4e07-973d-abee015b06c6",
+      "organizationId": null,
+      "folderId": "bcda1361-ed24-4b10-90ba-aad30008b3e1",
+      "type": 1,
+      "name": "test-item",
+      "notes": "Notes field allowing for freeform text input",
+      "favorite": true,
+      "fields": [
+        {
+          "name": "my text field",
+          "value": "a value",
+          "type": 0
+        },
+        {
+          "name": "my hidden field",
+          "value": "another value",
+          "type": 1
+        },
+        {
+          "name": "a boolean field which is off",
+          "value": "false",
+          "type": 2
+        },
+        {
+          "name": "a boolean field which is on",
+          "value": "true",
+          "type": 2
+        }
+      ],
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://test-uri-1"
+          },
+          {
+            "match": null,
+            "uri": "https://test-uri-2"
+          }
+        ],
+        "username": "username",
+        "password": "password",
+        "totp": "1019"
+      },
+      "collectionIds": null
     }
   ]
 }
