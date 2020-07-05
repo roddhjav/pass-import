@@ -178,7 +178,7 @@ class TestParse(tests.Test):
             'postalCode', 'ssn', 'username', 'passportNumber',
             'licenseNumber', 'title', 'comments', 'my text field',
             'my hidden field', 'a boolean field which is off',
-            'a boolean field which is on', 'secureNote'
+            'a boolean field which is on', 'secureNote', 'title_', 'url2'
         ]
         prefix = os.path.join(tests.db, 'bitwarden-other.json')
         with tests.cls('BitwardenJSON', prefix) as importer:

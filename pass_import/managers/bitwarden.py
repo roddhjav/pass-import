@@ -36,7 +36,7 @@ class BitwardenJSON(JSON):
     url = 'https://bitwarden.com'
     hexport = 'Tools> Export Vault> File Format: .json'
     himport = 'pass import bitwarden file.json'
-    ignore = {'login', 'id', 'folderId', 'collectionIds', 'organizationId', 'type', 'favorite'}
+    ignore = {'login', 'id', 'folderId', 'collectionIds', 'organizationId', 'type', 'favorite', 'secureNote'}
     nesting_keys = {'card', 'identity'}
     keys = {
         'title': 'name',
@@ -88,18 +88,36 @@ class BitwardenJSON(JSON):
                 elif key in self.nesting_keys:
                     self.parse_nested(entry, value)
                 else:
-                    entry[keys.get(key, key)] = value
+                    if value:
+                        entry[keys.get(key, key)] = value
+            
+            urls = entry.get('url')
+            if urls:
+                entry['url'] = urls[0]['uri']
 
-            entry['url'] = entry.get('url', [{}])[0].get('uri', '')  # TODO: vivlim handle multiple urls
+                if len(urls) > 1:
+                    index = 2
+                    for url in urls[1:]:
+                        entry[f'url{index}'] = url['uri']
+                        index += 1
+
             self.data.append(entry)
         self._sortgroup(folders)
 
     def parse_nested(self, destination_entry, nesting_source):
         for key, value in nesting_source.items():
-            destination_entry[key] = value
+            if key in destination_entry.keys():
+                key = f'{key}_'
+            if value:
+                destination_entry[key] = value
 
     def parse_custom_fields(self, destination_entry, custom_fields):
         for field in custom_fields:
-            destination_entry[field['name']] = field['value']
+            name = field['name']
+            value = field['value']
+            if name in destination_entry.keys():
+                name = f'{name}_'
+            if value:
+                destination_entry[name] = value
 
 register_managers(BitwardenCSV, BitwardenJSON)
