@@ -5,8 +5,6 @@
 
 import json
 
-from yaml import parse
-
 from pass_import.core import register_managers
 from pass_import.formats.csv import CSV
 from pass_import.formats.json import JSON
@@ -36,7 +34,10 @@ class BitwardenJSON(JSON):
     url = 'https://bitwarden.com'
     hexport = 'Tools> Export Vault> File Format: .json'
     himport = 'pass import bitwarden file.json'
-    ignore = {'login', 'id', 'folderId', 'collectionIds', 'organizationId', 'type', 'favorite', 'secureNote'}
+    ignore = {
+        'login', 'id', 'folderId', 'collectionIds', 'organizationId', 'type',
+        'favorite', 'secureNote'
+    }
     nesting_keys = {'card', 'identity'}
     keys = {
         'title': 'name',
@@ -84,13 +85,13 @@ class BitwardenJSON(JSON):
                     continue
 
                 if key == 'fields':
-                    self.parse_custom_fields(entry, value)
+                    self._parse_custom_fields(entry, value)
                 elif key in self.nesting_keys:
-                    self.parse_nested(entry, value)
+                    self._parse_nested(entry, value)
                 else:
                     if value:
                         entry[keys.get(key, key)] = value
-            
+
             urls = entry.get('url')
             if urls:
                 entry['url'] = urls[0]['uri']
@@ -104,14 +105,16 @@ class BitwardenJSON(JSON):
             self.data.append(entry)
         self._sortgroup(folders)
 
-    def parse_nested(self, destination_entry, nesting_source):
+    @staticmethod
+    def _parse_nested(destination_entry, nesting_source):
         for key, value in nesting_source.items():
             if key in destination_entry.keys():
                 key = f'{key}_'
             if value:
                 destination_entry[key] = value
 
-    def parse_custom_fields(self, destination_entry, custom_fields):
+    @staticmethod
+    def _parse_custom_fields(destination_entry, custom_fields):
         for field in custom_fields:
             name = field['name']
             value = field['value']
@@ -119,5 +122,6 @@ class BitwardenJSON(JSON):
                 name = f'{name}_'
             if value:
                 destination_entry[name] = value
+
 
 register_managers(BitwardenCSV, BitwardenJSON)
