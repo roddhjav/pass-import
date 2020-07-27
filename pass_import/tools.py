@@ -44,6 +44,9 @@ def get_magics(path):
         res = magic.detect_from_content(header)
         mime_type = res.mime_type
         magic_name = res.name
+    elif hasattr(magic, 'from_buffer'):
+        mime_type = magic.from_buffer(header, mime=True)
+        magic_name = magic.from_buffer(header)
     else:
         return None, None
 
