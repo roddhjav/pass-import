@@ -4,15 +4,17 @@ dist: xenial
 language: python
 cache: pip
 
-jobs:
-  include:
-    - python: 3.8
-    - python: 3.7
-    - python: 3.6
+python:
+  - 3.8
+  - 3.7
+  - 3.6
 
 env:
   global:
     - PASS_VERSION=1.7.3
+  jobs:
+    - TEST_MAGIC=file-magic
+    - TEST_MAGIC=python-magic
 
 addons:
   apt:
@@ -26,7 +28,7 @@ install:
   - make --directory=password-store-$PASS_VERSION install
   - mkdir -p ~/.local/share/keyrings/
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage file-magic
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage $TEST_MAGIC
 
 script:
   - dbus-run-session -- make tests
