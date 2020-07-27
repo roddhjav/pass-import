@@ -9,7 +9,7 @@ import sys
 
 try:
     import magic
-    MAGIC = hasattr(magic, 'open')
+    MAGIC = True
 except ImportError:
     MAGIC = False
 
@@ -40,20 +40,26 @@ def get_magics(path):
     with open(path, 'rb') as file:
         header = file.read(2048)
 
-    res = magic.detect_from_content(header)
+    if hasattr(magic, 'detect_from_content'):
+        res = magic.detect_from_content(header)
+        mime_type = res.mime_type
+        magic_name = res.name
+    else:
+        return None, None
+
     mime_to_format = {
         'application/pgp': 'gpg',
         'application/x-sqlite3': 'sqlite3'
     }
     name_to_format = {'KDBX': 'kdbx', 'openssl': 'openssl', 'PGP': 'gpg'}
 
-    frmt = mime_to_format.get(res.mime_type, None)
+    frmt = mime_to_format.get(mime_type, None)
     for name in name_to_format:
-        if name in res.name:
+        if name in magic_name:
             frmt = name_to_format[name]
 
     encoding = None  # res.encoding
-    if 'UTF-8 Unicode (with BOM)' in res.name:
+    if 'UTF-8 Unicode (with BOM)' in magic_name:
         encoding = 'utf-8-sig'
 
     return frmt, encoding
