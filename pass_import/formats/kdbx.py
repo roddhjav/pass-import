@@ -7,7 +7,8 @@ import os
 
 try:
     from pykeepass import PyKeePass
-    from pykeepass.exceptions import CredentialsIntegrityError
+    from pykeepass.exceptions import (CredentialsError, PayloadChecksumError,
+                                      HeaderChecksumError)
     PYKEEPASS = True
 except ImportError:
     PYKEEPASS = False
@@ -139,7 +140,8 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             self.keepass = PyKeePass(self.prefix,
                                      password=getpassword(self.prefix),
                                      keyfile=self.keyfile)
-        except CredentialsIntegrityError as error:
+        except (CredentialsError, PayloadChecksumError,
+                HeaderChecksumError) as error:
             raise PMError(error)
 
     def close(self):
