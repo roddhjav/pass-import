@@ -40,15 +40,13 @@ def get_magics(path):
     with open(path, 'rb') as file:
         header = file.read(2048)
 
-    if hasattr(magic, 'detect_from_content'):
+    if hasattr(magic, 'detect_from_content'):  # file-magic
         res = magic.detect_from_content(header)
         mime_type = res.mime_type
         magic_name = res.name
-    elif hasattr(magic, 'from_buffer'):
+    else:  # python-magic
         mime_type = magic.from_buffer(header, mime=True)
         magic_name = magic.from_buffer(header)
-    else:
-        return None, None
 
     mime_to_format = {
         'application/pgp': 'gpg',
@@ -61,7 +59,7 @@ def get_magics(path):
         if name in magic_name:
             frmt = name_to_format[name]
 
-    encoding = None  # res.encoding
+    encoding = None
     if 'UTF-8 Unicode (with BOM)' in magic_name:
         encoding = 'utf-8-sig'
 
