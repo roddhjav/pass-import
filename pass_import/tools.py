@@ -177,7 +177,8 @@ class Config(dict):
         """Show a password entry."""
         if self.verb >= 2:
             ignore = {'data', 'password', 'title', 'group', 'path'}
-            path = os.path.join(self.get('droot', ''), entry['path'])
+            path = os.path.join(self.get('droot', ''), entry.get(
+                'path', entry.get('title', '')))
             self.verbose("Path", path)
             res = entry.get('password', '') + '\n'
             for key, value in entry.items():

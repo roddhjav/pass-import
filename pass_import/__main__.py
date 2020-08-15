@@ -360,7 +360,8 @@ def pass_export(conf, cls_export, data):
             exporter.data = data
             exporter.clean(conf['clean'], conf['convert'])
             for entry in exporter.data:
-                pmpath = os.path.join(conf['droot'], entry['path'])
+                pmpath = os.path.join(conf['droot'], entry.get(
+                    'path', entry.get('title', '')))
                 conf.show(entry)
                 try:
                     exporter.insert(entry)
