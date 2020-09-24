@@ -17,17 +17,17 @@ all:
 	@echo
 
 install:
-	@install -vd "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/" "$(DESTDIR)$(BINDIR)/" \
+	@install -d "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/" "$(DESTDIR)$(BINDIR)/" \
 				 "$(DESTDIR)$(MANDIR)/man1" "$(DESTDIR)$(BASHCOMPDIR)" \
 				 "$(DESTDIR)$(ZSHCOMPDIR)"
-	@install -vm 0755 scripts/import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
-	@install -vm 0755 scripts/pimport "$(DESTDIR)$(BINDIR)/pimport"
-	@install -vm 0644 docs/pass-import.1 "$(DESTDIR)$(MANDIR)/man1/pass-import.1"
-	@install -vm 0644 docs/pimport.1 "$(DESTDIR)$(MANDIR)/man1/pimport.1"
-	@install -vm 0644 completion/pass-import.bash "$(DESTDIR)$(BASHCOMPDIR)/pass-import"
-	@install -vm 0644 completion/pass-import.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pass-import"
-	@install -vm 0644 completion/pimport.bash "$(DESTDIR)$(BASHCOMPDIR)/pimport"
-	@install -vm 0644 completion/pimport.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pimport"
+	@install -m 0755 scripts/import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
+	@install -m 0755 scripts/pimport "$(DESTDIR)$(BINDIR)/pimport"
+	@install -m 0644 docs/pass-import.1 "$(DESTDIR)$(MANDIR)/man1/pass-import.1"
+	@install -m 0644 docs/pimport.1 "$(DESTDIR)$(MANDIR)/man1/pimport.1"
+	@install -m 0644 completion/pass-import.bash "$(DESTDIR)$(BASHCOMPDIR)/pass-import"
+	@install -m 0644 completion/pass-import.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pass-import"
+	@install -m 0644 completion/pimport.bash "$(DESTDIR)$(BASHCOMPDIR)/pimport"
+	@install -m 0644 completion/pimport.zsh "$(DESTDIR)$(ZSHCOMPDIR)/_pimport"
 	@[ "$(PYTHON)" = "yes" ] || exit 0; python3 setup.py install --root="$(DESTDIR)" --optimize=1 --skip-build
 	@echo
 	@echo "pass-import is installed succesfully"
@@ -47,8 +47,8 @@ uninstall:
 PASSWORD_STORE_DIR ?= $(HOME)/.password-store
 PASSWORD_STORE_EXTENSIONS_DIR ?= $(PASSWORD_STORE_DIR)/.extensions
 local:
-	@install -vd "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
-	@install -vm 0755 scripts/import.bash "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
+	@install -d "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/"
+	@install -m 0755 scripts/import.bash "$(DESTDIR)$(PASSWORD_STORE_EXTENSIONS_DIR)/import.bash"
 	@python3 setup.py install --user --optimize=1
 	@echo
 	@echo "pass-import is localy installed succesfully."
