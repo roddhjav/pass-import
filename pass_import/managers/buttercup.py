@@ -13,19 +13,38 @@ class Buttercup(CSV):
     url = 'https://buttercup.pw'
     hexport = 'File > Export > Export File to CSV'
     himport = 'pass import buttercup file.csv'
-    ignore = {'!group_id', 'id'}
+    ignore = {'!type', '!group_name', '!group_parent', 'id'}
     keys = {
         'title': 'title',
         'password': 'password',
         'login': 'username',
         'url': 'URL',
         'comments': 'Notes',
-        'group': '!group_name'
+        'group': '!group_id'
     }
 
     def parse(self):
         """Parse Buttercup CSV file."""
         super(Buttercup, self).parse()
+        
+        # Get group structure
+        folders = dict()
+        groups = list()
+        for entry in self.data:
+            if entry.get('!type', '') == 'group':
+                key = entry.get('group', '0')
+                folders[key] = {
+                    'group': entry.get('!group_name', ''),
+                    'parent': entry.get('!group_parent', '0')
+                }
+                groups.append(entry)
+        self._sortgroup(folders)
+        
+        # Remove groups declaration from ``data``
+        for entry in groups:
+            self.data.remove(entry)
+
+        # Remove ignored key from entries
         for entry in self.data:
             for key in self.ignore:
                 entry.pop(key, None)

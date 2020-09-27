@@ -3,6 +3,7 @@
 # Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+import os
 from abc import abstractmethod
 
 import pass_import.clean as clean
@@ -88,6 +89,25 @@ class PasswordImporter(PasswordManager):
     def invkeys(self):
         """Return the invert of ``keys``."""
         return {v: k for k, v in self.keys.items()}
+
+    def _sortgroup(self, folders):
+        """Helper method to sort groups in ``data``.
+
+        :param dict folders: The group structure, it must be generated
+            as follow: 
+                folders['<group-id>'] = {
+                    'group': '<name>',
+                    'parent': '<parent-id>'
+                }
+        """
+        for folder in folders.values():
+            parentid = folder.get('parent', '')
+            parentname = folders.get(parentid, {}).get('group', '')
+            folder['group'] = os.path.join(parentname, folder.get('group', ''))
+
+        for entry in self.data:
+            groupid = entry.get('group', '')
+            entry['group'] = folders.get(groupid, {}).get('group', '')
 
 
 class PasswordExporter(PasswordManager):

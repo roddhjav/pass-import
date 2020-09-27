@@ -4,7 +4,6 @@
 #
 
 import json
-import os
 import re
 
 from pass_import.core import register_detecters, Cap
@@ -20,16 +19,6 @@ class JSON(Formatter, PasswordImporter):
     jsons = None
 
     # Import methods
-
-    def _sortgroup(self, folders):
-        for folder in folders.values():
-            parent = folder.get('parent', '')
-            groupup = folders.get(parent, {}).get('group', '')
-            folder['group'] = os.path.join(groupup, folder.get('group', ''))
-
-        for entry in self.data:
-            groupid = entry.get('group', '')
-            entry['group'] = folders.get(groupid, {}).get('group', '')
 
     def parse(self):
         """Parse JSON based file."""
