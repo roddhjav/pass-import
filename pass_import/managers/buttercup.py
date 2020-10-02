@@ -26,7 +26,7 @@ class Buttercup(CSV):
     def parse(self):
         """Parse Buttercup CSV file."""
         super(Buttercup, self).parse()
-        
+
         # Get group structure
         folders = dict()
         groups = list()
@@ -39,7 +39,7 @@ class Buttercup(CSV):
                 }
                 groups.append(entry)
         self._sortgroup(folders)
-        
+
         # Remove groups declaration from ``data``
         for entry in groups:
             self.data.remove(entry)

@@ -91,10 +91,10 @@ class PasswordImporter(PasswordManager):
         return {v: k for k, v in self.keys.items()}
 
     def _sortgroup(self, folders):
-        """Helper method to sort groups in ``data``.
+        """Order groups in ``data``.
 
         :param dict folders: The group structure, it must be generated
-            as follow: 
+            as follow:
                 folders['<group-id>'] = {
                     'group': '<name>',
                     'parent': '<parent-id>'
