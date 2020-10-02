@@ -63,6 +63,13 @@ class Managers(set):
             return default
         raise ManagerError('Unknown password manager: %s' % name)
 
+    def clsnames(self, cap=Cap.IMPORT):
+        """Return the sorted list of password managers classes name."""
+        names = set()
+        for pm in self.classes(cap):
+            names.add(pm.__name__)
+        return sorted(names)
+
     def names(self, cap=Cap.IMPORT):
         """Return the sorted list of password managers name."""
         names = set()

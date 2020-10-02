@@ -303,7 +303,10 @@ def detectmanager(conf):
             detect = AutoDetect(name, settings=conf.getsettings())
             pm = detect.format(to_detect)
             warn = False
-
+        elif name in MANAGERS.clsnames():
+            detect = AutoDetect(name)
+            pm = MANAGERS.get(name)
+            conf.verbose("Using import class: %s." % pm.__name__)
         else:
             conf.die("%s is not a supported source password manager." % name)
 
