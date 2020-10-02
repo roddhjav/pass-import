@@ -1,7 +1,7 @@
 ---
 
 include:
-  - template: SAST.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
 
 stages:
   - lint
@@ -11,6 +11,7 @@ stages:
 
 variables:
   DEBIAN_FRONTEND: noninteractive
+  SAST_DEFAULT_ANALYZERS: bandit
   PASS_VERSION: 1.7.3
 
 
