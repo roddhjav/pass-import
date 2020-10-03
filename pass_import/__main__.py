@@ -232,22 +232,33 @@ def listmanagers(conf):
         msg = "The %s supported password managers are:" % len(MANAGERS)
     conf.success(msg)
 
+    max_res = ''
     listing = dict()
     matrix = MANAGERS.matrix(cap)
     for name in matrix:
-        formats = []
+        frmts = []
         for pm in matrix[name]:
             res = pm.format
             if pm.version:
                 res += ' (v%s)' % pm.version
-            formats.append(res)
-        listing[name] = ', '.join(formats)
+            max_res = max(max_res, res)
+            frmts.append(res)
+        listing[name] = frmts
 
     padding1 = len(max(MANAGERS.names(cap), key=len)) + 1
-    padding2 = len(max(listing.values(), key=len)) + 1
-    for name in sorted(listing):
-        conf.message(conf.BOLD + name.ljust(padding1) + conf.end
-                     + listing[name].ljust(padding2) + matrix[name][0].url)
+    if conf.verb:
+        padding2 = len(max_res) + 1
+        for name in sorted(matrix):
+            for pm, frmt in zip(matrix[name], listing[name]):
+                conf.message(conf.BOLD + name.ljust(padding1) + conf.end +
+                             frmt.ljust(padding2) + pm.__name__)
+    else:
+        tmp = [', '.join(frmts) for frmts in listing.values()]
+        padding2 = len(max(tmp, key=len)) + 1
+        for name in sorted(listing):
+            conf.message(conf.BOLD + name.ljust(padding1) + conf.end +
+                         ', '.join(listing[name]).ljust(padding2) +
+                         matrix[name][0].url)
     sys.exit(0)
 
 
