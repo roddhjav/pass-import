@@ -23,12 +23,11 @@ import sys
 import traceback
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-from pass_import import Managers, Detecters, __version__
+from pass_import import Detecters, Managers, __version__
 from pass_import.auto import AutoDetect
 from pass_import.core import Cap
-from pass_import.errors import PMError, FormatError
+from pass_import.errors import FormatError, PMError
 from pass_import.tools import Config, get_magics
-
 
 MANAGERS = Managers()
 

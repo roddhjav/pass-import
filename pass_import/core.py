@@ -10,7 +10,6 @@ from enum import IntFlag, auto
 
 from pass_import.errors import PMError
 
-
 _MANAGERS = set()
 _DETECTERS = set()
 

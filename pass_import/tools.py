@@ -14,6 +14,7 @@ except ImportError:
     MAGIC = False
 
 import yaml
+
 import pass_import.clean as clean
 from pass_import.core import Cap
 

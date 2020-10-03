@@ -7,16 +7,16 @@ import os
 
 try:
     from pykeepass import PyKeePass
-    from pykeepass.exceptions import (CredentialsError, PayloadChecksumError,
-                                      HeaderChecksumError)
+    from pykeepass.exceptions import (CredentialsError, HeaderChecksumError,
+                                      PayloadChecksumError)
     PYKEEPASS = True
 except ImportError:
     PYKEEPASS = False
 
-from pass_import.core import register_detecters, Cap
+from pass_import.core import Cap, register_detecters
 from pass_import.detecter import Formatter
 from pass_import.errors import PMError
-from pass_import.manager import PasswordImporter, PasswordExporter
+from pass_import.manager import PasswordExporter, PasswordImporter
 from pass_import.tools import getpassword
 
 

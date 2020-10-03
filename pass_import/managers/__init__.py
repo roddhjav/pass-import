@@ -17,15 +17,15 @@ from pass_import.managers.gnomeauthenticator import GnomeAuthenticator
 from pass_import.managers.gnomekeyring import GnomeKeyring
 from pass_import.managers.gorilla import Gorilla
 from pass_import.managers.keepass import Keepass, KeepassCSV, KeepassXML
+from pass_import.managers.keepassx import KeepassxXML
 from pass_import.managers.keepassx2 import Keepassx2CSV, Keepassx2KDBX
 from pass_import.managers.keepassxc import KeepassxcCSV, KeepassxcKDBX
-from pass_import.managers.keepassx import KeepassxXML
 from pass_import.managers.keeper import KeeperCSV
 from pass_import.managers.lastpass import LastpassCSV
 from pass_import.managers.myki import Myki
 from pass_import.managers.networkmanager import NetworkManager
-from pass_import.managers.onepassword import (OnePasswordCSV, OnePassword4CSV,
-                                              OnePassword4PIF)
+from pass_import.managers.onepassword import (OnePassword4CSV, OnePassword4PIF,
+                                              OnePasswordCSV)
 from pass_import.managers.padlock import PadlockCSV
 from pass_import.managers.passman import PassmanCSV, PassmanJSON
 from pass_import.managers.passpack import Passpack

@@ -4,16 +4,15 @@
 #
 """Passwords importer swiss army knife."""
 
-from collections import defaultdict, OrderedDict
+from collections import OrderedDict, defaultdict
 
 import pass_import.decrypters  # noqa
 import pass_import.formats  # noqa
 import pass_import.managers  # noqa
-
 from pass_import.__about__ import (__author__, __copyright__, __email__,
                                    __license__, __summary__, __title__,
                                    __uri__, __version__)
-from pass_import.core import get_managers, get_detecters, Cap
+from pass_import.core import Cap, get_detecters, get_managers
 
 __all__ = [
     '__title__', '__summary__', '__uri__', '__version__', '__author__',

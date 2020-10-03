@@ -4,6 +4,7 @@
 #
 
 import json
+
 try:
     from defusedxml import ElementTree
 except ImportError:

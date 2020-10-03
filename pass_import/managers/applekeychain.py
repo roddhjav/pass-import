@@ -6,14 +6,14 @@
 
 import re
 from datetime import datetime
+
 try:
     from defusedxml import ElementTree
 except ImportError:
     from xml.etree import ElementTree
 
 import yaml
-
-from pass_import.core import register_managers, register_detecters, Cap
+from pass_import.core import Cap, register_detecters, register_managers
 from pass_import.detecter import Formatter
 from pass_import.manager import PasswordImporter
 

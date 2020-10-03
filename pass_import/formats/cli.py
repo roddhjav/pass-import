@@ -6,11 +6,11 @@
 import os
 import shutil
 from abc import abstractmethod
-from subprocess import Popen, PIPE  # nosec
+from subprocess import PIPE, Popen  # nosec
 
 from pass_import.core import Cap
 from pass_import.errors import PMError
-from pass_import.manager import PasswordImporter, PasswordExporter
+from pass_import.manager import PasswordExporter, PasswordImporter
 
 
 class CLI(PasswordImporter, PasswordExporter):

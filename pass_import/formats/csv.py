@@ -6,7 +6,7 @@
 import csv
 from typing import List
 
-from pass_import.core import register_detecters, Cap
+from pass_import.core import Cap, register_detecters
 from pass_import.detecter import Formatter
 from pass_import.errors import FormatError
 from pass_import.manager import PasswordImporter

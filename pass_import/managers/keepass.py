@@ -7,8 +7,8 @@ import os
 
 from pass_import.core import register_managers
 from pass_import.formats.csv import CSV
-from pass_import.formats.xml import XML
 from pass_import.formats.kdbx import KDBX
+from pass_import.formats.xml import XML
 
 
 class Keepass(KDBX):

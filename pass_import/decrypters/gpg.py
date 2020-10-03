@@ -4,7 +4,7 @@
 #
 
 import shutil
-from subprocess import Popen, PIPE  # nosec
+from subprocess import PIPE, Popen  # nosec
 
 from pass_import.core import register_detecters
 from pass_import.detecter import Decrypter

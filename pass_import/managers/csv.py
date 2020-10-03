@@ -6,8 +6,8 @@
 import csv
 import os
 
-from pass_import.core import register_managers, Cap
-from pass_import.errors import PMError, FormatError
+from pass_import.core import Cap, register_managers
+from pass_import.errors import FormatError, PMError
 from pass_import.formats.csv import CSV
 from pass_import.manager import PasswordExporter
 
