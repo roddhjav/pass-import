@@ -49,6 +49,11 @@ class TestMainSanityChecks(tests.Test):
         cmd = ['--list-importers', '--quiet']
         self.main(cmd, 0)
 
+    def test_main_list_verbose(self):
+        """Testing: pimport --list-importers --verbose."""
+        cmd = ['--list-importers', '--verbose']
+        self.main(cmd, 0)
+
     def test_main_exporter_empty(self):
         """Testing: password exporter not present."""
         cmd = []

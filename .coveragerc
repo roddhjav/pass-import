@@ -13,7 +13,6 @@ exclude_lines =
     except ImportError
     raise ImportError
     raise NotImplementedError
-    except CredentialsIntegrityError
     'empty password store.'
     else:  # python-magic
     if __name__ == .__main__.:

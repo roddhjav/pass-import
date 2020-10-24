@@ -27,6 +27,11 @@ class TestMainPass(tests.Test):
         cmd = ['passpack', tests.db + 'passpack.csv', '-vvv']
         self.main(cmd)
 
+    def test_main_classname(self):
+        """Testing: pass import Roboform db/roboform.csv -vvv."""
+        cmd = ['Roboform', tests.db + 'roboform.csv', '-vvv']
+        self.main(cmd)
+
     def test_main_not_a_file(self):
         """Testing: pass import revelation not_a_file."""
         cmd = ['revelation', 'not_a_file']
