@@ -18,6 +18,7 @@ pylint:
 
   options:
     max-locals: 17
+    max-branches: 13
 
 pyroma:
   disable:

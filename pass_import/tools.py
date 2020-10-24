@@ -31,8 +31,8 @@ def get_magics(path):
     like CSV, JSON, YAML or, XML so we only use it to detect binary format and
     the encoding.
 
-    Support both file-magic and magic as both as shipped under the same name
-    in various distributions.
+    Support both file-magic and python-magic as both are shipped under the same
+    name in various distributions.
 
     """
     if not MAGIC:

@@ -3,12 +3,12 @@
 # Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+import yaml
+
 from pass_import.core import Cap, register_detecters
 from pass_import.detecter import Formatter
 from pass_import.errors import FormatError
 from pass_import.manager import PasswordImporter
-
-import yaml
 
 
 class YAML(Formatter, PasswordImporter):
