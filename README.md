@@ -91,6 +91,24 @@ database to a generic CSV file...
 
 ## Usage
 
+### Basic use
+To import password from any supported password manager simply run:
+```sh
+pass import path/to/passwords
+```
+
+If `pass-import` is not able to detect the format, you need provide the password
+manager `<pm>` you want to import data from:
+```sh
+pass import <pm> path/to/passwords
+```
+
+If you want to import data to a password manager other than `pass`, run:
+```sh
+pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
+```
+
+### Help
 <!-- USAGE BEGIN -->
 ```
 usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C]
@@ -200,6 +218,52 @@ pass import bitwarden.json -p Import/
 - Import Lastpass file to a keepass db: `pimport keepass lastpass.csv --out keepass.kdbx`
 - Import a password store to a CSV file: `pimport csv ~/.password-store --out file.csv`
 
+
+## GPG keyring
+
+Before importing data to pass, your password-store repository must exist and your
+GPG keyring must be usable. In order words you need to ensure that:
+- All the public gpgids are present in the keyring.
+- All the public gpgids are trusted enough.
+- At least one private key is present in the keyring.
+
+Otherwise you will get the following error:
+`invalid credentials, password encryption/decryption aborted.`
+
+To set the trust on a GPG key, one can run `gpg --edit-key <gpgid>` then `trust`.
+
+
+## Security consideration
+
+**Direct import**
+
+Passwords should not be written in plain text form on the drive.
+Therefore when possible, you should import it directly from the encrypted data.
+For instance, with an encrypted keepass database:
+```sh
+pass import keepass file.kdbx
+```
+
+**Secure erasure**
+
+Otherwise, if your password manager does not support it, you should take care
+of securely removing the plain text password database:
+```sh
+pass import lastpass data.csv
+shred -u data.csv
+```
+
+**Encrypted file**
+
+Alternatively, pass-import can decrypt gpg encrypted file before importing it.
+For example:
+```sh
+pass import lastpass lastpass.csv.gpg
+```
+
+You might also want to update the passwords imported using [`pass-update`][update].
+
+
 ## Configuration file
 
 Some configurations can be read from a configuration file called `.import` if it
@@ -241,74 +305,6 @@ invalids:
   - '?'
   - '*'
   - '\0'
-```
-
-## Security consideration
-
-**Direct import**
-
-Passwords should not be written in plain text form on the drive.
-Therefore when possible, you should import it directly from the encrypted data.
-For instance, with an encrypted keepass database:
-```sh
-pass import keepass file.kdbx
-```
-
-**Secure erasure**
-
-Otherwise, if your password manager does not support it, you should take care
-of securely removing the plain text password database:
-```sh
-pass import lastpass data.csv
-shred -u data.csv
-```
-
-**Encrypted file**
-
-Alternatively, pass-import can decrypt gpg encrypted file before importing it.
-For example:
-```sh
-pass import lastpass lastpass.csv.gpg
-```
-
-You might also want to update the passwords imported using [`pass-update`][update].
-
-
-## The import Library
-
-One can use pass-import as a python library. Simply import the classes of the
-password manager you want to import and export. Then use them in a
-context manager. For instance, to import password from a cvs Lastpass exported
-file to password-store:
-
-```python
-from pass_import.managers.lastpass import LastpassCSV
-from pass_import.managers.passwordstore import PasswordStore
-
-with LastpassCSV('lastpass-export.csv') as importer:
-    importer.parse()
-
-    with PasswordStore('~/.password-store') as exporter:
-        exporter.data = importer.data
-        exporter.clean()
-        for entry in exporter.data:
-            exporter.insert(entry)
-```
-
-Alternatively, you can import the same Lastpass file to a Keepass database:
-
-```python
-from pass_import.managers.keepass import Keepass
-from pass_import.managers.lastpass import LastpassCSV
-
-with LastpassCSV('lastpass-export.csv') as importer:
-    importer.parse()
-
-    with Keepass('keepass.kdbx') as exporter:
-        exporter.data = importer.data
-        exporter.clean()
-        for entry in exporter.data:
-            exporter.insert(entry)
 ```
 
 
@@ -397,6 +393,44 @@ Alternatively, from git or a stable version you can do a local install with:
 ```sh
 cd pass-import
 make local
+```
+
+
+## The import Library
+
+One can use pass-import as a python library. Simply import the classes of the
+password manager you want to import and export. Then use them in a
+context manager. For instance, to import password from a cvs Lastpass exported
+file to password-store:
+
+```python
+from pass_import.managers.lastpass import LastpassCSV
+from pass_import.managers.passwordstore import PasswordStore
+
+with LastpassCSV('lastpass-export.csv') as importer:
+    importer.parse()
+
+    with PasswordStore('~/.password-store') as exporter:
+        exporter.data = importer.data
+        exporter.clean()
+        for entry in exporter.data:
+            exporter.insert(entry)
+```
+
+Alternatively, you can import the same Lastpass file to a Keepass database:
+
+```python
+from pass_import.managers.keepass import Keepass
+from pass_import.managers.lastpass import LastpassCSV
+
+with LastpassCSV('lastpass-export.csv') as importer:
+    importer.parse()
+
+    with Keepass('keepass.kdbx') as exporter:
+        exporter.data = importer.data
+        exporter.clean()
+        for entry in exporter.data:
+            exporter.insert(entry)
 ```
 
 
