@@ -3,14 +3,26 @@
 # Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 
 import os
+import sys
+from pathlib import Path
+
 from setuptools import setup
 
 about = dict()
-with open(os.path.join('pass_import', '__about__.py')) as file:
+with Path('pass_import', '__about__.py').open() as file:
     exec(file.read(), about)  # nosec pylint: disable=exec-used
 
 with open('README.md') as file:
     long_description = file.read()
+
+share = Path(sys.prefix, 'share')
+lib = Path(sys.prefix, 'lib', 'password-store', 'extensions')
+if '--user' in sys.argv:
+    lib = Path.home() / '.password-store' / 'extensions'
+    if 'XDG_DATA_HOME' in os.environ:
+        share = Path(os.environ['XDG_DATA_HOME'])
+    else:
+        share = Path.home() / '.local' / 'share'
 
 setup(
     name=about['__title__'],
@@ -29,6 +41,21 @@ setup(
         'pass_import.managers',
     ],
     scripts=['scripts/pimport'],
+    data_files=[
+        (str(share / 'man' / 'man1'), [
+            'share/man/man1/pass-import.1',
+            'share/man/man1/pimport.1',
+        ]),
+        (str(share / 'bash-completion' / 'completions'), [
+            'share/bash-completion/completions/pass-import',
+            'share/bash-completion/completions/pimport',
+        ]),
+        (str(share / 'zsh' / 'site-functions'), [
+            'share/zsh/site-functions/_pass-import',
+            'share/zsh/site-functions/_pimport',
+        ]),
+        (str(lib), ["scripts/import.bash"]),
+    ],
     install_requires=['pyaml'],
     extras_require={
         'xml': ['defusedxml'],
