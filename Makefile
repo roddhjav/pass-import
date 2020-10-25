@@ -41,7 +41,7 @@ security:
 
 export PYTHONPATH = ./
 docs:
-	@python3 docs/updatedoc.py
+	@python3 .updatedoc.py
 
 clean:
 	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \
