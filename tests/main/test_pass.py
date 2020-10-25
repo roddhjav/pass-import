@@ -28,8 +28,8 @@ class TestMainPass(tests.Test):
         self.main(cmd)
 
     def test_main_classname(self):
-        """Testing: pass import Roboform db/roboform.csv -vvv."""
-        cmd = ['Roboform', tests.db + 'roboform.csv', '-vvv']
+        """Testing: pass import Roboform db/roboform.csv -q."""
+        cmd = ['Roboform', tests.db + 'roboform.csv', '-q']
         self.main(cmd)
 
     def test_main_not_a_file(self):

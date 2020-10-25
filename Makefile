@@ -30,7 +30,7 @@ lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t pep257 -t pep8 -t pylint \
 		-t profile-validator -t pyflakes -t pyroma \
-		docs/updatedoc.py setup.py
+		.updatedoc.py setup.py
 	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t mypy -t pep257 -t pep8 -t pylint \
 		-t profile-validator -t pyflakes -t pyroma \

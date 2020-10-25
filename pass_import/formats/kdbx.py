@@ -141,7 +141,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
                                      password=getpassword(self.prefix),
                                      keyfile=self.keyfile)
         except (CredentialsError, PayloadChecksumError,
-                HeaderChecksumError) as error:
+                HeaderChecksumError) as error:  # pragma: no cover
             raise PMError(error)
 
     def close(self):
