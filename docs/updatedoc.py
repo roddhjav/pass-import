@@ -265,28 +265,28 @@ UPDATE = {
         ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', table_exporter()),
         ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', usage()),
     ],
-    'docs/pass-import.1': [
+    'share/man/man1/pass-import.1': [
         (r'\# NB BEGIN', r'\# NB END', '\n%d\n' % len(MANAGERS)),
         (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
     ],
-    'docs/pimport.1': [
+    'share/man/man1/pimport.1': [
         (r'\# NB BEGIN', r'\# NB END', '\n%d\n' % len(MANAGERS)),
         (r'\# NB EXPORT BEGIN', r'\# NB EXPORT END',
          '\n%d\n' % len(MANAGERS.names(Cap.EXPORT))),
         (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
         (r'\# LIST DST BEGIN', r'\# LIST DST END', usage_exporter()),
     ],
-    'completion/pass-import.bash': [
+    'share/bash-completion/completions/pass-import': [
         ('# importers begin', '# importers end', bash_importer()),
     ],
-    'completion/pass-import.zsh': [
+    'share/zsh/site-functions/_pass-import': [
         ('# importers begin', '# importers end', zsh_importer()),
     ],
-    'completion/pimport.bash': [
+    'share/bash-completion/completions/pimport': [
         ('# importers begin', '# importers end', bash_importer()),
         ('# exporter begin', '# importers begin', bash_exporter()),
     ],
-    'completion/pimport.zsh': [
+    'share/zsh/site-functions/_pimport': [
         ('# importers begin', '# importers end', zsh_importer()),
         ('# exporter begin', '# exporter end', zsh_exporter()),
     ],
