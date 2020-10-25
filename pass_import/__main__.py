@@ -280,14 +280,12 @@ def decryptsource(conf):
 def detectmanager(conf):
     """Detect file format and password manager."""
     prefix = ''
-    warn = True
     if len(conf['src']) == 1:
         name = conf['src'][0]
         if name in MANAGERS.names():
             conf.verbose("Using default manager.")
             detect = AutoDetect(name)
             pm = detect.default()
-            warn = False
 
         else:
             conf.verbose("Trying to guess file format and manager name.")
@@ -312,7 +310,6 @@ def detectmanager(conf):
 
             detect = AutoDetect(name, settings=conf.getsettings())
             pm = detect.format(to_detect)
-            warn = False
 
         elif name in MANAGERS.clsnames():
             detect = AutoDetect(name)
@@ -324,9 +321,6 @@ def detectmanager(conf):
 
     conf.verbose("Importer: %s, Format: %s, Version:"
                  " %s" % (pm.name, pm.format, pm.version))
-    if warn and pm == detect.default(pm.name):
-        conf.warning("Unable to detect the %s format for %s, using the "
-                     "default %s importer" % (pm.name, prefix, pm.name))
 
     if 'plaintext' in conf:
         conf['in'] = io.StringIO(conf['plaintext'])
