@@ -59,7 +59,7 @@ prospector:
   image: python:latest
   allow_failure: True
   before_script:
-    - pip install prospector[with_everything] defusedxml
+    - pip install prospector[with_everything] defusedxml dominate
   script:
     - make lint
 
