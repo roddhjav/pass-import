@@ -6,6 +6,32 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog`_.
 
 
+`3.1`_ - 2020-10-25
+-------------------
+
+Added
+~~~~~
+- Support for direct classname selection.
+- Support for `pyhton-magic` `#115 <https://github.com/roddhjav/pass-import/pull/115>`__
+- Support for the `--root` option in keepass.  `#112 <https://github.com/roddhjav/pass-import/issues/112>`__ 
+- Support for custom fields in Bitwarden. `#111 <https://github.com/roddhjav/pass-import/pull/111>`__ 
+
+Changed
+~~~~~~~
+- Use setup.py to manage the full installation.
+- Support for `pykeepass` 3.2.1
+
+Fixed
+~~~~~
+- Ensure each pass entry has a name. `#118 <https://github.com/roddhjav/pass-import/issues/118>`__
+- Rewrite PasswordStore.list() with Pathlib. `#109 <https://github.com/roddhjav/pass-import/pull/109>`__
+- New Chrome documentation. `#106 <https://github.com/roddhjav/pass-import/pull/106>`__
+- Ensure the password manager action is a capability. `#105 <https://github.com/roddhjav/pass-import/issues/105>`__
+- Fix import.bash path in local make target `#104 <https://github.com/roddhjav/pass-import/pull/104>`__
+- Ensure the magic module is `file-magic`. `#103 <https://github.com/roddhjav/pass-import/issues/103>`__
+- Update Buttercup CSV format. `#102 <https://github.com/roddhjav/pass-import/issues/102>`__
+
+
 `3.0`_ - 2020-04-26
 -------------------
 
@@ -25,30 +51,31 @@ Added
   password-store anymore. More destination password manager support will be
   added in future releases. In this release, it supports the following
   destination password manager:
-    * ``keepass``
-    * ``csv``
-    * and also to ``pass``.
+
+  * ``keepass``
+  * ``csv``
+  * and also to ``pass``.
 
 - For a given manager name, pass-import automatically detects the format of the
   file to import and uses the importer accordingly.
 - pass-import can file encrypted by one of the supported algo before to import it.
 - pass import is now available in three way:
 
-   - As a ``pass`` extension ``pass import``
-   - As an independant command line program: ``pimport``
-   - As a python library ``pass_import``
+  * As a ``pass`` extension ``pass import``
+  * As an independant command line program: ``pimport``
+  * As a python library ``pass_import``
 
 - Added support for the following password managers:
 
-    - Bitwarden (json)
-    - Clipperz (html)
-    - Dashlane (json)
-    - Freeotp+ (json)
-    - Padlock (csv)
-    - Passman (csv and json)
-    - Passpack (csv)
-    - Saferpass (csv)
-    - Zoho (csv)
+  * Bitwarden (json)
+  * Clipperz (html)
+  * Dashlane (json)
+  * Freeotp+ (json)
+  * Padlock (csv)
+  * Passman (csv and json)
+  * Passpack (csv)
+  * Saferpass (csv)
+  * Zoho (csv)
 
 - Added Debian packaging.
 - Added pip packaging.
@@ -79,34 +106,34 @@ Added
 - Added support for binary attachements for manager that support it. `#63 <https://github.com/roddhjav/pass-import/issues/63>`__
 - Added support for the 10 following password managers: `#84 <https://github.com/roddhjav/pass-import/pull/84>`__
 
-  - passpie
-  - keeper
-  - keepass with kdbx file
-  - Gnome Keyring
-  - AndOTP for:
+  * passpie
+  * keeper
+  * keepass with kdbx file
+  * Gnome Keyring
+  * AndOTP for:
 
-      - password encrypted backup,
-      - plain text backup,
-      - GPG encrypted backup.
+    - password encrypted backup,
+    - plain text backup,
+    - GPG encrypted backup.
 
-  - Aegis for:
+  * Aegis for:
 
-      - plain backup,
-      - password encrypted backup.
+    * plain backup,
+    * password encrypted backup.
 
-  - Myki
-  - Gnome Authenticator
-  - Generic CSV
-  - password-store (yes it can import itself ;))
+  * Myki
+  * Gnome Authenticator
+  * Generic CSV
+  * password-store (yes it can import itself ;))
 
 - Added Importer docstring.
 - Added full docstring.
 - Added zsh completion.
 - Added the following optional dependencies:
 
-  - ``pykeepass``: Keepass import from KDBX file,
-  - ``secretstorage``: Gnome Keyring import,
-  - ``cryptography``: AndOTP & Aegis encrypted import.
+  * ``pykeepass``: Keepass import from KDBX file,
+  * ``secretstorage``: Gnome Keyring import,
+  * ``cryptography``: AndOTP & Aegis encrypted import.
 
 Changed
 ~~~~~~~
@@ -196,9 +223,9 @@ Added
 ~~~~~
 - Add support for the following importers:
 
-  - KeepassX 2 (``keepassx2``) `#45 <https://github.com/roddhjav/pass-import/issues/45>`__
-  - Chrome with sqlite3 (``chromesqlite``) `#42 <https://github.com/roddhjav/pass-import/issues/42>`__
-  - NetworkManager to import wifi passwords (``networkmanager``) `#39 <https://github.com/roddhjav/pass-import/pull/39>`__
+  * KeepassX 2 (``keepassx2``) `#45 <https://github.com/roddhjav/pass-import/issues/45>`__
+  * Chrome with sqlite3 (``chromesqlite``) `#42 <https://github.com/roddhjav/pass-import/issues/42>`__
+  * NetworkManager to import wifi passwords (``networkmanager``) `#39 <https://github.com/roddhjav/pass-import/pull/39>`__
 
 - Add a nice error if defusedxml is not present `#24 <https://github.com/roddhjav/pass-import/issues/24>`__
 - Add the few missing unit tests
@@ -220,9 +247,9 @@ Changed
 - Important clean-up & code improvement `#34 <https://github.com/roddhjav/pass-import/pull/34>`__.
 - Pwsafe: add support for:
 
-  - Multiline notes `#29 <https://github.com/roddhjav/pass-import/pull/29>`__,
-  - Password history `#30 <https://github.com/roddhjav/pass-import/pull/30>`__,
-  - Email `#32 <https://github.com/roddhjav/pass-import/pull/32>`__.
+  * Multiline notes `#29 <https://github.com/roddhjav/pass-import/pull/29>`__,
+  * Password history `#30 <https://github.com/roddhjav/pass-import/pull/30>`__,
+  * Email `#32 <https://github.com/roddhjav/pass-import/pull/32>`__.
 
 - Do not remove protocol in url `#31 <https://github.com/roddhjav/pass-import/pull/31>`__.
 - Update chrome CSV format for Chrome 66 `#26 <https://github.com/roddhjav/pass-import/pull/26>`__ & `#27 <https://github.com/roddhjav/pass-import/pull/27>`__.
@@ -300,6 +327,7 @@ Fixed
 
 - Initial release.
 
+.. _3.1: https://github.com/roddhjav/pass-import/releases/tag/v3.1
 .. _3.0: https://github.com/roddhjav/pass-import/releases/tag/v3.0
 .. _2.7: https://github.com/roddhjav/pass-import/releases/tag/v2.7
 .. _2.6: https://github.com/roddhjav/pass-import/releases/tag/v2.6
