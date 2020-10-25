@@ -94,6 +94,7 @@ importer:
 
     # -*- encoding: utf-8 -*-
     # pass import - Passwords importer swiss army knife
+    # Copyright (C) Year YourName <you@example.org>.
     #
 
     from pass_import.formats.csv import CSV
@@ -121,6 +122,7 @@ importer:
 
 
     register_managers(MyManagerCSV)
+
 
 2) Then, you will want to import the class ``MyManagerCSV`` in ``pass_import/managers/__init__.py``.
 
