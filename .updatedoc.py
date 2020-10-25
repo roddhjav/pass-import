@@ -19,10 +19,12 @@
 # This script updates the readme file in this repo.
 
 import io
+from dominate import tags
+from dominate.util import raw
 
 import pass_import
-from pass_import.core import Cap
 from pass_import.__main__ import ArgParser
+from pass_import.core import Cap
 
 MANAGERS = pass_import.Managers()
 
@@ -41,9 +43,11 @@ class ManagerMeta():
     """Generate curated password managers metadata."""
     guide = 'this guide: '
 
-    def __init__(self, pm, ext=True, md=True):
+    def __init__(self, pm, ext=True, mode='md'):
         self.pm = pm
-        self.md = md
+        self.man = mode == 'man'
+        self.markdown = mode == 'md'
+        self.html = mode == 'html'
         self.prog = 'pass import' if ext else 'pimport'
 
     def urlto_markdown(self, string):
@@ -61,15 +65,30 @@ class ManagerMeta():
             string += '\\fP'
         return string
 
+    def urlto_html(self, string):
+        """Convert to html link."""
+        if self.guide in string:
+            msg = string.split(self.guide)
+            url = msg.pop()
+            string = ''.join(msg) + "<a href=\"%s\">this guide</a>" % url
+        return string
+
+    def genrow(self):
+        """Generate the html row."""
+        tags.td(tags.code(self.format, self.version),
+                align='center', __pretty=False)
+        tags.td(tags.i(raw(self.hexport)), align='center', __pretty=False)
+        tags.td(tags.code(self.himport), align='center', __pretty=False)
+
     @property
     def format(self):
         """Get format formated."""
         res = ''
         if self.pm.format != '':
-            if self.md:
-                res = self.pm.format
-            else:
+            if self.man:
                 res = '(%s)' % self.pm.format
+            else:
+                res = self.pm.format
         return res
 
     @property
@@ -88,10 +107,13 @@ class ManagerMeta():
     @property
     def hexport(self):
         """Get export help formated."""
-        if self.md:
+        res = ''
+        if self.markdown:
             res = self.urlto_markdown(self.pm.hexport)
-        else:
+        elif self.man:
             res = self.urlto_man(self.pm.hexport)
+        elif self.html:
+            res = self.urlto_html(self.pm.hexport)
         if res == '':
             res = 'Nothing to do'
         return res
@@ -125,29 +147,28 @@ class ManagerMeta():
 
 def table_importer():
     """Generate the new importer table."""
-    res = (
-        '| **Password Manager** | **Formats** | **How to export Data** | **Command line** |\n'  # noqa
-        '|:--------------------:|:-----------:|:----------------------:|:----------------:|\n'  # noqa
-    )
-
     matrix = MANAGERS.matrix()
-    for name in sorted(matrix):
-        formats = []
-        hexports = []
-        himports = []
-        for pm in matrix[name]:
-            mm = ManagerMeta(pm, md=True)
-            formats.append('`%s%s`' % (mm.format, mm.version))
-            if len(hexports) == 0 or hexports[0] != mm.hexport:
-                hexports.append(mm.hexport)
-            himports.append(mm.himport)
-        frmt = ', '.join(formats)
-        hexport = '* **OR** *'.join(hexports)
-        himport = '` **OR** `'.join(himports)
+    with tags.table() as table:
+        with tags.thead():
+            tags.th('Password Manager', align="center")
+            tags.th('Formats', align="center")
+            tags.th('How to export Data', align="center")
+            tags.th('Command line', align="center")
+        with tags.tbody():
+            for name in sorted(matrix):
+                size = len(matrix[name])
+                mm = ManagerMeta(matrix[name].pop(0), mode='html')
+                with tags.tr():
+                    tags.td(tags.a(name, href=mm.url),
+                            rowspan=size, align="center", __pretty=False)
+                    mm.genrow()
 
-        res += "| [%s](%s) | %s | *%s* | `%s` |\n" % (name, mm.url, frmt,
-                                                      hexport, himport)
-    return "\n%s\n" % res
+                for pm in matrix[name]:
+                    with tags.tr():
+                        mm = ManagerMeta(pm, mode='html')
+                        mm.genrow()
+
+    return "\n%s\n" % table.render()
 
 
 def table_exporter():
@@ -160,7 +181,7 @@ def table_exporter():
     matrix = MANAGERS.matrix(Cap.EXPORT)
     for name in sorted(matrix):
         for pm in matrix[name]:
-            mm = ManagerMeta(pm, md=True)
+            mm = ManagerMeta(pm, mode='md')
             res += "| [%s](%s) | %s | `pimport %s src [src]` |\n" % (
                 name, mm.url, mm.format, name)
     return "\n%s\n" % res
@@ -182,7 +203,7 @@ def usage_importer(ext=True):
     matrix = MANAGERS.matrix()
     for name in sorted(matrix):
         for pm in matrix[name]:
-            mm = ManagerMeta(pm, ext, md=False)
+            mm = ManagerMeta(pm, ext, mode='man')
             res += "\n.TP\n\\fB%s %s%s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
                 name, mm.format, mm.version, mm.url)
             res += mm.usage
@@ -197,7 +218,7 @@ def usage_exporter():
     matrix = MANAGERS.matrix(Cap.EXPORT)
     for name in sorted(matrix):
         for pm in matrix[name]:
-            mm = ManagerMeta(pm, md=False)
+            mm = ManagerMeta(pm, mode='man')
             res += "\n.TP\n\\fB%s %s %s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
                 name, mm.format, mm.version, mm.url)
             res += mm.usage

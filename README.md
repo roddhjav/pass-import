@@ -31,48 +31,320 @@ database to a generic CSV file...
 **The following password managers are supported:**
 
 <!-- LIST BEGIN -->
-| **Password Manager** | **Formats** | **How to export Data** | **Command line** |
-|:--------------------:|:-----------:|:----------------------:|:----------------:|
-| [1password](https://1password.com) | `csv v6`, `1pif v4`, `csv v4` | *See [this guide](https://support.1password.com/export)* | `pass import 1password file.csv` **OR** `pass import 1password file.1pif` **OR** `pass import 1password file.csv` |
-| [aegis](https://github.com/beemdevelopment/Aegis) | `json`, `json` | *Settings> Tools: Export Plain* **OR** *Settings> Tools: Export encrypted* | `pass import aegis file.json` **OR** `pass import aegis file.json` |
-| [andotp](https://github.com/andOTP/andOTP) | `json` | *Backups> Backup plain* | `pass import andotp file.json` |
-| [apple-keychain](https://support.apple.com/guide/keychain-access) | `keychain` | *See [this guide](https://gist.github.com/santigz/601f4fd2f039d6ceb2198e2f9f4f01e0)* | `pass import applekeychain file.txt` |
-| [bitwarden](https://bitwarden.com) | `csv`, `json` | *Tools> Export Vault> File Format: .csv* **OR** *Tools> Export Vault> File Format: .json* | `pass import bitwarden file.csv` **OR** `pass import bitwarden file.json` |
-| [blur](https://abine.com) | `json`, `csv` | *Settings: Export Data: Export Blur Data* **OR** *Settings: Export Data: Export CSV: Accounts: Export CSV* | `pass import blur file.json` **OR** `pass import blur file.csv` |
-| [buttercup](https://buttercup.pw) | `csv` | *File > Export > Export File to CSV* | `pass import buttercup file.csv` |
-| [chrome](https://support.google.com/chrome) | `csv`, `csv` | *See [this guide](https://support.google.com/chrome/answer/95606#see)* | `pass import chrome file.csv` **OR** `pass import chrome file.csv` |
-| [clipperz](https://clipperz.is) | `html` | *Settings > Data > Export: HTML + JSON* | `pass import clipperz file.html` |
-| [csv]() | `csv` | *Nothing to do* | `pass import csv file.csv --cols 'url,login,,password'` |
-| [dashlane](https://www.dashlane.com) | `csv`, `json` | *File > Export > Unsecured Archive in CSV* **OR** *File > Export > Unsecured Archive in JSON* | `pass import dashlane file.csv` **OR** `pass import dashlane file.json` |
-| [encryptr](https://spideroak.com/encryptr) | `csv` | *Compile from source and follow instructions from [this guide](https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705)* | `pass import encryptr file.csv` |
-| [enpass](https://www.enpass.io) | `json v6`, `csv` | *Menu > File > Export > As JSON* **OR** *File > Export > As CSV* | `pass import enpass file.json` **OR** `pass import enpass file.csv` |
-| [firefox](https://github.com/kspearrin/ff-password-exporter) | `csv` | *Add-ons Prefs: Export Passwords: CSV* | `pass import firefox file.csv` |
-| [fpm](http://fpm.sourceforge.net) | `xml` | *File > Export Passwords: Plain XML* | `pass import fpm file.xml` |
-| [freeotp+](https://github.com/helloworld1/FreeOTPPlus) | `json` | *Settings> Export> Export JSON Format* | `pass import freeotp+ file.json` |
-| [gnome](https://wiki.gnome.org/Projects/GnomeKeyring) | `libsecret` | *Nothing to do* | `pass import gnome-keyring <label>` |
-| [gnome-auth](https://gitlab.gnome.org/World/Authenticator) | `json` | *Backup > in a plain-text JSON file* | `pass import gnome-authenticator file.json` |
-| [gorilla](https://github.com/zdia/gorilla/wiki) | `csv` | *File > Export: Yes: CSV Files* | `pass import gorilla file.csv` |
-| [kedpm](http://fpm.sourceforge.net) | `xml` | *File > Export Passwords: Plain XML* | `pass import kedpm file.xml` |
-| [keepass](https://www.keepass.info) | `kdbx`, `csv`, `xml` | *Nothing to do* **OR** *File > Export > Keepass (CSV)* **OR** *File > Export > Keepass (XML)* | `pass import keepass file.kdbx` **OR** `pass import keepass file.csv` **OR** `pass import keepass file.xml` |
-| [keepassx](https://www.keepassx.org) | `xml` | *File > Export to > Keepass XML File* | `pass import keepassx file.xml` |
-| [keepassx2](https://www.keepassx.org) | `kdbx`, `csv` | *Nothing to do* **OR** *Database > Export to CSV File* | `pass import keepassx2 file.kdbx` **OR** `pass import keepassx2 file.csv` |
-| [keepassxc](https://keepassxc.org) | `kdbx`, `csv` | *Nothing to do* **OR** *Database > Export to CSV File* | `pass import keepassxc file.kdbx` **OR** `pass import keepassxc file.csv` |
-| [keeper](https://keepersecurity.com) | `csv` | *Settings > Export : Export to CSV File* | `pass import keeper file.csv` |
-| [lastpass](https://www.lastpass.com) | `csv` | *More Options > Advanced > Export* | `pass import lastpass file.csv` |
-| [myki](https://myki.com) | `csv` | *See [this guide](https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki)* | `pass import myki file.csv` |
-| [network-manager](https://wiki.gnome.org/Projects/NetworkManager) | `nm` | *Also support specific networkmanager dir and ini file* | `pass import networkmanager` |
-| [padlock](https://padloc.app) | `csv` | *Settings > Export Data and copy text into a .csv file* | `pass import padlock file.csv` |
-| [pass](https://passwordstore.org) | `pass` | *Nothing to do* | `pass import pass path/to/store` |
-| [passman](https://passman.cc) | `csv`, `json` | *Settings > Export credentials  > Export type: CSV* **OR** *Settings > Export credentials  > Export type: JSON* | `pass import passman file.csv` **OR** `pass import passman file.json` |
-| [passpack](https://www.passpack.com) | `csv` | *Settings > Export > Save to CSV* | `pass import passpack file.csv` |
-| [passpie](https://www.enpass.io) | `yaml v1.0` | *`passpie export file.yml`* | `pass import passpie file.yml` |
-| [pwsafe](https://pwsafe.org) | `xml` | *File > Export To > XML Format* | `pass import pwsafe file.xml` |
-| [revelation](https://revelation.olasagasti.info) | `xml` | *File > Export: XML* | `pass import revelation file.xml` |
-| [roboform](https://www.roboform.com) | `csv` | *Roboform > Options > Data & Sync > Export To: CSV file* | `pass import roboform file.csv` |
-| [saferpass](https://saferpass.net) | `csv` | *Settings > Export Data: Export data* | `pass import saferpass file.csv` |
-| [upm](http://upm.sourceforge.net) | `csv` | *Database > Export* | `pass import upm file.csv` |
-| [zoho](https://www.zoho.com/vault) | `csv`, `csv` | *Tools > Export Secrets: Zoho Vault Format CSV* | `pass import zoho file.csv` **OR** `pass import zoho file.csv` |
-
+<table>
+  <thead>
+    <th align="center">Password Manager</th>
+    <th align="center">Formats</th>
+    <th align="center">How to export Data</th>
+    <th align="center">Command line</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" rowspan="3"><a href="https://1password.com">1password</a></td>
+      <td align="center"><code>csv v6</code></td>
+      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
+      <td align="center"><code>pass import 1password file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>1pif v4</code></td>
+      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
+      <td align="center"><code>pass import 1password file.1pif</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv v4</code></td>
+      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
+      <td align="center"><code>pass import 1password file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://github.com/beemdevelopment/Aegis">aegis</a></td>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Settings> Tools: Export Plain</i></td>
+      <td align="center"><code>pass import aegis file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Settings> Tools: Export encrypted</i></td>
+      <td align="center"><code>pass import aegis file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://github.com/andOTP/andOTP">andotp</a></td>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Backups> Backup plain</i></td>
+      <td align="center"><code>pass import andotp file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://support.apple.com/guide/keychain-access">apple-keychain</a></td>
+      <td align="center"><code>keychain</code></td>
+      <td align="center"><i>See <a href="https://gist.github.com/santigz/601f4fd2f039d6ceb2198e2f9f4f01e0">this guide</a></i></td>
+      <td align="center"><code>pass import applekeychain file.txt</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://bitwarden.com">bitwarden</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Tools> Export Vault> File Format: .csv</i></td>
+      <td align="center"><code>pass import bitwarden file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Tools> Export Vault> File Format: .json</i></td>
+      <td align="center"><code>pass import bitwarden file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://abine.com">blur</a></td>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Settings: Export Data: Export Blur Data</i></td>
+      <td align="center"><code>pass import blur file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings: Export Data: Export CSV: Accounts: Export CSV</i></td>
+      <td align="center"><code>pass import blur file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://buttercup.pw">buttercup</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>File > Export > Export File to CSV</i></td>
+      <td align="center"><code>pass import buttercup file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://support.google.com/chrome">chrome</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>See <a href="https://support.google.com/chrome/answer/95606#see">this guide</a></i></td>
+      <td align="center"><code>pass import chrome file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>See <a href="https://support.google.com/chrome/answer/95606#see">this guide</a></i></td>
+      <td align="center"><code>pass import chrome file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://clipperz.is">clipperz</a></td>
+      <td align="center"><code>html</code></td>
+      <td align="center"><i>Settings > Data > Export: HTML + JSON</i></td>
+      <td align="center"><code>pass import clipperz file.html</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="">csv</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import csv file.csv --cols 'url,login,,password'</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://www.dashlane.com">dashlane</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>File > Export > Unsecured Archive in CSV</i></td>
+      <td align="center"><code>pass import dashlane file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>File > Export > Unsecured Archive in JSON</i></td>
+      <td align="center"><code>pass import dashlane file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://spideroak.com/encryptr">encryptr</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Compile from source and follow instructions from <a href="https://github.com/SpiderOak/Encryptr/issues/295#issuecomment-322449705">this guide</a></i></td>
+      <td align="center"><code>pass import encryptr file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://www.enpass.io">enpass</a></td>
+      <td align="center"><code>json v6</code></td>
+      <td align="center"><i>Menu > File > Export > As JSON</i></td>
+      <td align="center"><code>pass import enpass file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>File > Export > As CSV</i></td>
+      <td align="center"><code>pass import enpass file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://github.com/kspearrin/ff-password-exporter">firefox</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Add-ons Prefs: Export Passwords: CSV</i></td>
+      <td align="center"><code>pass import firefox file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="http://fpm.sourceforge.net">fpm</a></td>
+      <td align="center"><code>xml</code></td>
+      <td align="center"><i>File > Export Passwords: Plain XML</i></td>
+      <td align="center"><code>pass import fpm file.xml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://github.com/helloworld1/FreeOTPPlus">freeotp+</a></td>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Settings> Export> Export JSON Format</i></td>
+      <td align="center"><code>pass import freeotp+ file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://wiki.gnome.org/Projects/GnomeKeyring">gnome</a></td>
+      <td align="center"><code>libsecret</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import gnome-keyring &lt;label&gt;</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://gitlab.gnome.org/World/Authenticator">gnome-auth</a></td>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Backup > in a plain-text JSON file</i></td>
+      <td align="center"><code>pass import gnome-authenticator file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://github.com/zdia/gorilla/wiki">gorilla</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>File > Export: Yes: CSV Files</i></td>
+      <td align="center"><code>pass import gorilla file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="http://fpm.sourceforge.net">kedpm</a></td>
+      <td align="center"><code>xml</code></td>
+      <td align="center"><i>File > Export Passwords: Plain XML</i></td>
+      <td align="center"><code>pass import kedpm file.xml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="3"><a href="https://www.keepass.info">keepass</a></td>
+      <td align="center"><code>kdbx</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import keepass file.kdbx</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>File > Export > Keepass (CSV)</i></td>
+      <td align="center"><code>pass import keepass file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>xml</code></td>
+      <td align="center"><i>File > Export > Keepass (XML)</i></td>
+      <td align="center"><code>pass import keepass file.xml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://www.keepassx.org">keepassx</a></td>
+      <td align="center"><code>xml</code></td>
+      <td align="center"><i>File > Export to > Keepass XML File</i></td>
+      <td align="center"><code>pass import keepassx file.xml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://www.keepassx.org">keepassx2</a></td>
+      <td align="center"><code>kdbx</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import keepassx2 file.kdbx</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Database > Export to CSV File</i></td>
+      <td align="center"><code>pass import keepassx2 file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://keepassxc.org">keepassxc</a></td>
+      <td align="center"><code>kdbx</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import keepassxc file.kdbx</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Database > Export to CSV File</i></td>
+      <td align="center"><code>pass import keepassxc file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://keepersecurity.com">keeper</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings > Export : Export to CSV File</i></td>
+      <td align="center"><code>pass import keeper file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://www.lastpass.com">lastpass</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>More Options > Advanced > Export</i></td>
+      <td align="center"><code>pass import lastpass file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://myki.com">myki</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>See <a href="https://support.myki.com/myki-app/exporting-your-passwords-from-the-myki-app/how-to-export-your-passwords-account-data-from-myki">this guide</a></i></td>
+      <td align="center"><code>pass import myki file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://wiki.gnome.org/Projects/NetworkManager">network-manager</a></td>
+      <td align="center"><code>nm</code></td>
+      <td align="center"><i>Also support specific networkmanager dir and ini file</i></td>
+      <td align="center"><code>pass import networkmanager</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://padloc.app">padlock</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings > Export Data and copy text into a .csv file</i></td>
+      <td align="center"><code>pass import padlock file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://passwordstore.org">pass</a></td>
+      <td align="center"><code>pass</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import pass path/to/store</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://passman.cc">passman</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings > Export credentials  > Export type: CSV</i></td>
+      <td align="center"><code>pass import passman file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Settings > Export credentials  > Export type: JSON</i></td>
+      <td align="center"><code>pass import passman file.json</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://www.passpack.com">passpack</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings > Export > Save to CSV</i></td>
+      <td align="center"><code>pass import passpack file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://www.enpass.io">passpie</a></td>
+      <td align="center"><code>yaml v1.0</code></td>
+      <td align="center"><i>`passpie export file.yml`</i></td>
+      <td align="center"><code>pass import passpie file.yml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://pwsafe.org">pwsafe</a></td>
+      <td align="center"><code>xml</code></td>
+      <td align="center"><i>File > Export To > XML Format</i></td>
+      <td align="center"><code>pass import pwsafe file.xml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://revelation.olasagasti.info">revelation</a></td>
+      <td align="center"><code>xml</code></td>
+      <td align="center"><i>File > Export: XML</i></td>
+      <td align="center"><code>pass import revelation file.xml</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://www.roboform.com">roboform</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Roboform > Options > Data & Sync > Export To: CSV file</i></td>
+      <td align="center"><code>pass import roboform file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://saferpass.net">saferpass</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings > Export Data: Export data</i></td>
+      <td align="center"><code>pass import saferpass file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="http://upm.sourceforge.net">upm</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Database > Export</i></td>
+      <td align="center"><code>pass import upm file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="2"><a href="https://www.zoho.com/vault">zoho</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Tools > Export Secrets: Zoho Vault Format CSV</i></td>
+      <td align="center"><code>pass import zoho file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Tools > Export Secrets: Zoho Vault Format CSV</i></td>
+      <td align="center"><code>pass import zoho file.csv</code></td>
+    </tr>
+  </tbody>
+</table>
 <!-- LIST END -->
 
 
@@ -111,9 +383,8 @@ pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
 ### Help
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C]
-                   [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG]
-                   [-l] [-h] [-V] [-v | -q]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR] [--del CHAR] [--cols COLS]
+                   [--config CONFIG] [-l] [-h] [-V] [-v | -q]
                    [src [src ...]]
 
   Import data from most of the password manager. Passwords are imported into
@@ -121,16 +392,12 @@ usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C]
   been initialised before with 'pass init'.
 
 Password managers:
-  src                   Path to the data to import. Can also be the password
-                        manager name followed by the path to the data to
-                        import. The password manager name can be: 1password,
-                        aegis, andotp, apple-keychain, bitwarden, blur,
-                        buttercup, chrome, clipperz, csv, dashlane, encryptr,
-                        enpass, firefox, fpm, freeotp+, gnome, gnome-auth,
-                        gorilla, kedpm, keepass, keepassx, keepassx2,
-                        keepassxc, keeper, lastpass, myki, network-manager,
-                        padlock, pass, passman, passpack, passpie, pwsafe,
-                        revelation, roboform, saferpass, upm, zoho
+  src                   Path to the data to import. Can also be the password manager name followed by the path to
+                        the data to import. The password manager name can be: 1password, aegis, andotp, apple-
+                        keychain, bitwarden, blur, buttercup, chrome, clipperz, csv, dashlane, encryptr, enpass,
+                        firefox, fpm, freeotp+, gnome, gnome-auth, gorilla, kedpm, keepass, keepassx, keepassx2,
+                        keepassxc, keeper, lastpass, myki, network-manager, padlock, pass, passman, passpack,
+                        passpie, pwsafe, revelation, roboform, saferpass, upm, zoho
 
 Common optional arguments:
   -r path, --root path  Only import the password from a specific subfolder.
@@ -142,12 +409,9 @@ Common optional arguments:
   -C, --convert         Convert invalid characters present in the paths.
 
 Extra optional arguments:
-  --sep CHAR            Provide a characters of replacement for the path
-                        separator. Default: '-'
-  --del CHAR            Provide an alternative CSV delimiter character.
-                        Default: ','
-  --cols COLS           CSV expected columns to map columns to credential
-                        attributes. Only used by the csv importer.
+  --sep CHAR            Provide a characters of replacement for the path separator. Default: '-'
+  --del CHAR            Provide an alternative CSV delimiter character. Default: ','
+  --cols COLS           CSV expected columns to map columns to credential attributes. Only used by the csv importer.
   --config CONFIG       Set a config file. Default: '.import'
 
 Help related optional arguments:
@@ -360,7 +624,6 @@ nix-env -iA nixos.passExtensions.pass-import
 ```sh
 pip install pass-import
 ```
-This only install the python module and the `pimport` script, not the extension.
 
 **From git**
 ```sh
