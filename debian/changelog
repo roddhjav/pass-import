@@ -1,3 +1,9 @@
+pass-import (3.1-1) unstable; urgency=medium
+
+  * pass-import 3.1
+
+ -- Alexandre Pujol <alexandre@pujol.io>  Fri, 25 Oct 2020 22:06:30 +0100
+
 pass-import (3.0-1) unstable; urgency=medium
 
   * Initial release

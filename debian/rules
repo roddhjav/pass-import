@@ -5,9 +5,5 @@ export PYBUILD_NAME=pass-import
 %:
 	dh $@ --with python3 --buildsystem=pybuild
 
-override_dh_auto_install:
-	dh_auto_install
-	$(MAKE) DESTDIR=$$(pwd)/debian/pass-extension-import PYTHON=no install
-
 override_dh_auto_test:
 	echo "Skip tests"
