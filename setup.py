@@ -18,7 +18,10 @@ with open('README.md') as file:
 share = Path(sys.prefix, 'share')
 lib = Path('/usr', 'lib', 'password-store', 'extensions')
 if '--user' in sys.argv:
-    lib = Path.home() / '.password-store' / 'extensions'
+    if 'PASSWORD_STORE_EXTENSIONS_DIR' in os.environ:
+        lib = Path(os.environ['PASSWORD_STORE_EXTENSIONS_DIR'])
+    else:
+        lib = Path.home() / '.password-store' / '.extensions'
     if 'XDG_DATA_HOME' in os.environ:
         share = Path(os.environ['XDG_DATA_HOME'])
     else:
