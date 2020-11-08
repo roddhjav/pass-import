@@ -157,15 +157,12 @@ def table_importer():
         with tags.tbody():
             for name in sorted(matrix):
                 size = len(matrix[name])
-                mm = ManagerMeta(matrix[name].pop(0), mode='html')
-                with tags.tr():
-                    tags.td(tags.a(name, href=mm.url),
-                            rowspan=size, align="center", __pretty=False)
-                    mm.genrow()
-
-                for pm in matrix[name]:
+                for idx, pm in enumerate(matrix[name]):
                     with tags.tr():
                         mm = ManagerMeta(pm, mode='html')
+                        if idx == 0:
+                            tags.td(tags.a(name, href=mm.url), rowspan=size,
+                                    align="center", __pretty=False)
                         mm.genrow()
 
     return "\n%s\n" % table.render()
