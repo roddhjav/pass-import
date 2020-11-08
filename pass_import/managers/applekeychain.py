@@ -129,11 +129,7 @@ class AppleKeychain(Formatter, PasswordImporter):
         return key, data
 
     def parse(self):
-        """Parse apple-keychain format by converting it in yaml first.
-
-        Requires python3-defusedxml due to internal XML string to decode.
-
-        """
+        """Parse apple-keychain format by converting it in yaml first."""
         yamls = self.keychain2yaml(self.file)
         keys = self.invkeys()
         for block in yamls:
