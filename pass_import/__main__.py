@@ -350,7 +350,7 @@ def pass_import(conf, cls_import):
         conf.verbose(error)
         err = ("Importing %s, missing required dependency: %s\n"
                "You can install it with:\n  'pip3 install %s'" %
-               (conf['manager'], error.name, error.name))
+               (conf['importer'], error.name, error.name))
         if error.name not in ['pykeepass']:
             err += ", or\n  'sudo apt-get install python3-%s'" % error.name
         conf.die(err)
