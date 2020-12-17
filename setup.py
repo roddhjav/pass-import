@@ -16,7 +16,11 @@ with open('README.md') as file:
     long_description = file.read()
 
 share = Path(sys.prefix, 'share')
-lib = Path('/usr', 'lib', 'password-store', 'extensions')
+base = '/usr'
+if os.uname().sysname == 'Darwin':
+    base = '/usr/local'
+lib = Path(base, 'lib', 'password-store', 'extensions')
+
 if '--user' in sys.argv:
     if 'PASSWORD_STORE_EXTENSIONS_DIR' in os.environ:
         lib = Path(os.environ['PASSWORD_STORE_EXTENSIONS_DIR'])
