@@ -31,6 +31,7 @@ from pass_import.managers.passman import PassmanCSV, PassmanJSON
 from pass_import.managers.passpack import Passpack
 from pass_import.managers.passpie import Passpie
 from pass_import.managers.passwordstore import PasswordStore
+from pass_import.managers.gopass import Gopass
 from pass_import.managers.pwsafe import Pwsafe
 from pass_import.managers.revelation import Revelation
 from pass_import.managers.roboform import Roboform

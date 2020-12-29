@@ -55,7 +55,7 @@ class PasswordStore(CLI, Formatter):
         if prefix:
             self.prefix = prefix
         if 'PASSWORD_STORE_DIR' not in self.env or self.prefix is None:
-            raise PMError("pass prefix unknown")
+            raise PMError("{} prefix unknown".format(self.name))
 
     @property
     def prefix(self):

@@ -188,6 +188,12 @@ database to a generic CSV file...
       <td align="center"><code>pass import gnome-authenticator file.json</code></td>
     </tr>
     <tr>
+      <td align="center" rowspan="1"><a href="https://www.gopass.pw/">gopass</a></td>
+      <td align="center"><code>pass</code></td>
+      <td align="center"><i>Nothing to do</i></td>
+      <td align="center"><code>pass import gopass path/to/store</code></td>
+    </tr>
+    <tr>
       <td align="center" rowspan="1"><a href="https://github.com/zdia/gorilla/wiki">gorilla</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>File > Export: Yes: CSV Files</i></td>
