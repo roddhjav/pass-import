@@ -56,8 +56,13 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         keys = self.invkeys()
         for attr in self.attributes:
             if hasattr(kpentry, attr):
-                entry[keys.get(attr, attr)] = getattr(kpentry, attr)
+                value = getattr(kpentry, attr)
+                if isinstance(value, str):
+                    value = self._subref(value)
+                entry[keys.get(attr, attr)] = value
         for key, value in kpentry.custom_properties.items():
+            if isinstance(value, str):
+                value = self._subref(value)
             entry[key] = value
         return entry
 
