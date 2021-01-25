@@ -91,8 +91,15 @@ Enpass6:
 FigaroPM:
   path: fpm.xml
 
-FirefoxPasswordExporter:
+Firefox:
   path: firefox.csv
+  without:
+    - group
+    - comments
+    - url
+
+FirefoxPasswordExporter:
+  path: ff-password-exporter.csv
   without:
     - group
     - comments
