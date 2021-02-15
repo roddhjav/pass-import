@@ -36,7 +36,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     keys = {'login': 'username', 'comments': 'notes', 'group': 'path'}
     attributes = {
         'title', 'username', 'password', 'url', 'notes', 'icon', 'tags',
-        'autotype_enabled', 'autotype_sequence', 'path', 'is_a_history_entry'
+        'autotype_enabled', 'autotype_sequence', 'is_a_history_entry'
     }
 
     def __init__(self, prefix=None, settings=None):
@@ -50,6 +50,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
 
     def _getentry(self, kpentry):
         entry = dict()
+        entry['group'] = os.sep.join(kpentry.path)
         keys = self.invkeys()
         for attr in self.attributes:
             if hasattr(kpentry, attr):
@@ -61,7 +62,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     def parse(self):
         """Parse Keepass KDBX3 and KDBX4 files."""
         for kpentry in self.keepass.entries:
-            if self.root not in kpentry.path:
+            if self.root not in os.sep.join(kpentry.path):
                 continue
             entry = self._getentry(kpentry)
             entry['group'] = os.path.dirname(entry['group'])
