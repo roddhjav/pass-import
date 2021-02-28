@@ -4,6 +4,8 @@
 #
 
 import os
+import re
+import uuid
 
 try:
     from pykeepass import PyKeePass
@@ -38,6 +40,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         'title', 'username', 'password', 'url', 'notes', 'icon', 'tags',
         'autotype_enabled', 'autotype_sequence', 'is_a_history_entry'
     }
+    reference = re.compile('\{REF:([A-Z])@I:([0-9A-F]{32})\}')
 
     def __init__(self, prefix=None, settings=None):
         self.keepass = None
@@ -54,10 +57,36 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         keys = self.invkeys()
         for attr in self.attributes:
             if hasattr(kpentry, attr):
-                entry[keys.get(attr, attr)] = getattr(kpentry, attr)
+                value = getattr(kpentry, attr)
+                if isinstance(value, str):
+                    value = self._subref(value)
+                entry[keys.get(attr, attr)] = value
         for key, value in kpentry.custom_properties.items():
+            if isinstance(value, str):
+                value = self._subref(value)
             entry[key] = value
         return entry
+
+    def _subref(self, value):
+        while True:
+            match = self.reference.search(value)
+            if match == None:
+                break
+            cat, id = match.group(1, 2)
+            if cat != 'U' and cat != 'P':
+                break
+            start, end = match.start(0), match.end(0)
+            kpentry = self.keepass.find_entries(uuid=uuid.UUID(id))[0]
+            if kpentry == None:
+                value = value[:start] + value[end:]
+            else:
+                attr = 'password' if cat == 'P' else 'username'
+                if hasattr(kpentry, attr):
+                    attr = getattr(kpentry, attr)
+                    value = value[:start] + (attr if attr != None else '') + value[end:]
+                else:
+                    value = value[:start] + value[end:]
+        return value
 
     def parse(self):
         """Parse Keepass KDBX3 and KDBX4 files."""
