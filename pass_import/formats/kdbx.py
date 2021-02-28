@@ -40,7 +40,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         'title', 'username', 'password', 'url', 'notes', 'icon', 'tags',
         'autotype_enabled', 'autotype_sequence', 'is_a_history_entry'
     }
-    reference = re.compile('\{REF:([A-Z])@I:([0-9A-F]{32})\}')
+    reference = re.compile(r'\{REF:([A-Z])@I:([0-9A-F]{32})\}')
 
     def __init__(self, prefix=None, settings=None):
         self.keepass = None
@@ -70,20 +70,21 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     def _subref(self, value):
         while True:
             match = self.reference.search(value)
-            if match == None:
+            if match is None:
                 break
-            cat, id = match.group(1, 2)
-            if cat != 'U' and cat != 'P':
+            cat, attid = match.group(1, 2)
+            if cat not in ('U', 'P'):
                 break
             start, end = match.start(0), match.end(0)
-            kpentry = self.keepass.find_entries(uuid=uuid.UUID(id))[0]
-            if kpentry == None:
+            kpentry = self.keepass.find_entries(uuid=uuid.UUID(attid))[0]
+            if kpentry is None:
                 value = value[:start] + value[end:]
             else:
                 attr = 'password' if cat == 'P' else 'username'
                 if hasattr(kpentry, attr):
                     attr = getattr(kpentry, attr)
-                    value = value[:start] + (attr if attr != None else '') + value[end:]
+                    value = value[:start] + \
+                        (attr if attr is not None else '') + value[end:]
                 else:
                     value = value[:start] + value[end:]
         return value
