@@ -65,7 +65,44 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             if isinstance(value, str):
                 value = self._subref(value)
             entry[key] = value
+        otpauth = self._getotpauth(kpentry.custom_properties)
+        if otpauth:
+            entry['otpauth'] = otpauth
         return entry
+
+    def _getotpauth(self, properties):
+        # KeeWeb style
+        if 'otp' in properties:
+            return properties['otp']
+
+        issuer = 'Imported'
+        # KeePass 2.47 {TIMEOTP} style
+        if 'TimeOtp-Secret-Base32' in properties:
+            seed = properties['TimeOtp-Secret-Base32']
+            # TODO: support other secret formats, or actually specifying settings
+            digits = '6'
+        # KeeTrayTOTP style
+        elif 'TOTP Seed' in properties:
+            seed = properties['TOTP Seed']
+            # Special-case Steam
+            if 'TOTP Settings' in properties and properties['TOTP Settings'] == '30;S':
+                # Android Password Store checks for digits==s
+                # https://github.com/android-password-store/Android-Password-Store/blob/5e66d99c852ea67a88b650c03b0e8d55e83eccde/app/src/main/java/dev/msfjarvis/aps/util/totp/Otp.kt#L41
+                digits = 's'
+                # pass-otp, via Pass::Otp, checks for issuer=~Steam
+                # https://github.com/tadfisher/pass-otp/issues/97
+                # https://github.com/baierjan/Pass-OTP-perl/blob/10242388a9ce6633a3f39697e1a4b2af079b7f77/lib/Pass/OTP.pm#L140
+                issuer = 'Steam'
+            else:
+                # TODO: parse non-'30;6' settings
+                digits = '6'
+        else:
+            return None
+
+        # Many sites print the secret with spaces
+        seed = seed.replace(' ', '')
+
+        return f'otpauth://totp/totp-secret?secret={seed}&issuer={issuer}&digits={digits}&period=30'
 
     def _subref(self, value):
         while True:

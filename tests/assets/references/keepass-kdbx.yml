@@ -18,3 +18,28 @@
 
 - title: tomb.jpg
   group: Bank
+
+- title: KeePass 2.47
+  group: TOTP
+  login: Fai1equu
+  password: ohMif6ee
+  url: https://keepass.info/help/base/placeholders.html#otp
+  otpauth: otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&issuer=Imported&digits=6&period=30
+
+- title: KeeTrayTOTP - Steam
+  group: TOTP
+  login: Xoh5Abai
+  password: Aem3goo6
+  otpauth: otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&issuer=Steam&digits=s&period=30
+
+- title: KeeWeb
+  group: TOTP
+  login: za4Aed2b
+  password: shei7Cha
+  otpauth: otpauth://totp/test?secret=vvtvjpfe6hlcoyo3dwdd3cse6xwtlwl4rmjuu3pqyc7x236jtmuvavwe&digits=6&period=30
+
+- title: Tray TOTP
+  group: TOTP
+  login: ug5ujaiH
+  password: ahd1leiL
+  otpauth: otpauth://totp/totp-secret?secret=giqavhvnaswlozlj457dpdsoz5tcnhov&issuer=Imported&digits=6&period=30
