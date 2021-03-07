@@ -705,7 +705,7 @@ with LastpassCSV('lastpass-export.csv') as importer:
 
 ## Contribution
 Feedback, contributors, pull requests are all very welcome. Please read the
-[`CONTRIBUTING.md`](CONTRIBUTING.md) file for more details on the contribution process.
+[`CONTRIBUTING.rst`](CONTRIBUTING.rst) file for more details on the contribution process.
 
 
 ## License
