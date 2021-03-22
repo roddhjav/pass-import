@@ -47,7 +47,11 @@ setup(
         'pass_import.formats',
         'pass_import.managers',
     ],
-    scripts=['scripts/pimport'],
+    entry_points={
+      "console_scripts": [
+        "pimport = pass_import.__main__:main",
+      ]
+    },
     data_files=[
         (str(share / 'man' / 'man1'), [
             'share/man/man1/pass-import.1',
