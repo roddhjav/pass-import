@@ -27,6 +27,7 @@ variables:
   script:
     - mkdir -p ~/.local/share/keyrings/
     - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+    - pip3 install --upgrade pip
     - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage file-magic
     - make
     - dbus-run-session -- make tests
@@ -122,7 +123,7 @@ fedora:
   image: fedora
   extends: .distribution
   before_script:
-    - dnf -y install make gpg pass python3-pip grep which dbus dbus-daemon
+    - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus dbus-daemon
         gnome-keyring --setopt=install_weak_deps=False
 
 
