@@ -72,8 +72,9 @@ class PassmanJSON(JSON):
         jsons = json.loads(self.file.read())
         for item in jsons:
             entry = dict()
-            group = item.get('tags', [])[0]['text']
-            entry['group'] = group.replace('\\', os.sep)
+            if item['tags']:
+                group = item['tags'][0]['text']
+                entry['group'] = group.replace('\\', os.sep)
             custom_fields = item.get('custom_fields', [])
             for field in custom_fields:
                 item.update({field['label']: field['value']})
