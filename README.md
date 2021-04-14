@@ -56,7 +56,8 @@ database to a generic CSV file...
       <td align="center"><code>pass import 1password file.csv</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="2"><a href="https://github.com/beemdevelopment/Aegis">aegis</a></td>
+      <td align="center" rowspan="2"><a href="https://github.com/beemdevelopment/Aegis">aegis</a>
+        <a href="https://getaegis.app/"> | aegis app</a></td>
       <td align="center"><code>json</code></td>
       <td align="center"><i>Settings> Tools: Export Plain</i></td>
       <td align="center"><code>pass import aegis file.json</code></td>
@@ -124,7 +125,7 @@ database to a generic CSV file...
       <td align="center"><code>pass import clipperz file.html</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="1"><a href="">csv</a></td>
+      <td align="center" rowspan="1"><a>csv</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Nothing to do</i></td>
       <td align="center"><code>pass import csv file.csv --cols 'url,login,,password'</code></td>
@@ -359,7 +360,7 @@ database to a generic CSV file...
 <!-- LIST DST BEGIN -->
 | **Exporters Password Manager** | **Format** | **Command line** |
 |:------------------------------:|:----------:|:----------------:|
-| [csv]() | csv | `pimport csv src [src]` |
+| csv | csv | `pimport csv src [src]` |
 | [keepass](https://www.keepass.info) | kdbx | `pimport keepass src [src]` |
 | [keepassx2](https://www.keepassx.org) | kdbx | `pimport keepassx2 src [src]` |
 | [keepassxc](https://keepassxc.org) | kdbx | `pimport keepassxc src [src]` |
