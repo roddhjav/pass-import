@@ -12,7 +12,7 @@ the existing password manager.
 \fBpass import\fP is a password store extension allowing you to import your
 password database to a password store repository conveniently. It natively
 supports import from \# NB BEGIN
-53
+55
 \# NB END
 different password managers. More manager support can easily be added.
 
@@ -452,6 +452,14 @@ Command: pass import enpass file.csv
 
 .TP
 \fBfirefox (csv)\fP
+Website: \fIhttps://www.mozilla.org/en-US/firefox/lockwise/\fP
+
+Export: In about:logins Menu: Export logins
+
+Command: pass import firefox file.csv
+
+.TP
+\fBfirefox (csv)\fP
 Website: \fIhttps://github.com/kspearrin/ff-password-exporter\fP
 
 Export: Add-ons Prefs: Export Passwords: CSV
@@ -494,6 +502,14 @@ Website: \fIhttps://gitlab.gnome.org/World/Authenticator\fP
 Export: Backup > in a plain-text JSON file
 
 Command: pass import gnome-authenticator file.json
+
+.TP
+\fBgopass (gopass)\fP
+Website: \fIhttps://www.gopass.pw/\fP
+
+Export: Nothing to do
+
+Command: pass import gopass path/to/store
 
 .TP
 \fBgorilla (csv)\fP

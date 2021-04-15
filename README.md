@@ -11,7 +11,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from <!-- NB BEGIN -->53<!-- NB END --> different password managers.
+import from <!-- NB BEGIN -->55<!-- NB END --> different password managers.
 More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -158,7 +158,12 @@ database to a generic CSV file...
       <td align="center"><code>pass import enpass file.csv</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="1"><a href="https://github.com/kspearrin/ff-password-exporter">firefox</a></td>
+      <td align="center" rowspan="2"><a href="https://www.mozilla.org/en-US/firefox/lockwise/">firefox</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>In about:logins Menu: Export logins</i></td>
+      <td align="center"><code>pass import firefox file.csv</code></td>
+    </tr>
+    <tr>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Add-ons Prefs: Export Passwords: CSV</i></td>
       <td align="center"><code>pass import firefox file.csv</code></td>
@@ -189,7 +194,7 @@ database to a generic CSV file...
     </tr>
     <tr>
       <td align="center" rowspan="1"><a href="https://www.gopass.pw/">gopass</a></td>
-      <td align="center"><code>pass</code></td>
+      <td align="center"><code>gopass</code></td>
       <td align="center"><i>Nothing to do</i></td>
       <td align="center"><code>pass import gopass path/to/store</code></td>
     </tr>
@@ -360,6 +365,7 @@ database to a generic CSV file...
 | **Exporters Password Manager** | **Format** | **Command line** |
 |:------------------------------:|:----------:|:----------------:|
 | [csv]() | csv | `pimport csv src [src]` |
+| [gopass](https://www.gopass.pw/) | gopass | `pimport gopass src [src]` |
 | [keepass](https://www.keepass.info) | kdbx | `pimport keepass src [src]` |
 | [keepassx2](https://www.keepassx.org) | kdbx | `pimport keepassx2 src [src]` |
 | [keepassxc](https://keepassxc.org) | kdbx | `pimport keepassxc src [src]` |
@@ -389,21 +395,16 @@ pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
 ### Help
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR] [--del CHAR] [--cols COLS]
-                   [--config CONFIG] [-l] [-h] [-V] [-v | -q]
-                   [src [src ...]]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG] [-l] [-h] [-V] [-v | -q] [src ...]
 
   Import data from most of the password manager. Passwords are imported into
   the existing default password store; therefore, the password store must have
   been initialised before with 'pass init'.
 
 Password managers:
-  src                   Path to the data to import. Can also be the password manager name followed by the path to
-                        the data to import. The password manager name can be: 1password, aegis, andotp, apple-
-                        keychain, bitwarden, blur, buttercup, chrome, clipperz, csv, dashlane, encryptr, enpass,
-                        firefox, fpm, freeotp+, gnome, gnome-auth, gorilla, kedpm, keepass, keepassx, keepassx2,
-                        keepassxc, keeper, lastpass, myki, network-manager, padlock, pass, passman, passpack,
-                        passpie, pwsafe, revelation, roboform, saferpass, upm, zoho
+  src                   Path to the data to import. Can also be the password manager name followed by the path to the data to import. The password manager name can be: 1password, aegis, andotp, apple-keychain, bitwarden, blur,
+                        buttercup, chrome, clipperz, csv, dashlane, encryptr, enpass, firefox, fpm, freeotp+, gnome, gnome-auth, gopass, gorilla, kedpm, keepass, keepassx, keepassx2, keepassxc, keeper, lastpass, myki, network-manager,
+                        padlock, pass, passman, passpack, passpie, pwsafe, revelation, roboform, saferpass, upm, zoho
 
 Common optional arguments:
   -r path, --root path  Only import the password from a specific subfolder.

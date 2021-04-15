@@ -6,9 +6,9 @@ __password_store_extension_complete_import() {
 	# importers begin
 	local importers=(1password aegis andotp apple-keychain bitwarden blur 
 		buttercup chrome clipperz csv dashlane encryptr enpass firefox fpm 
-		freeotp+ gnome gnome-auth gorilla kedpm keepass keepassx keepassx2 
-		keepassxc keeper lastpass myki network-manager padlock pass passman 
-		passpack passpie pwsafe revelation roboform saferpass upm zoho)
+		freeotp+ gnome gnome-auth gopass gorilla kedpm keepass keepassx 
+		keepassx2 keepassxc keeper lastpass myki network-manager padlock pass 
+		passman passpack passpie pwsafe revelation roboform saferpass upm zoho)
 	# importers end
 	local args=(-r --root -p --path -k --key -a --all -f --force -c --clean
 		-C --convert --sep --del --cols --config -l --list -h --help

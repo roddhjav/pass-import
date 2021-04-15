@@ -26,11 +26,12 @@ _pimport () {
 			'dashlane:Importer for dashlane in CSV, JSON'
 			'encryptr:Importer for encryptr in CSV'
 			'enpass:Importer for enpass in JSON v6, CSV'
-			'firefox:Importer for firefox in CSV'
+			'firefox:Importer for firefox in CSV, CSV'
 			'fpm:Importer for fpm in XML'
 			'freeotp+:Importer for freeotp+ in JSON'
 			'gnome:Importer for gnome in LIBSECRET'
 			'gnome-auth:Importer for gnome-auth in JSON'
+			'gopass:Importer for gopass in GOPASS'
 			'gorilla:Importer for gorilla in CSV'
 			'kedpm:Importer for kedpm in XML'
 			'keepass:Importer for keepass in KDBX, CSV, XML'
@@ -62,6 +63,7 @@ _pimport () {
 		# exporter begin
 		subcommands=(
 			'csv:Exporter for csv in CSV'
+			'gopass:Exporter for gopass in GOPASS'
 			'keepass:Exporter for keepass in KDBX'
 			'keepassx2:Exporter for keepassx2 in KDBX'
 			'keepassxc:Exporter for keepassxc in KDBX'
