@@ -70,7 +70,8 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             entry['otpauth'] = otpauth
         return entry
 
-    def _getotpauth(self, properties):
+    @staticmethod
+    def _getotpauth(properties):
         # KeeWeb style
         if 'otp' in properties:
             return properties['otp']
@@ -79,20 +80,16 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         # KeePass 2.47 {TIMEOTP} style
         if 'TimeOtp-Secret-Base32' in properties:
             seed = properties['TimeOtp-Secret-Base32']
-            # TODO: support other secret formats, or actually specifying settings
             digits = '6'
+
         # KeeTrayTOTP style
         elif 'TOTP Seed' in properties:
             seed = properties['TOTP Seed']
             # Special-case Steam
-            if 'TOTP Settings' in properties and properties['TOTP Settings'] == '30;S':
-                # Android Password Store checks for digits==s
-                # https://github.com/android-password-store/Android-Password-Store/blob/5e66d99c852ea67a88b650c03b0e8d55e83eccde/app/src/main/java/dev/msfjarvis/aps/util/totp/Otp.kt#L41
-                digits = 's'
-                # pass-otp, via Pass::Otp, checks for issuer=~Steam
-                # https://github.com/tadfisher/pass-otp/issues/97
-                # https://github.com/baierjan/Pass-OTP-perl/blob/10242388a9ce6633a3f39697e1a4b2af079b7f77/lib/Pass/OTP.pm#L140
-                issuer = 'Steam'
+            if 'TOTP Settings' in properties \
+                    and properties['TOTP Settings'] == '30;S':
+                digits = 's'      # Android Password Store needs digits==s
+                issuer = 'Steam'  # pass-otp, via Pass::Otp, needs issuer=Steam
             else:
                 # TODO: parse non-'30;6' settings
                 digits = '6'
@@ -102,7 +99,9 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         # Many sites print the secret with spaces
         seed = seed.replace(' ', '')
 
-        return f'otpauth://totp/totp-secret?secret={seed}&issuer={issuer}&digits={digits}&period=30'
+        return ('otpauth://totp/totp-secret?'
+                'secret=%s&issuer=%s&digits=%s&period=30'
+                % (seed, issuer, digits))
 
     def _subref(self, value):
         while True:

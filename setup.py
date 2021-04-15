@@ -48,9 +48,9 @@ setup(
         'pass_import.managers',
     ],
     entry_points={
-      "console_scripts": [
-        "pimport = pass_import.__main__:main",
-      ]
+        "console_scripts": [
+            "pimport = pass_import.__main__:main",
+        ]
     },
     data_files=[
         (str(share / 'man' / 'man1'), [
