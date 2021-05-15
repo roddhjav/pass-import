@@ -636,8 +636,7 @@ pip install pass-import
 ```sh
 git clone https://github.com/roddhjav/pass-import/
 cd pass-import
-make
-sudo make install  # For OSX: make install PREFIX=/usr/local
+python3 setup.py install
 ```
 
 **Stable version**
@@ -645,8 +644,7 @@ sudo make install  # For OSX: make install PREFIX=/usr/local
 wget https://github.com/roddhjav/pass-import/releases/download/v3.1/pass-import-3.1.tar.gz
 tar xzf pass-import-3.1.tar.gz
 cd pass-import-3.1
-make
-sudo make install  # For OSX: make install PREFIX=/usr/local
+python3 setup.py install
 ```
 
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
@@ -659,11 +657,13 @@ gpg --verify pass-import-3.1.tar.gz.asc
 
 **Local install**
 
-Alternatively, from git or a stable version you can do a local install with:
+Alternatively, from git or from a stable version you can do a local install with:
 ```sh
 cd pass-import
-make local
+python3 setup.py install --user
 ```
+Remember to set `PASSWORD_STORE_ENABLE_EXTENSIONS` to `true` for the local
+extension to be enabled.
 
 
 ## The import Library
