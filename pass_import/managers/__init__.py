@@ -11,7 +11,7 @@ from pass_import.managers.dashlane import DashlaneCSV, DashlaneJSON
 from pass_import.managers.encryptr import Encryptr
 from pass_import.managers.enpass import Enpass, Enpass6
 from pass_import.managers.figaropm import FigaroPM
-from pass_import.managers.firefox import FirefoxPasswordExporter
+from pass_import.managers.firefox import Firefox, FirefoxPasswordExporter
 from pass_import.managers.freeotp import FreeOTPPlus
 from pass_import.managers.gnomeauthenticator import GnomeAuthenticator
 from pass_import.managers.gnomekeyring import GnomeKeyring
