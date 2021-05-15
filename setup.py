@@ -65,7 +65,7 @@ setup(
             'share/zsh/site-functions/_pass-import',
             'share/zsh/site-functions/_pimport',
         ]),
-        (str(lib), ["scripts/import.bash"]),
+        (str(lib), ["import.bash"]),
     ],
     install_requires=['pyaml'],
     extras_require={
