@@ -58,7 +58,7 @@ shellcheck:
   stage: lint
   image: koalaman/shellcheck-alpine
   script:
-    - shellcheck --shell=bash scripts/*
+    - shellcheck --shell=bash import.bash
 
 prospector:
   stage: lint
