@@ -579,7 +579,7 @@ invalids:
 ```
 
 
-## Installation
+## Installation [<img src="https://repology.org/badge/vertical-allrepos/pass-import.svg" align="right">][repology-link]
 
 **Requirements**
 * `pass 1.7.0` or greater.
@@ -737,6 +737,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [quality-link]: https://www.codacy.com/app/roddhjav/pass-import
 [release]: https://img.shields.io/github/release/roddhjav/pass-import.svg?maxAge=600&style=flat-square
 [release-link]: https://github.com/roddhjav/pass-import/releases/latest
+[repology-link]: https://repology.org/project/pass-import/versions
 
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
