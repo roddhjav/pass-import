@@ -48,6 +48,7 @@ class BitwardenJSON(JSON):
         'comments': 'notes',
     }
     json_header = {
+        'encrypted': False,
         'folders': [{
             'id': str,
             'name': str

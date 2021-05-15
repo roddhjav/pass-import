@@ -1,4 +1,5 @@
 {
+  "encrypted": false,
   "folders": [
     {
       "id": "f694c031-d547-421c-93e1-aad30008b3e1",
@@ -34,6 +35,13 @@
       "name": "aib",
       "notes": null,
       "favorite": false,
+      "fields": [
+        {
+          "name": "pin",
+          "value": "462916",
+          "type": 0
+        }
+      ],
       "login": {
         "uris": [
           {
