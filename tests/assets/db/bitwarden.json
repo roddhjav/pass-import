@@ -2,35 +2,35 @@
   "encrypted": false,
   "folders": [
     {
-      "id": "f694c031-d547-421c-93e1-aad30008b3e1",
+      "id": "ad88b233-3418-4ea9-b05d-ad290128d286",
       "name": "Bank"
     },
     {
-      "id": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
+      "id": "cecadee9-488c-4c27-88b5-ad290128dd2b",
       "name": "CornerCases"
     },
     {
-      "id": "bcda1361-ed24-4b10-90ba-aad30008b3e1",
+      "id": "25426b6f-cb3f-40fa-9277-ad290128e403",
       "name": "Emails"
     },
     {
-      "id": "b4eaaf60-9486-4cbb-b178-aad30008b3e1",
+      "id": "3a0df97b-cc85-4949-b7ba-ad2901290f34",
       "name": "Emails/WS"
     },
     {
-      "id": "5da50eb7-767b-4d93-aa47-aad30008b3e1",
+      "id": "ece7384b-6ca0-4fee-bad4-ad290128ec3a",
       "name": "Servers"
     },
     {
-      "id": "9acaec4b-f9b8-476c-8c96-aad30008b3e1",
+      "id": "fe319b05-e893-4c56-99b9-ad290128f306",
       "name": "Social"
     }
   ],
   "items": [
     {
-      "id": "6f71426f-fc6e-4d81-a85b-aad30008b3e1",
+      "id": "b524d15d-6446-4a70-9c36-ad290128686f",
       "organizationId": null,
-      "folderId": "f694c031-d547-421c-93e1-aad30008b3e1",
+      "folderId": "ad88b233-3418-4ea9-b05d-ad290128d286",
       "type": 1,
       "name": "aib",
       "notes": null,
@@ -39,6 +39,11 @@
         {
           "name": "pin",
           "value": "462916",
+          "type": 0
+        },
+        {
+          "name": "oldpin",
+          "value": "489019",
           "type": 0
         }
       ],
@@ -56,9 +61,9 @@
       "collectionIds": null
     },
     {
-      "id": "5744f5b6-6f4d-407d-ae89-aad30008b3e1",
+      "id": "ff62c44b-6b74-45c8-b150-ad290128686f",
       "organizationId": null,
-      "folderId": "bcda1361-ed24-4b10-90ba-aad30008b3e1",
+      "folderId": "25426b6f-cb3f-40fa-9277-ad290128e403",
       "type": 1,
       "name": "dpbx@afoqwdr.tx",
       "notes": null,
@@ -77,9 +82,9 @@
       "collectionIds": null
     },
     {
-      "id": "286c8e6c-d9bc-41ba-81c7-aad30008b3e1",
+      "id": "4d6ddd1a-d357-4b9f-b535-ad290128686f",
       "organizationId": null,
-      "folderId": "b4eaaf60-9486-4cbb-b178-aad30008b3e1",
+      "folderId": "3a0df97b-cc85-4949-b7ba-ad2901290f34",
       "type": 1,
       "name": "dpbx@fner.ws",
       "notes": "For financial purpose only!",
@@ -92,9 +97,9 @@
       "collectionIds": null
     },
     {
-      "id": "78d5b7af-bcd8-40d7-a778-aad30008b3e1",
+      "id": "7bd14aa0-b74a-4632-9af9-ad290128686f",
       "organizationId": null,
-      "folderId": "bcda1361-ed24-4b10-90ba-aad30008b3e1",
+      "folderId": "25426b6f-cb3f-40fa-9277-ad290128e403",
       "type": 1,
       "name": "dpbx@klivak.xb",
       "notes": "This is a garbage address",
@@ -107,9 +112,9 @@
       "collectionIds": null
     },
     {
-      "id": "7771c473-cf56-4753-a500-aad30008b3e1",
+      "id": "4e700c00-e49d-437c-a7ba-ad290128686f",
       "organizationId": null,
-      "folderId": "b4eaaf60-9486-4cbb-b178-aad30008b3e1",
+      "folderId": "3a0df97b-cc85-4949-b7ba-ad2901290f34",
       "type": 1,
       "name": "dpbx@mnyfymt.ws",
       "notes": null,
@@ -128,24 +133,22 @@
       "collectionIds": null
     },
     {
-      "id": "24400278-18b2-408e-aa72-aad30008b3e1",
+      "id": "9fe3db1b-4bbf-4643-9ebd-ad290128686f",
       "organizationId": null,
-      "folderId": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
-      "type": 1,
+      "folderId": "cecadee9-488c-4c27-88b5-ad290128dd2b",
+      "type": 2,
       "name": "empty entry",
       "notes": null,
       "favorite": false,
-      "login": {
-        "username": null,
-        "password": null,
-        "totp": null
+      "secureNote": {
+        "type": 0
       },
       "collectionIds": null
     },
     {
-      "id": "a9281257-861b-416a-93e1-aad30008b3e1",
+      "id": "2985227a-6ace-4235-997d-ad290128686f",
       "organizationId": null,
-      "folderId": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
+      "folderId": "cecadee9-488c-4c27-88b5-ad290128dd2b",
       "type": 1,
       "name": "empty password",
       "notes": null,
@@ -164,9 +167,9 @@
       "collectionIds": null
     },
     {
-      "id": "3d40f913-bc84-410c-9217-aad30008b3e1",
+      "id": "39e3de17-17b0-4740-b419-ad290128686f",
       "organizationId": null,
-      "folderId": "9acaec4b-f9b8-476c-8c96-aad30008b3e1",
+      "folderId": "fe319b05-e893-4c56-99b9-ad290128f306",
       "type": 1,
       "name": "https://news.ycombinator.com",
       "notes": null,
@@ -185,9 +188,9 @@
       "collectionIds": null
     },
     {
-      "id": "bf11e118-3ee7-493b-a4f3-aad30008b3e1",
+      "id": "9bf0695b-d9d5-41ae-a1ef-ad290128686f",
       "organizationId": null,
-      "folderId": "9acaec4b-f9b8-476c-8c96-aad30008b3e1",
+      "folderId": "fe319b05-e893-4c56-99b9-ad290128f306",
       "type": 1,
       "name": "mastodon.social",
       "notes": null,
@@ -206,24 +209,22 @@
       "collectionIds": null
     },
     {
-      "id": "63f164cb-e989-4af7-b43d-aad30008b3e1",
+      "id": "8e9f1c47-e155-4b2e-bbee-ad290128686f",
       "organizationId": null,
-      "folderId": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
-      "type": 1,
+      "folderId": "cecadee9-488c-4c27-88b5-ad290128dd2b",
+      "type": 2,
       "name": "note",
       "notes": "This is a multiline note entry. Cube shank petroleum guacamole dart mower\nacutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",
       "favorite": false,
-      "login": {
-        "username": null,
-        "password": null,
-        "totp": null
+      "secureNote": {
+        "type": 0
       },
       "collectionIds": null
     },
     {
-      "id": "0d5b393a-6f8f-4302-8bee-aad30008b3e1",
+      "id": "40eff146-6efb-4a36-9019-ad290128686f",
       "organizationId": null,
-      "folderId": "5da50eb7-767b-4d93-aa47-aad30008b3e1",
+      "folderId": "ece7384b-6ca0-4fee-bad4-ad290128ec3a",
       "type": 1,
       "name": "ovh.com",
       "notes": null,
@@ -242,9 +243,9 @@
       "collectionIds": null
     },
     {
-      "id": "421a5135-0279-4da4-9583-aad30008b3e1",
+      "id": "1b86fe1e-a231-4944-a895-ad290128686f",
       "organizationId": null,
-      "folderId": "5da50eb7-767b-4d93-aa47-aad30008b3e1",
+      "folderId": "ece7384b-6ca0-4fee-bad4-ad290128ec3a",
       "type": 1,
       "name": "ovh.com",
       "notes": null,
@@ -263,9 +264,9 @@
       "collectionIds": null
     },
     {
-      "id": "7e9bff5e-c9e9-4729-891c-aad30008b3e1",
+      "id": "8cf0f93f-5ad8-451a-9d90-ad290128686f",
       "organizationId": null,
-      "folderId": "5a222291-0d9f-4ca6-96b8-aad30008b3e1",
+      "folderId": "cecadee9-488c-4c27-88b5-ad290128dd2b",
       "type": 1,
       "name": "space title",
       "notes": null,
@@ -284,9 +285,9 @@
       "collectionIds": null
     },
     {
-      "id": "0bf69154-140f-4c46-8ce6-aad30008b3e1",
+      "id": "4c28cacd-3cd2-4eaa-8b73-ad290128686f",
       "organizationId": null,
-      "folderId": "9acaec4b-f9b8-476c-8c96-aad30008b3e1",
+      "folderId": "fe319b05-e893-4c56-99b9-ad290128f306",
       "type": 1,
       "name": "twitter.com",
       "notes": null,
