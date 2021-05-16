@@ -98,7 +98,7 @@ python 3.6:
 # Distribution tests
 
 archlinux:
-  image: archlinux/base
+  image: archlinux
   extends: .distribution
   before_script:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
