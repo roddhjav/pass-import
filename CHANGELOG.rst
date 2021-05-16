@@ -6,6 +6,31 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog`_.
 
 
+`3.2`_ - 2021-05-16
+-------------------
+
+Added
+~~~~~
+- Keepass: initial support for TOTP `#137 <https://github.com/roddhjav/pass-import/pull/137>`__
+- Add support for modern firefox import. `#134 <https://github.com/roddhjav/pass-import/issues/134>`__
+- Keepass: enable reference substitution `#132 <https://github.com/roddhjav/pass-import/pull/132>`__
+- Add gopass support `#130 <https://github.com/roddhjav/pass-import/pull/130>`__
+
+Changed
+~~~~~~~
+- Fully deprecate Makefile in favor of setup.py
+- Make pimport a setuptools script `#138 <https://github.com/roddhjav/pass-import/pull/138>`__
+- Support for `pykeepass` 4.0.0 `#136 <https://github.com/roddhjav/pass-import/issues/136>`__
+- Support for python 3.9
+
+Fixed
+~~~~~
+- Update Dashlane Json format `#133 <https://github.com/roddhjav/pass-import/issues/133>`__ 
+- Fix importer var name. `#127 <https://github.com/roddhjav/pass-import/issues/127>`__ 
+- Fix install for MacOS. `#125 <https://github.com/roddhjav/pass-import/pull/125>`__
+- Update Bitwarden Json format. `#123 <https://github.com/roddhjav/pass-import/issues/123>`__ 
+
+
 `3.1`_ - 2020-10-25
 -------------------
 
