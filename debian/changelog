@@ -1,3 +1,9 @@
+pass-import (3.2) unstable; urgency=medium
+
+  * Release pass-import v3.2
+
+ -- Alexandre Pujol <alexandre@pujol.io>  Sun, 16 May 2021 15:11:08 +0000
+
 pass-import (3.1-1) unstable; urgency=medium
 
   * pass-import 3.1
