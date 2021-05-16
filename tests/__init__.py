@@ -147,7 +147,8 @@ class Test(unittest.TestCase):
 
     def main(self, cmd, code=None, msg=''):
         """Call to the main function."""
-        sys.argv = cmd
+        sys.argv = ['main']
+        sys.argv.extend(cmd)
         if code is None:
             pass_import.__main__.main()
         elif msg == '':

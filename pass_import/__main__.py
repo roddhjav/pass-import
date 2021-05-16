@@ -147,6 +147,10 @@ class ArgParser(ArgumentParser):
 
     def parse_args(self, args=None, namespace=None):
         """Parse pass-import arguments & print help."""
+        if args is None:
+            sys.argv.pop(0)
+            args = sys.argv
+
         arg = vars(super(ArgParser, self).parse_args(args, namespace))
         arg['prog'] = self.prog
         if arg['help']:
@@ -193,7 +197,7 @@ def setup():
     """Read progam arguments, configuration & sanity checks."""
     conf = Config()
     parser = ArgParser(conf.passwordstore)
-    arg = parser.parse_args(sys.argv)
+    arg = parser.parse_args()
     conf.verbosity(arg['verbose'], arg['quiet'])
     try:
         conf.readconfig(arg)
@@ -431,5 +435,4 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.argv.pop(0)
     main()
