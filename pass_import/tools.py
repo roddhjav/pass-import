@@ -19,9 +19,9 @@ import pass_import.clean as clean
 from pass_import.core import Cap
 
 
-def getpassword(path):
+def getpassword(path, name='Password'):
     """Get the master password."""
-    return getpass.getpass("Password for %s: " % path)
+    return getpass.getpass("%s for %s: " % (name, path))
 
 
 def get_magics(path):
