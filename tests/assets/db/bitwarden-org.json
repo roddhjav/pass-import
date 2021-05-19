@@ -1,0 +1,349 @@
+{
+  "encrypted": false,
+  "collections": [
+    {
+      "id": "ad88b233-3418-4ea9-b05d-ad290128d286",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "name": "Bank",
+      "externalId": null
+    },
+    {
+      "id": "cecadee9-488c-4c27-88b5-ad290128dd2b",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "name": "CornerCases",
+      "externalId": null
+    },
+    {
+      "id": "25426b6f-cb3f-40fa-9277-ad290128e403",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "name": "Emails",
+      "externalId": null
+    },
+    {
+      "id": "3a0df97b-cc85-4949-b7ba-ad2901290f34",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "name": "Emails/WS",
+      "externalId": null
+    },
+    {
+      "id": "ece7384b-6ca0-4fee-bad4-ad290128ec3a",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "name": "Servers",
+      "externalId": null
+    },
+    {
+      "id": "fe319b05-e893-4c56-99b9-ad290128f306",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "name": "Social",
+      "externalId": null
+    }
+  ],
+  "items": [
+    {
+      "id": "43c8dc6f-25db-4a72-bb64-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 2,
+      "name": "empty entry",
+      "notes": null,
+      "favorite": false,
+      "secureNote": {
+        "type": 0
+      },
+      "collectionIds": [
+        "cecadee9-488c-4c27-88b5-ad290128dd2b"
+      ]
+    },
+    {
+      "id": "5aaf7057-6d7f-4669-be85-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 2,
+      "name": "note",
+      "notes": "This is a multiline note entry. Cube shank petroleum guacamole dart mower\nacutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",
+      "favorite": false,
+      "secureNote": {
+        "type": 0
+      },
+      "collectionIds": [
+        "cecadee9-488c-4c27-88b5-ad290128dd2b"
+      ]
+    },
+    {
+      "id": "5b5a72b7-189a-4854-ad5d-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "dpbx@klivak.xb",
+      "notes": "This is a garbage address",
+      "favorite": false,
+      "login": {
+        "username": "dpbx",
+        "password": "2cUqe}e9}>IVZf)Ye>3C8ZN,r",
+        "totp": null
+      },
+      "collectionIds": [
+        "25426b6f-cb3f-40fa-9277-ad290128e403"
+      ]
+    },
+    {
+      "id": "d6aa7bf7-c856-466b-bc79-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "dpbx@fner.ws",
+      "notes": "For financial purpose only!",
+      "favorite": false,
+      "login": {
+        "username": "dpbx",
+        "password": "mt}h'hSUCY;SU;;A!l[8y3O:8",
+        "totp": null
+      },
+      "collectionIds": [
+        "3a0df97b-cc85-4949-b7ba-ad2901290f34"
+      ]
+    },
+    {
+      "id": "f666c06c-032c-4d79-8182-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "dpbx@afoqwdr.tx",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://afoqwdr.tx"
+          }
+        ],
+        "username": "dpbx",
+        "password": "9KVHnx:.S_S;cF`=CE@e\\p{v6",
+        "totp": null
+      },
+      "collectionIds": [
+        "25426b6f-cb3f-40fa-9277-ad290128e403"
+      ]
+    },
+    {
+      "id": "fd9dd125-191d-4b7d-8e63-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "mastodon.social",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://mastodon.social/"
+          }
+        ],
+        "username": "ostqxi",
+        "password": "D<INNeT?#?Bf4%`zA/4i!/'$T",
+        "totp": null
+      },
+      "collectionIds": [
+        "fe319b05-e893-4c56-99b9-ad290128f306"
+      ]
+    },
+    {
+      "id": "260f3ecd-4ba8-4d1e-8f92-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "space title",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://nhysdo.wg"
+          }
+        ],
+        "username": "vkeelpbu",
+        "password": "]stDKo{%pk",
+        "totp": null
+      },
+      "collectionIds": [
+        "cecadee9-488c-4c27-88b5-ad290128dd2b"
+      ]
+    },
+    {
+      "id": "848e1106-a314-45aa-9aef-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "https://news.ycombinator.com",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://news.ycombinator.com"
+          }
+        ],
+        "username": "ostqxi",
+        "password": "1)Btf2EI~Tfb7g2A!Sy',*Sj#",
+        "totp": null
+      },
+      "collectionIds": [
+        "fe319b05-e893-4c56-99b9-ad290128f306"
+      ]
+    },
+    {
+      "id": "ff2f2fae-1daf-4f6d-9c62-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "dpbx@mnyfymt.ws",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://mail.mnyfymt.ws"
+          }
+        ],
+        "username": "dpbx",
+        "password": "rPCkmNkhIa>{izt3C3F823!Go",
+        "totp": null
+      },
+      "collectionIds": [
+        "3a0df97b-cc85-4949-b7ba-ad2901290f34"
+      ]
+    },
+    {
+      "id": "b6f48d7f-00a1-4d59-a93c-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "ovh.com",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://www.ovh.com/manager/web/"
+          }
+        ],
+        "username": "jsdkyvbwjn",
+        "password": "^Vr/|o>_H8X%T]7>f}7|:U!Zs",
+        "totp": null
+      },
+      "collectionIds": [
+        "ece7384b-6ca0-4fee-bad4-ad290128ec3a"
+      ]
+    },
+    {
+      "id": "2c386d03-e3d9-417d-ac01-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "ovh.com",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://www.ovh.com/manager/web/"
+          }
+        ],
+        "username": "bynbyjhqjz",
+        "password": "3Z-VW!i,j(&!zRGPu(hFe]s'(",
+        "totp": null
+      },
+      "collectionIds": [
+        "ece7384b-6ca0-4fee-bad4-ad290128ec3a"
+      ]
+    },
+    {
+      "id": "c3325c12-a228-4290-b55f-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "empty password",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://nhysdo.wg"
+          }
+        ],
+        "username": "vkeelpbu",
+        "password": null,
+        "totp": null
+      },
+      "collectionIds": [
+        "cecadee9-488c-4c27-88b5-ad290128dd2b"
+      ]
+    },
+    {
+      "id": "fb2209f9-c3be-44a0-b891-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "twitter.com",
+      "notes": null,
+      "favorite": false,
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://twitter.com/"
+          }
+        ],
+        "username": "ostqxi",
+        "password": "SoNEwvU,kJ%-cIKJ9[c#S;]jB",
+        "totp": null
+      },
+      "collectionIds": [
+        "fe319b05-e893-4c56-99b9-ad290128f306"
+      ]
+    },
+    {
+      "id": "c9ffaa77-0e25-4c29-86e2-ad2d01155042",
+      "organizationId": "9ed57801-6b9d-419e-8637-ad2d00f20e8a",
+      "folderId": null,
+      "type": 1,
+      "name": "aib",
+      "notes": null,
+      "favorite": false,
+      "fields": [
+        {
+          "name": "pin",
+          "value": "462916",
+          "type": 0
+        },
+        {
+          "name": "oldpin",
+          "value": "489019",
+          "type": 0
+        }
+      ],
+      "login": {
+        "uris": [
+          {
+            "match": null,
+            "uri": "https://onlinebanking.aib.ie"
+          }
+        ],
+        "username": "dpbx@fner.ws",
+        "password": "ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",
+        "totp": null
+      },
+      "collectionIds": [
+        "ad88b233-3418-4ea9-b05d-ad290128d286"
+      ]
+    }
+  ]
+}

@@ -32,8 +32,14 @@ AppleKeychain:
 BitwardenCSV:
   path: bitwarden.csv
 
+BitwardenOrgCSV:
+  path: bitwarden-org.csv
+
 BitwardenJSON:
   path: bitwarden.json
+
+BitwardenOrgJSON:
+  path: bitwarden-org.json
 
 BlurCSV:
   path: blur.csv

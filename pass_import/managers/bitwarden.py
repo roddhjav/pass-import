@@ -27,6 +27,20 @@ class BitwardenCSV(CSV):
     }
 
 
+class BitwardenOrgCSV(BitwardenCSV):
+    """Importer for Bitwarden in CSV format."""
+    default = False
+    keys = {
+        'title': 'name',
+        'password': 'login_password',
+        'login': 'login_username',
+        'url': 'login_uri',
+        'comments': 'notes',
+        'group': 'collections',
+        'otpauth': 'login_totp',
+    }
+
+
 class BitwardenJSON(JSON):
     """Importer for Bitwarden in JSON format."""
     name = 'bitwarden'
@@ -39,6 +53,8 @@ class BitwardenJSON(JSON):
         'favorite', 'secureNote'
     }
     nesting_keys = {'card', 'identity'}
+    key_group = 'folders'
+    key_group_id = 'folderId'
     keys = {
         'title': 'name',
         'password': 'password',
@@ -72,13 +88,16 @@ class BitwardenJSON(JSON):
         jsons = json.loads(self.file.read())
         keys = self.invkeys()
         folders = dict()
-        for item in jsons.get('folders', {}):
+        for item in jsons.get(self.key_group, {}):
             key = item.get('id', '')
             folders[key] = item.get('name', '')
 
         for item in jsons.get('items', {}):
             entry = dict()
-            entry['group'] = item.get('folderId', '')
+            if 'folder' in self.key_group_id:
+                entry['group'] = item.get(self.key_group_id, '')
+            else:
+                entry['group'] = item.get(self.key_group_id, [''])[0]
             logins = item.get('login', {})
             item.update(logins)
             for key, value in item.items():
@@ -125,4 +144,22 @@ class BitwardenJSON(JSON):
                 destination_entry[name] = value
 
 
-register_managers(BitwardenCSV, BitwardenJSON)
+class BitwardenOrgJSON(BitwardenJSON):
+    """Importer for Bitwarden Organisation in JSON format."""
+    key_group = 'collections'
+    key_group_id = 'collectionIds'
+    json_header = {
+        'encrypted': False,
+        'collections': list,
+        'items': [{
+            'id': str,
+            'type': int,
+            'name': str,
+            'favorite': bool,
+            'collectionIds': list,
+        }],
+    }
+
+
+register_managers(BitwardenCSV, BitwardenJSON,
+                  BitwardenOrgCSV, BitwardenOrgJSON)
