@@ -1,7 +1,8 @@
 from pass_import.managers.aegis import Aegis, AegisCipher
 from pass_import.managers.andotp import AndOTP
 from pass_import.managers.applekeychain import AppleKeychain
-from pass_import.managers.bitwarden import BitwardenCSV, BitwardenJSON
+from pass_import.managers.bitwarden import (BitwardenCSV, BitwardenJSON,
+                                            BitwardenOrgCSV, BitwardenOrgJSON)
 from pass_import.managers.blur import BlurCSV, BlurJSON
 from pass_import.managers.buttercup import Buttercup
 from pass_import.managers.chrome import ChromeCSV, ChromeCSVSQLite
