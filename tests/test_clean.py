@@ -368,22 +368,22 @@ class TestCleanDuplicate(TestClean):
     def test_numbers(self):
         """Testing: duplicate with numbers."""
         self.store.data = [{
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }, {
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }, {
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }, {
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }]
         data_expected = [{
-            'path': 'ovh.com/notitle'
+            'path': 'ovh-2.com/notitle'
         }, {
-            'path': 'ovh.com/notitle-1'
+            'path': 'ovh-2.com/notitle-1'
         }, {
-            'path': 'ovh.com/notitle-2'
+            'path': 'ovh-2.com/notitle-2'
         }, {
-            'path': 'ovh.com/notitle-3'
+            'path': 'ovh-2.com/notitle-3'
         }]
         self.store.clean(False, False)
         self.assertEqual(self.store.data, data_expected)
