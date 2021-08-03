@@ -66,6 +66,64 @@ class TestStatic(tests.Test):
         string = pass_import.clean.replaces(characters, string)
         self.assertEqual(string, string_expected)
 
+    def test_duplicate(self):
+        """Testing: clean.replaces."""
+        data = [
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass1',
+                'path': '0/some-path/tv-l2-0'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-1',
+                'password': 'pass2',
+                'path': '0/some-path/tv-l2-1'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass3',
+                'path': '0/some-path/tv-l2-0'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass4',
+                'path': '0/some-path/tv-l2-0'
+            },
+        ]
+        data_expected = [
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass1',
+                'path': '0/some-path/tv-l2-0'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-1',
+                'password': 'pass2',
+                'path': '0/some-path/tv-l2-1'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass3',
+                'path': '0/some-path/tv-l2-0-1'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass4',
+                'path': '0/some-path/tv-l2-0-2'
+            },
+        ]
+        characters = {}
+        pass_import.clean.duplicate(data)
+        self.assertEqual(data, data_expected)
+
 
 class TestClean(tests.Test):
     """Base class for entry cleaning tests."""
