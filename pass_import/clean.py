@@ -131,8 +131,9 @@ def duplicate(data):
                 if re.search(r'%s(\d+)$' % SEPARATOR, path) is None:
                     path += SEPARATOR + str(idx)
                 else:
-                    path = path.replace(SEPARATOR + str(idx),
-                                        SEPARATOR + str(idx + 1))
+                    path = re.sub(r'^(.*)%s%s$' % (SEPARATOR, str(idx)),
+                                  r'\1%s%s' % (SEPARATOR, str(idx + 1)),
+                                  path)
                     idx += 1
             seen.add(path)
             entry['path'] = path
