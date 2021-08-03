@@ -66,6 +66,64 @@ class TestStatic(tests.Test):
         string = pass_import.clean.replaces(characters, string)
         self.assertEqual(string, string_expected)
 
+    def test_duplicate(self):
+        """Testing: clean.replaces."""
+        data = [
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass1',
+                'path': '0/some-path/tv-l2-0'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-1',
+                'password': 'pass2',
+                'path': '0/some-path/tv-l2-1'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass3',
+                'path': '0/some-path/tv-l2-0'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass4',
+                'path': '0/some-path/tv-l2-0'
+            },
+        ]
+        data_expected = [
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass1',
+                'path': '0/some-path/tv-l2-0'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-1',
+                'password': 'pass2',
+                'path': '0/some-path/tv-l2-1'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass3',
+                'path': '0/some-path/tv-l2-0-1'
+            },
+            {
+                'url': 'http://',
+                'login': 'tv-l2-0',
+                'password': 'pass4',
+                'path': '0/some-path/tv-l2-0-2'
+            },
+        ]
+        characters = {}
+        pass_import.clean.duplicate(data)
+        self.assertEqual(data, data_expected)
+
 
 class TestClean(tests.Test):
     """Base class for entry cleaning tests."""
@@ -310,22 +368,22 @@ class TestCleanDuplicate(TestClean):
     def test_numbers(self):
         """Testing: duplicate with numbers."""
         self.store.data = [{
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }, {
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }, {
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }, {
-            'title': 'ovh.com'
+            'title': 'ovh-2.com'
         }]
         data_expected = [{
-            'path': 'ovh.com/notitle'
+            'path': 'ovh-2.com/notitle'
         }, {
-            'path': 'ovh.com/notitle-1'
+            'path': 'ovh-2.com/notitle-1'
         }, {
-            'path': 'ovh.com/notitle-2'
+            'path': 'ovh-2.com/notitle-2'
         }, {
-            'path': 'ovh.com/notitle-3'
+            'path': 'ovh-2.com/notitle-3'
         }]
         self.store.clean(False, False)
         self.assertEqual(self.store.data, data_expected)

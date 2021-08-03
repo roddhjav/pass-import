@@ -124,15 +124,18 @@ def duplicate(data):
     """Add number to the remaining duplicated path."""
     seen = set()
     for entry in data:
+        idx_added = False
         path = entry.get('path', '')
         if path in seen:
             idx = 1
             while path in seen:
-                if re.search(r'%s(\d+)$' % SEPARATOR, path) is None:
+                if not idx_added:
                     path += SEPARATOR + str(idx)
+                    idx_added = True
                 else:
-                    path = path.replace(SEPARATOR + str(idx),
-                                        SEPARATOR + str(idx + 1))
+                    path = re.sub(r'^(.*)%s%s$' % (SEPARATOR, str(idx)),
+                                  r'\1%s%s' % (SEPARATOR, str(idx + 1)),
+                                  path)
                     idx += 1
             seen.add(path)
             entry['path'] = path
