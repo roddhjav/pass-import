@@ -221,7 +221,8 @@ class PasswordStore(CLI, Formatter):
         trusted = ['m', 'f', 'u', 'w', 's']
         with open(os.path.join(self.prefix, '.gpg-id'), 'r') as file:
             gpgids = file.read().split('\n')
-            gpgids.pop()
+            if gpgids[len(gpgids)-1] == '':
+                gpgids.pop()
 
         cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-keys']
         for gpgid in gpgids:
