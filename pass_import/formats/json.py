@@ -111,6 +111,8 @@ class PIF(JSON):
                 }
 
             elif item.get('typeName', '') == 'webforms.WebForm':
+                if item.get('trashed', False):
+                    continue
                 entry = dict()
                 scontent = item.pop('secureContents', {})
                 fields = scontent.pop('fields', [])
