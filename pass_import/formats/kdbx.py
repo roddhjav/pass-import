@@ -53,7 +53,8 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
 
     def _getentry(self, kpentry):
         entry = dict()
-        entry['group'] = os.sep.join(kpentry.path)
+        if kpentry.path is not None:
+            entry['group'] = os.sep.join(kpentry.path)
         keys = self.invkeys()
         for attr in self.attributes:
             if hasattr(kpentry, attr):
@@ -131,7 +132,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             if self.root not in os.sep.join(kpentry.path):
                 continue
             entry = self._getentry(kpentry)
-            entry['group'] = os.path.dirname(entry['group'])
+            entry['group'] = os.path.dirname(entry.get('group', ''))
 
             if kpentry.history:
                 for hentry in kpentry.history:
