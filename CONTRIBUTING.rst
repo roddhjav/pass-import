@@ -175,8 +175,8 @@ Data are imported in PasswordManager.data, this is a list of ordered dict. Each
 entry is a dictionary that contains the data for a password store entry. The
 dictionary's keys are divided into two sets:
 
-1) The *standard keys*: `title`, `password`, `login`, `url`, `comments` and
-`group`.
+1) The *standard keys*: `title`, `password`, `login`, `email`, `url`, `comments`,
+`otpauth` and `group`.
 2) The *extra* keys that differ from password managers and contain the
 description of any extra data we can find in the exported file.
 

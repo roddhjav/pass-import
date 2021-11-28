@@ -123,6 +123,14 @@ class PIF(JSON):
                     key = keys.get(jsonkey, jsonkey)
                     entry[key] = field.get('value', '')
 
+                sections = scontent.get('sections', [])
+                for section in sections:
+                    sectionFields = section.get('fields', [])
+                    for sectionField in sectionFields:
+                        value = sectionField.get('v', '')
+                        if value.startswith('otpauth://'):
+                            entry['otpauth'] = value
+
                 item.update(scontent)
                 for key, value in item.items():
                     if key not in self.ignore:
