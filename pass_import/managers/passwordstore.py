@@ -224,7 +224,13 @@ class PasswordStore(CLI, Formatter):
             if gpgids[len(gpgids)-1] == '':
                 gpgids.pop()
 
-        cmd = [self._gpgbinary, '--with-colons', '--batch', '--list-keys']
+        cmd = [
+            self._gpgbinary,
+            '--with-colons',
+            '--batch',
+            '--list-keys',
+            '--',
+        ]
         for gpgid in gpgids:
             res, out, _ = self._call(cmd + [gpgid])
             if res:
@@ -237,7 +243,11 @@ class PasswordStore(CLI, Formatter):
                 return False
 
         cmd = [
-            self._gpgbinary, '--with-colons', '--batch', '--list-secret-keys'
+            self._gpgbinary,
+            '--with-colons',
+            '--batch',
+            '--list-secret-keys',
+            '--',
         ]
         for gpgid in gpgids:
             res, _, _ = self._call(cmd + [gpgid])
