@@ -28,7 +28,7 @@ class XML(Formatter, PasswordImporter):
     """
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'xml'
-    xml_header = dict()
+    xml_header = {}
     tree = None
     dom = None
 
@@ -43,7 +43,7 @@ class XML(Formatter, PasswordImporter):
         return element.tag, element.text
 
     def _getentry(self, elements):
-        entry = dict()
+        entry = {}
         keys = self.invkeys()
         for element in elements:
             xmlkey, value = self._getvalue(element)

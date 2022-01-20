@@ -38,7 +38,7 @@ class FreeOTPPlus(OTP):
             item['secret'] = base64.b32encode(
                 bytes(x & 0xff for x in item['secret'])).decode("utf8")
 
-            entry = dict()
+            entry = {}
             entry['title'] = item['issuerExt']
             entry['otpauth'] = self._otp(item)
             entry['type'] = item['type'].lower()

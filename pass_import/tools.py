@@ -121,7 +121,7 @@ class Config(dict):
 
     def readconfig(self, args):
         """Read and merge config from args, config file and default."""
-        configs = dict()
+        configs = {}
         if os.path.isfile(args.get('config', '')):
             configpath = args['config']
         elif self.passwordstore:

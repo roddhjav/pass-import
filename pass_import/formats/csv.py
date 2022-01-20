@@ -41,7 +41,7 @@ class CSV(Formatter, PasswordImporter):
 
         keys = self.invkeys()
         for row in self.reader:
-            entry = dict()
+            entry = {}
             for col in row:
                 entry[keys.get(col, col)] = row.get(col, None)
 

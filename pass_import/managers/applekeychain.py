@@ -133,7 +133,7 @@ class AppleKeychain(Formatter, PasswordImporter):
         yamls = self.keychain2yaml(self.file)
         keys = self.invkeys()
         for block in yamls:
-            entry = dict()
+            entry = {}
             attributes = block.pop('attributes', {})
             block.update(attributes)
             for key, value in block.items():

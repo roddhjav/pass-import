@@ -237,7 +237,7 @@ def listmanagers(conf):
     conf.success(msg)
 
     max_res = ''
-    listing = dict()
+    listing = {}
     matrix = MANAGERS.matrix(cap)
     for name in matrix:
         frmts = []

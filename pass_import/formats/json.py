@@ -15,7 +15,7 @@ class JSON(Formatter, PasswordImporter):
     """Base class for JSON based importers."""
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'json'
-    json_header = dict()
+    json_header = {}
     jsons = None
 
     # Import methods
@@ -101,7 +101,7 @@ class PIF(JSON):
         """Parse PIF based file."""
         jsons = self.pif2json(self.file)
         keys = self.invkeys()
-        folders = dict()
+        folders = {}
         for item in jsons:
             if item.get('typeName', '') == 'system.folder.Regular':
                 key = item.get('uuid', '')
@@ -113,7 +113,7 @@ class PIF(JSON):
             elif item.get('typeName', '') == 'webforms.WebForm':
                 if item.get('trashed', False):
                     continue
-                entry = dict()
+                entry = {}
                 scontent = item.pop('secureContents', {})
                 fields = scontent.pop('fields', [])
                 for field in fields:

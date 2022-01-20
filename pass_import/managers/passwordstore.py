@@ -101,7 +101,7 @@ class PasswordStore(CLI, Formatter):
         :return dict: Return a dictionary with of the password entry.
         :raise PMError: If path not in the store.
         """
-        entry = dict()
+        entry = {}
         entry['group'] = os.path.dirname(path)
         entry['title'] = os.path.basename(path)
         try:

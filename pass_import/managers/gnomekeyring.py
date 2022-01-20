@@ -43,7 +43,7 @@ class GnomeKeyring(PasswordImporter):
 
             collection.unlock()
             for item in collection.get_all_items():
-                entry = dict()
+                entry = {}
                 entry['group'] = group
                 entry['title'] = item.get_label()
                 entry['password'] = item.get_secret().decode('utf-8')

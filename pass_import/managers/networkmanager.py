@@ -52,7 +52,7 @@ class NetworkManager(Formatter, PasswordImporter):
         for file in self.files:
             ini = configparser.ConfigParser()
             ini.read_file(file)
-            entry = dict()
+            entry = {}
 
             for section in ini.sections():
                 for option in ini.options(section):

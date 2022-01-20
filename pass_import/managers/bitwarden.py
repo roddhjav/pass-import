@@ -87,13 +87,13 @@ class BitwardenJSON(JSON):
         """Parse Bitwarden JSON file."""
         jsons = json.loads(self.file.read())
         keys = self.invkeys()
-        folders = dict()
+        folders = {}
         for item in jsons.get(self.key_group, {}):
             key = item.get('id', '')
             folders[key] = item.get('name', '')
 
         for item in jsons.get('items', {}):
-            entry = dict()
+            entry = {}
             if 'folder' in self.key_group_id:
                 entry['group'] = item.get(self.key_group_id, '')
             else:

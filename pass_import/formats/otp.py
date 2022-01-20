@@ -27,7 +27,7 @@ class OTP(JSON):
         """Parse OTP based file."""
         jsons = json.loads(self.content)
         for item in jsons:
-            entry = dict()
+            entry = {}
             entry['title'] = item['label']
             entry['otpauth'] = self._otp(item)
 

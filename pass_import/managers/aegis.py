@@ -57,7 +57,7 @@ class Aegis(OTP):
             self.content = self.content['db']
 
         for item in self.content.get('entries', []):
-            entry = dict()
+            entry = {}
             info = item.pop('info', {})
             item.update(info)
             item['algorithm'] = item.pop('algo', None)

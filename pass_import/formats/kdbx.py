@@ -52,7 +52,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     # Import methods
 
     def _getentry(self, kpentry):
-        entry = dict()
+        entry = {}
         if kpentry.path is not None:
             entry['group'] = os.sep.join(kpentry.path)
         keys = self.invkeys()
@@ -141,7 +141,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
                     self.data.append(history)
 
             for att in kpentry.attachments:
-                attachment = dict()
+                attachment = {}
                 attachment['group'] = entry['group']
                 attachment['title'] = att.filename
                 attachment['data'] = att.data

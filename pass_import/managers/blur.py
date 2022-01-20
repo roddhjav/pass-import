@@ -70,7 +70,7 @@ class BlurJSON(JSON):
             items.extend(jsons.get(key, []))
 
         for item in items:
-            entry = dict()
+            entry = {}
             for key, value in item.items():
                 if key in self.ignore or value == 'undefined':
                     continue

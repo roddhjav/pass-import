@@ -36,7 +36,7 @@ class Enpass(CSV):
         reader = csv.reader(self.file)
         keys = self.invkeys()
         for row in reader:
-            entry = dict()
+            entry = {}
             entry['title'] = row.pop(0)
             entry['comments'] = row.pop()
             index = 0
@@ -104,7 +104,7 @@ class Enpass6(JSON):
         """Parse Enpass 6 JSON file."""
         jsons = json.loads(self.file.read())
         keys = self.invkeys()
-        folders = dict()
+        folders = {}
         for item in jsons.get('folders', {}):
             key = item.get('uuid', '')
             folders[key] = {
@@ -113,7 +113,7 @@ class Enpass6(JSON):
             }
 
         for item in jsons.get('items', {}):
-            entry = dict()
+            entry = {}
             entry['group'] = item.get('folders', [''])[0]
             for key, value in item.items():
                 if key not in self.ignore:

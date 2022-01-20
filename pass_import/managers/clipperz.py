@@ -35,7 +35,7 @@ class ClipperzHTML(HTML):
         # Parse JSON data
         keys = self.invkeys()
         for item in json.loads(found.text):
-            entry = dict()
+            entry = {}
             label = item.get('label', ' \ue009').split(' \ue009')
             entry['title'] = label[0]
             if len(label) > 1:

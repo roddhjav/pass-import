@@ -21,7 +21,7 @@ class YAML(Formatter, PasswordImporter):
     """
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'yaml'
-    yml_format = dict()
+    yml_format = {}
     yamls = None
     rootkey = ''
 
@@ -35,7 +35,7 @@ class YAML(Formatter, PasswordImporter):
 
         keys = self.invkeys()
         for block in self.yamls[self.rootkey]:
-            entry = dict()
+            entry = {}
             for key, value in block.items():
                 if value:
                     entry[keys.get(key, key)] = value

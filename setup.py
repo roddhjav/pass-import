@@ -8,7 +8,7 @@ from pathlib import Path
 
 from setuptools import setup
 
-about = dict()
+about = {}
 with Path('pass_import', '__about__.py').open() as file:
     exec(file.read(), about)  # nosec pylint: disable=exec-used
 

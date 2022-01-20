@@ -28,7 +28,7 @@ class Buttercup(CSV):
         super(Buttercup, self).parse()
 
         # Get group structure
-        folders = dict()
+        folders = {}
         groups = list()
         for entry in self.data:
             if entry.get('!type', '') == 'group':

@@ -71,7 +71,7 @@ class PassmanJSON(JSON):
         keys = self.invkeys()
         jsons = json.loads(self.file.read())
         for item in jsons:
-            entry = dict()
+            entry = {}
             if item['tags']:
                 group = item['tags'][0]['text']
                 entry['group'] = group.replace('\\', os.sep)

@@ -86,7 +86,7 @@ class GenericCSV(CSV, PasswordExporter):
         if self.all:
             self.writer.writerow(entry)
         else:
-            res = dict()
+            res = {}
             for key in self.keyslist:
                 res[key] = entry.get(key, '')
             self.writer.writerow(res)

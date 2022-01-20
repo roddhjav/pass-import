@@ -51,7 +51,7 @@ class DashlaneJSON(JSON):
         jsons = json.loads(self.file.read())
         keys = self.invkeys()
         for item in jsons.get('AUTHENTIFIANT', {}):
-            entry = dict()
+            entry = {}
             for key, value in item.items():
                 entry[keys.get(key, key)] = value
 

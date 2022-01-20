@@ -35,7 +35,7 @@ class PasswordManager(Asset):
     hexport = ''
     himport = ''
     secure = True
-    keys = dict()
+    keys = {}
     keyslist = [
         'title', 'password', 'login', 'email', 'url', 'comments', 'otpauth',
         'group'
