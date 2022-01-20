@@ -102,7 +102,7 @@ class GenericCSV(CSV, PasswordExporter):
                 if self.force:
                     self.file = open(self.prefix, 'w', encoding=self.encoding)
                 else:
-                    raise PMError("%s is already a file." % self.prefix)
+                    raise PMError(f"{self.prefix} is already a file.")
             else:
                 self.file = open(self.prefix, 'w', encoding=self.encoding)
 

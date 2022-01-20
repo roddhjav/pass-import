@@ -56,7 +56,7 @@ class NetworkManager(Formatter, PasswordImporter):
 
             for section in ini.sections():
                 for option in ini.options(section):
-                    inikey = "%s.%s" % (section, option)
+                    inikey = f"{section}.{option}"
                     entry[keys.get(inikey, inikey)] = ini.get(section, option,
                                                               fallback='')
 
@@ -85,8 +85,8 @@ class NetworkManager(Formatter, PasswordImporter):
             if self.prefix == '':
                 self.prefix = self.path
             elif not os.path.isdir(self.prefix):
-                raise PMError("%s is neither a file nor a "
-                              "directory" % self.prefix)
+                raise PMError(f"{self.prefix} is neither a file nor a "
+                              "directory")
             self.files = []
             for path in glob.glob(self.prefix + '/*'):
                 self.files.append(open(path, 'r'))

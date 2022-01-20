@@ -110,7 +110,7 @@ class Asset(ABC):
     def __enter__(self):
         """Enter the context manager."""
         if not self.exist():
-            raise PMError("%s is not a password repository." % self.prefix)
+            raise PMError(f"{self.prefix} is not a password repository.")
         if not self.isvalid():
             raise PMError(
                 "invalid credentials, password encryption/decryption aborted.")

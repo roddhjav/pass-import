@@ -68,7 +68,7 @@ class Revelation(XML):
                 if domain:
                     if host:
                         if not host.endswith(domain):
-                            entry['host'] = '%s.%s' % (host, domain)
+                            entry['host'] = f'{host}.{domain}'
                     else:
                         entry['host'] = domain
 

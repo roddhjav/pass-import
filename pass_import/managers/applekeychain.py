@@ -83,7 +83,7 @@ class AppleKeychain(Formatter, PasswordImporter):
         url = entry.get('url', '')
         protocol = entry.get('protocol', '')
         if url and protocol:
-            url = "%s://%s" % (sub.get(protocol, protocol), url.strip())
+            url = f"{sub.get(protocol, protocol)}://{url.strip()}"
         return url
 
     @staticmethod

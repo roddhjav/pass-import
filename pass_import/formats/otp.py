@@ -16,11 +16,11 @@ class OTP(JSON):
 
     @staticmethod
     def _otp(item):
-        otp = "otpauth://%s/totp-secret?" % item.get('type', 'totp').lower()
-        otp += "secret=%s&issuer=%s" % (item['secret'], item['label'])
+        otp = f"otpauth://{item.get('type', 'totp').lower()}/totp-secret?"
+        otp += f"secret={item['secret']}&issuer={item['label']}"
         for setting in ['algorithm', 'digits', 'counter', 'period']:
             if setting in item:
-                otp += "&%s=%s" % (setting, item[setting])
+                otp += f"&{setting}={item[setting]}"
         return otp
 
     def parse(self):

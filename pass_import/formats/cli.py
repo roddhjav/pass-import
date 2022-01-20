@@ -22,7 +22,7 @@ class CLI(PasswordImporter, PasswordExporter):
     def __init__(self, prefix=None, settings=None):
         self._binary = shutil.which(self.command)
         if self._binary is None:
-            raise PMError("%s is required." % self.command)  # pragma: no cover
+            raise PMError(f"{self.command} is required.")  # pragma: no cover
 
         self.env = dict(**os.environ)
         super(CLI, self).__init__(prefix, settings)
@@ -50,7 +50,7 @@ class CLI(PasswordImporter, PasswordExporter):
         command.extend(arg)
         res, stdout, stderr = self._call(command, data, nline)
         if res:
-            raise PMError("%s %s" % (stderr, stdout))
+            raise PMError(f"{stderr} {stdout}")
         return stdout
 
     def exist(self):

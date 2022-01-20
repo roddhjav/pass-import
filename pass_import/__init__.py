@@ -60,7 +60,7 @@ class Managers(set):
 
         if default:
             return default
-        raise ManagerError('Unknown password manager: %s' % name)
+        raise ManagerError(f'Unknown password manager: {name}')
 
     def clsnames(self, cap=Cap.IMPORT):
         """Return the sorted list of password managers classes name."""

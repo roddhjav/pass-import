@@ -41,7 +41,7 @@ class LastpassCSV(CSV):
                 # to be truncated, leading to the parser thinking the
                 # path field wasn't included, and incorrectly
                 # resulting in a value of None.
-                raise FormatError('Invalid group in entry:\n%s.' % entry)
+                raise FormatError(f'Invalid group in entry:\n{entry}.')
             entry['group'] = entry.get('group', '').replace('\\', os.sep)
 
 

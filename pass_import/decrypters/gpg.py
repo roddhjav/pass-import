@@ -23,7 +23,7 @@ class GPG(Decrypter):
                    stdin=PIPE, stdout=PIPE, stderr=PIPE) as process:
             (stdout, stderr) = process.communicate()
             if process.wait():  # pragma: no cover
-                raise FormatError("%s %s" % (stderr, stdout))
+                raise FormatError(f"{stderr} {stdout}")
             return stdout.decode()[:-1]
 
 

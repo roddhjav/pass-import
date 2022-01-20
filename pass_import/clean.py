@@ -133,8 +133,8 @@ def duplicate(data):
                     path += SEPARATOR + str(idx)
                     idx_added = True
                 else:
-                    path = re.sub(r'^(.*)%s%s$' % (SEPARATOR, str(idx)),
-                                  r'\1%s%s' % (SEPARATOR, str(idx + 1)),
+                    path = re.sub(rf'^(.*){SEPARATOR}{idx}$',
+                                  rf'\1{SEPARATOR}{idx + 1}',
                                   path)
                     idx += 1
             seen.add(path)

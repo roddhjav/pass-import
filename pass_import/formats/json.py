@@ -94,7 +94,7 @@ class PIF(JSON):
         cleaned = re.sub(r'(?m)^\*\*\*.*\*\*\*\s+', '', data)
         cleaned = cleaned.split('\n')
         cleaned = ','.join(cleaned).rstrip(',')
-        cleaned = '[%s]' % cleaned
+        cleaned = f'[{cleaned}]'
         return json.loads(cleaned)
 
     def parse(self):

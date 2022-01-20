@@ -101,8 +101,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         seed = seed.replace(' ', '')
 
         return ('otpauth://totp/totp-secret?'
-                'secret=%s&issuer=%s&digits=%s&period=30'
-                % (seed, issuer, digits))
+                f'secret={seed}&issuer={issuer}&digits={digits}&period=30')
 
     def _subref(self, value):
         while True:
@@ -147,7 +146,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
                 attachment['data'] = att.data
                 self.data.append(attachment)
                 if entry.get('attachments', None):
-                    entry['attachments'] += ", %s" % att.filename
+                    entry['attachments'] += f", {att.filename}"
                 else:
                     entry['attachments'] = att.filename
             self.data.append(entry)
@@ -174,7 +173,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             pkentry = self.keepass.find_entries(title=title, group=kpgroup,
                                                 recursive=False, first=True)
             if pkentry is not None:
-                raise PMError("An entry already exists for %s." % path)
+                raise PMError(f"An entry already exists for {path}.")
 
         kpentry = self.keepass.add_entry(
             destination_group=kpgroup,

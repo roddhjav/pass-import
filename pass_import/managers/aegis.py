@@ -61,7 +61,7 @@ class Aegis(OTP):
             info = item.pop('info', {})
             item.update(info)
             item['algorithm'] = item.pop('algo', None)
-            entry['title'] = "%s%s" % (item['issuer'], item['name'])
+            entry['title'] = item['issuer'] + item['name']
             item['label'] = entry['title']
             entry['otpauth'] = self._otp(item)
 

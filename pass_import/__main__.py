@@ -55,7 +55,7 @@ class ArgParser(ArgumentParser):
             description=description,
             formatter_class=RawDescriptionHelpFormatter,
             epilog="More information may be found in the "
-                   "%s(1) man page." % prog.replace(' ', '-'),
+                   f"{prog.replace(' ', '-')}(1) man page.",
             add_help=False)
         self.add_arguments()
 
@@ -65,14 +65,14 @@ class ArgParser(ArgumentParser):
         if not self.passwordstore:
             pmarg.add_argument(
                 'dst', type=str, nargs='?', default='',
-                help=('Destination password manager, can be: %s.' %
-                      ', '.join(MANAGERS.names(Cap.EXPORT))))
+                help=("Destination password manager, can be: "
+                      f"{', '.join(MANAGERS.names(Cap.EXPORT))}."))
 
         pmarg.add_argument(
             'src', type=str, nargs='*', default=[],
             help='Path to the data to import. Can also be the password manager'
                  ' name followed by the path to the data to import. The passw'
-                 'ord manager name can be: %s' % ', '.join(MANAGERS.names()))
+                 f"ord manager name can be: {', '.join(MANAGERS.names())}.")
 
         if not self.passwordstore:
             pmarg.add_argument(
@@ -170,24 +170,24 @@ class ArgParser(ArgumentParser):
 
     def print_help_manager(self, name):
         """Print manager usage."""
-        print('Usage: %s %s [options]\n' % (self.prog, name))
+        print(f'Usage: {self.prog} {name} [options]\n')
         for pm in MANAGERS.matrix().get(name):
-            print('%s:' % pm.description())
+            print(f'{pm.description()}:')
             usage = pm.usage()
             if usage:
-                print('%s' % usage)
+                print(usage)
             if pm.format != '':
-                print('  Format: %s' % pm.format)
+                print(f'  Format: {pm.format}')
             if pm.version != '':
-                print('  Version: %s' % pm.version)
+                print(f'  Version: {pm.version}')
             if pm.url != '':
-                print("  Url: %s" % pm.url)
+                print(f"  Url: {pm.url}")
             if pm.hexport != '':
-                print('  Export: %s' % pm.hexport)
+                print(f'  Export: {pm.hexport}')
             if pm.himport != '':
-                print('  Import: %s' % pm.himport)
+                print(f'  Import: {pm.himport}')
             if pm.default:
-                print('  This is the default importer for %s.' % name)
+                print(f'  This is the default importer for {name}.')
             if pm.cap is Cap.IMPORT | Cap.EXPORT:
                 print('  Can be used for password import and export.')
             print()
@@ -213,8 +213,8 @@ def setup():
         conf.die("destination password manager not present.")
 
     if conf['exporter'] not in MANAGERS.names(Cap.EXPORT):
-        conf.die("%s is not a supported destination password manager." %
-                 conf['exporter'])
+        conf.die(f"{conf['exporter']} is not a supported "
+                 "destination password manager.")
 
     if not conf['src']:
         conf.die("The source password manager or the path to import is empty.")
@@ -230,10 +230,10 @@ def listmanagers(conf):
         sys.exit(0)
 
     if cap is Cap.EXPORT:
-        msg = ("The %s supported exporter password managers are:" %
-               len(MANAGERS.names(cap)))
+        msg = (f"The {len(MANAGERS.names(cap))} supported exporter "
+               "password managers are:")
     else:
-        msg = "The %s supported password managers are:" % len(MANAGERS)
+        msg = f"The {len(MANAGERS)} supported password managers are:"
     conf.success(msg)
 
     max_res = ''
@@ -244,7 +244,7 @@ def listmanagers(conf):
         for pm in matrix[name]:
             res = pm.format
             if pm.version:
-                res += ' (v%s)' % pm.version
+                res += f' (v{pm.version})'
             max_res = max(max_res, res)
             frmts.append(res)
         listing[name] = frmts
@@ -278,7 +278,7 @@ def decryptsource(conf):
             with decrypters[frmt](path) as file:
                 conf['plaintext'] = file.decrypt()
                 conf['decrypted'] = True
-            conf.verbose("Source file decrypted using %s." % frmt)
+            conf.verbose(f"Source file decrypted using {frmt}.")
 
 
 def detectmanager(conf):
@@ -301,7 +301,7 @@ def detectmanager(conf):
             pm = detect.manager(to_detect)
             if pm is None:
                 conf.die("Unable to detect the manager. Please try with: "
-                         "%s <manager> %s" % (conf['prog'], prefix))
+                         f"{conf['prog']} <manager> {prefix}")
 
     else:
         name = conf['src'][0]
@@ -318,13 +318,13 @@ def detectmanager(conf):
         elif name in MANAGERS.clsnames():
             detect = AutoDetect(name)
             pm = MANAGERS.get(name)
-            conf.verbose("Using import class: %s." % pm.__name__)
+            conf.verbose(f"Using import class: {pm.__name__}.")
 
         else:
-            conf.die("%s is not a supported source password manager." % name)
+            conf.die(f"{name} is not a supported source password manager.")
 
-    conf.verbose("Importer: %s, Format: %s, Version:"
-                 " %s" % (pm.name, pm.format, pm.version))
+    conf.verbose(f"Importer: {pm.name}, Format: {pm.format}, Version: "
+                 f" {pm.version}")
 
     if 'plaintext' in conf:
         conf['in'] = io.StringIO(conf['plaintext'])
@@ -341,22 +341,22 @@ def pass_import(conf, cls_import):
         with cls_import(conf['in'], settings=settings) as importer:
             importer.parse()
             if not importer.secure:  # pragma: no cover
-                conf.warning("The password manager %s has been flagged as "
-                             "unsecure, you should update all your newly "
-                             "imported credentials." % conf['importer'])
+                conf.warning(f"The password manager {conf['importer']} has "
+                             "been flagged as unsecure, you should update all "
+                             "your newly imported credentials.")
             return importer.data
     except (FormatError, AttributeError, ValueError, TypeError) as error:
         conf.debug(traceback.format_exc())
         conf.warning(error)
-        conf.die("%s is not a valid exported %s file." %
-                 (conf['in'], conf['importer']))
+        conf.die(
+            f"{conf['in']} is not a valid exported {conf['importer']} file.")
     except ImportError as error:
         conf.verbose(error)
-        err = ("Importing %s, missing required dependency: %s\n"
-               "You can install it with:\n  'pip3 install %s'" %
-               (conf['importer'], error.name, error.name))
+        err = (f"Importing {conf['importer']}, missing required dependency: "
+               f"{error.name}\n"
+               f"You can install it with:\n  'pip3 install {error.name}'")
         if error.name not in ['pykeepass']:
-            err += ", or\n  'sudo apt-get install python3-%s'" % error.name
+            err += f", or\n  'sudo apt-get install python3-{error.name}'"
         conf.die(err)
 
     except (PermissionError, PMError) as error:
@@ -380,8 +380,8 @@ def pass_export(conf, cls_export, data):
                     exporter.insert(entry)
                 except PMError as error:
                     conf.debug(traceback.format_exc())
-                    conf.warning("Impossible to insert %s into %s: %s" %
-                                 (pmpath, conf['exporter'], error))
+                    conf.warning(f"Impossible to insert {pmpath} into "
+                                 f"{conf['exporter']}: {error}")
                 else:
                     paths.append(pmpath)
             return paths
@@ -392,18 +392,18 @@ def pass_export(conf, cls_export, data):
 
 def report(conf, paths):
     """Print final success report."""
-    conf.success("Importing passwords from %s to %s" %
-                 (conf['importer'], conf['exporter']))
-    conf.message("Passwords imported from: %s" % conf['in'])
-    conf.message("Passwords exported to: %s" % conf['out'])
+    conf.success(f"Importing passwords from {conf['importer']} "
+                 f"to {conf['exporter']}")
+    conf.message(f"Passwords imported from: {conf['in']}")
+    conf.message(f"Passwords exported to: {conf['out']}")
     if conf['sroot'] != '':
-        conf.message("Root path: %s" % conf['sroot'])
+        conf.message(f"Root path: {conf['sroot']}")
     if conf['droot'] != '':
-        conf.message("Root path: %s" % conf['droot'])
-    conf.message("Number of password imported: %s" % len(paths))
+        conf.message(f"Root path: {conf['droot']}")
+    conf.message(f"Number of password imported: {len(paths)}")
     if conf['convert']:
         conf.message("Forbidden chars converted")
-        conf.message("Path separator used: %s" % conf['separator'])
+        conf.message(f"Path separator used: {conf['separator']}")
     if conf['clean']:
         conf.message("Imported data cleaned")
     if conf['all']:
@@ -423,8 +423,8 @@ def main():
     # Password managers detection
     cls_import = detectmanager(conf)
     cls_export = MANAGERS.get(conf['exporter'], cap=Cap.EXPORT)
-    conf.verbose("Importing passwords from %s to %s" %
-                 (cls_import.__name__, cls_export.__name__))
+    conf.verbose(f"Importing passwords from {cls_import.__name__} "
+                 f"to {cls_export.__name__}")
 
     # Import & export
     data = pass_import(conf, cls_import)

@@ -55,7 +55,7 @@ class ManagerMeta():
         if self.guide in string:
             msg = string.split(self.guide)
             url = msg.pop()
-            string = ''.join(msg) + '[this guide](%s)' % url
+            string = ''.join(msg) + f'[this guide]({url})'
         return string
 
     def urlto_man(self, string):
@@ -70,7 +70,7 @@ class ManagerMeta():
         if self.guide in string:
             msg = string.split(self.guide)
             url = msg.pop()
-            string = ''.join(msg) + "<a href=\"%s\">this guide</a>" % url
+            string = ''.join(msg) + f'<a href="{url}">this guide</a>'
         return string
 
     def genrow(self):
@@ -86,7 +86,7 @@ class ManagerMeta():
         res = ''
         if self.pm.format != '':
             if self.man:
-                res = '(%s)' % self.pm.format
+                res = f'({self.pm.format})'
             else:
                 res = self.pm.format
         return res
@@ -96,7 +96,7 @@ class ManagerMeta():
         """Get version formated."""
         res = ''
         if self.pm.version != '':
-            res = ' v%s' % self.pm.version
+            res = f' v{self.pm.version}'
         return res
 
     @property
@@ -123,7 +123,7 @@ class ManagerMeta():
         """Get import help formated."""
         res = self.pm.himport
         if res == '':
-            res = '%s %s file.%s' % (self.prog, self.pm.name, self.pm.format)
+            res = f"{self.prog} {self.pm.name} file.{self.pm.format}"
         return res
 
     @property
@@ -131,7 +131,7 @@ class ManagerMeta():
         """Get usage formated."""
         res = self.pm.usage()
         if res != '':
-            res = '%s\n\n' % res
+            res = f'{res}\n\n'
         return res
 
     @property
@@ -165,7 +165,7 @@ def table_importer():
                                     align="center", __pretty=False)
                         mm.genrow()
 
-    return "\n%s\n" % table.render()
+    return f"\n{table.render()}\n"
 
 
 def table_exporter():
@@ -179,9 +179,8 @@ def table_exporter():
     for name in sorted(matrix):
         for pm in matrix[name]:
             mm = ManagerMeta(pm, mode='md')
-            res += "| [%s](%s) | %s | `pimport %s src [src]` |\n" % (
-                name, mm.url, mm.format, name)
-    return "\n%s\n" % res
+            res += f"| [{name}]({mm.url}) | {mm.format} | `pimport {name} src [src]` |\n"
+    return f"\n{res}\n"
 
 
 def usage():
@@ -189,7 +188,7 @@ def usage():
     string = io.StringIO()
     parser = ArgParser(True)
     parser.print_help(string)
-    return "\n```\n%s```\n" % string.getvalue()
+    return f"\n```\n{string.getvalue()}```\n"
 
 
 # Manual pages
@@ -201,12 +200,12 @@ def usage_importer(ext=True):
     for name in sorted(matrix):
         for pm in matrix[name]:
             mm = ManagerMeta(pm, ext, mode='man')
-            res += "\n.TP\n\\fB%s %s%s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
-                name, mm.format, mm.version, mm.url)
+            res += (f"\n.TP\n\\fB{name} {mm.format}{mm.version}\\fP\n"
+                    f"Website: \\fI{mm.url}\\fP\n\n")
             res += mm.usage
-            res += ("Export: %s\n\n"
-                    "Command: %s\n" % (mm.hexport, mm.himport))
-    return "\n%s" % res
+            res += (f"Export: {mm.hexport}\n\n"
+                    f"Command: {mm.himport}\n")
+    return "\n" + res
 
 
 def usage_exporter():
@@ -216,23 +215,23 @@ def usage_exporter():
     for name in sorted(matrix):
         for pm in matrix[name]:
             mm = ManagerMeta(pm, mode='man')
-            res += "\n.TP\n\\fB%s %s %s\\fP\nWebsite: \\fI%s\\fP\n\n" % (
-                name, mm.format, mm.version, mm.url)
+            res += (f"\n.TP\n\\fB{name} {mm.format} {mm.version}\\fP\n"
+                    f"Website: \\fI{mm.url}\\fP\n\n")
             res += mm.usage
-            res += "Command: pimport %s src [src]\n" % name
-    return "\n%s" % res
+            res += f"Command: pimport {name} src [src]\n"
+    return "\n" + res
 
 
 # Shell Completion
 
 def bash_cmd(var, cap):
     """Re-generate command for bash completion."""
-    res = "\n\tlocal %s=(" % var
+    res = f"\n\tlocal {var}=("
     for name in sorted(MANAGERS.names(cap)):
         if len(res.split('\n').pop()) + len(name) + 1 < 74:
-            res += "%s " % name
+            res += name + " "
         else:
-            res += '\n\t\t%s ' % name
+            res += f'\n\t\t{name} '
     return res[:-1] + ')\n\t'
 
 
@@ -259,10 +258,10 @@ def zsh_cmd(cap):
 
             frmt = pm.format.upper()
             if pm.version:
-                frmt += ' v%s' % pm.version
+                frmt += f' v{pm.version}'
             formats.append(frmt)
-        desc = '%s for %s in %s' % (capability, name, ', '.join(formats))
-        res += "\t\t\t'%s:%s'\n" % (name, desc)
+        desc = f'{capability} for {name} in {', '.join(formats)}'
+        res += f"\t\t\t'{name}:{desc}'\n"
     return res + '\t\t)\n\t\t'
 
 

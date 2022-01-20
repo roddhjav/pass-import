@@ -170,7 +170,7 @@ class PasswordStore(CLI, Formatter):
         path = os.path.join(self.root, entry.get('path'))
         if not self.force:
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
-                raise PMError("An entry already exists for %s." % path)
+                raise PMError(f"An entry already exists for {path}.")
 
         if 'data' in entry:
             data = entry['data']
@@ -182,16 +182,16 @@ class PasswordStore(CLI, Formatter):
                     continue
                 if key in entry:
                     if 'otpauth' in key:
-                        data += "%s\n" % entry.get(key)
+                        data += f"{entry.get(key)}\n"
                     else:
-                        data += "%s: %s\n" % (key, entry.get(key))
+                        data += f"{key}: {entry.get(key)}\n"
                 seen.add(key)
 
             if self.all:
                 for key, value in entry.items():
                     if key in seen:
                         continue
-                    data += "%s: %s\n" % (key, value)
+                    data += f"{key}: {value}\n"
 
         arg = ['insert', '--multiline', '--force', '--', path]
         return self._command(arg, data)
@@ -258,7 +258,7 @@ class PasswordStore(CLI, Formatter):
     def open(self):
         """Ensure prefix is a path to a password repository."""
         if not os.path.isdir(self.prefix):
-            raise PMError("%s is not a password repository." % self.prefix)
+            raise PMError(f"{self.prefix} is not a password repository.")
 
     def close(self):
         """There is no file to close."""

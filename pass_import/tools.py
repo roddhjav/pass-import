@@ -21,7 +21,7 @@ from pass_import.core import Cap
 
 def getpassword(path, name='Password'):
     """Get the master password."""
-    return getpass.getpass("%s for %s: " % (name, path))
+    return getpass.getpass(f"{name} for {path}: ")
 
 
 def get_magics(path):
@@ -185,18 +185,18 @@ class Config(dict):
             for key, value in entry.items():
                 if key in ignore:
                     continue
-                res += "%s: %s\n" % (key, value)
+                res += f"{key}: {value}\n"
             self.verbose("Data", res.replace('\n', '\n           '))
 
     def verbose(self, title='', msg=''):
         """Verbose method, takes title and msg. msg can be empty."""
         if self.verb >= 1 and msg == '':
-            out = "%s  .  %s%s%s%s" % (self.MAGENTA, self.end, self.magenta,
-                                       title, self.end)
+            out = (f"{self.MAGENTA}  .  {self.end}{self.magenta}"
+                   f"{title}{self.end}")
             print(out, file=sys.stdout)
         elif self.verb >= 1:
-            out = "%s  .  %s%s%s: %s%s" % (self.MAGENTA, self.end,
-                                           self.magenta, title, self.end, msg)
+            out = (f"{self.MAGENTA}  .  {self.end}{self.magenta}"
+                   f"{title}: {self.end}{msg}")
             print(out, file=sys.stdout)
 
     def debug(self, title='', msg=''):
@@ -207,32 +207,29 @@ class Config(dict):
     def message(self, msg=''):
         """Message method."""
         if not self.quiet:
-            out = "%s  .  %s%s" % (self.BOLD, self.end, msg)
+            out = f"{self.BOLD}  .  {self.end}{msg}"
             print(out, file=sys.stdout)
 
     def echo(self, msg=''):
         """Echo a message after a tab."""
         if not self.quiet:
-            print("\t%s" % msg, file=sys.stdout)
+            print(f"\t{msg}", file=sys.stdout)
 
     def success(self, msg=''):
         """Success method."""
         if not self.quiet:
-            out = "%s (*) %s%s%s%s" % (self.GREEN, self.end, self.green, msg,
-                                       self.end)
+            out = f"{self.GREEN} (*) {self.end}{self.green}{msg}{self.end}"
             print(out, file=sys.stdout)
 
     def warning(self, msg=''):
         """Warning method."""
         if not self.quiet:
-            out = "%s  w  %s%s%s%s" % (self.YELLOW, self.end, self.yellow, msg,
-                                       self.end)
+            out = f"{self.YELLOW}  w  {self.end}{self.yellow}{msg}{self.end}"
             print(out, file=sys.stdout)
 
     def error(self, msg=''):
         """Error method."""
-        err = "%s [x] %s%sError: %s%s" % (self.RED, self.end, self.BOLD,
-                                          self.end, msg)
+        err = f"{self.RED} [x] {self.end}{self.BOLD}Error: {self.end}{msg}"
         print(err, file=sys.stderr)
 
     def die(self, msg=''):
