@@ -125,9 +125,8 @@ class PIF(JSON):
 
                 sections = scontent.get('sections', [])
                 for section in sections:
-                    sectionFields = section.get('fields', [])
-                    for sectionField in sectionFields:
-                        value = sectionField.get('v', '')
+                    for field in section.get('fields', []):
+                        value = field.get('v', '')
                         if value.startswith('otpauth://'):
                             entry['otpauth'] = value
 

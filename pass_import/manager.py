@@ -6,7 +6,7 @@
 import os
 from abc import abstractmethod
 
-import pass_import.clean as clean
+from pass_import import clean
 from pass_import.core import Asset, Cap
 
 
@@ -49,7 +49,7 @@ class PasswordManager(Asset):
         self.cols = settings.get('cols', '')
         self.action = settings.get('action', Cap.IMPORT)
         self.delimiter = str(settings.get('delimiter', ','))
-        super(PasswordManager, self).__init__(prefix)
+        super().__init__(prefix)
 
     @classmethod
     def usage(cls):
@@ -65,7 +65,7 @@ class PasswordManager(Asset):
     @classmethod
     def description(cls):
         """Get password manager description."""
-        return cls.__doc__.split('\n')[0][:-1]
+        return cls.__doc__.split('\n', maxsplit=1)[0]
 
 
 class PasswordImporter(PasswordManager):
@@ -126,7 +126,7 @@ class PasswordExporter(PasswordManager):
         settings = {} if settings is None else settings
         self.all = settings.get('all', False)
         self.force = settings.get('force', False)
-        super(PasswordExporter, self).__init__(prefix, settings)
+        super().__init__(prefix, settings)
 
     @abstractmethod
     def insert(self, entry):

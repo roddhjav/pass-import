@@ -30,7 +30,7 @@ class PassmanCSV(CSV):
 
     def parse(self):
         """Parse Passman CSV file."""
-        super(PassmanCSV, self).parse()
+        super().parse()
         characters = {'\\': os.sep, '[': '', ']': ''}
         for entry in self.data:
             entry['group'] = replaces(characters, entry.get('group', ''))

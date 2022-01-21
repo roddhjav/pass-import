@@ -33,7 +33,7 @@ class NetworkManager(Formatter, PasswordImporter):
     url = 'https://wiki.gnome.org/Projects/NetworkManager'
     hexport = 'Also support specific networkmanager dir and ini file'
     himport = 'pass import networkmanager'
-    files = list()
+    files = []
     path = '/etc/NetworkManager/system-connections'
     keyslist = ['title', 'password', 'login', 'ssid']
     keys = {

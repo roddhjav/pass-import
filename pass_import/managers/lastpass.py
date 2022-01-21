@@ -26,7 +26,7 @@ class LastpassCSV(CSV):
 
     def parse(self):
         """Parse Lastpass CSV file."""
-        super(LastpassCSV, self).parse()
+        super().parse()
         for entry in self.data:
             if 'group' in entry and entry['group'] is None:
                 # LastPass will truncate everything after `$` in a

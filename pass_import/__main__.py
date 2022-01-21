@@ -50,7 +50,7 @@ class ArgParser(ArgumentParser):
   an existing password repository; therefore, the password repository must have
   been initialised before."""
 
-        super(ArgParser, self).__init__(
+        super().__init__(
             prog=prog,
             description=description,
             formatter_class=RawDescriptionHelpFormatter,
@@ -151,7 +151,7 @@ class ArgParser(ArgumentParser):
             sys.argv.pop(0)
             args = sys.argv
 
-        arg = vars(super(ArgParser, self).parse_args(args, namespace))
+        arg = vars(super().parse_args(args, namespace))
         arg['prog'] = self.prog
         if arg['help']:
             name = ''
@@ -334,6 +334,7 @@ def detectmanager(conf):
     return pm
 
 
+# pylint: disable=inconsistent-return-statements
 def pass_import(conf, cls_import):
     """Import data."""
     try:
@@ -366,10 +367,10 @@ def pass_import(conf, cls_import):
 
 def pass_export(conf, cls_export, data):
     """Insert cleaned data into the password repository."""
+    paths = []
     try:
         settings = conf.getsettings(conf['droot'], Cap.EXPORT)
         with cls_export(conf['out'], settings=settings) as exporter:
-            paths = []
             exporter.data = data
             exporter.clean(conf['clean'], conf['convert'])
             for entry in exporter.data:
@@ -384,10 +385,11 @@ def pass_export(conf, cls_export, data):
                                  f"{conf['exporter']}: {error}")
                 else:
                     paths.append(pmpath)
-            return paths
     except PMError as error:
         conf.debug(traceback.format_exc())
         conf.die(error)
+
+    return paths
 
 
 def report(conf, paths):

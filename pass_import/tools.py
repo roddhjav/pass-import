@@ -15,7 +15,7 @@ except ImportError:
 
 import yaml
 
-import pass_import.clean as clean
+from pass_import import clean
 from pass_import.core import Cap
 
 
@@ -56,9 +56,9 @@ def get_magics(path):
     name_to_format = {'KDBX': 'kdbx', 'openssl': 'openssl', 'PGP': 'gpg'}
 
     frmt = mime_to_format.get(mime_type, None)
-    for name in name_to_format:
+    for name, plain_format in name_to_format.items():
         if name in magic_name:
-            frmt = name_to_format[name]
+            frmt = plain_format
 
     encoding = None
     if 'UTF-8 Unicode (with BOM)' in magic_name:
@@ -105,7 +105,7 @@ class Config(dict):
 
     def __init__(self):
         defaults = {'delimiter': ',', 'decrypted': False}
-        super(Config, self).__init__(defaults)
+        super().__init__(defaults)
         self.verb = 0
         self.quiet = False
 

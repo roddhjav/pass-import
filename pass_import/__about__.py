@@ -19,4 +19,4 @@ __author__ = 'Alexandre Pujol'
 __email__ = 'alexandre@pujol.io'
 
 __license__ = 'GPL3'
-__copyright__ = 'Copyright 2017-2020 {}'.format(__author__)
+__copyright__ = f'Copyright 2017-2020 {__author__}'

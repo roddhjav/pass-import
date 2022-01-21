@@ -60,8 +60,8 @@ class AppleKeychain(Formatter, PasswordImporter):
             '0x00000008 :': '0x00000008:',
             'keychain: "([^"]*)"': '---'
         }
-        for key in characters:
-            data = re.sub(key, characters[key], data)
+        for key, value in characters.items():
+            data = re.sub(key, value, data)
         data = data.strip('---').split('---')
         for block in data:
             yamls.append(yaml.safe_load(block))

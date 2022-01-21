@@ -145,7 +145,7 @@ class AegisCipher(Aegis):
     def parse(self):
         """Parse Aegis encrypted JSON file."""
         self.content = self.decrypt(json.loads(self.content))
-        super(AegisCipher, self).parse()
+        super().parse()
 
 
 register_managers(Aegis, AegisCipher)

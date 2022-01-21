@@ -31,7 +31,7 @@ class CSV(Formatter, PasswordImporter):
 
     def parse(self):
         """Parse CSV based file."""
-        fields = None if self.fieldnames == [] else self.fieldnames
+        fields = None if not self.fieldnames else self.fieldnames
         self.reader = csv.DictReader(self.file,
                                      fieldnames=fields,
                                      delimiter=self.delimiter,

@@ -27,7 +27,7 @@ class Gorilla(CSV):
 
     def parse(self):
         """Parse Gorilla CSV file."""
-        super(Gorilla, self).parse()
+        super().parse()
         for entry in self.data:
             group = re.sub(r'(?<=[^\\])\.', os.sep, entry.get('group', ''))
             entry['group'] = re.sub(r'\\.', '.', group)

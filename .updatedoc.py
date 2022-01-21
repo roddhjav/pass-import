@@ -179,7 +179,8 @@ def table_exporter():
     for name in sorted(matrix):
         for pm in matrix[name]:
             mm = ManagerMeta(pm, mode='md')
-            res += f"| [{name}]({mm.url}) | {mm.format} | `pimport {name} src [src]` |\n"
+            res += (f"| [{name}]({mm.url}) | {mm.format} |"
+                    f" `pimport {name} src [src]` |\n")
     return f"\n{res}\n"
 
 
@@ -260,7 +261,7 @@ def zsh_cmd(cap):
             if pm.version:
                 frmt += f' v{pm.version}'
             formats.append(frmt)
-        desc = f'{capability} for {name} in {', '.join(formats)}'
+        desc = f"{capability} for {name} in {', '.join(formats)}"
         res += f"\t\t\t'{name}:{desc}'\n"
     return res + '\t\t)\n\t\t'
 
@@ -277,19 +278,19 @@ def zsh_exporter():
 
 UPDATE = {
     'README.md': [
-        ('<!-- NB BEGIN -->', '<!-- NB END -->', '%d' % len(MANAGERS)),
+        ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', table_importer()),
         ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', table_exporter()),
         ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', usage()),
     ],
     'share/man/man1/pass-import.1': [
-        (r'\# NB BEGIN', r'\# NB END', '\n%d\n' % len(MANAGERS)),
+        (r'\# NB BEGIN', r'\# NB END', f'\n{len(MANAGERS)}\n'),
         (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
     ],
     'share/man/man1/pimport.1': [
-        (r'\# NB BEGIN', r'\# NB END', '\n%d\n' % len(MANAGERS)),
+        (r'\# NB BEGIN', r'\# NB END', f'\n{len(MANAGERS)}\n'),
         (r'\# NB EXPORT BEGIN', r'\# NB EXPORT END',
-         '\n%d\n' % len(MANAGERS.names(Cap.EXPORT))),
+         f'\n{len(MANAGERS.names(Cap.EXPORT))}\n'),
         (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
         (r'\# LIST DST BEGIN', r'\# LIST DST END', usage_exporter()),
     ],

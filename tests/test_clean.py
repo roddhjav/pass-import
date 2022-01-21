@@ -39,8 +39,7 @@ class TestStatic(tests.Test):
     def test_group(self):
         """Testing: clean.group."""
         string = 'Root/Group\\Named>root\0directory'
-        string_expected = 'Root%sGroup%sNamed-root-directory' % (os.sep,
-                                                                 os.sep)
+        string_expected = f'Root{os.sep}Group{os.sep}Named-root-directory'
         string = pass_import.clean.group(string)
         self.assertEqual(string, string_expected)
 

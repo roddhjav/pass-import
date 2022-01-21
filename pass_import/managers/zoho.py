@@ -25,7 +25,7 @@ class ZohoCSV(CSV):
 
     def parse(self):
         """Parse Zoho CSV file."""
-        super(ZohoCSV, self).parse()
+        super().parse()
         for entry in self.data:
             secret = entry.pop(None, ['', ''])
             entry['login'] = secret[0]
@@ -53,7 +53,7 @@ class ZohoCSVVault(CSV):
 
     def parse(self):
         """Parse Zoho CSV Vault file."""
-        super(ZohoCSVVault, self).parse()
+        super().parse()
         keys = {
             'SecretType': 'type',
             'Password': 'password',

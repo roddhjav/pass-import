@@ -25,7 +25,7 @@ class CLI(PasswordImporter, PasswordExporter):
             raise PMError(f"{self.command} is required.")  # pragma: no cover
 
         self.env = dict(**os.environ)
-        super(CLI, self).__init__(prefix, settings)
+        super().__init__(prefix, settings)
 
     def _setenv(self, var, env=None):
         """Add var in the environment variables dictionary."""

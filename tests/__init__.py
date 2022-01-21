@@ -136,7 +136,7 @@ class Test(unittest.TestCase):
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
 
     def __init__(self, methodName='runTest'):  # noqa
-        super(Test, self).__init__(methodName)
+        super().__init__(methodName)
 
         # GPG keyring & pass settings
         os.environ.pop('GPG_AGENT_INFO', None)

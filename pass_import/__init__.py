@@ -28,7 +28,7 @@ class Managers(set):
     """Provide an interface to manage the managers' classes easily."""
 
     def __init__(self):
-        super(Managers, self).__init__(get_managers())
+        super().__init__(get_managers())
 
     def classes(self, cap=Cap.IMPORT, frmt=None):
         """Generate the classes of pm with capabilities and format."""
@@ -136,4 +136,4 @@ class Detecters(OrderedDict):
         for pm in cls:
             if pm.format not in self.orders[cap] and cap in pm.cap:
                 detecters[pm.format] = pm
-        super(Detecters, self).__init__(detecters)
+        super().__init__(detecters)

@@ -25,11 +25,11 @@ class Buttercup(CSV):
 
     def parse(self):
         """Parse Buttercup CSV file."""
-        super(Buttercup, self).parse()
+        super().parse()
 
         # Get group structure
         folders = {}
-        groups = list()
+        groups = []
         for entry in self.data:
             if entry.get('!type', '') == 'group':
                 key = entry.get('group', '0')

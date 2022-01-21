@@ -26,7 +26,7 @@ class PadlockCSV(CSV):
 
     def parse(self):
         """Parse Padloc CSV file."""
-        super(PadlockCSV, self).parse()
+        super().parse()
         for entry in self.data:
             entry['group'] = entry.get('group', '').replace('\\', os.sep)
 

@@ -40,5 +40,5 @@ class OTP(JSON):
 
     def open(self):
         """Parse OTP based file."""
-        super(OTP, self).open()
+        super().open()
         self.content = self.file.read()

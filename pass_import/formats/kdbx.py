@@ -47,7 +47,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         settings = {} if settings is None else settings
         keyfile = settings.get('key', '')
         self.keyfile = None if keyfile == '' else keyfile
-        super(KDBX, self).__init__(prefix, settings)
+        super().__init__(prefix, settings)
 
     # Import methods
 
@@ -209,7 +209,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
                                      keyfile=self.keyfile)
         except (CredentialsError, PayloadChecksumError,
                 HeaderChecksumError) as error:  # pragma: no cover
-            raise PMError(error)
+            raise PMError(error) from error
 
     def close(self):
         """Close the keepass repository."""

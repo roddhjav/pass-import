@@ -28,7 +28,7 @@ class BlurCSV(CSV):
 
     def parse(self):
         """Parse Blur CSV file."""
-        super(BlurCSV, self).parse()
+        super().parse()
         for entry in self.data:
             for key in entry:
                 if entry[key] == 'undefined':

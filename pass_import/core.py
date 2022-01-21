@@ -84,7 +84,7 @@ class Asset(ABC):
             self.file = prefix
         else:
             self.prefix = prefix
-        super(Asset, self).__init__()
+        super().__init__()
 
     def open(self):
         """Open the file at ``prefix``."""

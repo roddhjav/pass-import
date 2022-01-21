@@ -35,7 +35,7 @@ class PasswordStore(CLI, Formatter):
 
     def __init__(self, prefix=None, settings=None):
         self._gpgbinary = shutil.which('gpg2') or shutil.which('gpg')
-        super(PasswordStore, self).__init__(prefix, settings)
+        super().__init__(prefix, settings)
         self._setenv('PASSWORD_STORE_DIR')
         self._setenv('PASSWORD_STORE_KEY')
         self._setenv('PASSWORD_STORE_GIT', 'GIT_DIR')
@@ -55,7 +55,7 @@ class PasswordStore(CLI, Formatter):
         if prefix:
             self.prefix = prefix
         if 'PASSWORD_STORE_DIR' not in self.env or self.prefix is None:
-            raise PMError("{} prefix unknown".format(self.name))
+            raise PMError(f"{self.name} prefix unknown")
 
     @property
     def prefix(self):
@@ -137,7 +137,7 @@ class PasswordStore(CLI, Formatter):
             try:
                 entry = self.show(path)
             except PMError as error:  # pragma: no cover
-                raise FormatError(error)
+                raise FormatError(error) from error
             self.data.append(entry)
 
     # Export methods
@@ -221,7 +221,7 @@ class PasswordStore(CLI, Formatter):
         trusted = ['m', 'f', 'u', 'w', 's']
         with open(os.path.join(self.prefix, '.gpg-id'), 'r') as file:
             gpgids = file.read().split('\n')
-            if gpgids[len(gpgids)-1] == '':
+            if gpgids[len(gpgids) - 1] == '':
                 gpgids.pop()
 
         cmd = [

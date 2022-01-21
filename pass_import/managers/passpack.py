@@ -26,7 +26,7 @@ class Passpack(CSV):
 
     def parse(self):
         """Parse Passpack CSV file."""
-        super(Passpack, self).parse()
+        super().parse()
         for entry in self.data:
             groups = json.loads(entry.pop('group', '')).get('tags', [])
             for item in groups:

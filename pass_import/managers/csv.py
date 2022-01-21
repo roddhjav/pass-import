@@ -40,7 +40,7 @@ class GenericCSV(CSV, PasswordExporter):
             self.fieldnames = self.cols.split(',')
         else:
             raise FormatError("no columns to map to credential attributes.")
-        super(GenericCSV, self).parse()
+        super().parse()
 
     # Export methods
 
@@ -50,7 +50,7 @@ class GenericCSV(CSV, PasswordExporter):
 
     def clean(self, cmdclean, convert):
         """Clean data for export in CSV a file."""
-        super(GenericCSV, self).clean(cmdclean, convert)
+        super().clean(cmdclean, convert)
         fieldnames = set()
         for entry in self.data:
             path = entry.pop('path', '')
@@ -96,7 +96,7 @@ class GenericCSV(CSV, PasswordExporter):
     def open(self):
         """Create/Re-create CSV exported file."""
         if self.action is Cap.IMPORT:
-            super(GenericCSV, self).open()
+            super().open()
         else:
             if os.path.isfile(self.prefix):
                 if self.force:
