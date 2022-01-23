@@ -147,6 +147,7 @@ class ManagerMeta():
 
 def table_importer():
     """Generate the new importer table."""
+    warning = "<!-- Do not edit manually, use 'make doc' instead. -->"
     matrix = MANAGERS.matrix()
     with tags.table() as table:
         with tags.thead():
@@ -165,7 +166,7 @@ def table_importer():
                                     align="center", __pretty=False)
                         mm.genrow()
 
-    return f"\n{table.render()}\n"
+    return f"\n{warning}\n{table.render()}\n"
 
 
 def table_exporter():
