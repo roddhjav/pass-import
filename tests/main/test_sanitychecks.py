@@ -12,7 +12,7 @@ class TestMainSanityChecks(tests.Test):
 
     def setUp(self):
         """Ensure we run pimport, not 'pass import'."""
-        os.environ['_PASSWORD_STORE_IMPORT'] = ''  # nosec
+        os.environ['_PASSWORD_STORE_EXTENSION'] = ''  # nosec
 
     def test_main_help(self):
         """Testing: pimport --help."""

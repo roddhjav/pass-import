@@ -110,7 +110,7 @@ class Config(dict):
         self.quiet = False
 
         self.passwordstore = bool(
-            os.environ.get('_PASSWORD_STORE_IMPORT', '') == 'extension')
+            os.environ.get('_PASSWORD_STORE_EXTENSION', '') == 'import')
 
     def verbosity(self, verbose=0, quiet=False):
         """Set program verbosity."""

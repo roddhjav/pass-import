@@ -14,7 +14,7 @@ class TestMainPass(tests.Test):
         """Create a password store repository, use the pass extension."""
         self._tmpdir()
         os.environ['PASSWORD_STORE_DIR'] = self.prefix
-        os.environ['_PASSWORD_STORE_IMPORT'] = 'extension'  # nosec
+        os.environ['_PASSWORD_STORE_EXTENSION'] = 'import'  # nosec
         self._init_pass()
 
     def test_main_help_manager(self):
