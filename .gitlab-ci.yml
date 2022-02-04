@@ -25,6 +25,8 @@ variables:
 
 .script:
   script:
+    - echo '#!/usr/bin/env bash\necho lpass' > /usr/bin/lpass
+    - chmod 755 /usr/bin/lpass
     - mkdir -p ~/.local/share/keyrings/
     - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
     - pip3 install --upgrade pip

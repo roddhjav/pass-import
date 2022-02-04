@@ -22,6 +22,8 @@ install:
   - tar -xf password-store-$PASS_VERSION.tar.xz
   - make --directory=password-store-$PASS_VERSION install
   - mkdir -p ~/.local/share/keyrings/
+  - echo '#!/usr/bin/env bash\necho lpass' > /usr/bin/lpass
+  - chmod 755 /usr/bin/lpass
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
   - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage $TEST_MAGIC
 
