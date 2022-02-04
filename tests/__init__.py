@@ -30,6 +30,8 @@ It provides:
   - tests.reference() Set the expected reference data for a given manager.
   - tests.clear() Clear data from key not in keep.
   - tests.captured() Context manager to capture stdout.
+  - tests.mocked() Mock cloud password managers API response.
+  - tests.skipIfNo() Skip a password manager test if it is disabled.
 """
 
 import os
@@ -52,6 +54,31 @@ db = os.path.join(assets, 'db') + os.sep
 managers = pass_import.Managers()
 with open(os.path.join(tests, 'tests.yml'), 'r') as cfile:
     conf = yaml.safe_load(cfile)
+
+
+def _id(obj):
+    return obj
+
+
+def skipIfNo(name):
+    """Skip a password manager test if it is disabled."""
+    manager = name.upper()
+    enabled = 'T_%s' % manager
+    password = 'TESTS_%s_PASS' % manager
+    if not (enabled in os.environ and password in os.environ):
+        return unittest.skip(f"Skipping: {name} tests disabled.")
+    return _id
+
+
+def mocked(manager, cmd):
+    """Mock cloud password managers API response."""
+    names = {'bitwarden', 'lastpass', 'onepassword'}
+    if manager not in names:
+        return ''
+
+    path = os.path.join(assets, 'mock', manager, cmd)
+    with open(path) as file:
+        return file.read()
 
 
 @contextmanager
@@ -190,6 +217,16 @@ class Test(unittest.TestCase):
             self.assertIn(entry, refdata)
 
     # Special exporter access methods
+
+    def _credentials(self, manager=''):
+        """Set credentials for cloud based password managers."""
+        names = {'bitwarden', 'lastpass', 'onepassword'}
+        if manager in names:
+            name = manager.upper()
+            self.masterpassword = os.environ.get(f'TESTS_{name}_PASS', '')
+            self.login = os.environ.get(f'TESTS_{name}_LOGIN', '')
+            self.key = os.environ.get(f'TESTS_{name}_SECRETKEY', '')
+            self.token = os.environ.get(f'TESTS_{name}_TOKEN', '')
 
     def _init_pass(self):
         """Initialize a new password store repository."""
