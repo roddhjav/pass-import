@@ -76,7 +76,7 @@ def mocked(manager, cmd):
     if manager not in names:
         return ''
 
-    path = os.path.join(assets, 'mock', manager, cmd)
+    path = os.path.join(db, manager, cmd)
     with open(path) as file:
         return file.read()
 
