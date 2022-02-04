@@ -27,12 +27,14 @@ class CLI(PasswordImporter, PasswordExporter):
         self.env = dict(**os.environ)
         super().__init__(prefix, settings)
 
-    def _setenv(self, var, env=None):
+    def _setenv(self, var, env=None, value=None):
         """Add var in the environment variables dictionary."""
         if env is None:
             env = var
         if env in os.environ:
             self.env[var] = os.environ[env]
+        if value is not None:
+            self.env[var] = value
 
     def _call(self, command, data=None, nline=True):
         """Call to a command."""
