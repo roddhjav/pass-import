@@ -316,7 +316,6 @@ def detectmanager(conf):
             pm = detect.format(to_detect)
 
         elif name in MANAGERS.clsnames():
-            detect = AutoDetect(name)
             pm = MANAGERS.get(name)
             conf.verbose(f"Using import class: {pm.__name__}.")
 
