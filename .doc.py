@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# This script updates the readme file in this repo.
+# This script updates the readme, man & completion files in this repo.
 
 import io
 from dominate import tags
@@ -36,7 +36,8 @@ def replace(marker_begin, marker_end, string, newcontent):
     """Replace data inside string markers."""
     begin = string.find(marker_begin)
     end = string.find(marker_end)
-    return string.replace(string[begin + len(marker_begin):end], newcontent)
+    return string.replace(string[begin:end + len(marker_end)],
+                          marker_begin + newcontent + marker_end)
 
 
 class ManagerMeta():
@@ -56,13 +57,6 @@ class ManagerMeta():
             msg = string.split(self.guide)
             url = msg.pop()
             string = ''.join(msg) + f'[this guide]({url})'
-        return string
-
-    def urlto_man(self, string):
-        """Remove markdown link from a string."""
-        if self.guide in string:
-            string = string.replace(self.guide, 'this guide: \\fI')
-            string += '\\fP'
         return string
 
     def urlto_html(self, string):
@@ -111,7 +105,7 @@ class ManagerMeta():
         if self.markdown:
             res = self.urlto_markdown(self.pm.hexport)
         elif self.man:
-            res = self.urlto_man(self.pm.hexport)
+            res = self.pm.hexport
         elif self.html:
             res = self.urlto_html(self.pm.hexport)
         if res == '':
@@ -202,11 +196,12 @@ def usage_importer(ext=True):
     for name in sorted(matrix):
         for pm in matrix[name]:
             mm = ManagerMeta(pm, ext, mode='man')
-            res += (f"\n.TP\n\\fB{name} {mm.format}{mm.version}\\fP\n"
-                    f"Website: \\fI{mm.url}\\fP\n\n")
-            res += mm.usage
-            res += (f"Export: {mm.hexport}\n\n"
-                    f"Command: {mm.himport}\n")
+            res += f"### {name} {mm.format} {mm.version}\n"
+            if mm.url:
+                res += f"**Website:** *{mm.url}*\n"
+            res += mm.usage + "\n"
+            res += (f"**Export:** {mm.hexport}\n\n"
+                    f"**Command:** {mm.himport}\n\n")
     return "\n" + res
 
 
@@ -217,10 +212,11 @@ def usage_exporter():
     for name in sorted(matrix):
         for pm in matrix[name]:
             mm = ManagerMeta(pm, mode='man')
-            res += (f"\n.TP\n\\fB{name} {mm.format} {mm.version}\\fP\n"
-                    f"Website: \\fI{mm.url}\\fP\n\n")
-            res += mm.usage
-            res += f"Command: pimport {name} src [src]\n"
+            res += f"### {name} {mm.format} {mm.version}\n"
+            if mm.url:
+                res += f"**Website:** *{mm.url}*\n"
+            res += mm.usage + "\n"
+            res += f"**Command:** pimport {name} src [src]\n\n"
     return "\n" + res
 
 
@@ -278,50 +274,54 @@ def zsh_exporter():
 
 
 UPDATE = {
-    'README.md': [
+    'README.md': (None, [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', table_importer()),
         ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', table_exporter()),
         ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', usage()),
-    ],
-    'share/man/man1/pass-import.1': [
-        (r'\# NB BEGIN', r'\# NB END', f'\n{len(MANAGERS)}\n'),
-        (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
-    ],
-    'share/man/man1/pimport.1': [
-        (r'\# NB BEGIN', r'\# NB END', f'\n{len(MANAGERS)}\n'),
-        (r'\# NB EXPORT BEGIN', r'\# NB EXPORT END',
-         f'\n{len(MANAGERS.names(Cap.EXPORT))}\n'),
-        (r'\# LIST BEGIN', r'\# LIST END', usage_importer()),
-        (r'\# LIST DST BEGIN', r'\# LIST DST END', usage_exporter()),
-    ],
-    'share/bash-completion/completions/pass-import': [
+    ]),
+    'share/man/man1/pass-import.md': ('share/man/man1/out.pass-import.md', [
+        ('<!-- NB BEGIN -->', '<!-- NB END -->', f'\n{len(MANAGERS)}\n'),
+        ('<!-- LIST BEGIN -->', '<!-- LIST END -->', usage_importer()),
+    ]),
+    'share/man/man1/pimport.md': ('share/man/man1/out.pimport.md', [
+        ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
+        ('<!-- NB EXPORT BEGIN -->', '<!-- NB EXPORT END -->',
+         f'{len(MANAGERS.names(Cap.EXPORT))}'),
+        ('<!-- LIST BEGIN -->', '<!-- LIST END -->', usage_importer()),
+        ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', usage_exporter()),
+    ]),
+    'share/bash-completion/completions/pass-import': (None, [
         ('# importers begin', '# importers end', bash_importer()),
-    ],
-    'share/zsh/site-functions/_pass-import': [
+    ]),
+    'share/zsh/site-functions/_pass-import': (None, [
         ('# importers begin', '# importers end', zsh_importer()),
-    ],
-    'share/bash-completion/completions/pimport': [
+    ]),
+    'share/bash-completion/completions/pimport': (None, [
         ('# importers begin', '# importers end', bash_importer()),
         ('# exporter begin', '# importers begin', bash_exporter()),
-    ],
-    'share/zsh/site-functions/_pimport': [
+    ]),
+    'share/zsh/site-functions/_pimport': (None, [
         ('# importers begin', '# importers end', zsh_importer()),
         ('# exporter begin', '# exporter end', zsh_exporter()),
-    ],
+    ]),
 }
 
 
 def main():
     """Update the documentation files last usage and manager lists."""
-    for path, pattern in UPDATE.items():
-        with open(path, 'r') as file:
+    for src, action in UPDATE.items():
+        dst = action[0]
+        pattern = action[1]
+        with open(src, 'r') as file:
             data = file.read()
 
         for begin, end, res in pattern:
             data = replace(begin, end, data, res)
 
-        with open(path, 'w') as file:
+        if dst is None:
+            dst = src
+        with open(dst, 'w') as file:
             file.write(data)
 
 

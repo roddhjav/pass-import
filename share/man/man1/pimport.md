@@ -15,7 +15,7 @@ pimport —  A passwords importer swiss army knife
 **import** is a passwords importer swiss army knife allowing you to import
 your password database to your new password manager repository conveniently.
 It natively supports import from <!-- NB BEGIN --><!-- NB END --> password
-managers, and export to <!-- NB EXPORT BEGIN --><!-- \# NB EXPORT END -->
+managers, and export to <!-- NB EXPORT BEGIN --><!-- NB EXPORT END -->
 destination password managers. More manager support can easily be added.
 
 Passwords are imported into an existing password repository; therefore, the
