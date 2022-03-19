@@ -332,7 +332,7 @@ database to a generic CSV file...
       <td align="center"><code>pass import roboform file.csv</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="1"><a href="https://saferpass.net">safeincloud</a></td>
+      <td align="center" rowspan="1"><a href="https://safeincloud.ladesk.com/">safeincloud</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>File > Export > Comma-Separated Values (CSV)</i></td>
       <td align="center"><code>pass import safeincloud file.csv</code></td>
