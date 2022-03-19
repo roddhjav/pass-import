@@ -39,3 +39,4 @@ from pass_import.managers.roboform import Roboform
 from pass_import.managers.saferpass import SaferPass
 from pass_import.managers.upm import UPM
 from pass_import.managers.zoho import ZohoCSV, ZohoCSVVault
+from pass_import.managers.safeincloud import SafeInCloudCSV

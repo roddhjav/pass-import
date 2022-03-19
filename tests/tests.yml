@@ -221,3 +221,8 @@ ZohoCSV:
 
 ZohoCSVVault:
   path: zoho.vault.csv
+
+SafeInCloudCSV:
+  path: safeincloud.csv
+  without:
+    - group
