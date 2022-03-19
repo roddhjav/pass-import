@@ -204,6 +204,11 @@ Roboform:
   path: roboform.csv
   root: /
 
+SafeInCloudCSV:
+  path: safeincloud.csv
+  without:
+    - group
+
 SaferPass:
   path: saferpass.csv
   without:
@@ -222,7 +227,3 @@ ZohoCSV:
 ZohoCSVVault:
   path: zoho.vault.csv
 
-SafeInCloudCSV:
-  path: safeincloud.csv
-  without:
-    - group
