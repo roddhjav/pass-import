@@ -11,7 +11,7 @@ class SafeInCloudCSV(CSV):
     """Importer for SafeInCloud in CSV format."""
     name = 'safeincloud'
     url = 'https://safeincloud.ladesk.com/'
-    hexport = 'File > Export > (CSV)'
+    hexport = 'File > Export > Comma-Separated Values (CSV)'
     himport = 'pass import safeincloud file.csv'
     keys = {
         'title': 'Title',
