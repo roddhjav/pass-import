@@ -1,16 +1,16 @@
-Url,Username,Password,Extra,Name,Grouping,Fav
-https://mastodon.social/,ostqxi,"D<INNeT?#?Bf4%`zA/4i!/'$T",,mastodon.social,Social,0
-https://twitter.com/,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",,twitter.com,Social,0
-https://news.ycombinator.com,ostqxi,"1)Btf2EI~Tfb7g2A!Sy',*Sj#",,https://news.ycombinator.com,Social,0
-https://www.ovh.com/manager/web/,jsdkyvbwjn,^Vr/|o>_H8X%T]7>f}7|:U!Zs,,ovh.com,Servers,0
-https://www.ovh.com/manager/web/,bynbyjhqjz,"3Z-VW!i,j(&!zRGPu(hFe]s'(",,ovh.com,Servers,0
-https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",,aib,Bank,0
-https://afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,,dpbx@afoqwdr.tx,Emails,0
-,dpbx,"2cUqe}e9}>IVZf)Ye>3C8ZN,r",This is a garbage address,dpbx@klivak.xb,Emails,0
-https://mail.mnyfymt.ws,dpbx,rPCkmNkhIa>{izt3C3F823!Go,,dpbx@mnyfymt.ws,Emails/WS,0
-,dpbx,mt}h'hSUCY;SU;;A!l[8y3O:8,For financial purpose only!,dpbx@fner.ws,Emails/WS,0
-https://nhysdo.wg,vkeelpbu,]stDKo{%pk,,space title,CornerCases,0
-,,,,empty entry,CornerCases,0
-https://nhysdo.wg,vkeelpbu,,,empty password,CornerCases,0
+url,username,password,additionalInfo,nickname,twofaSecret
+https://mastodon.social/,ostqxi,"D<INNeT?#?Bf4%`zA/4i!/'$T",,mastodon.social,q3cqvrxeak7vcj6etwm7rihedmwqr3uk
+https://twitter.com/,ostqxi,"SoNEwvU,kJ%-cIKJ9[c#S;]jB",,twitter.com,gv3p5xbappdpqc55n2dt7qrshg7xvcsi
+https://news.ycombinator.com,ostqxi,"1)Btf2EI~Tfb7g2A!Sy',*Sj#",,https://news.ycombinator.com,hc52uzj7ktdl52dpcj2nyewhyyaemuve
+https://www.ovh.com/manager/web/,jsdkyvbwjn,^Vr/|o>_H8X%T]7>f}7|:U!Zs,,ovh.com,spx2vpa6lyo6gyzgmfx2an5hw7qk2kjd
+https://www.ovh.com/manager/web/,bynbyjhqjz,"3Z-VW!i,j(&!zRGPu(hFe]s'(",,ovh.com,zjkvldvy2idj5fl75rhhtyk7w2xzwwph
+https://onlinebanking.aib.ie,dpbx@fner.ws,"ws5T@;_UB[Q|P!8'`~z%XC'JHFUbf#IX _E0}:HF,[{ei0hBg14",,aib,5bwsdblik3twul6cqoe2frveno5ljpjr
+https://afoqwdr.tx,dpbx,9KVHnx:.S_S;cF`=CE@e\p{v6,,dpbx@afoqwdr.tx,dbrpmcisrxjqrdwg74w6bhbtakhxmfvv
+,dpbx,"2cUqe}e9}>IVZf)Ye>3C8ZN,r",This is a garbage address,dpbx@klivak.xb,scfdkov3yxh4h7wefjpwavbcajanff5l
+https://mail.mnyfymt.ws,dpbx,rPCkmNkhIa>{izt3C3F823!Go,,dpbx@mnyfymt.ws,qtqwiybpa3lrikhx3wqugqkd6rckhohw
+,dpbx,mt}h'hSUCY;SU;;A!l[8y3O:8,For financial purpose only!,dpbx@fner.ws,pg35wddcyhr64lg2st75gb475bfiqorq
+https://nhysdo.wg,vkeelpbu,]stDKo{%pk,,space title,brw5oaeeuanyv2ujkwotdtlszz2p34r5
+,,,,empty entry,xv66sgomt4vxnhpir3gxrjgkjpya45e5
+https://nhysdo.wg,vkeelpbu,,,empty password,3zduwxbbfem5gix5ibydrb2igcubh2pv
 ,,,"This is a multiline note entry. Cube shank petroleum guacamole dart mower
-acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",note,CornerCases,0
+acutely slashing upper cringing lunchbox tapioca wrongful unbeaten sift.",note,cw7umt2lcleaa2schkisjziautyrn564
