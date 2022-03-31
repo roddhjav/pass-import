@@ -155,6 +155,8 @@ LastpassCSV:
 
 Myki:
   path: myki.csv
+  without:
+    - group
 
 NetworkManager:
   parse: False
