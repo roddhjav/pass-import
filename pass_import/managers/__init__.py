@@ -26,7 +26,7 @@ from pass_import.managers.lastpass import LastpassCSV
 from pass_import.managers.myki import Myki
 from pass_import.managers.networkmanager import NetworkManager
 from pass_import.managers.onepassword import (OnePassword4CSV, OnePassword4PIF,
-                                              OnePasswordCSV)
+                                              OnePasswordCSV, OnePassword8CSV)
 from pass_import.managers.padlock import PadlockCSV
 from pass_import.managers.passman import PassmanCSV, PassmanJSON
 from pass_import.managers.passpack import Passpack

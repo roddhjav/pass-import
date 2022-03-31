@@ -170,6 +170,11 @@ OnePassword4CSV:
   without:
     - group
 
+OnePassword8CSV:
+  path: 1password8.csv
+  without:
+    - group
+
 OnePassword4PIF:
   path: 1password.1pif
 

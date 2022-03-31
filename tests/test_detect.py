@@ -18,7 +18,7 @@ class TestDetect(tests.Test):
             'buttercup': tests.managers.get('Buttercup'),
             'enpass': tests.managers.get('Enpass6'),
             'keepass': tests.managers.get('Keepass'),
-            '1password': tests.managers.get('OnePasswordCSV'),
+            '1password': tests.managers.get('OnePassword8CSV'),
         }
         for name in defaults:
             with self.subTest(name):

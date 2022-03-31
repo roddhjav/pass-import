@@ -12,6 +12,7 @@ class OnePasswordCSV(CSV):
     """Importer for 1password 6 in CSV format."""
     name = '1password'
     version = '6'
+    default = False
     url = 'https://1password.com'
     hexport = 'See this guide: https://support.1password.com/export'
     himport = 'pass import 1password file.csv'
@@ -43,6 +44,26 @@ class OnePassword4CSV(CSV):
     }
 
 
+class OnePassword8CSV(CSV):
+    """Importer for 1password 8 in CSV format."""
+    name = '1password'
+    version = '8'
+    url = 'https://1password.com'
+    hexport = 'See this guide: https://support.1password.com/export'
+    himport = 'pass import 1password file.csv'
+    keys = {
+        'title': 'Title',
+        'url': 'Url',
+        'login': 'Username',
+        'password': 'Password',
+        'otpauth': 'OTPAuth',
+        'favorite': 'Favorite',
+        'archived': 'Archived',
+        'tags': 'Tags',
+        'comments': 'Notes'
+    }
+
+
 class OnePassword4PIF(PIF):
     """Importer for 1password 4 in PIF format."""
     name = '1password'
@@ -61,4 +82,4 @@ class OnePassword4PIF(PIF):
     }
 
 
-register_managers(OnePasswordCSV, OnePassword4CSV, OnePassword4PIF)
+register_managers(OnePasswordCSV, OnePassword4CSV, OnePassword4PIF, OnePassword8CSV)
