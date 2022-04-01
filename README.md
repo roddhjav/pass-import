@@ -41,6 +41,12 @@ database to a generic CSV file...
   <tbody>
     <tr>
       <td align="center" rowspan="3"><a href="https://1password.com">1password</a></td>
+      <td align="center"><code>csv v8</code></td>
+      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
+      <td align="center"><code>pass import 1password file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="3"><a href="https://1password.com">1password</a></td>
       <td align="center"><code>csv v6</code></td>
       <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
       <td align="center"><code>pass import 1password file.csv</code></td>
