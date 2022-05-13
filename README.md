@@ -627,12 +627,6 @@ sudo apt-get update
 sudo apt-get install pass-extension-import
 ```
 
-**Gentoo Linux**
-```sh
-layman -a wjn-overlay
-emerge app-admin/pass-import
-```
-
 **NixOS**
 ```sh
 nix-env -iA nixos.passExtensions.pass-import
