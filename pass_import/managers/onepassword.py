@@ -82,4 +82,5 @@ class OnePassword4PIF(PIF):
     }
 
 
-register_managers(OnePasswordCSV, OnePassword4CSV, OnePassword4PIF, OnePassword8CSV)
+register_managers(OnePasswordCSV, OnePassword4CSV,
+                  OnePassword4PIF, OnePassword8CSV)

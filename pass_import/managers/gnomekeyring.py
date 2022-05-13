@@ -59,7 +59,8 @@ class GnomeKeyring(PasswordImporter):
         """Nothing to do."""
         return True
 
-    def isvalid(self):
+    @classmethod
+    def isvalid(cls):
         """Nothing to do."""
         return True
 
