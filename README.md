@@ -610,8 +610,8 @@ yay -S pass-import  # or your preferred AUR install method
 `pass-extension-import`. Both the repository and the package are signed with
 my GPG key: [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 ```sh
-wget -qO - https://pkg.pujol.io/debian/gpgkey | sudo apt-key add -
-echo 'deb [arch=amd64] https://pkg.pujol.io/debian/repo all main' | sudo tee /etc/apt/sources.list.d/pkg.pujol.io.list
+wget -qO - https://pkg.pujol.io/debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/pujol.io.gpg >/dev/null
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/pujol.io.gpg] https://pkg.pujol.io/debian/repo all main' | sudo tee /etc/apt/sources.list.d/pkg.pujol.io.list
 sudo apt-get update
 sudo apt-get install pass-extension-import
 ```
