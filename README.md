@@ -532,6 +532,22 @@ For example:
 pass import lastpass lastpass.csv.gpg
 ```
 
+**Mandatory Access Control (MAC)**
+
+AppArmor profiles for `pass` and `pass-import` are available in 
+[`apparmor.d`][apparmor.d]. If your distribution support AppArmor, you can
+clone the [apparmor.d] and run: `sudo ./pick pass pass-import` to only install
+these apparmor security profiles.
+
+**Network**
+
+pass-import only needs to etablish network connection to support cloud based
+password manager. If you do not use these importers you can ensure pass-import is
+not using the network by removing the `network` rules in the apparmor profile of
+pass-import.
+
+**Password Update**
+
 You might also want to update the passwords imported using [`pass-update`][update].
 
 
