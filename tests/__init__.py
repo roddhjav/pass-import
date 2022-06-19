@@ -63,8 +63,8 @@ def _id(obj):
 def skipIfNo(name):
     """Skip a password manager test if it is disabled."""
     manager = name.upper()
-    enabled = 'T_%s' % manager
-    password = 'TESTS_%s_PASS' % manager
+    enabled = f"T_{manager}"
+    password = f"TESTS_{manager}_PASS"
     if not (enabled in os.environ and password in os.environ):
         return unittest.skip(f"Skipping: {name} tests disabled.")
     return _id
