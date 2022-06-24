@@ -11,11 +11,11 @@ _pass-import () {
 		local -a subcommands
 		# importers begin
 		subcommands=(
-			'1password:Importer for 1password in CSV v6, 1PIF v4, CSV v4'
+			'1password:Importer for 1password in CSV v8, 1PIF v4, CSV v6, CSV v4'
 			'aegis:Importer for aegis in JSON, JSON'
 			'andotp:Importer for andotp in JSON'
 			'apple-keychain:Importer for apple-keychain in KEYCHAIN'
-			'bitwarden:Importer for bitwarden in CSV, JSON'
+			'bitwarden:Importer for bitwarden in CSV, CSV, JSON, JSON'
 			'blur:Importer for blur in JSON, CSV'
 			'buttercup:Importer for buttercup in CSV'
 			'chrome:Importer for chrome in CSV, CSV'
@@ -40,6 +40,7 @@ _pass-import () {
 			'lastpass:Importer for lastpass in CSV'
 			'myki:Importer for myki in CSV'
 			'network-manager:Importer for network-manager in NM'
+			'nordpass:Importer for nordpass in CSV'
 			'padlock:Importer for padlock in CSV'
 			'pass:Importer for pass in PASS'
 			'passman:Importer for passman in CSV, JSON'
@@ -48,6 +49,7 @@ _pass-import () {
 			'pwsafe:Importer for pwsafe in XML'
 			'revelation:Importer for revelation in XML'
 			'roboform:Importer for roboform in CSV'
+			'safeincloud:Importer for safeincloud in CSV'
 			'saferpass:Importer for saferpass in CSV'
 			'upm:Importer for upm in CSV'
 			'zoho:Importer for zoho in CSV, CSV'

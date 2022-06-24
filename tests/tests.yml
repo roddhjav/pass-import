@@ -167,6 +167,9 @@ NetworkManager:
   parse: False
   path: networkmanager
 
+NordPassCSV:
+  path: nordpass.csv
+
 OnePasswordCSV:
   path: 1password.csv
 

@@ -12,7 +12,7 @@ the existing password manager.
 \fBpass import\fP is a password store extension allowing you to import your
 password database to a password store repository conveniently. It natively
 supports import from \# NB BEGIN
-55
+60
 \# NB END
 different password managers. More manager support can easily be added.
 
@@ -272,7 +272,7 @@ invalids:
 \# LIST BEGIN
 
 .TP
-\fB1password (csv) v6\fP
+\fB1password (csv) v8\fP
 Website: \fIhttps://1password.com\fP
 
 Export: See this guide: \fIhttps://support.1password.com/export\fP
@@ -286,6 +286,14 @@ Website: \fIhttps://1password.com\fP
 Export: See this guide: \fIhttps://support.1password.com/export\fP
 
 Command: pass import 1password file.1pif
+
+.TP
+\fB1password (csv) v6\fP
+Website: \fIhttps://1password.com\fP
+
+Export: See this guide: \fIhttps://support.1password.com/export\fP
+
+Command: pass import 1password file.csv
 
 .TP
 \fB1password (csv) v4\fP
@@ -334,6 +342,22 @@ Website: \fIhttps://bitwarden.com\fP
 Export: Tools> Export Vault> File Format: .csv
 
 Command: pass import bitwarden file.csv
+
+.TP
+\fBbitwarden (csv)\fP
+Website: \fIhttps://bitwarden.com\fP
+
+Export: Tools> Export Vault> File Format: .csv
+
+Command: pass import bitwarden file.csv
+
+.TP
+\fBbitwarden (json)\fP
+Website: \fIhttps://bitwarden.com\fP
+
+Export: Tools> Export Vault> File Format: .json
+
+Command: pass import bitwarden file.json
 
 .TP
 \fBbitwarden (json)\fP
@@ -635,6 +659,14 @@ Export: Also support specific networkmanager dir and ini file
 Command: pass import networkmanager
 
 .TP
+\fBnordpass (csv)\fP
+Website: \fIhttps://nordpass.com/\fP
+
+Export: Settings > Export Items
+
+Command: pass import nordpass file.csv
+
+.TP
 \fBpadlock (csv)\fP
 Website: \fIhttps://padloc.app\fP
 
@@ -705,6 +737,14 @@ Website: \fIhttps://www.roboform.com\fP
 Export: Roboform > Options > Data & Sync > Export To: CSV file
 
 Command: pass import roboform file.csv
+
+.TP
+\fBsafeincloud (csv)\fP
+Website: \fIhttps://safeincloud.ladesk.com/\fP
+
+Export: File > Export > Comma-Separated Values (CSV)
+
+Command: pass import safeincloud file.csv
 
 .TP
 \fBsaferpass (csv)\fP

@@ -11,7 +11,7 @@
 ## Description
 `pass import` is a password store extension allowing you to import your password
 database to a password store repository conveniently. It natively supports
-import from <!-- NB BEGIN -->55<!-- NB END --> different password managers.
+import from <!-- NB BEGIN -->60<!-- NB END --> different password managers.
 More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
@@ -31,6 +31,7 @@ database to a generic CSV file...
 **The following password managers are supported:**
 
 <!-- LIST BEGIN -->
+<!-- Do not edit manually, use 'make doc' instead. -->
 <table>
   <thead>
     <th align="center">Password Manager</th>
@@ -46,14 +47,14 @@ database to a generic CSV file...
       <td align="center"><code>pass import 1password file.csv</code></td>
     </tr>
     <tr>
-      <td align="center"><code>csv v6</code></td>
-      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
-      <td align="center"><code>pass import 1password file.csv</code></td>
-    </tr>
-    <tr>
       <td align="center"><code>1pif v4</code></td>
       <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
       <td align="center"><code>pass import 1password file.1pif</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv v6</code></td>
+      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
+      <td align="center"><code>pass import 1password file.csv</code></td>
     </tr>
     <tr>
       <td align="center"><code>csv v4</code></td>
@@ -84,10 +85,20 @@ database to a generic CSV file...
       <td align="center"><code>pass import applekeychain file.txt</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="2"><a href="https://bitwarden.com">bitwarden</a></td>
+      <td align="center" rowspan="4"><a href="https://bitwarden.com">bitwarden</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Tools> Export Vault> File Format: .csv</i></td>
       <td align="center"><code>pass import bitwarden file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Tools> Export Vault> File Format: .csv</i></td>
+      <td align="center"><code>pass import bitwarden file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center"><code>json</code></td>
+      <td align="center"><i>Tools> Export Vault> File Format: .json</i></td>
+      <td align="center"><code>pass import bitwarden file.json</code></td>
     </tr>
     <tr>
       <td align="center"><code>json</code></td>
@@ -284,6 +295,12 @@ database to a generic CSV file...
       <td align="center"><code>pass import networkmanager</code></td>
     </tr>
     <tr>
+      <td align="center" rowspan="1"><a href="https://nordpass.com/">nordpass</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Settings > Export Items</i></td>
+      <td align="center"><code>pass import nordpass file.csv</code></td>
+    </tr>
+    <tr>
       <td align="center" rowspan="1"><a href="https://padloc.app">padlock</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Settings > Export Data and copy text into a .csv file</i></td>
@@ -406,16 +423,23 @@ pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
 ### Help
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG] [-l] [-h] [-V] [-v | -q] [src ...]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [--sep CHAR] [--del CHAR]
+                   [--cols COLS] [--config CONFIG] [-l] [-h] [-V] [-v | -q]
+                   [src ...]
 
   Import data from most of the password manager. Passwords are imported into
   the existing default password store; therefore, the password store must have
   been initialised before with 'pass init'.
 
 Password managers:
-  src                   Path to the data to import. Can also be the password manager name followed by the path to the data to import. The password manager name can be: 1password, aegis, andotp, apple-keychain, bitwarden, blur,
-                        buttercup, chrome, clipperz, csv, dashlane, encryptr, enpass, firefox, fpm, freeotp+, gnome, gnome-auth, gopass, gorilla, kedpm, keepass, keepassx, keepassx2, keepassxc, keeper, lastpass, myki, network-manager,
-                        padlock, pass, passman, passpack, passpie, pwsafe, revelation, roboform, saferpass, upm, zoho
+  src                   Path to the data to import. Can also be the password manager name followed
+                        by the path to the data to import. The password manager name can be:
+                        1password, aegis, andotp, apple-keychain, bitwarden, blur, buttercup,
+                        chrome, clipperz, csv, dashlane, encryptr, enpass, firefox, fpm, freeotp+,
+                        gnome, gnome-auth, gopass, gorilla, kedpm, keepass, keepassx, keepassx2,
+                        keepassxc, keeper, lastpass, myki, network-manager, nordpass, padlock,
+                        pass, passman, passpack, passpie, pwsafe, revelation, roboform,
+                        safeincloud, saferpass, upm, zoho.
 
 Common optional arguments:
   -r path, --root path  Only import the password from a specific subfolder.
@@ -429,7 +453,8 @@ Common optional arguments:
 Extra optional arguments:
   --sep CHAR            Provide a characters of replacement for the path separator. Default: '-'
   --del CHAR            Provide an alternative CSV delimiter character. Default: ','
-  --cols COLS           CSV expected columns to map columns to credential attributes. Only used by the csv importer.
+  --cols COLS           CSV expected columns to map columns to credential attributes. Only used by
+                        the csv importer.
   --config CONFIG       Set a config file. Default: '.import'
 
 Help related optional arguments:
