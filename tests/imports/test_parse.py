@@ -8,7 +8,6 @@ from unittest.mock import patch
 
 import tests
 
-
 REFERENCE_OTP = tests.yaml_load('otp.yml')
 REFERENCE_WIFI = tests.yaml_load('networkmanager-wifi.yml')
 REFERENCE_NOTE = tests.yaml_load('applekeychain-note.yml')
@@ -130,6 +129,40 @@ class TestParse(tests.Test):
         with tests.cls('KeepassXML', prefix) as importer:
             importer.parse()
             self.assertImport(importer.data, REFERENCE_OTHER)
+
+    @patch('pass_import.managers.LastpassCLI._command')
+    @patch('pass_import.managers.LastpassCLI._call')
+    @patch("getpass.getpass")
+    def test_import_lastpass(self, pw, call, command):
+        """Testing: parse method for Lastpass CLI."""
+        # Generate mocked API call response
+        show_uids_response = ['', tests.mocked('lastpass', 'list')]
+        uids = [
+            '8273029964772952977', '2484914384825433708',
+            '6082506157297743545', '2708675046823528822',
+            '4286509791900574846', '8309982398435317891',
+            '4061988620109635891', '5256086908408307038',
+            '3765864825443255811', '3243291093373152461',
+            '5243770479038533622', '3905446787942154016',
+            '6051084001543180250', '8440852123732500555',
+        ]
+        for ids in uids:
+            show_uids_response.append(
+                tests.mocked('lastpass', f'show-{ids}.json')
+            )
+            show_uids_response.append(
+                tests.mocked('lastpass', f'show-{ids}')
+            )
+        show_uids_response.append('')  # sync
+
+        pw.return_value = 'dummy'
+        call.return_value = (1, None, None)
+        command.side_effect = show_uids_response
+
+        reference = tests.reference('LastpassCLI')
+        with tests.cls('LastpassCLI', 'login', root='Import') as importer:
+            importer.parse()
+            self.assertImport(importer.data, reference)
 
     def test_import_networkmanager(self):
         """Testing: parse method for NetworkManager."""

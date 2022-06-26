@@ -543,6 +543,22 @@ For example:
 pass import lastpass lastpass.csv.gpg
 ```
 
+**Mandatory Access Control (MAC)**
+
+AppArmor profiles for `pass` and `pass-import` are available in 
+[`apparmor.d`][apparmor.d]. If your distribution support AppArmor, you can
+clone the [apparmor.d] and run: `sudo ./pick pass pass-import` to only install
+these apparmor security profiles.
+
+**Network**
+
+pass-import only needs to etablish network connection to support cloud based
+password manager. If you do not use these importers you can ensure pass-import is
+not using the network by removing the `network` rules in the apparmor profile of
+pass-import.
+
+**Password Update**
+
 You might also want to update the passwords imported using [`pass-update`][update].
 
 
@@ -621,8 +637,8 @@ yay -S pass-import  # or your preferred AUR install method
 `pass-extension-import`. Both the repository and the package are signed with
 my GPG key: [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 ```sh
-wget -qO - https://pkg.pujol.io/debian/gpgkey | sudo apt-key add -
-echo 'deb [arch=amd64] https://pkg.pujol.io/debian/repo all main' | sudo tee /etc/apt/sources.list.d/pkg.pujol.io.list
+wget -qO - https://pkg.pujol.io/debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/pujol.io.gpg >/dev/null
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/pujol.io.gpg] https://pkg.pujol.io/debian/repo all main' | sudo tee /etc/apt/sources.list.d/pkg.pujol.io.list
 sudo apt-get update
 sudo apt-get install pass-extension-import
 ```

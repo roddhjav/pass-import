@@ -22,7 +22,7 @@ from pass_import.managers.keepassx import KeepassxXML
 from pass_import.managers.keepassx2 import Keepassx2CSV, Keepassx2KDBX
 from pass_import.managers.keepassxc import KeepassxcCSV, KeepassxcKDBX
 from pass_import.managers.keeper import KeeperCSV
-from pass_import.managers.lastpass import LastpassCSV
+from pass_import.managers.lastpass import LastpassCLI, LastpassCSV
 from pass_import.managers.myki import Myki
 from pass_import.managers.networkmanager import NetworkManager
 from pass_import.managers.onepassword import (OnePassword4CSV, OnePassword4PIF,

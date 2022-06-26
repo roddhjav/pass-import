@@ -1,97 +1,73 @@
-Contributing
-============
+# Contributing
 
 You want to contribute to pass-import, **thank a lot for this.** You will find
-in this page all the useful information needed to contribute to ``pass-import``.
+in this page all the useful information needed to contribute to `pass-import`.
 
 
-How to run the tests?
----------------------
+## How to run the tests?
 
-``pass-import`` has a complete test suite that provide functional and unit tests
+`pass-import` has a complete test suite that provide functional and unit tests
 for all the parts of the program. Moreover, it provides test coverage and code
 health reports.
 
-Tests
-~~~~~
-
+##### Tests
 To run the tests, you need to install the following programs:
+* [python-green] as python test runner.
+* [python-coverage] as code coverage system.
 
-- `python-green`_ as python test runner.
-- `python-coverage`_ as code coverage system.
+Then simply run: `make tests`
 
-Then simply run: ``make tests``
-
-Code health
-~~~~~~~~~~~
-
+##### Code health
 To run the code health report, you need to install the following programs:
+* [prospector]: `pip install prospector[with_everything]`
 
-- `prospector`_ ``pip install prospector[with_everything]``
+Then simply run: `make lint`
 
-Then simply run: ``make lint``
-
-Security check
-~~~~~~~~~~~~~~
-
+##### Security check
 To run the security check, you need to install the following programs:
+* [bandit]: `pip install bandit`
 
-- `bandit`_ ``pip install bandit``
+Then simply run: `make security`
 
-Then simply run: ``make security``
-
-Generate the documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+##### Generate the documentation
 To re-generate the README table as well as the man pages and the completion
 file simply run: ``make docs``
 
 
-How to contribute?
-------------------
+## How to contribute?
 
-1) If you don't have git on your machine, [install it][git].
-2) Fork this repo by clicking on the fork button on the top of this page.
-3) Clone the repository and go to the directory:
-
-.. code-block:: console
-
+1. If you don't have git on your machine, [install it][git].
+2. Fork this repo by clicking on the fork button on the top of this page.
+3. Clone the repository and go to the directory:
+    ```sh
     git clone  https://github.com/this-is-you/pass-import.git
     cd pass-import
-
-4) Create a branch:
-
-.. code-block:: console
-
+    ```
+4. Create a branch:
+    ```sh
     git checkout -b my_contribution
-
-5) Make the changes and commit:
-
-.. code-block:: console
-
+    ```
+5. Make the changes and commit:
+    ```sh
     git add <files changed>
     git commit -m "A message for sum up my contribution"
-
-6) Push changes to GitHub:
-
-.. code-block:: console
-
+    ```
+6. Push changes to GitHub:
+    ```
     git push origin my_contribution
+    ```
+7. Submit your changes for review: If you go to your repository on GitHub,
+   you'll see a Compare & pull request button, fill and submit the pull request.
 
-7) Submit your changes for review: If you go to your repository on GitHub,
-you'll see a Compare & pull request button, fill and submit the pull request.
 
+##  How to add the support for a new password manager?
 
-How to add the support for a new password manager?
---------------------------------------------------
+1. To add support for a new password manager named `mymanager`, add the file
+   `pass_import/managers/mymanager.py`. The code itself will depend on the
+   format of the file it should import. Here is the bare minimum for a CSV based
+   importer:
 
-1) To add support for a new password manager named ``mymanager``, add the file
-``pass_import/managers/mymanager.py``. The code itself will depend on the
-format of the file it should import. Here is the bare minimum for a CSV based
-importer:
-
-.. code-block:: python
-
+    ```python
     # -*- encoding: utf-8 -*-
     # pass import - Passwords importer swiss army knife
     # Copyright (C) Year YourName <you@example.org>.
@@ -122,31 +98,28 @@ importer:
 
 
     register_managers(MyManagerCSV)
+    ```
 
+2. Then, you will want to import the class `MyManagerCSV` in `pass_import/managers/__init__.py`.
 
-2) Then, you will want to import the class ``MyManagerCSV`` in ``pass_import/managers/__init__.py``.
+3. Add a file named `tests/assets/db/mymanager[.csv,.xml,...]`. **No
+   contribution will be accepted without this file.** This file must contain the
+   exported data from *your manager*. It has to be the exact export of the main
+   test password repository. This test data can be found in the
+   `tests/assets/references/main.yml`.
 
-3) Add a file named ``tests/assets/db/mymanager[.csv,.xml,...]``. **No
-contribution will be accepted without this file.** This file must contain the
-exported data from *your manager*. It has to be the exact export of the main
-test password repository. This test data can be found in the
-`tests/assets/references/main.yml`.
-
-4) Enable and configure the generic import and file format test for your new
-importer. Add an entry in ``tests/tests.yml`` with your importer settings.
-**Example**:
-
-.. code-block:: yaml
-
+4. Enable and configure the generic import and file format test for your new
+   importer. Add an entry in ``tests/tests.yml`` with your importer settings.
+   **Example**:
+    ```yaml
     MyManagerCSV:
       path: mymanager.csv
+    ```
 
+5. Check the success of the tests, ensure the coverage does not decrease and the
+   code health passes.
 
-5) Check the success of the tests, ensure the coverage does not decrease and the
-code health passes.
-
-Naming convention
-~~~~~~~~~~~~~~~~~
+## Naming convention
 
 - The class name is not linked to the command name. It is common to name it as
   follow: ``ManagerNameFormat()``.
@@ -155,8 +128,7 @@ Naming convention
 - Always sort the classes in alphabetic order.
 
 
-Data Organization
------------------
+## Data Organization
 
 By definition, password-store does not impose any particular schema or type of
 organisation of data. Nevertheless, `pass-import` respects the most common case
@@ -175,14 +147,14 @@ Data are imported in PasswordManager.data, this is a list of ordered dict. Each
 entry is a dictionary that contains the data for a password store entry. The
 dictionary's keys are divided into two sets:
 
-1) The *standard keys*: `title`, `password`, `login`, `email`, `url`, `comments`,
+1. The *standard keys*: `title`, `password`, `login`, `email`, `url`, `comments`,
 `otpauth` and `group`.
-2) The *extra* keys that differ from password managers and contain the
+2. The *extra* keys that differ from password managers and contain the
 description of any extra data we can find in the exported file.
 
 
-.. _python-green: https://github.com/CleanCut/green
-.. _python-coverage: http://nedbatchelder.com/code/coverage/
-.. _prospector: https://github.com/PyCQA/prospector
-.. _bandit: https://github.com/PyCQA/bandit
-.. _git: https://help.github.com/articles/set-up-git/
+[python-green]: https://github.com/CleanCut/green
+[python-coverage]: http://nedbatchelder.com/code/coverage/
+[prospector]: https://github.com/PyCQA/prospector
+[bandit]: https://github.com/PyCQA/bandit
+[git]: https://help.github.com/articles/set-up-git/

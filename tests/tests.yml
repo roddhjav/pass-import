@@ -150,6 +150,11 @@ Keepassx2CSV:
 KeeperCSV:
   path: keeper.csv
 
+LastpassCLI:
+  parse: False
+  path: <login>
+  root: Import/
+
 LastpassCSV:
   path: lastpass.csv
 

@@ -106,6 +106,8 @@ venv.bak/
 # pass tests
 tests/assets/gnupg/
 tests/assets/database
+out.pass-import.md
+out.pimport.md
 
 # IDE
 .idea/

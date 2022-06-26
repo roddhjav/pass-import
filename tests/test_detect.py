@@ -72,7 +72,8 @@ class TestDetect(tests.Test):
     def test_manager(self):
         """Testing: manager for all managers."""
         wrong_file_mode = {'SaferPass', 'ZohoCSV', 'ZohoCSVVault'}
-        prefix_is_a_login = {'GnomeKeyring'}
+        prefix_is_a_login = {'GnomeKeyring', 'BitwardenCLI', 'OnePasswordCLI',
+                             'LastpassCLI'}
         csv_without_header = {'DashlaneCSV', 'KeeperCSV', 'UPM'}
         not_detectables = wrong_file_mode.union(prefix_is_a_login,
                                                 csv_without_header)
