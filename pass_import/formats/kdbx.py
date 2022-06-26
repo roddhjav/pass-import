@@ -66,7 +66,10 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             if isinstance(value, str):
                 value = self._subref(value)
             entry[key] = value
-        otpauth = self._getotpauth(kpentry.custom_properties)
+        if kpentry.otp is not None:
+            otpauth = kpentry.otp
+        else:
+            otpauth = self._getotpauth(kpentry.custom_properties)
         if otpauth:
             entry['otpauth'] = otpauth
         return entry
