@@ -16,12 +16,12 @@ class Myki(CSV):
                '-passwords-account-data-from-myki')
     himport = 'pass import myki file.csv'
     keys = {
-        'title': 'Name',
-        'password': 'Password',
-        'login': 'Username',
-        'url': 'Url',
-        'comments': 'Extra',
-        'group': 'Grouping'
+        'title': 'nickname',
+        'password': 'password',
+        'login': 'username',
+        'url': 'url',
+        'comments': 'additionalInfo',
+        'otpauth': 'twofaSecret',
     }
 
 

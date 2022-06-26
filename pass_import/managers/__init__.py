@@ -26,7 +26,7 @@ from pass_import.managers.lastpass import LastpassCLI, LastpassCSV
 from pass_import.managers.myki import Myki
 from pass_import.managers.networkmanager import NetworkManager
 from pass_import.managers.onepassword import (OnePassword4CSV, OnePassword4PIF,
-                                              OnePasswordCSV)
+                                              OnePasswordCSV, OnePassword8CSV)
 from pass_import.managers.padlock import PadlockCSV
 from pass_import.managers.passman import PassmanCSV, PassmanJSON
 from pass_import.managers.passpack import Passpack
@@ -36,6 +36,7 @@ from pass_import.managers.gopass import Gopass
 from pass_import.managers.pwsafe import Pwsafe
 from pass_import.managers.revelation import Revelation
 from pass_import.managers.roboform import Roboform
+from pass_import.managers.safeincloud import SafeInCloudCSV
 from pass_import.managers.saferpass import SaferPass
 from pass_import.managers.upm import UPM
 from pass_import.managers.zoho import ZohoCSV, ZohoCSVVault

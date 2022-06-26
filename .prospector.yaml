@@ -29,7 +29,7 @@ mccabe:
   options:
     max-complexity: 15
 
-pep257:
+pydocstyle:
   disable:
     - D100
     - D107

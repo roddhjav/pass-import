@@ -206,6 +206,7 @@ class PasswordStore(CLI, Formatter):
         """
         return os.path.isfile(os.path.join(self.prefix, '.gpg-id'))
 
+    # pylint: disable=arguments-differ
     def isvalid(self):
         """Ensure the GPG keyring is usable.
 

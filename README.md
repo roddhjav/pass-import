@@ -40,7 +40,12 @@ database to a generic CSV file...
   </thead>
   <tbody>
     <tr>
-      <td align="center" rowspan="3"><a href="https://1password.com">1password</a></td>
+      <td align="center" rowspan="4"><a href="https://1password.com">1password</a></td>
+      <td align="center"><code>csv v8</code></td>
+      <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
+      <td align="center"><code>pass import 1password file.csv</code></td>
+    </tr>
+    <tr>
       <td align="center"><code>csv v6</code></td>
       <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
       <td align="center"><code>pass import 1password file.csv</code></td>
@@ -330,6 +335,12 @@ database to a generic CSV file...
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Roboform > Options > Data & Sync > Export To: CSV file</i></td>
       <td align="center"><code>pass import roboform file.csv</code></td>
+    </tr>
+    <tr>
+      <td align="center" rowspan="1"><a href="https://safeincloud.ladesk.com/">safeincloud</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>File > Export > Comma-Separated Values (CSV)</i></td>
+      <td align="center"><code>pass import safeincloud file.csv</code></td>
     </tr>
     <tr>
       <td align="center" rowspan="1"><a href="https://saferpass.net">saferpass</a></td>
@@ -630,12 +641,6 @@ wget -qO - https://pkg.pujol.io/debian/gpgkey | gpg --dearmor | sudo tee /usr/sh
 echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/pujol.io.gpg] https://pkg.pujol.io/debian/repo all main' | sudo tee /etc/apt/sources.list.d/pkg.pujol.io.list
 sudo apt-get update
 sudo apt-get install pass-extension-import
-```
-
-**Gentoo Linux**
-```sh
-layman -a wjn-overlay
-emerge app-admin/pass-import
 ```
 
 **NixOS**
