@@ -22,5 +22,19 @@ class NordPassCSV(CSV):
         'group': 'folder'
     }
 
+    def parse(self):
+        super().parse()
+        # NordPass exports individual folders as their own
+        # empty rows. This code removes the extra folder entries
+        # from the parsed data.
+        groups = []
+        for entry in self.data:
+            if entry['group']:
+                groups.append(entry['group'])
+
+        self.data = list(filter(
+                lambda x: not(x['title'] in groups and not x['group']),
+                self.data))
+
 
 register_managers(NordPassCSV)
