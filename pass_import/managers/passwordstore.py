@@ -134,6 +134,8 @@ class PasswordStore(CLI, Formatter):
         if not paths:
             raise FormatError('empty password store.')
         for path in paths:
+            if self.root not in path:
+                continue
             try:
                 entry = self.show(path)
             except PMError as error:  # pragma: no cover
