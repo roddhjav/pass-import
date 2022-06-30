@@ -164,9 +164,9 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         group = os.path.dirname(path)
 
         root_group = self.keepass.root_group
-        kpgroup = self.keepass.find_groups(path=group)
+        kpgroup = self.keepass.find_groups(path=os.path.split(path))
         if not kpgroup:
-            for grp in group.split('/'):
+            for grp in os.path.split(group):
                 kpgroup = self.keepass.find_groups(path=grp)
                 if not kpgroup:
                     kpgroup = self.keepass.add_group(root_group, grp)
