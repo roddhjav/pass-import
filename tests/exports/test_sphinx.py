@@ -41,9 +41,21 @@ class MockCreateSock:
     def close(self):
         return
 
+def challenge(_):
+    return (
+        b"\xaeiOo\xda\x8d54#\x02\x03uBXr\xdfSie\xbb\xfb?_\x07Z\xb7b'\xd1n\xde\x00",
+        b'\xdc\xb2\x9c\xf6\x06\xa4\x82\x18\xc2\xc4$\xed\x01(\x12\x16\xeb@\xdeOr\xca\x14\xf7\xf6\xb7\x04\x86B\xdaoW'
+    )
+def finish(w,x,y,z):
+    return b'\\\xd6{\xed\xc70\xa1\xb3\xca\xeb\x0b\x91p\x11\x15\xe9P\xdfx\xe1\x8f\x12\x96[\x05\xed\x8c\xad\xb8\xeb\xd7Z'
+
 def connect():
     return MockCreateSock()
+
 pwdsphinx.connect = connect
+pwdsphinx.sphinxlib.challenge = challenge
+pwdsphinx.sphinxlib.finish = finish
+
 
 class TestExportSphinx(tests.Test):
     """Test sphinx general features."""
