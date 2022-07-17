@@ -101,3 +101,110 @@ class TestExportSphinxInsert(tests.Test):
         with Sphinx(self.prefix) as sphinx:
             with self.assertRaises(PMError):
                 sphinx.insert(entry)
+
+    @patch("getpass.getpass")
+    def test_sphinx_insert_history(self, pw):
+        """Testing: sphinx insert history."""
+        pw.return_value = self.masterpassword
+        entry = {'is_a_history_entry': True, 'path': 'test'}
+
+        with Sphinx(self.prefix) as sphinx:
+            with self.assertRaises(PMError):
+                sphinx.insert(entry)
+
+    @patch("getpass.getpass")
+    def test_sphinx_insert_no_login(self, pw):
+        """Testing: sphinx insert no login."""
+        pw.return_value = self.masterpassword
+        entry = {'password': "dummy", 'path': 'test'}
+
+        with Sphinx(self.prefix) as sphinx:
+            with self.assertRaises(PMError):
+                sphinx.insert(entry)
+
+    @patch("getpass.getpass")
+    def test_sphinx_insert_path(self, pw):
+        """Testing: sphinx insert path."""
+        pw.return_value = self.masterpassword
+        entry = {
+            'password': 'UuQHzvv6IHRIJGjwKru7',
+            'login': 'lnqYm3ZWtm',
+            'website': 'https://pujol.io',
+            'uuid': '44jle5q3fdvrprmaahozexy2pi',
+            'otpauth': 'otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&'
+                       'issuer=alice@google.com&algorithm=SHA1&digits=6&per'
+                       'iod=30',
+            'path': 'Test/test'
+        }
+
+        with Sphinx(self.prefix) as sphinx:
+            sphinx.insert(entry)
+
+    @patch("getpass.getpass")
+    def test_sphinx_insert_weak(self, pw):
+        """Testing: sphinx insert weak password."""
+        pw.return_value = self.masterpassword
+        entry = {
+            'password': 'password',
+            'login': 'lnqYm3ZWtm',
+            'url': 'https://twitter.com',
+            'website': 'https://pujol.io',
+            'uuid': '44jle5q3fdvrprmaahozexy2pi',
+            'otpauth': 'otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&'
+                       'issuer=alice@google.com&algorithm=SHA1&digits=6&per'
+                       'iod=30',
+            'path': 'Test/test'
+        }
+
+        with Sphinx(self.prefix) as sphinx:
+            sphinx.insert(entry)
+
+    @patch("getpass.getpass")
+    def test_sphinx_insert_reused(self, pw):
+        """Testing: sphinx insert password reused."""
+        pw.return_value = self.masterpassword
+        entries = [{
+            'password': 'password',
+            'login': 'lnqYm3ZWtm',
+            'url': 'https://twitter.com',
+            'website': 'https://pujol.io',
+            'uuid': '44jle5q3fdvrprmaahozexy2pi',
+            'otpauth': 'otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&'
+                       'issuer=alice@google.com&algorithm=SHA1&digits=6&per'
+                       'iod=30',
+            'path': 'Test/test'
+        }, {
+            'password': 'password',
+            'login': '44jle5q3fdvrprmaahozexy2pi',
+            'url': 'https://twitter.com:443',
+            'website': 'https://pujol.io',
+            'uuid': '44jle5q3fdvrprmaahozexy2pi',
+            'otpauth': 'otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&'
+                       'issuer=alice@google.com&algorithm=SHA1&digits=6&per'
+                       'iod=30',
+            'path': 'Test/test'
+        }]
+
+        with Sphinx(self.prefix) as sphinx:
+            for entry in entries:
+                sphinx.insert(entry)
+
+    @patch("getpass.getpass")
+    def test_sphinx_insert_too_long(self, pw):
+        """Testing: sphinx insert too long."""
+        pw.return_value = self.masterpassword
+        entry = {
+            'password': 'lnqYm3ZWtm44jle5q3fdvrprmaahozexy2pi44jle5q3fdvrprmaahozexy2pi44jle5q3fdvrprmaahozexy2pilnqYm3ZWtm44jle5q3fdvrprmaahozexy2pi44jle5q3fdvrprmaahozexy2pi44jle5q3fdvrprmaahozexy2pipassword',
+            'login': 'lnqYm3ZWtm',
+            'url': 'https://twitter.com',
+            'website': 'https://pujol.io',
+            'uuid': '44jle5q3fdvrprmaahozexy2pi',
+            'otpauth': 'otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&'
+                       'issuer=alice@google.com&algorithm=SHA1&digits=6&per'
+                       'iod=30',
+            'path': 'Test/test'
+        }
+
+        with Sphinx(self.prefix) as sphinx:
+            with self.assertRaises(PMError):
+                sphinx.insert(entry)
