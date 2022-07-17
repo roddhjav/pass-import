@@ -397,6 +397,7 @@ database to a generic CSV file...
 | [keepass](https://www.keepass.info) | kdbx | `pimport keepass src [src]` |
 | [keepassx2](https://www.keepassx.org) | kdbx | `pimport keepassx2 src [src]` |
 | [keepassxc](https://keepassxc.org) | kdbx | `pimport keepassxc src [src]` |
+| [sphinx](https://github.com/stef/pwdsphinx/) | sphinx | `pimport sphinx src [src]` |
 | [pass](https://passwordstore.org) | pass | `pimport pass src [src]` |
 
 <!-- LIST DST END -->
@@ -439,7 +440,7 @@ Password managers:
                         gnome, gnome-auth, gopass, gorilla, kedpm, keepass, keepassx, keepassx2,
                         keepassxc, keeper, lastpass, myki, network-manager, nordpass, padlock,
                         pass, passman, passpack, passpie, pwsafe, revelation, roboform,
-                        safeincloud, saferpass, upm, zoho.
+                        safeincloud, saferpass, sphinx, upm, zoho.
 
 Common optional arguments:
   -r path, --root path  Only import the password from a specific subfolder.
@@ -524,7 +525,7 @@ pass import bitwarden.json -p Import/
 - Import a Passman JSON file: `pass import passman.json`
 - Import Lastpass file to a keepass db: `pimport keepass lastpass.csv --out keepass.kdbx`
 - Import a password store to a CSV file: `pimport csv ~/.password-store --out file.csv`
-
+- Export Bitwarden to SPHINX: pimport sphinx bitwarden.json -o sphinx.cfg
 
 ## GPG keyring
 
@@ -648,6 +649,7 @@ invalids:
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
 | [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 | [file-magic] | Detection of file decryption | `apt install python-magic` | `pip3 install file-magic` |
+| [pwdsphinx] | Export to SPHINX | N/A(coming soon) | `pip3 install pwdsphinx` |
 
 **ArchLinux**
 
@@ -800,3 +802,4 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [secretstorage]: https://secretstorage.readthedocs.io/en/latest/
 [cryptography]: https://cryptography.io
 [file-magic]: https://www.darwinsys.com/file/
+[sphinx]: https://github.com/stef/pwdsphinx/
