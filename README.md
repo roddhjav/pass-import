@@ -123,12 +123,7 @@ database to a generic CSV file...
       <td align="center"><code>pass import buttercup file.csv</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="2"><a href="https://support.google.com/chrome">chrome</a></td>
-      <td align="center"><code>csv</code></td>
-      <td align="center"><i>See <a href="https://support.google.com/chrome/answer/95606#see">this guide</a></i></td>
-      <td align="center"><code>pass import chrome file.csv</code></td>
-    </tr>
-    <tr>
+      <td align="center" rowspan="1"><a href="https://support.google.com/chrome">chrome</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>See <a href="https://support.google.com/chrome/answer/95606#see">this guide</a></i></td>
       <td align="center"><code>pass import chrome file.csv</code></td>
@@ -570,7 +565,7 @@ pass import lastpass lastpass.csv.gpg
 
 **Mandatory Access Control (MAC)**
 
-AppArmor profiles for `pass` and `pass-import` are available in 
+AppArmor profiles for `pass` and `pass-import` are available in
 [`apparmor.d`][apparmor.d]. If your distribution support AppArmor, you can
 clone the [apparmor.d] and run: `sudo ./pick pass pass-import` to only install
 these apparmor security profiles.
