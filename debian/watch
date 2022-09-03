@@ -1,0 +1,6 @@
+version=4
+
+opts="filenamemangle=s%(?:.*?)?v?(\d[\d.]*)\.tar\.gz%pass-import-$1.tar.gz%, \
+   pgpsigurlmangle=s/pass-import-(\d\S*)\.tar\.gz/pass-import-$1\.tar\.gz\.asc/" \
+   https://github.com/roddhjav/pass-import/releases \
+   (?:.*?/)?pass-import-v?(\d[\d.]*)\.tar\.gz debian uupdate
