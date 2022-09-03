@@ -19,15 +19,15 @@ tests:
 
 lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pydocstyle -t pycodestyle -t pylint \
+		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
 		pass_import/
 	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pydocstyle -t pycodestyle -t pylint \
+		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
 		.updatedoc.py setup.py
 	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t mypy -t pydocstyle -t pycodestyle -t pylint \
+		-t dodgy -t mccabe -t mypy -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
 		tests/
 
