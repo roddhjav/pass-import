@@ -76,14 +76,18 @@ sast:
 
 # Code tests
 
-python 3.9:
-  image: python:3.9
+python 3.10:
+  image: python:3.10
   extends: .tests
   coverage: '/\d+\%\s*$/'
   artifacts:
     expire_in: 2 days
     paths:
       - htmlcov/
+
+python 3.9:
+  image: python:3.9
+  extends: .tests
 
 python 3.8:
   image: python:3.8
@@ -134,7 +138,7 @@ fedora:
 pages:
   stage: deploy
   dependencies:
-    - python 3.9
+    - python 3.10
   script:
     - mv htmlcov/ public/
   artifacts:
