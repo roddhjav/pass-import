@@ -106,8 +106,9 @@ venv.bak/
 # pass tests
 tests/assets/gnupg/
 tests/assets/database
-out.pass-import.md
-out.pimport.md
+
+# generated man pages
+share/man/man1/
 
 # IDE
 .idea/

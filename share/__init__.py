@@ -19,8 +19,14 @@
 # This script updates the readme, man & completion files in this repo.
 
 import io
-from dominate import tags
-from dominate.util import raw
+try:
+    from dominate import tags
+    from dominate.util import raw
+    DOMINATE = True
+except ImportError:
+    DOMINATE = False
+    print('Warning: The "dominate" support is required to generate '
+          'the README tables')
 
 import pass_import
 from pass_import.__main__ import ArgParser
@@ -142,6 +148,9 @@ class ManagerMeta():
 def table_importer():
     """Generate the new importer table."""
     warning = "<!-- Do not edit manually, use 'make doc' instead. -->"
+    if not DOMINATE:
+        return f"\n{warning}\n"
+
     matrix = MANAGERS.matrix()
     with tags.table() as table:
         with tags.thead():
@@ -274,56 +283,52 @@ def zsh_exporter():
 
 
 UPDATE = {
-    'README.md': (None, [
+    'README.md': [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', table_importer()),
         ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', table_exporter()),
         ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', usage()),
-    ]),
-    'share/man/man1/pass-import.md': ('share/man/man1/out.pass-import.md', [
-        ('<!-- NB BEGIN -->', '<!-- NB END -->', f'\n{len(MANAGERS)}\n'),
+    ],
+    'share/man/man1/pass-import.md': [
+        ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', usage_importer()),
-    ]),
-    'share/man/man1/pimport.md': ('share/man/man1/out.pimport.md', [
+    ],
+    'share/man/man1/pimport.md': [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
         ('<!-- NB EXPORT BEGIN -->', '<!-- NB EXPORT END -->',
          f'{len(MANAGERS.names(Cap.EXPORT))}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', usage_importer()),
         ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', usage_exporter()),
-    ]),
-    'share/bash-completion/completions/pass-import': (None, [
+    ],
+    'share/bash-completion/completions/pass-import': [
         ('# importers begin', '# importers end', bash_importer()),
-    ]),
-    'share/zsh/site-functions/_pass-import': (None, [
+    ],
+    'share/zsh/site-functions/_pass-import': [
         ('# importers begin', '# importers end', zsh_importer()),
-    ]),
-    'share/bash-completion/completions/pimport': (None, [
+    ],
+    'share/bash-completion/completions/pimport': [
         ('# importers begin', '# importers end', bash_importer()),
         ('# exporter begin', '# importers begin', bash_exporter()),
-    ]),
-    'share/zsh/site-functions/_pimport': (None, [
+    ],
+    'share/zsh/site-functions/_pimport': [
         ('# importers begin', '# importers end', zsh_importer()),
         ('# exporter begin', '# exporter end', zsh_exporter()),
-    ]),
+    ],
 }
 
 
-def main():
+def makedoc():
     """Update the documentation files last usage and manager lists."""
-    for src, action in UPDATE.items():
-        dst = action[0]
-        pattern = action[1]
-        with open(src, 'r') as file:
+    for path, pattern in UPDATE.items():
+        with open(path, 'r') as file:
             data = file.read()
 
         for begin, end, res in pattern:
             data = replace(begin, end, data, res)
 
-        if dst is None:
-            dst = src
-        with open(dst, 'w') as file:
+        with open(path, 'w') as file:
             file.write(data)
 
 
 if __name__ == "__main__":
-    main()
+    makedoc()
