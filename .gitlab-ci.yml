@@ -41,7 +41,7 @@ variables:
   extends: .script
   stage: tests
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring
+    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring python3-pypandoc
 
 .distribution:
   extends: .script
