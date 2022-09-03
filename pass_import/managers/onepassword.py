@@ -3,14 +3,17 @@
 # Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
-from pass_import.core import register_managers
+import json
+import re
+from pass_import.core import register_managers, register_detecters
 from pass_import.formats.csv import CSV
-from pass_import.formats.json import PIF
+from pass_import.formats.json import JSON
 
 
 class OnePasswordCSV(CSV):
     """Importer for 1password 6 in CSV format."""
     name = '1password'
+    default = False
     version = '6'
     default = False
     url = 'https://1password.com'
@@ -64,14 +67,21 @@ class OnePassword8CSV(CSV):
     }
 
 
-class OnePassword4PIF(PIF):
-    """Importer for 1password 4 in PIF format."""
+class OnePassword4PIF(JSON):
+    """Importer for 1password 4 in PIF format.
+
+    :param list ignore: List of key in the PIF file to not try to import.
+
+    """
     name = '1password'
+    format = '1pif'
     default = False
     version = '4'
     url = 'https://1password.com'
     hexport = 'See this guide: https://support.1password.com/export'
     himport = 'pass import 1password file.1pif'
+    encoding = 'utf-8-sig'
+    ignore = {'keyID', 'typeName', 'uuid', 'openContents', 'URLs'}
     keys = {
         'title': 'title',
         'password': 'password',
@@ -81,6 +91,73 @@ class OnePassword4PIF(PIF):
         'group': 'folderUuid'
     }
 
+    # Import methods
 
-register_managers(OnePasswordCSV, OnePassword4CSV,
-                  OnePassword4PIF, OnePassword8CSV)
+    @staticmethod
+    def pif2json(file):
+        """Convert 1pif to json: https://github.com/eblin/1passpwnedcheck."""
+        data = file.read()
+        cleaned = re.sub(r'(?m)^\*\*\*.*\*\*\*\s+', '', data)
+        cleaned = cleaned.split('\n')
+        cleaned = ','.join(cleaned).rstrip(',')
+        cleaned = f'[{cleaned}]'
+        return json.loads(cleaned)
+
+    def parse(self):
+        """Parse PIF based file."""
+        jsons = self.pif2json(self.file)
+        keys = self.invkeys()
+        folders = {}
+        for item in jsons:
+            if item.get('typeName', '') == 'system.folder.Regular':
+                key = item.get('uuid', '')
+                folders[key] = {
+                    'group': item.get('title', ''),
+                    'parent': item.get('folderUuid', '')
+                }
+
+            elif item.get('typeName', '') == 'webforms.WebForm':
+                if item.get('trashed', False):
+                    continue
+                entry = {}
+                scontent = item.pop('secureContents', {})
+                fields = scontent.pop('fields', [])
+                for field in fields:
+                    name = field.get('name', '')
+                    designation = field.get('designation', '')
+                    jsonkey = name or designation
+                    key = keys.get(jsonkey, jsonkey)
+                    entry[key] = field.get('value', '')
+
+                sections = scontent.get('sections', [])
+                for section in sections:
+                    for field in section.get('fields', []):
+                        value = field.get('v', '')
+                        if value.startswith('otpauth://'):
+                            entry['otpauth'] = value
+
+                item.update(scontent)
+                for key, value in item.items():
+                    if key not in self.ignore:
+                        entry[keys.get(key, key)] = value
+                self.data.append(entry)
+        self._sortgroup(folders)
+
+    # Format recognition method
+
+    def is_format(self):
+        """Return True if the file is a 1PIF file."""
+        try:
+            self.jsons = self.pif2json(self.file)
+        except (json.decoder.JSONDecodeError, UnicodeDecodeError):
+            return False
+        return True
+
+    def checkheader(self, header, only=False):
+        """No header check is needed."""
+        return True
+
+
+register_managers(OnePassword8CSV,
+                  OnePasswordCSV, OnePassword4CSV, OnePassword4PIF)
+register_detecters(OnePassword4PIF)
