@@ -168,7 +168,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             path=os.path.split(group)) if group else root_group
         if not kpgroup:
             for grp in os.path.split(group):
-                # os.path.split creates an empty segment when there is nothing 
+                # os.path.split creates an empty segment when there is nothing
                 # to split, just ignore it
                 if grp == '':
                     continue
