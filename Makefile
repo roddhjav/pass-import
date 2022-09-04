@@ -25,7 +25,7 @@ lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
-		.updatedoc.py setup.py
+		share/__init__.py setup.py
 	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t mypy -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
