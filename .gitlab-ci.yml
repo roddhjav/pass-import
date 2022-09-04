@@ -30,7 +30,7 @@ variables:
     - mkdir -p ~/.local/share/keyrings/
     - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
     - pip3 install --upgrade pip
-    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage file-magic pypandoc dominate
+    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage python-magic pypandoc dominate
     - make
     - dbus-run-session -- make tests
     - make install
@@ -108,7 +108,7 @@ archlinux:
   extends: .distribution
   before_script:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
-        dbus gnome-keyring file pandoc
+        dbus gnome-keyring file pandoc python-setuptools
 
 ubuntu:
   image: ubuntu
