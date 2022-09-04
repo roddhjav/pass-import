@@ -115,7 +115,8 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             if cat not in ('U', 'P'):
                 break
             start, end = match.start(0), match.end(0)
-            kpentry = self.keepass.find_entries(uuid=uuid.UUID(attid))[0]
+            kpentry = self.keepass.find_entries(
+                uuid=uuid.UUID(attid), first=True)
             if kpentry is None:
                 value = value[:start] + value[end:]
             else:
