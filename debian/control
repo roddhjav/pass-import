@@ -9,6 +9,7 @@ Build-Depends:
  python3-setuptools,
  python3-pypandoc,
  python3-yaml,
+ python3-requests,
  python3-zxcvbn,
  pass (>= 1.7.0),
 Standards-Version: 4.6.0.1

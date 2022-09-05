@@ -30,7 +30,7 @@ variables:
     - mkdir -p ~/.local/share/keyrings/
     - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
     - pip3 install --upgrade pip
-    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage python-magic pypandoc dominate zxcvbn
+    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage python-magic pypandoc dominate requests zxcvbn
     - make
     - dbus-run-session -- make tests
     - make install
@@ -67,7 +67,7 @@ prospector:
   image: python:latest
   allow_failure: True
   before_script:
-    - pip install prospector[with_everything] defusedxml dominate
+    - pip install prospector[with_everything] defusedxml requests zxcvbn dominate 
   script:
     - make lint
 
