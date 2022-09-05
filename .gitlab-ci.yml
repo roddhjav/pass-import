@@ -30,7 +30,7 @@ variables:
     - mkdir -p ~/.local/share/keyrings/
     - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
     - pip3 install --upgrade pip
-    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage python-magic pypandoc dominate
+    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage python-magic pypandoc dominate zxcvbn
     - make
     - dbus-run-session -- make tests
     - make install

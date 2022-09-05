@@ -1,0 +1,69 @@
+---
+
+- title: '1'
+  password: ZFfY{s(Pp^U][6pI};[IiI0Kr
+  group: Password/good
+
+- title: '2'
+  password: '"X"4Z^N)r>l+(+sI<!f=kS.T['
+  group: Password/good
+
+- title: '3'
+  password: '"X"4Z^N)r>l+(+sI<!f=kS.T['
+  group: Password/good
+
+- title: '1'
+  password: thisisnotverysecure
+  group: Password/notpwned
+
+- title: '2'
+  password: Gooqu7ga
+  group: Password/notpwned
+
+- title: '3'
+  password: roddhjav
+  group: Password/notpwned
+
+- title: '4'
+  password: H<nyA^}$[Fofx.-Rl3a7<A(.W
+  group: Password/notpwned
+
+- title: '5'
+  password: haveibeenpwned.com
+  group: Password/notpwned
+
+- title: '6'
+  password: ~=hO3a|SkZObdn}_:qmz'`)Z(
+  group: Password/notpwned
+
+- title: '7'
+  password: ochooD1w
+  group: Password/notpwned
+
+- title: '1'
+  password: P@ssw0rd
+  group: Password/pwned
+
+- title: '2'
+  password: correct horse battery staple
+  group: Password/pwned
+
+- title: '3'
+  password: correcthorsebatterystaple
+  group: Password/pwned
+
+- title: '4'
+  password: ILoveYou
+  group: Password/pwned
+
+- title: '5'
+  password: password
+  group: Password/pwned
+
+- title: '6'
+  password: a
+  group: Password/pwned
+
+- title: '7'
+  password: iamagenius
+  group: Password/pwned

@@ -1,0 +1,58 @@
+---
+
+# Pwned import file to test the audit feature. Follow the passpie format.
+
+handler: passpie
+version: 1.0
+credentials:
+
+- name: Password/good/1
+  password: ZFfY{s(Pp^U][6pI};[IiI0Kr
+
+- name: Password/good/2
+  password: '"X"4Z^N)r>l+(+sI<!f=kS.T['
+
+- name: Password/good/3
+  password: '"X"4Z^N)r>l+(+sI<!f=kS.T['
+
+- name: Password/notpwned/1
+  password: thisisnotverysecure
+
+- name: Password/notpwned/2
+  password: Gooqu7ga
+
+- name: Password/notpwned/3
+  password: roddhjav
+
+- name: Password/notpwned/4
+  password: H<nyA^}$[Fofx.-Rl3a7<A(.W
+
+- name: Password/notpwned/5
+  password: haveibeenpwned.com
+
+- name: Password/notpwned/6
+  password: ~=hO3a|SkZObdn}_:qmz'`)Z(
+
+- name: Password/notpwned/7
+  password: ochooD1w
+
+- name: Password/pwned/1
+  password: P@ssw0rd
+
+- name: Password/pwned/2
+  password: correct horse battery staple
+
+- name: Password/pwned/3
+  password: correcthorsebatterystaple
+
+- name: Password/pwned/4
+  password: ILoveYou
+
+- name: Password/pwned/5
+  password: password
+
+- name: Password/pwned/6
+  password: a
+
+- name: Password/pwned/7
+  password: iamagenius

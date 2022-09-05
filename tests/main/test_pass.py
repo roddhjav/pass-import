@@ -4,6 +4,8 @@
 #
 
 import os
+from unittest import mock
+
 import tests
 
 
@@ -114,4 +116,12 @@ class TestMainPass(tests.Test):
     def test_main_decrypt_without_manager(self):
         """Testing: pass import db/andotp.gpg."""
         cmd = [tests.db + 'andotp.gpg', '-q']
+        self.main(cmd)
+
+    # Test the audit feature.
+
+    @mock.patch('requests.get', tests.mock_hibp)
+    def test_main_audit(self):
+        """Testing: pass import db/audit.yml."""
+        cmd = [tests.db + 'audit.yml', '--pwned']
         self.main(cmd)

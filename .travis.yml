@@ -25,7 +25,7 @@ install:
   - echo '#!/usr/bin/env bash\necho lpass' > $HOME/.bin/usr/bin/lpass
   - sudo chmod 755 $HOME/.bin/usr/bin/lpass
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage $TEST_MAGIC
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage zxcvbn $TEST_MAGIC
 
 script:
   - dbus-run-session -- make tests
