@@ -5,7 +5,7 @@ all:
 	@echo "pass-import was built successfully. You can now install it wit \"make install\""
 
 install:
-	@python3 setup.py install --root="$(DESTDIR)" --optimize=1 --skip-build
+	@python3 setup.py install --root="${DESTDIR}" --optimize=1 --skip-build
 	@echo "pass-import is installed succesfully"
 
 local:
@@ -32,7 +32,7 @@ lint:
 		tests/
 
 security:
-	@bandit --ini .bandit -r pass_import tests setup.py docs/updatedoc.py
+	@bandit --ini .bandit -r pass_import tests setup.py share
 
 export PYTHONPATH = ./
 docs:
@@ -43,23 +43,24 @@ PKGNAME := pass-extension-import
 BUILDIR := /home/build/$(PKGNAME)
 debian:
 	@docker stop debian &> /dev/null || true
-	@docker run --rm -tid --name debian --volume $(PWD):$(BUILDIR) \
-	 	--volume $(HOME)/.gnupg:/home/build/.gnupg debian &> /dev/null || true
+	@docker run --rm -tid --name debian --volume ${PWD}:${BUILDIR} \
+	 	--volume ${HOME}/.gnupg:/home/build/.gnupg debian &> /dev/null || true
 	@docker exec debian useradd -m -s /bin/bash -u $(shell id -u) build || true
 	@docker exec debian chown -R build:build /home/build
 	@docker exec debian apt-get update
 	@docker exec debian apt-get -qq -y --no-install-recommends upgrade
 	@docker exec debian apt-get -qq -y --no-install-recommends install \
-			build-essential debhelper fakeroot dh-python python3-setuptools
-	@docker exec -it --user build --workdir=$(BUILDIR) debian \
-			dpkg-buildpackage -b -d -us -ui --sign-key=$(GPGKEY)
-	@docker exec -it --user build debian bash -c 'mv ~/$(PKGNAME)*.* ~/$(PKGNAME)'
-	@docker exec -it --user build debian bash -c 'mv ~/pass-import*.* ~/$(PKGNAME)'
+		build-essential debhelper fakeroot dh-python python3-setuptools
+	@docker exec -it --user build --workdir=${BUILDIR} debian \
+		dpkg-buildpackage -b -d -us -ui --sign-key=$(GPGKEY)
+	@docker exec -it --user build debian bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
+	@docker exec -it --user build debian bash -c 'mv ~/pass-import*.* ~/${PKGNAME}'
 
 pip:
 	@python setup.py sdist bdist_wheel
 	@twine check dist/*
-	@twine upload --sign --identity $(GPGKEY) dist/*
+	@gpg --detach-sign -a dist/*
+	@twine upload --sign --identity ${GPGKEY} dist/*
 
 clean:
 	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \

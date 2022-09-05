@@ -184,7 +184,7 @@ class Test(unittest.TestCase):
 
     """
     key = ''
-    token = ''
+    token = ''  # nosec
     login = ''
     prefix = ''
     masterpassword = 'correct horse battery staple'

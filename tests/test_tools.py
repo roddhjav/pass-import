@@ -31,7 +31,7 @@ class TestConfig(tests.Test):
 
     def test_settings(self):
         """Testing: read configuration file and gen settings."""
-        os.environ['PASSWORD_STORE_DIR'] = 'pass/to/store'
+        os.environ['PASSWORD_STORE_DIR'] = 'pass/to/store'  # nosec
         args = {'config': tests.assets + 'config.yml'}
         conf = pass_import.tools.Config()
         conf.readconfig(args)
