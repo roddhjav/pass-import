@@ -29,6 +29,11 @@ AppleKeychain:
     - group
     - comments
 
+BitwardenCLI:
+  parse: False
+  path: <login>
+  root: Import/
+
 BitwardenCSV:
   path: bitwarden.csv
 

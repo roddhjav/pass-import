@@ -629,13 +629,17 @@ invalids:
   - '?'
   - '*'
   - '\0'
+
+# Default bitwarden-cli importer/exporter settings
+bitwarden:
+  login: <your email addresss>
+  server: vault.bitwarden.com
 ```
 
 
 ## Installation [<img src="https://repology.org/badge/vertical-allrepos/pass-import.svg" align="right">][repology-link]
 
 **Requirements**
-* `pass 1.7.0` or greater.
 * Python 3.6+
 * `python3-setuptools` to build and install it.
 * `python3-pypandoc` to build the man pages.
@@ -645,6 +649,9 @@ invalids:
 
 | **Dependency** | **Required for** | **apt** | **pip** |
 |:--------------:|:----------------:|:-------:|:-------:|
+| [pass] | Password Store import/export | `apt install pass` | N/A |
+| [lpass] | Lastpass cli based import/export | `apt install lpass` | N/A |
+| [bw] | Bitwarden cli based import/export | `apt install bitwarden-cli` | N/A |
 | [defusedxml] | Recommended XML library | `apt install python3-defusedxml` | `pip3 install defusedxml` |
 | [pykeepass] | Keepass import from KDBX file | N/A | `pip3 install pykeepass` |
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
@@ -798,6 +805,8 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [pass-otp]: https://github.com/tadfisher/pass-otp
 [apparmor.d]: https://github.com/roddhjav/apparmor.d
 
+[lpass]: https://github.com/lastpass/lastpass-cli
+[bw]: https://github.com/bitwarden/cli
 [defusedxml]: https://github.com/tiran/defusedxml
 [pyaml]: https://pyyaml.org/
 [pykeepass]: https://github.com/pschmitt/pykeepass
