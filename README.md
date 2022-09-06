@@ -2,7 +2,7 @@
 
 # pass import
 
-[![][travis]][travis-link] [![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![
+[![][workflow]][action] [![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![
 ][release]][release-link]
 
 **A [pass] extension for importing data from most of the existing password manager.**
@@ -776,8 +776,8 @@ Feedback, contributors, pull requests are all very welcome. Please read the
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [github-link]: https://github.com/roddhjav/pass-import
-[travis]: https://img.shields.io/travis/roddhjav/pass-import/master.svg?style=flat-square
-[travis-link]: https://travis-ci.com/roddhjav/pass-import
+[workflow]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Froddhjav%2Fpass-import%2Fbadge&style=flat-square
+[action]: https://actions-badge.atrox.dev/roddhjav/pass-import/goto
 [gitlab]: https://gitlab.com/roddhjav/pass-import/badges/master/pipeline.svg?style=flat-square
 [gitlab-link]: https://gitlab.com/roddhjav/pass-import/pipelines
 [coverage]: https://gitlab.com/roddhjav/pass-import/badges/master/coverage.svg?style=flat-square
@@ -796,6 +796,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [update]: https://github.com/roddhjav/pass-update
 [browserpass]: https://github.com/browserpass/browserpass-extension
 [pass-otp]: https://github.com/tadfisher/pass-otp
+[apparmor.d]: https://github.com/roddhjav/apparmor.d
 
 [defusedxml]: https://github.com/tiran/defusedxml
 [pyaml]: https://pyyaml.org/
