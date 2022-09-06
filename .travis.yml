@@ -1,8 +1,9 @@
 os: linux
-dist: xenial
+dist: bionic
 
 language: python
 cache: pip
+python: 3.7
 
 env:
   global:
@@ -15,6 +16,7 @@ addons:
   apt:
     packages:
       - gnome-keyring
+      - libsodium23
 
 install:
   - export PREFIX=$HOME/.bin/usr PATH="$PATH:$HOME/.bin/usr/bin"
@@ -25,7 +27,13 @@ install:
   - echo '#!/usr/bin/env bash\necho lpass' > $HOME/.bin/usr/bin/lpass
   - sudo chmod 755 $HOME/.bin/usr/bin/lpass
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage zxcvbn $TEST_MAGIC
+  - cp tests/assets/sphinx.cfg ~/.sphinxrc
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
+  - sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
+  - sudo ldconfig
+  - pip3 install --upgrade pip
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage pwdsphinx zxcvbn $TEST_MAGIC
+  - sphinx init
 
 script:
   - dbus-run-session -- make tests
