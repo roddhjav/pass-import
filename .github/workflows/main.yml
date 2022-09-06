@@ -1,0 +1,40 @@
+name: Ubuntu
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        magic:
+          - file-magic
+          - python-magic
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install required packages
+        run: |
+          sudo apt-get install gnome-keyring libsodium23 pass
+
+      - name: Install python dependencies
+        run: |
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
+          sudo ldconfig
+          pip3 install -U setuptools
+          pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage pwdsphinx ${{ matrix.magic }}
+
+      - name: Configure password managers 
+        run: |
+          echo '#!/usr/bin/env bash\necho lpass' | sudo tee /usr/bin/lpass
+          sudo chmod 755 /usr/bin/lpass
+          mkdir -p ~/.local/share/keyrings/
+          cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+          cp tests/assets/sphinx.cfg ~/.sphinxrc
+          sphinx init
+
+      - name: Run the tests 
+        run: dbus-run-session -- make tests
