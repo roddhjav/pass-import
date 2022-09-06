@@ -102,6 +102,9 @@ class ArgParser(ArgumentParser):
         common.add_argument(
             '-C', '--convert', action='store_true',
             help='Convert invalid characters present in the paths.')
+        common.add_argument(
+            '-P', '--pwned', action='store_true',
+            help='Check imported passwords against haveibeenpwned.com.')
 
         # Extra options
         extra = self.add_argument_group(title='Extra optional arguments')
@@ -333,6 +336,15 @@ def detectmanager(conf):
     return pm
 
 
+def zxcvbn_parse(details):
+    """Nicely print the results from zxcvbn."""
+    sequence = ''
+    for seq in details.get('sequence', []):
+        sequence += f"{seq['token']}({seq['pattern']}) "
+    res = f"Score {details['score']} ({details['guesses']} guesses). "
+    return res + f"This estimate is based on the sequence {sequence}"
+
+
 # pylint: disable=inconsistent-return-statements
 def pass_import(conf, cls_import):
     """Import data."""
@@ -372,6 +384,7 @@ def pass_export(conf, cls_export, data):
         with cls_export(conf['out'], settings=settings) as exporter:
             exporter.data = data
             exporter.clean(conf['clean'], conf['convert'])
+            report = exporter.audit(conf['pwned'])
             for entry in exporter.data:
                 pmpath = os.path.join(conf['droot'], entry.get(
                     'path', entry.get('title', '')))
@@ -388,10 +401,10 @@ def pass_export(conf, cls_export, data):
         conf.debug(traceback.format_exc())
         conf.die(error)
 
-    return paths
+    return paths, report
 
 
-def report(conf, paths):
+def report(conf, paths, audit):
     """Print final success report."""
     conf.success(f"Importing passwords from {conf['importer']} "
                  f"to {conf['exporter']}")
@@ -409,6 +422,14 @@ def report(conf, paths):
         conf.message("Imported data cleaned")
     if conf['all']:
         conf.message("All data imported")
+    for password, count in audit['breached']:
+        conf.warning(f"Password breached {count} time(s): {password}")
+    for password, details in audit['weak']:
+        conf.warning(f"Weak password detected: {password} might be weak."
+                     f" {zxcvbn_parse(details)}")
+    for entry in audit['duplicated']:
+        conf.warning(f"Duplicated passwords detected: "
+                     f"{', '.join([item['path'] for item in entry])}")
     if paths:
         conf.message("Passwords imported:")
         paths.sort()
@@ -426,13 +447,15 @@ def main():
     cls_export = MANAGERS.get(conf['exporter'], cap=Cap.EXPORT)
     conf.verbose(f"Importing passwords from {cls_import.__name__} "
                  f"to {cls_export.__name__}")
+    conf.verbose("Checking for breached passwords",
+                 "on haveibeenpwned.com" if conf['pwned'] else '')
 
     # Import & export
     data = pass_import(conf, cls_import)
-    paths = pass_export(conf, cls_export, data)
+    paths, audit = pass_export(conf, cls_export, data)
 
     # Success!
-    report(conf, paths)
+    report(conf, paths, audit)
 
 
 if __name__ == "__main__":

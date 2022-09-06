@@ -4,7 +4,6 @@
 #
 
 import json
-import re
 
 from pass_import.core import Cap, register_detecters
 from pass_import.detecter import Formatter
@@ -75,81 +74,4 @@ class JSON(Formatter, PasswordImporter):
         return cls.json_header
 
 
-class PIF(JSON):
-    """Base class for PIF based importers.
-
-    :param list ignore: List of key in the PIF file to not try to import.
-
-    """
-    format = '1pif'
-    encoding = 'utf-8-sig'
-    ignore = {'keyID', 'typeName', 'uuid', 'openContents', 'URLs'}
-
-    # Import methods
-
-    @staticmethod
-    def pif2json(file):
-        """Convert 1pif to json: https://github.com/eblin/1passpwnedcheck."""
-        data = file.read()
-        cleaned = re.sub(r'(?m)^\*\*\*.*\*\*\*\s+', '', data)
-        cleaned = cleaned.split('\n')
-        cleaned = ','.join(cleaned).rstrip(',')
-        cleaned = f'[{cleaned}]'
-        return json.loads(cleaned)
-
-    def parse(self):
-        """Parse PIF based file."""
-        jsons = self.pif2json(self.file)
-        keys = self.invkeys()
-        folders = {}
-        for item in jsons:
-            if item.get('typeName', '') == 'system.folder.Regular':
-                key = item.get('uuid', '')
-                folders[key] = {
-                    'group': item.get('title', ''),
-                    'parent': item.get('folderUuid', '')
-                }
-
-            elif item.get('typeName', '') == 'webforms.WebForm':
-                if item.get('trashed', False):
-                    continue
-                entry = {}
-                scontent = item.pop('secureContents', {})
-                fields = scontent.pop('fields', [])
-                for field in fields:
-                    name = field.get('name', '')
-                    designation = field.get('designation', '')
-                    jsonkey = name or designation
-                    key = keys.get(jsonkey, jsonkey)
-                    entry[key] = field.get('value', '')
-
-                sections = scontent.get('sections', [])
-                for section in sections:
-                    for field in section.get('fields', []):
-                        value = field.get('v', '')
-                        if value.startswith('otpauth://'):
-                            entry['otpauth'] = value
-
-                item.update(scontent)
-                for key, value in item.items():
-                    if key not in self.ignore:
-                        entry[keys.get(key, key)] = value
-                self.data.append(entry)
-        self._sortgroup(folders)
-
-    # Format recognition method
-
-    def is_format(self):
-        """Return True if the file is a 1PIF file."""
-        try:
-            self.jsons = self.pif2json(self.file)
-        except (json.decoder.JSONDecodeError, UnicodeDecodeError):
-            return False
-        return True
-
-    def checkheader(self, header, only=False):
-        """No header check is needed."""
-        return True
-
-
-register_detecters(JSON, PIF)
+register_detecters(JSON)

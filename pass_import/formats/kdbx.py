@@ -115,7 +115,8 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             if cat not in ('U', 'P'):
                 break
             start, end = match.start(0), match.end(0)
-            kpentry = self.keepass.find_entries(uuid=uuid.UUID(attid))[0]
+            kpentry = self.keepass.find_entries(
+                uuid=uuid.UUID(attid), first=True)
             if kpentry is None:
                 value = value[:start] + value[end:]
             else:
@@ -164,10 +165,16 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
         group = os.path.dirname(path)
 
         root_group = self.keepass.root_group
-        kpgroup = self.keepass.find_groups(path=os.path.split(path))
+        kpgroup = self.keepass.find_groups(
+            path=os.path.split(group)) if group else root_group
         if not kpgroup:
             for grp in os.path.split(group):
-                kpgroup = self.keepass.find_groups(path=grp)
+                # os.path.split creates an empty segment when there is nothing
+                # to split, just ignore it
+                if grp == '':
+                    continue
+                kpgroup = self.keepass.find_groups(
+                    group=root_group, name=grp, first=True)
                 if not kpgroup:
                     kpgroup = self.keepass.add_group(root_group, grp)
                 root_group = kpgroup

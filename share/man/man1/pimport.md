@@ -1,6 +1,6 @@
 % pimport(1)
 % pimport was written by Alexandre Pujol (alexandre@pujol.io)
-% February 2022
+% September 2022
 
 # NAME
 
@@ -12,7 +12,7 @@ pimport —  A passwords importer swiss army knife
 
 # DESCRIPTION
 
-**import** is a passwords importer swiss army knife allowing you to import
+**pimport** is a passwords importer swiss army knife allowing you to import
 your password database to your new password manager repository conveniently.
 It natively supports import from <!-- NB BEGIN --><!-- NB END --> password
 managers, and export to <!-- NB EXPORT BEGIN --><!-- NB EXPORT END -->

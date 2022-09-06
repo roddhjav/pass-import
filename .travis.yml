@@ -32,7 +32,7 @@ install:
   - sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
   - sudo ldconfig
   - pip3 install --upgrade pip
-  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage pwdsphinx $TEST_MAGIC
+  - pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage pwdsphinx zxcvbn $TEST_MAGIC
   - sphinx init
 
 script:

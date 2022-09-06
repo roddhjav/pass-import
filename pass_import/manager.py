@@ -7,6 +7,7 @@ import os
 from abc import abstractmethod
 
 from pass_import import clean
+from pass_import.audit import Audit
 from pass_import.core import Asset, Cap
 
 
@@ -161,3 +162,24 @@ class PasswordExporter(PasswordManager):
         clean.dpaths(self.data, cmdclean, convert)
         clean.dpaths(self.data, cmdclean, convert)
         clean.duplicate(self.data)
+
+    def audit(self, hibp=False):
+        """Audit the parsed password for vulnerable passwords.
+
+        **Features:**
+
+        1. Look for breached password from haveibeenpwned.com,
+        2. Check for duplicated passwords,
+        3. Check password strength estimaton using zxcvbn.
+
+        :param bool hibp: A flag, to set to ``True`` to look for breached
+            password from haveibeenpwned.com
+        :returns dict: A report dict.
+
+        """
+        audit = Audit(self.data)
+        if hibp:
+            audit.password()
+        audit.zxcvbn()
+        audit.duplicates()
+        return audit.report

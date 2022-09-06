@@ -116,7 +116,6 @@ class LastpassCLI(CLI):
         arg = ['show', '--color=never',
                "--format=%fn|%fv", '--color=never', uid]
         data = self._command(arg).split('\n')
-        print('\n'.join(data))
         data.pop()
         data.pop(0)
         for line in data:
@@ -133,7 +132,6 @@ class LastpassCLI(CLI):
     def parse(self):
         """Parse Lastpass repository using lpass."""
         uniqueids = self.list(self.root)
-        print("PARSE, list:", uniqueids)
         if not uniqueids:
             raise FormatError('empty password store.')
 
