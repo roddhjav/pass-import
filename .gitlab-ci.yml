@@ -40,13 +40,13 @@ variables:
 
 .script:
   script:
-    - *lpass
-    - *gnome-keyring
-    - *sphinx
     - pip3 install --upgrade pip
     - pip3 install --upgrade
         coverage cryptography defusedxml dominate green pwdsphinx pyaml
         pykeepass pypandoc python-magic requests secretstorage zxcvbn
+    - *lpass
+    - *gnome-keyring
+    - *sphinx
     - make
     - dbus-run-session -- make tests
     - make install
