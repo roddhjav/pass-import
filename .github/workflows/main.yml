@@ -33,7 +33,7 @@ jobs:
           sudo chmod 755 /usr/bin/lpass
           mkdir -p ~/.local/share/keyrings/
           cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-          cp tests/assets/sphinx.cfg ~/.sphinxrc
+          cp tests/assets/db/sphinx.cfg ~/.sphinxrc
           sphinx init
 
       - name: Run the tests 

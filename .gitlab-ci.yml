@@ -23,14 +23,30 @@ variables:
   - tar -xf password-store-$PASS_VERSION.tar.xz
   - make --directory=password-store-$PASS_VERSION install
 
+.lpass: &lpass
+  - echo '#!/usr/bin/env bash\necho lpass' > /usr/bin/lpass
+  - chmod 755 /usr/bin/lpass
+
+.gnome-keyring: &gnome-keyring
+  - mkdir -p ~/.local/share/keyrings/
+  - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+
+.sphinx: &sphinx
+  - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
+  - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
+  - ldconfig
+  - cp tests/assets/db/sphinx.cfg ~/.sphinxrc
+  - sphinx init
+
 .script:
   script:
-    - echo '#!/usr/bin/env bash\necho lpass' > /usr/bin/lpass
-    - chmod 755 /usr/bin/lpass
-    - mkdir -p ~/.local/share/keyrings/
-    - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
+    - *lpass
+    - *gnome-keyring
+    - *sphinx
     - pip3 install --upgrade pip
-    - pip3 install --upgrade green coverage defusedxml pyaml cryptography pykeepass secretstorage python-magic pypandoc dominate requests zxcvbn
+    - pip3 install --upgrade
+        coverage cryptography defusedxml dominate green pwdsphinx pyaml
+        pykeepass pypandoc python-magic requests secretstorage zxcvbn
     - make
     - dbus-run-session -- make tests
     - make install
@@ -41,7 +57,7 @@ variables:
   extends: .script
   stage: tests
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring pandoc
+    - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring pandoc libsodium23
 
 .distribution:
   extends: .script
@@ -108,21 +124,21 @@ archlinux:
   extends: .distribution
   before_script:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
-        dbus gnome-keyring file pandoc python-setuptools
+        dbus gnome-keyring file pandoc python-setuptools libsodium
 
 ubuntu:
   image: ubuntu
   extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep dbus
-        gnome-keyring pandoc
+        gnome-keyring pandoc libsodium23
 
 debian:
   image: debian
   extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep wget
-        dbus gnome-keyring pandoc
+        dbus gnome-keyring pandoc libsodium23
     - *pass
 
 fedora:
@@ -130,7 +146,7 @@ fedora:
   extends: .distribution
   before_script:
     - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus dbus-daemon
-        gnome-keyring pandoc --setopt=install_weak_deps=False
+        gnome-keyring pandoc libsodium --setopt=install_weak_deps=False
 
 
 # Code coverage deployment
