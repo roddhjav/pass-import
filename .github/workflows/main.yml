@@ -3,7 +3,21 @@ name: Ubuntu
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install required packages
+        run: |
+          pip install prospector[with_everything] defusedxml requests zxcvbn dominate
+  
+      - name: Prospector
+        run: make lint
+
+  tests:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
