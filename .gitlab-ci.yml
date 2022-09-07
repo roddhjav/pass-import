@@ -113,10 +113,6 @@ python 3.7:
   image: python:3.7
   extends: .tests
 
-python 3.6:
-  image: python:3.6
-  extends: .tests
-
 # Distribution tests
 
 archlinux:
