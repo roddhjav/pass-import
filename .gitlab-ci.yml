@@ -32,6 +32,8 @@ variables:
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
 
 .sphinx: &sphinx
+  - pip3 install --upgrade pip
+  - pip3 install --upgrade pwdsphinx
   - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
   - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
   - ldconfig
@@ -42,11 +44,10 @@ variables:
   script:
     - pip3 install --upgrade pip
     - pip3 install --upgrade
-        coverage cryptography defusedxml dominate green pwdsphinx pyaml
+        coverage cryptography defusedxml dominate green pyaml
         pykeepass pypandoc python-magic requests secretstorage zxcvbn
     - *lpass
     - *gnome-keyring
-    - *sphinx
     - make
     - dbus-run-session -- make tests
     - make install
@@ -58,6 +59,7 @@ variables:
   stage: tests
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep dbus gnome-keyring pandoc libsodium23
+    - *sphinx
 
 .distribution:
   extends: .script
@@ -120,21 +122,21 @@ archlinux:
   extends: .distribution
   before_script:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
-        dbus gnome-keyring file pandoc python-setuptools libsodium
+        dbus gnome-keyring file pandoc python-setuptools
 
 ubuntu:
   image: ubuntu
   extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep dbus
-        gnome-keyring pandoc libsodium23
+        gnome-keyring pandoc
 
 debian:
   image: debian
   extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep wget
-        dbus gnome-keyring pandoc libsodium23
+        dbus gnome-keyring pandoc
     - *pass
 
 fedora:
@@ -142,7 +144,7 @@ fedora:
   extends: .distribution
   before_script:
     - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus dbus-daemon
-        gnome-keyring pandoc libsodium --setopt=install_weak_deps=False
+        gnome-keyring pandoc --setopt=install_weak_deps=False
 
 
 # Code coverage deployment

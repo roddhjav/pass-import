@@ -8,8 +8,14 @@ from unittest.mock import patch
 import tests
 from pass_import.errors import PMError
 from pass_import.managers.sphinx import Sphinx
-from pwdsphinx import sphinx as pwdsphinx
-from pwdsphinx.sphinx import RULE_SIZE
+
+try:
+    from pwdsphinx import sphinx as pwdsphinx
+    from pwdsphinx.sphinx import RULE_SIZE
+    PWDSPHINX = True
+except ImportError:
+    RULE_SIZE = 79
+    PWDSPHINX = False
 
 
 class MockCreateSock:
@@ -63,13 +69,14 @@ def connect():
     return MockCreateSock()
 
 
-pwdsphinx.connect = connect
-pwdsphinx.sphinxlib.challenge = challenge
-pwdsphinx.sphinxlib.finish = finish
-
-
+@tests.skipIfNo('pwdsphinx', PWDSPHINX)
 class TestExportSphinx(tests.Test):
     """Test sphinx general features."""
+
+    def setUpClass(self):
+        pwdsphinx.connect = connect
+        pwdsphinx.sphinxlib.challenge = challenge
+        pwdsphinx.sphinxlib.finish = finish
 
     def setUp(self):
         self.sphinx = Sphinx(self.prefix)
@@ -83,8 +90,14 @@ class TestExportSphinx(tests.Test):
         self.assertTrue(self.sphinx.isvalid())
 
 
+@tests.skipIfNo('pwdsphinx', PWDSPHINX)
 class TestExportSphinxInsert(tests.Test):
     """Test Sphinx insert features."""
+
+    def setUpClass(self):
+        pwdsphinx.connect = connect
+        pwdsphinx.sphinxlib.challenge = challenge
+        pwdsphinx.sphinxlib.finish = finish
 
     @patch("getpass.getpass")
     def test_sphinx_insert(self, pw):
