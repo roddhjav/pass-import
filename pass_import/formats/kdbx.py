@@ -54,7 +54,10 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     def _getentry(self, kpentry):
         entry = {}
         if kpentry.path is not None:
-            entry['group'] = os.sep.join(kpentry.path)
+            entry['group'] = ''
+            for item in kpentry.path:
+                if item is not None:
+                    entry['group'] = os.path.join(entry['group'], item)
         keys = self.invkeys()
         for attr in self.attributes:
             if hasattr(kpentry, attr):
