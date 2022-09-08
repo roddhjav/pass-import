@@ -63,15 +63,18 @@ def _id(obj):
 
 def skipIfNo(name, imported=True):
     """Skip a password manager test if it is disabled."""
-    manager = name.upper()
-    enabled = 'T_%s' % manager
-    password = 'TESTS_%s_PASS' % manager
-    if not (enabled in os.environ and password in os.environ):
-        return unittest.skip(f"Skipping: {name} tests disabled.")
-    if not imported:
+    if imported:
+        if name not in {'bitwarden', 'lastpass', 'onepassword'}:
+            return _id
+        manager = name.upper()
+        enabled = 'T_%s' % manager
+        password = 'TESTS_%s_PASS' % manager
+        if not (enabled in os.environ and password in os.environ):
+            return unittest.skip(f"Skipping: {name} tests disabled.")
+        return _id
+    else:
         return unittest.skip(
             f"Skipping: {name} tests disabled. No dependencies")
-    return _id
 
 
 def mocked(manager, cmd):

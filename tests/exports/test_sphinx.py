@@ -73,7 +73,8 @@ def connect():
 class TestExportSphinx(tests.Test):
     """Test sphinx general features."""
 
-    def setUpClass(self):
+    @classmethod
+    def setUpClass(cls):
         pwdsphinx.connect = connect
         pwdsphinx.sphinxlib.challenge = challenge
         pwdsphinx.sphinxlib.finish = finish
@@ -94,7 +95,8 @@ class TestExportSphinx(tests.Test):
 class TestExportSphinxInsert(tests.Test):
     """Test Sphinx insert features."""
 
-    def setUpClass(self):
+    @classmethod
+    def setUpClass(cls):
         pwdsphinx.connect = connect
         pwdsphinx.sphinxlib.challenge = challenge
         pwdsphinx.sphinxlib.finish = finish
