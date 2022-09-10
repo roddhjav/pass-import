@@ -121,7 +121,9 @@ class TestParse(tests.Test):
             if entry['title'] == 'news.ycombinator.com':
                 entry['title'] = 'https://news.ycombinator.com'
 
-        self.assertImport(data, reference, keep=['title', 'password', 'login', 'url', 'comments', 'group', 'otpauth'])
+        self.assertImport(data, reference,
+                          keep=['title', 'password', 'login', 'url',
+                                'comments', 'group', 'otpauth'])
 
     def test_import_keepass_other(self):
         """Testing: parse method for Keepass with special cases."""

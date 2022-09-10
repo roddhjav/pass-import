@@ -119,7 +119,6 @@ class TestStatic(tests.Test):
                 'path': '0/some-path/tv-l2-0-2'
             },
         ]
-        characters = {}
         pass_import.clean.duplicate(data)
         self.assertEqual(data, data_expected)
 

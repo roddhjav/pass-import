@@ -31,7 +31,7 @@ Then simply run: `make security`
 
 ##### Generate the documentation
 To re-generate the README table as well as the man pages and the completion
-file simply run: ``make docs``
+file simply run: `make docs`
 
 
 ## How to contribute?

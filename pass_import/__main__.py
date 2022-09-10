@@ -357,11 +357,13 @@ def pass_import(conf, cls_import):
                              "been flagged as unsecure, you should update all "
                              "your newly imported credentials.")
             return importer.data
+
     except (FormatError, AttributeError, ValueError, TypeError) as error:
         conf.debug(traceback.format_exc())
         conf.warning(error)
         conf.die(
             f"{conf['in']} is not a valid exported {conf['importer']} file.")
+
     except ImportError as error:
         conf.verbose(error)
         err = (f"Importing {conf['importer']}, missing required dependency: "

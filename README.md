@@ -397,8 +397,9 @@ database to a generic CSV file...
 | [keepass](https://www.keepass.info) | kdbx | `pimport keepass src [src]` |
 | [keepassx2](https://www.keepassx.org) | kdbx | `pimport keepassx2 src [src]` |
 | [keepassxc](https://keepassxc.org) | kdbx | `pimport keepassxc src [src]` |
-| [sphinx](https://github.com/stef/pwdsphinx/) | sphinx | `pimport sphinx src [src]` |
+| [lastpass](https://www.lastpass.com) | cli | `pimport lastpass src [src]` |
 | [pass](https://passwordstore.org) | pass | `pimport pass src [src]` |
+| [pwdsphinx](https://github.com/stef/pwdsphinx/) |  | `pimport sphinx src [src]` |
 
 <!-- LIST DST END -->
 
@@ -645,6 +646,8 @@ invalids:
 
 | **Dependency** | **Required for** | **apt** | **pip** |
 |:--------------:|:----------------:|:-------:|:-------:|
+| [pass] | Password Store import/export | `apt install pass` | N/A |
+| [lpass] | Lastpass cli based import/export | `apt install lpass` | N/A |
 | [defusedxml] | Recommended XML library | `apt install python3-defusedxml` | `pip3 install defusedxml` |
 | [pykeepass] | Keepass import from KDBX file | N/A | `pip3 install pykeepass` |
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
@@ -798,10 +801,11 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 [pass-otp]: https://github.com/tadfisher/pass-otp
 [apparmor.d]: https://github.com/roddhjav/apparmor.d
 
+[lpass]: https://github.com/lastpass/lastpass-cli
 [defusedxml]: https://github.com/tiran/defusedxml
 [pyaml]: https://pyyaml.org/
 [pykeepass]: https://github.com/pschmitt/pykeepass
 [secretstorage]: https://secretstorage.readthedocs.io/en/latest/
 [cryptography]: https://cryptography.io
 [file-magic]: https://www.darwinsys.com/file/
-[sphinx]: https://github.com/stef/pwdsphinx/
+[pwdsphinx]: https://github.com/stef/pwdsphinx/

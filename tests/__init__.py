@@ -134,8 +134,7 @@ def reference(name=None):
                     entry.pop(key, None)
         if 'root' in conf[name]:
             for entry in ref:
-                entry[
-                    'group'] = conf[name]['root'] + entry['group']
+                entry['group'] = conf[name]['root'] + entry['group']
     return ref
 
 
