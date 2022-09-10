@@ -39,7 +39,7 @@ _pimport () {
 			'keepassx2:Importer for keepassx2 in KDBX, CSV'
 			'keepassxc:Importer for keepassxc in KDBX, CSV'
 			'keeper:Importer for keeper in CSV'
-			'lastpass:Importer for lastpass in CSV'
+			'lastpass:Importer for lastpass in CLI, CSV'
 			'myki:Importer for myki in CSV'
 			'network-manager:Importer for network-manager in NM'
 			'nordpass:Importer for nordpass in CSV'
@@ -69,7 +69,9 @@ _pimport () {
 			'keepass:Exporter for keepass in KDBX'
 			'keepassx2:Exporter for keepassx2 in KDBX'
 			'keepassxc:Exporter for keepassxc in KDBX'
+			'lastpass:Exporter for lastpass in CLI'
 			'pass:Exporter for pass in PASS'
+			'sphinx:Exporter for sphinx in '
 		)
 		# exporter end
 		_arguments : \

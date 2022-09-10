@@ -37,7 +37,7 @@ _pass-import () {
 			'keepassx2:Importer for keepassx2 in KDBX, CSV'
 			'keepassxc:Importer for keepassxc in KDBX, CSV'
 			'keeper:Importer for keeper in CSV'
-			'lastpass:Importer for lastpass in CSV'
+			'lastpass:Importer for lastpass in CLI, CSV'
 			'myki:Importer for myki in CSV'
 			'network-manager:Importer for network-manager in NM'
 			'nordpass:Importer for nordpass in CSV'
