@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog].
 
 
+## [3.2] - 2022-09-10
+
+### Added
+
+- Added password audit support.
+- Added haveibeenpwned.com audit integration (require the `--pwned` option).
+- Add support for pwdsphinx [#183](https://github.com/roddhjav/pass-import/pull/183)
+- Add support for nordpass [#178](https://github.com/roddhjav/pass-import/pull/178)
+- Add support for 1Password8 [#169](https://github.com/roddhjav/pass-import/pull/169)
+- Add support for SafeInCloud [#168](https://github.com/roddhjav/pass-import/pull/168)
+- Add support for Lastpass CLI (with `lpass`) import & export.
+- Read OTP from 1Password's 1pif format [#157](https://github.com/roddhjav/pass-import/pull/157)
+- Add support fot Bitwarden Organisation export in CSV & JSON. 
+
+### Changed
+
+- Support for python 3.10, dropped support for python 3.6
+- Remove Travis CI in favor of Github Action.
+- The man pages are now generated from markdown with pandoc.
+- Various refractor, style and linter improvments.
+
+### Fixed
+
+- Fix KDBX export group creation [#185](https://github.com/roddhjav/pass-import/pull/185)
+- Fix pykeepass use of find_groups path parameter [#182](https://github.com/roddhjav/pass-import/pull/182)
+- Honor sroot in passwordstore exports [#181](https://github.com/roddhjav/pass-import/pull/181)
+- As safety measure, terminate the GnuPG commandline [#165](https://github.com/roddhjav/pass-import/pull/165)
+- Raise an exception upon invalid LastPass CSV data. [#156](https://github.com/roddhjav/pass-import/pull/156)
+- Fix possible path corruption in deduplication. [#154](https://github.com/roddhjav/pass-import/issues/154) [#155](https://github.com/roddhjav/pass-import/pull/155)
+- Other various fixed on multiple password managers.
+
+
 ## [3.2] - 2021-05-16
 
 ### Added
@@ -303,6 +335,7 @@ importer's systems have been intensely tested against a test database.
 
 - Initial release.
 
+[3.2]: https://github.com/roddhjav/pass-import/releases/tag/v3.3
 [3.2]: https://github.com/roddhjav/pass-import/releases/tag/v3.2
 [3.1]: https://github.com/roddhjav/pass-import/releases/tag/v3.1
 [3.0]: https://github.com/roddhjav/pass-import/releases/tag/v3.0
