@@ -50,7 +50,8 @@ debian:
 	@docker exec debian apt-get update
 	@docker exec debian apt-get -qq -y --no-install-recommends upgrade
 	@docker exec debian apt-get -qq -y --no-install-recommends install \
-		build-essential debhelper fakeroot dh-python python3-setuptools
+		build-essential debhelper fakeroot dh-python pandoc python3-setuptools \
+		python3-requests python3-pypandoc python3-dominate python3-zxcvbn python3-yaml
 	@docker exec -it --user build --workdir=${BUILDIR} debian \
 		dpkg-buildpackage -b -d -us -ui --sign-key=$(GPGKEY)
 	@docker exec -it --user build debian bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
