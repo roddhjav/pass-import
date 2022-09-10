@@ -13,7 +13,7 @@ __summary__ = ('A pass extension for importing data from most of '
                'the existing password manager.')
 __uri__ = 'https://github.com/roddhjav/pass-import'
 
-__version__ = '3.2'
+__version__ = '3.3'
 
 __author__ = 'Alexandre Pujol'
 __email__ = 'alexandre@pujol.io'
