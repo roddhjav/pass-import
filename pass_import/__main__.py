@@ -105,6 +105,9 @@ class ArgParser(ArgumentParser):
         common.add_argument(
             '-P', '--pwned', action='store_true',
             help='Check imported passwords against haveibeenpwned.com.')
+        common.add_argument(
+            '-d', '--dry-run', action='store_true',
+            help='Do not import passwords, only show what would be imported.')
 
         # Extra options
         extra = self.add_argument_group(title='Extra optional arguments')
@@ -392,7 +395,8 @@ def pass_export(conf, cls_export, data):
                     'path', entry.get('title', '')))
                 conf.show(entry)
                 try:
-                    exporter.insert(entry)
+                    if not conf['dry_run']:
+                        exporter.insert(entry)
                 except PMError as error:
                     conf.debug(traceback.format_exc())
                     conf.warning(f"Impossible to insert {pmpath} into "
@@ -408,8 +412,12 @@ def pass_export(conf, cls_export, data):
 
 def report(conf, paths, audit):
     """Print final success report."""
-    conf.success(f"Importing passwords from {conf['importer']} "
-                 f"to {conf['exporter']}")
+    if conf['dry_run']:
+        conf.warning(f"Data would be imported from {conf['importer']} "
+                     f"to {conf['exporter']}")
+    else:
+        conf.success(f"Importing passwords from {conf['importer']} "
+                     f"to {conf['exporter']}")
     conf.message(f"Passwords imported from: {conf['in']}")
     conf.message(f"Passwords exported to: {conf['out']}")
     if conf['sroot'] != '':

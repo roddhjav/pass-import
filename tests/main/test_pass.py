@@ -88,6 +88,11 @@ class TestMainPass(tests.Test):
         cmd = ['gorilla', tests.db + 'gorilla.csv', '--convert', '-q']
         self.main(cmd)
 
+    def test_main_dry_run(self):
+        """Testing: pass import keeper db/keeper.csv --dry-run."""
+        cmd = ['keeper', tests.db + 'keeper.csv', '--dry-run', '-q']
+        self.main(cmd)
+
     # Test the main format detection function.
 
     def test_main_detect_one_prefix_unable(self):
