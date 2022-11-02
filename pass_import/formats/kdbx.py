@@ -135,7 +135,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     def parse(self):
         """Parse Keepass KDBX3 and KDBX4 files."""
         for kpentry in self.keepass.entries:
-            if self.root not in os.sep.join(kpentry.path):
+            if self.root not in os.sep.join(filter(None, kpentry.path)):
                 continue
             entry = self._getentry(kpentry)
             entry['group'] = os.path.dirname(entry.get('group', ''))
