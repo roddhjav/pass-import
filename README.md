@@ -665,7 +665,7 @@ yay -S pass-import  # or your preferred AUR install method
 
 **Debian/Ubuntu**
 
-`pass-import` is available under my own debian repository with the package name
+`pass-import` is available under [my own debian repository][repo] with the package name
 `pass-extension-import`. Both the repository and the package are signed with
 my GPG key: [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 ```sh
@@ -794,6 +794,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the
 
 [pass]: https://www.passwordstore.org/
 [keys]: https://pujol.io/keys
+[repo]: https://pkg.pujol.io
 [aur]: https://aur.archlinux.org/packages/pass-import
 [releases]: https://github.com/roddhjav/pass-import/releases
 [keybase]: https://keybase.io/roddhjav
