@@ -5,7 +5,7 @@
 [![][workflow]][action] [![][gitlab]][gitlab-link] [![][coverage]][coverage-link] [![][quality]][quality-link] [![
 ][release]][release-link]
 
-**A [pass] extension for importing data from most of the existing password manager.**
+**A [pass] extension for importing data from most existing password managers**
 
 
 ## Description
