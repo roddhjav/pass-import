@@ -1,3 +1,4 @@
+EXT = import
 DESTDIR ?= /
 
 all:
@@ -21,26 +22,26 @@ lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
-		pass_import/
+		pass_${EXT}/
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
-		share/__init__.py setup.py
+		share/__main__.py setup.py
 	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t mypy -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
 		tests/
 
 security:
-	@bandit --ini .bandit -r pass_import tests setup.py share
+	@bandit --ini .bandit -r pass_${EXT} tests setup.py share
 
 export PYTHONPATH = ./
 docs:
 	@python3 share/__init__.py
 
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
-PKGNAME := pass-extension-import
-BUILDIR := /home/build/$(PKGNAME)
+PKGNAME := pass-extension-${EXT}
+BUILDIR := /home/build/${PKGNAME}
 debian:
 	@docker stop debian &> /dev/null || true
 	@docker run --rm -tid --name debian --volume ${PWD}:${BUILDIR} \
@@ -53,9 +54,10 @@ debian:
 		build-essential debhelper fakeroot dh-python pandoc python3-setuptools \
 		python3-requests python3-pypandoc python3-dominate python3-zxcvbn python3-yaml
 	@docker exec -it --user build --workdir=${BUILDIR} debian \
-		dpkg-buildpackage -b -d -us -ui --sign-key=$(GPGKEY)
+		dpkg-buildpackage -b -d -us -ui --sign-key=${GPGKEY}
 	@docker exec -it --user build debian bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
-	@docker exec -it --user build debian bash -c 'mv ~/pass-import*.* ~/${PKGNAME}'
+	@docker exec -it --user build debian bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
+
 
 pip:
 	@python setup.py sdist bdist_wheel
@@ -65,9 +67,9 @@ pip:
 
 clean:
 	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \
-		debian/.debhelper debian/debhelper* debian/pass-extension-import* \
+		debian/.debhelper debian/debhelper* debian/pass-extension-${EXT}* \
 		debian/files *.deb *.buildinfo *.changes \
-		dist *.egg-info htmlcov pass_import/**/__pycache__/ */__pycache__/ \
+		dist *.egg-info htmlcov pass_${EXT}/**/__pycache__/ */__pycache__/ \
 		__pycache__ session.baseline.sqlite session.sqlite \
 		tests/assets/gnupg/random_seed tests/assets/test-results/ \
 		tests/**/__pycache__/
