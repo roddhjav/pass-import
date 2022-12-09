@@ -108,7 +108,7 @@ tests/assets/gnupg/
 tests/assets/database
 
 # generated man pages
-share/man/man1/
+share/man/man1/*.1
 
 # IDE
 .idea/
