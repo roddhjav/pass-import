@@ -37,7 +37,9 @@ security:
 
 export PYTHONPATH = ./
 docs:
-	@python3 share/__init__.py
+	@python share --docs
+	@pandoc -t man -s -o share/man/man1/pass-${EXT}.1 share/man/man1/pass-${EXT}.md
+	@pandoc -t man -s -o share/man/man1/pimport.1 share/man/man1/pimport.md
 
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
 PKGNAME := pass-extension-${EXT}

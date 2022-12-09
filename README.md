@@ -640,7 +640,6 @@ invalids:
 * `pass 1.7.0` or greater.
 * Python 3.7+
 * `python3-setuptools` to build and install it.
-* `python3-pypandoc` to build the man pages.
 * `python3-yaml` (`apt install python3-yaml` or `pip3 install pyaml`, or `python3 -m pip pyaml` if on MacOS running python installed via `brew`)
 
 **Optional Requirements**
