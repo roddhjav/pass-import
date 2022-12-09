@@ -15,23 +15,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Updates the readme, man & completion files in this repo."""
+"""Generate release, update the readme, man & completion files in this repo."""
 
 import io
+import re
+import subprocess
+import sys
+from datetime import datetime
 try:
     from dominate import tags
     from dominate.util import raw
-    DOMINATE = True
 except ImportError:
-    DOMINATE = False
-    print('Warning: The "dominate" support is required to generate '
-          'the README tables')
+    print('Error: "dominate" is required to generate the README table')
+    sys.exit(1)
 
-import pass_import
+import pass_import as ext
 from pass_import.__main__ import ArgParser
 from pass_import.core import Cap
 
-MANAGERS = pass_import.Managers()
+MANAGERS = ext.Managers()
 
 
 # Internal tools
@@ -147,9 +149,6 @@ class ManagerMeta():
 def table_importer():
     """Generate the new importer table."""
     warning = "<!-- Do not edit manually, use 'make doc' instead. -->"
-    if not DOMINATE:
-        return f"\n{warning}\n"
-
     matrix = MANAGERS.matrix()
     with tags.table() as table:
         with tags.thead():
@@ -281,7 +280,7 @@ def zsh_exporter():
     return zsh_cmd(Cap.EXPORT)
 
 
-UPDATE = {
+DOCS = {
     'README.md': [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', table_importer()),
@@ -318,7 +317,7 @@ UPDATE = {
 
 def makedoc():
     """Update the documentation files last usage and manager lists."""
-    for path, pattern in UPDATE.items():
+    for path, pattern in DOCS.items():
         with open(path, 'r') as file:
             data = file.read()
 
@@ -329,5 +328,69 @@ def makedoc():
             file.write(data)
 
 
+def git_add(path: str):
+    """Add file contents to the index."""
+    subprocess.call(["/usr/bin/git", "add", path], shell=False)
+
+
+def git_commit(msg: str):
+    """Record changes to the repository."""
+    subprocess.call(["/usr/bin/git", "commit", "-S", "-m", msg], shell=False)
+
+
+def debian_changelog(version: str):
+    """Update debian/changelog."""
+    path = "debian/changelog"
+    now = datetime.now()
+    date = now.strftime('%a, %d %b %Y %H:%M:%S +0000')
+    template = f"""{ext.__title__} ({version}-1) stable; urgency=medium
+
+  * Release {ext.__title__} v{version}
+
+ -- {ext.__author__} <{ext.__email__}>  {date}
+
+"""
+    with open(path, 'r') as file:
+        data = file.read()
+    with open(path, 'w') as file:
+        file.write(template + data)
+    git_add(path)
+
+
+def makerelease():
+    """Make a new release commit."""
+    oldversion = ext.__version__
+    version = sys.argv.pop()
+    release = {
+        'README copy.md': [
+            (f'pass-import-{oldversion}', f'pass-import-{version}'),
+            (f'pass import {oldversion}', f'pass import {version}'),
+            (f'v{oldversion}', f'v{version}'),
+        ],
+        'pass_import/__about__.py': [
+            ('__version__ = .*', f"__version__ = '{version}'"),
+        ],
+    }
+    debian_changelog(version)
+    for path, pattern in release.items():
+        with open(path, 'r') as file:
+            data = file.read()
+
+        for old, new in pattern:
+            data = re.sub(old, new, data)
+
+        with open(path, 'w') as file:
+            file.write(data)
+
+        git_add(path)
+    git_commit(f"Release {ext.__title__} {version}")
+
+
 if __name__ == "__main__":
-    makedoc()
+    if '--docs' in sys.argv:
+        makedoc()
+    elif '--release' in sys.argv:
+        makerelease()
+    else:
+        print('Usage: python share [--docs] | [--release VERSION]')
+        sys.exit(1)
