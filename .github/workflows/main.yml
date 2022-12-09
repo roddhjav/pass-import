@@ -5,6 +5,7 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   lint:
     runs-on: ubuntu-22.04
+    continue-on-error: true
     steps:
 
       - name: Check out repository code
