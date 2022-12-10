@@ -41,6 +41,10 @@ docs:
 	@pandoc -t man -s -o share/man/man1/pass-${EXT}.1 share/man/man1/pass-${EXT}.md
 	@pandoc -t man -s -o share/man/man1/pimport.1 share/man/man1/pimport.md
 
+commitdocs:
+	@git add .
+	@git commit -S -m "doc: update documentation prior release"
+
 VERSION ?=
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
 archive:
@@ -80,12 +84,7 @@ pip:
 	@gpg --detach-sign -a dist/*
 	@twine upload --sign --identity ${GPGKEY} dist/*
 
-release: tests lint security docs
-	@git add .
-	@git commit -S -m "doc: update documentation prior release"
-	archive
-	pip
-	debian
+release: tests lint security docs commitdocs archive debian pip
 
 clean:
 	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \
@@ -96,4 +95,4 @@ clean:
 		tests/assets/gnupg/random_seed tests/assets/test-results/ \
 		tests/**/__pycache__/
 
-.PHONY: install uninstall local tests lint security docs archive pip debian release clean
+.PHONY: install uninstall local tests lint security docs commitdocs archive pip debian release clean
