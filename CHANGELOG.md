@@ -5,7 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog].
 
 
-## [3.2] - 2022-09-10
+## [3.4] - 2022-12-10
+
+### Added
+
+- Added a `--dry-run` option [#188](https://github.com/roddhjav/pass-import/issues/188)
+
+### Changed
+
+- Dropped support for python 3.7
+- The manpage is now generated during the release process. Dropped pandoc build deps. [#192](https://github.com/roddhjav/pass-import/issues/192), [#186](https://github.com/roddhjav/pass-import/issues/186).
+- Automated release process.
+
+### Fixed
+
+- Fix KDBX import bug  [#190](https://github.com/roddhjav/pass-import/pull/190)
+
+
+## [3.3] - 2022-09-10
 
 ### Added
 
@@ -335,7 +352,8 @@ importer's systems have been intensely tested against a test database.
 
 - Initial release.
 
-[3.2]: https://github.com/roddhjav/pass-import/releases/tag/v3.3
+[3.4]: https://github.com/roddhjav/pass-import/releases/tag/v3.4
+[3.3]: https://github.com/roddhjav/pass-import/releases/tag/v3.3
 [3.2]: https://github.com/roddhjav/pass-import/releases/tag/v3.2
 [3.1]: https://github.com/roddhjav/pass-import/releases/tag/v3.1
 [3.0]: https://github.com/roddhjav/pass-import/releases/tag/v3.0
