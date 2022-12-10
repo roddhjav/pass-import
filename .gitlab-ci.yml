@@ -44,6 +44,7 @@ variables:
     - *gnome-keyring
     - make
     - dbus-run-session -- make tests
+    - make docs
     - make install
     - cd ~
     - pass import --help
