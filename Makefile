@@ -37,7 +37,7 @@ security:
 
 export PYTHONPATH = ./
 docs:
-	@python share --docs
+	@python3 share --docs
 	@pandoc -t man -s -o share/man/man1/pass-${EXT}.1 share/man/man1/pass-${EXT}.md
 	@pandoc -t man -s -o share/man/man1/pimport.1 share/man/man1/pimport.md
 
@@ -48,7 +48,7 @@ commitdocs:
 VERSION ?=
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
 archive:
-	@python share --release ${VERSION}
+	@python3 share --release ${VERSION}
 	@git tag v${VERSION} -m "pass-${EXT} v${VERSION}" --local-user=${GPGKEY}
 	@git archive \
 		--format=tar.gz \
@@ -80,7 +80,7 @@ debian:
 	@docker exec -it --user build debian bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
 
 pip:
-	@python setup.py sdist bdist_wheel
+	@python3 setup.py sdist bdist_wheel
 	@twine check dist/*
 	@gpg --detach-sign -a dist/*
 	@twine upload --sign --identity ${GPGKEY} dist/*
