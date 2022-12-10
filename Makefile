@@ -49,6 +49,7 @@ VERSION ?=
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
 archive:
 	@python share --release ${VERSION}
+	@git tag v${VERSION} -m "pass-${EXT} v${VERSION}" --local-user=${GPGKEY}
 	@git archive \
 		--format=tar.gz \
 		--prefix=pass-${EXT}-${VERSION}/share/man/man1/ \
