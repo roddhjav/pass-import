@@ -35,15 +35,15 @@ class MockCreateSock:
 
     def send(self, pkt):
         action = self.actions[self.state]
-        assert action[0] == 'send'
+        assert action[0] == 'send'  # nosec
         if action[1]:
-            assert len(pkt) == action[1]
+            assert len(pkt) == action[1]  # nosec
         self.state += 1
 
     def recv(self, size):
         action = self.actions[self.state]
-        assert action[0] == 'recv'
-        assert size == len(action[1])
+        assert action[0] == 'recv'  # nosec
+        assert size == len(action[1])  # nosec
         self.state += 1
         return action[1]
 

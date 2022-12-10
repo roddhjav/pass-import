@@ -19,7 +19,7 @@
 
 import io
 import re
-import subprocess
+import subprocess  # nosec
 import sys
 from datetime import datetime
 try:
@@ -330,12 +330,13 @@ def makedoc():
 
 def git_add(path: str):
     """Add file contents to the index."""
-    subprocess.call(["/usr/bin/git", "add", path], shell=False)
+    subprocess.call(["/usr/bin/git", "add", path], shell=False)  # nosec
 
 
 def git_commit(msg: str):
     """Record changes to the repository."""
-    subprocess.call(["/usr/bin/git", "commit", "-S", "-m", msg], shell=False)
+    subprocess.call(["/usr/bin/git", "commit", "-S", "-m", msg],
+                    shell=False)  # nosec
 
 
 def debian_changelog(version: str):
