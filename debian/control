@@ -7,7 +7,6 @@ Build-Depends:
  dh-python,
  python3-all,
  python3-setuptools,
- python3-pypandoc,
  python3-yaml,
  python3-requests,
  python3-zxcvbn,
