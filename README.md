@@ -695,18 +695,18 @@ python3 setup.py install
 
 **Stable version**
 ```sh
-wget https://github.com/roddhjav/pass-import/releases/download/v3.3/pass-import-3.3.tar.gz
-tar xzf pass-import-3.3.tar.gz
-cd pass-import-3.3
+wget https://github.com/roddhjav/pass-import/releases/download/v3.4/pass-import-3.4.tar.gz
+tar xzf pass-import-3.4.tar.gz
+cd pass-import-3.4
 python3 setup.py install
 ```
 
 [Releases][releases] and commits are signed using [`06A26D531D56C42D66805049C5469996F0DF68EC`][keys].
 You should check the key's fingerprint and verify the signature:
 ```sh
-wget https://github.com/roddhjav/pass-import/releases/download/v3.3/pass-import-3.3.tar.gz.asc
+wget https://github.com/roddhjav/pass-import/releases/download/v3.4/pass-import-3.4.tar.gz.asc
 gpg --recv-keys 06A26D531D56C42D66805049C5469996F0DF68EC
-gpg --verify pass-import-3.3.tar.gz.asc
+gpg --verify pass-import-3.4.tar.gz.asc
 ```
 
 **Local install**

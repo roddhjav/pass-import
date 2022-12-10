@@ -1,3 +1,9 @@
+pass-import (3.4-1) stable; urgency=medium
+
+  * Release pass-import v3.4
+
+ -- Alexandre Pujol <alexandre@pujol.io>  Sat, 10 Dec 2022 15:01:59 +0000
+
 pass-import (3.3-1) stable; urgency=medium
 
   * Release pass-import v3.3
