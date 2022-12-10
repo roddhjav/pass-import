@@ -11,7 +11,7 @@ _pass-import () {
 		local -a subcommands
 		# importers begin
 		subcommands=(
-			'1password:Importer for 1password in CSV v8, 1PIF v4, CSV v6, CSV v4'
+			'1password:Importer for 1password in CSV v8, 1PIF v4, CSV v4, CSV v6'
 			'aegis:Importer for aegis in JSON, JSON'
 			'andotp:Importer for andotp in JSON'
 			'apple-keychain:Importer for apple-keychain in KEYCHAIN'

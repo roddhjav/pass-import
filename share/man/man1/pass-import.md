@@ -15,7 +15,7 @@ the existing password manager.
 
 **pass import** is a password store extension allowing you to import your
 password database to a password store repository conveniently. It natively
-supports import from <!-- NB BEGIN -->63<!-- NB END --> different password
+supports import from <!-- NB BEGIN -->62<!-- NB END --> different password
 managers. More manager support can easily be added.
 
 Passwords are imported into the existing default password store; therefore,
@@ -310,12 +310,12 @@ invalids:
 # SUPPORTED MANAGERS
 
 <!-- LIST BEGIN -->
-### 1password (cli) 
+### 1password (csv)  v8
 **Website:** *https://1password.com*
 
-**Export:** Nothing to do
+**Export:** See this guide: https://support.1password.com/export
 
-**Command:** pass import 1password <login>
+**Command:** pass import 1password file.csv
 
 ### 1password (1pif)  v4
 **Website:** *https://1password.com*
@@ -324,13 +324,6 @@ invalids:
 
 **Command:** pass import 1password file.1pif
 
-### 1password (csv)  v6
-**Website:** *https://1password.com*
-
-**Export:** See this guide: https://support.1password.com/export
-
-**Command:** pass import 1password file.csv
-
 ### 1password (csv)  v4
 **Website:** *https://1password.com*
 
@@ -338,12 +331,12 @@ invalids:
 
 **Command:** pass import 1password file.csv
 
-### 1password (pux)  v8
+### 1password (csv)  v6
 **Website:** *https://1password.com*
 
 **Export:** See this guide: https://support.1password.com/export
 
-**Command:** pass import 1password file.pux
+**Command:** pass import 1password file.csv
 
 ### aegis (json) 
 **Website:** *https://github.com/beemdevelopment/Aegis*
@@ -372,32 +365,6 @@ invalids:
 **Export:** See this guide: https://gist.github.com/santigz/601f4fd2f039d6ceb2198e2f9f4f01e0
 
 **Command:** pass import applekeychain file.txt
-
-### bitwarden (cli) 
-**Website:** *https://bitwarden.com*
-
- The prefix is your bitwarden login email. If it is empty, it is read from
- the configuration file. Bitwarden server url, login are read from the
- configuration file.
-
- Alternatively, if the environment variable ``BW_SESSION`` is set to you
- current token, it will not sigin again.
-
- Attachment are not supported yet.
-
- Example:
- -------
- .. code-block:: yml
-
- bitwarden:
- login: <your email addresss>
- server: vault.bitwarden.com
-
-
-
-**Export:** Nothing to do
-
-**Command:** pass import bitwarden <login>
 
 ### bitwarden (csv) 
 **Website:** *https://bitwarden.com*

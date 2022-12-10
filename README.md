@@ -52,12 +52,12 @@ database to a generic CSV file...
       <td align="center"><code>pass import 1password file.1pif</code></td>
     </tr>
     <tr>
-      <td align="center"><code>csv v6</code></td>
+      <td align="center"><code>csv v4</code></td>
       <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
       <td align="center"><code>pass import 1password file.csv</code></td>
     </tr>
     <tr>
-      <td align="center"><code>csv v4</code></td>
+      <td align="center"><code>csv v6</code></td>
       <td align="center"><i>See <a href="https://support.1password.com/export">this guide</a></i></td>
       <td align="center"><code>pass import 1password file.csv</code></td>
     </tr>
@@ -430,7 +430,8 @@ pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
 ### Help
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG] [-l] [-h] [-V] [-v | -q]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [-d] [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG] [-l] [-h] [-V]
+                   [-v | -q]
                    [src ...]
 
   Import data from most of the password manager. Passwords are imported into
@@ -453,6 +454,7 @@ Common optional arguments:
   -c, --clean           Make the paths more command line friendly.
   -C, --convert         Convert invalid characters present in the paths.
   -P, --pwned           Check imported passwords against haveibeenpwned.com.
+  -d, --dry-run         Do not import passwords, only show what would be imported.
 
 Extra optional arguments:
   --sep CHAR            Provide a characters of replacement for the path separator. Default: '-'
