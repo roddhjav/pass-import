@@ -153,6 +153,14 @@ dictionary's keys are divided into two sets:
 description of any extra data we can find in the exported file.
 
 
+## Release
+
+Process to make a new release:
+1. Update the `CHANGELOG.md` and commit the changes.
+2. Clean the workding directory: `git stash --include-untracked`
+3. Release: `make release VERSION=<version>`
+
+
 [python-green]: https://github.com/CleanCut/green
 [python-coverage]: http://nedbatchelder.com/code/coverage/
 [prospector]: https://github.com/PyCQA/prospector

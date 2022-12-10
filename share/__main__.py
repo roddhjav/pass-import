@@ -362,7 +362,7 @@ def makerelease():
     oldversion = ext.__version__
     version = sys.argv.pop()
     release = {
-        'README copy.md': [
+        'README.md': [
             (f'pass-import-{oldversion}', f'pass-import-{version}'),
             (f'pass import {oldversion}', f'pass import {version}'),
             (f'v{oldversion}', f'v{version}'),

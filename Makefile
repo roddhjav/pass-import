@@ -41,7 +41,21 @@ docs:
 	@pandoc -t man -s -o share/man/man1/pass-${EXT}.1 share/man/man1/pass-${EXT}.md
 	@pandoc -t man -s -o share/man/man1/pimport.1 share/man/man1/pimport.md
 
+VERSION ?=
 GPGKEY ?= 06A26D531D56C42D66805049C5469996F0DF68EC
+archive:
+	@python share --release ${VERSION}
+	@git archive \
+		--format=tar.gz \
+		--prefix=pass-${EXT}-${VERSION}/share/man/man1/ \
+		--add-file=share/man/man1/pimport.1 \
+		--add-file=share/man/man1/pass-${EXT}.1 \
+		--prefix=pass-${EXT}-${VERSION}/ \
+		--output=pass-${EXT}-${VERSION}.tar.gz \
+		v${VERSION} ':!debian' ':!share/man/man1/*.md'
+	@gpg --armor --default-key ${GPGKEY} --detach-sig pass-${EXT}-${VERSION}.tar.gz
+	@gpg --verify pass-${EXT}-${VERSION}.tar.gz.asc
+
 PKGNAME := pass-extension-${EXT}
 BUILDIR := /home/build/${PKGNAME}
 debian:
@@ -60,25 +74,18 @@ debian:
 	@docker exec -it --user build debian bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
 	@docker exec -it --user build debian bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
 
-VERSION ?=
-release:
-	@python share --release ${VERSION}
-	@git archive \
-		--format=tar.gz \
-		--prefix=pass-${EXT}-${VERSION}/share/man/man1/ \
-		--add-file=share/man/man1/pimport.1 \
-		--add-file=share/man/man1/pass-${EXT}.1 \
-		--prefix=pass-${EXT}-${VERSION}/ \
-		--output=pass-${EXT}-${VERSION}.tar.gz \
-		v${VERSION} ':!debian' ':!share/man/man1/*.md'
-	@gpg --armor --default-key ${GPGKEY} --detach-sig pass-${EXT}-${VERSION}.tar.gz
-	@gpg --verify pass-${EXT}-${VERSION}.tar.gz.asc
-
 pip:
 	@python setup.py sdist bdist_wheel
 	@twine check dist/*
 	@gpg --detach-sign -a dist/*
 	@twine upload --sign --identity ${GPGKEY} dist/*
+
+release: tests lint security docs
+	@git add .
+	@git commit -S -m "doc: update documentation prior release"
+	archive
+	pip
+	debian
 
 clean:
 	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \
@@ -89,4 +96,4 @@ clean:
 		tests/assets/gnupg/random_seed tests/assets/test-results/ \
 		tests/**/__pycache__/
 
-.PHONY: install uninstall local tests lint security docs release pip debian clean
+.PHONY: install uninstall local tests lint security docs archive pip debian release clean
