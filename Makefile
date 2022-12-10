@@ -85,7 +85,7 @@ pip:
 	@gpg --detach-sign -a dist/*
 	@twine upload --sign --identity ${GPGKEY} dist/*
 
-release: tests lint security docs commitdocs archive debian pip
+release: tests lint security docs commitdocs archive
 
 clean:
 	@rm -rf .coverage .mypy_cache .pybuild .ropeproject build config.json \

@@ -159,6 +159,7 @@ Process to make a new release:
 1. Update the `CHANGELOG.md` and commit the changes.
 2. Clean the workding directory: `git stash --include-untracked`
 3. Release: `make release VERSION=<version>`
+4. Build the pip & debian package: `make debian` and `make pip`
 
 
 [python-green]: https://github.com/CleanCut/green
