@@ -13,7 +13,7 @@ jobs:
 
       - name: Install required packages
         run: |
-          pip install prospector[with_everything] defusedxml requests zxcvbn dominate
+          pip install prospector[with_everything]==1.7.7 defusedxml requests zxcvbn dominate
   
       - name: Prospector
         run: make lint

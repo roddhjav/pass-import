@@ -22,15 +22,15 @@ lint:
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
-		pass_${EXT}/
+		pass_${EXT}
 	@prospector --profile .prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
-		share/__main__.py setup.py
+		share
 	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
 		-t dodgy -t mccabe -t mypy -t pydocstyle -t pycodestyle \
 		-t profile-validator -t pyflakes -t pyroma \
-		tests/
+		tests
 
 security:
 	@bandit --ini .bandit -r pass_${EXT} tests setup.py share
