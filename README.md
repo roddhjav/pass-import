@@ -736,7 +736,7 @@ with LastpassCSV('lastpass-export.csv') as importer:
 
     with PasswordStore('~/.password-store') as exporter:
         exporter.data = importer.data
-        exporter.clean()
+        exporter.clean(True, True)
         for entry in exporter.data:
             exporter.insert(entry)
 ```
@@ -752,7 +752,7 @@ with LastpassCSV('lastpass-export.csv') as importer:
 
     with Keepass('keepass.kdbx') as exporter:
         exporter.data = importer.data
-        exporter.clean()
+        exporter.clean(True, True)
         for entry in exporter.data:
             exporter.insert(entry)
 ```
