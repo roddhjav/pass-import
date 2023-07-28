@@ -716,9 +716,18 @@ Alternatively, from git or from a stable version you can do a local install with
 cd pass-import
 python3 setup.py install --user
 ```
-Remember to set `PASSWORD_STORE_ENABLE_EXTENSIONS` to `true` for the local
-extension to be enabled.
 
+> [!WARNING]  
+> For local install you need to:
+>
+>  1. Set `PASSWORD_STORE_ENABLE_EXTENSIONS` to `true` for the local extension to be enabled.
+>  2. Set `PASSWORD_STORE_EXTENSIONS_DIR` to local the install path of python
+>
+>  Example:
+>  ```sh
+>  export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+>  export PASSWORD_STORE_EXTENSIONS_DIR="$HOME/.local/lib/python3.9/site-packages/usr/lib/password-store/extensions/"
+>  ```
 
 ## The import Library
 
