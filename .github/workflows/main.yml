@@ -40,7 +40,7 @@ jobs:
           sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
           sudo ldconfig
           pip3 install -U setuptools
-          pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage pwdsphinx ${{ matrix.magic }}
+          pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage ${{ matrix.magic }}
 
       - name: Configure password managers 
         run: |

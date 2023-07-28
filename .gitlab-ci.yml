@@ -55,7 +55,7 @@ variables:
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep wget
         dbus gnome-keyring pandoc libsodium23
-    - *sphinx
+    # - *sphinx
 
 .distribution:
   extends: .script
