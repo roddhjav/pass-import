@@ -726,7 +726,7 @@ python3 setup.py install --user
 >  Example:
 >  ```sh
 >  export PASSWORD_STORE_ENABLE_EXTENSIONS=true
->  export PASSWORD_STORE_EXTENSIONS_DIR="$HOME/.local/lib/python3.9/site-packages/usr/lib/password-store/extensions/"
+>  export PASSWORD_STORE_EXTENSIONS_DIR="$(python -m site --user-site)/usr/lib/password-store/extensions/"
 >  ```
 
 ## The import Library
