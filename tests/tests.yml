@@ -60,7 +60,6 @@ ChromeCSV:
   path: chrome.csv
   without:
     - group
-    - comments
 
 ChromeCSVSQLite:
   path: chromesqlite.csv

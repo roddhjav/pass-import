@@ -11,15 +11,16 @@ class ChromeCSV(CSV):
     """Importer for Chrome in CSV format."""
     name = 'chrome'
     url = 'https://support.google.com/chrome'
-    hexport = ('See this guide: https://support.google.com/chrome/'
-               'answer/95606#see')
+    hexport = ('In chrome://password-manager/settings under 2Export passwords'
+               'Download File')
     himport = 'pass import chrome file.csv'
     only = True
     keys = {
         'title': 'name',
         'password': 'password',
         'login': 'username',
-        'url': 'url'
+        'url': 'url',
+        'comments': 'note',
     }
 
 
