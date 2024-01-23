@@ -58,6 +58,47 @@ class CSV(Formatter, PasswordImporter):
                 return False
             self.file.seek(0)
             self.reader = csv.DictReader(self.file, dialect=dialect)
+
+            # Context:
+            #   1password can export data in:
+            #   - 1PIF (json like format)
+            #   - CSV
+            # Problem:
+            #   CSV sniffer considers the following line as a CSV
+            #   line and will provide a dialect for it.
+            #
+            #   line: {"field0":"foo", ..., fieldX:"baz"}
+            #
+            #   This is clearly a JSON formatted line.
+            # Solution:
+            #    If the line looks like a JSON, then consider the
+            #    file not a CSV file
+            def is_json_key_value_format(value):
+                values = value.split(':', 2)
+                return len(values) > 1
+
+            def is_json_open_end_bracket(keys):
+                count = len(keys)
+                if count > 0:
+                    if (
+                            keys[0].startswith('{') and
+                            keys[-1].endswith('}')
+                    ):
+                        return False
+                return False
+
+            # Read first data line when available
+            for index, row in enumerate(self.reader):
+                if index == 0:
+                    # skip header
+                    continue
+
+                keys = [k for k in row.keys() if k is not None]
+                if all(map(is_json_key_value_format, keys)):
+                    if is_json_open_end_bracket(keys):
+                        return False
+
+                break
         except (csv.Error, UnicodeDecodeError):
             return False
         return True
