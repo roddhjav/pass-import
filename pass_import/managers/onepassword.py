@@ -99,6 +99,8 @@ class OnePassword4PIF(JSON):
         data = file.read()
         cleaned = re.sub(r'(?m)^\*\*\*.*\*\*\*\s+', '', data)
         cleaned = cleaned.split('\n')
+        # On 1Password v7.9.11 (macOS), 1PIF export produces 1 extra empty line
+        cleaned = [v for v in cleaned if len(v) > 0]
         cleaned = ','.join(cleaned).rstrip(',')
         cleaned = f'[{cleaned}]'
         return json.loads(cleaned)
