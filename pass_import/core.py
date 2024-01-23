@@ -96,14 +96,14 @@ class Asset(ABC):
         if isinstance(self.file, io.IOBase):
             self.file.close()
 
-    def exist(self):
+    def exist(self) -> bool:
         """Ensure the file/repository exist."""
         if isinstance(self.file, io.IOBase):
             return True
         return os.path.isfile(self.prefix)
 
     @classmethod
-    def isvalid(cls):
+    def isvalid(cls) -> bool:
         """Ensure the user has the credential to use the file/repository."""
         return True
 

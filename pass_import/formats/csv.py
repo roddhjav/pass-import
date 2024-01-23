@@ -49,7 +49,7 @@ class CSV(Formatter, PasswordImporter):
 
     # Format recognition methods
 
-    def is_format(self):
+    def is_format(self) -> bool:
         """Return True if the file is a CSV file."""
         try:
             dialect = csv.Sniffer().sniff(self.file.read(4096),
@@ -103,7 +103,7 @@ class CSV(Formatter, PasswordImporter):
             return False
         return True
 
-    def checkheader(self, header, only=False):
+    def checkheader(self, header: List, only: bool = False) -> bool:
         """Ensure the file header is the same than the pm header."""
         try:
             if only and len(self.reader.fieldnames) != len(header):

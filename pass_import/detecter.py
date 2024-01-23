@@ -3,6 +3,7 @@
 # Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+from typing import List
 from abc import abstractmethod
 
 from pass_import.core import Asset, Cap
@@ -43,11 +44,11 @@ class Formatter(Detecter):
     cap = Cap.FORMAT
 
     @abstractmethod
-    def is_format(self):
+    def is_format(self) -> bool:
         """Return ``True`` if the prefix has same format than the pm."""
 
     @abstractmethod
-    def checkheader(self, header, only=False):
+    def checkheader(self, header: List, only: bool = False) -> bool:
         """Ensure the file header is the same than the pm header."""
 
     @classmethod

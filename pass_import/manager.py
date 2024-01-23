@@ -4,6 +4,7 @@
 #
 
 import os
+from typing import Dict
 from abc import abstractmethod
 
 from pass_import import clean
@@ -53,7 +54,7 @@ class PasswordManager(Asset):
         super().__init__(prefix)
 
     @classmethod
-    def usage(cls):
+    def usage(cls) -> str:
         """Get password manager usage."""
         res = '\n'.join(cls.__doc__.split('\n')[1:-1])
         if ':usage:' in res:
@@ -64,7 +65,7 @@ class PasswordManager(Asset):
         return ''
 
     @classmethod
-    def description(cls):
+    def description(cls) -> str:
         """Get password manager description."""
         return cls.__doc__.split('\n', maxsplit=1)[0]
 
@@ -87,11 +88,11 @@ class PasswordImporter(PasswordManager):
     def parse(self):
         """Parse the password manager repository and retrieve passwords."""
 
-    def invkeys(self):
+    def invkeys(self) -> Dict[str, str]:
         """Return the invert of ``keys``."""
         return {v: k for k, v in self.keys.items()}
 
-    def _sortgroup(self, folders):
+    def _sortgroup(self, folders: Dict[str, Dict[str, str]]):
         """Order groups in ``data``.
 
         :param dict folders: The group structure, it must be generated
@@ -130,7 +131,7 @@ class PasswordExporter(PasswordManager):
         super().__init__(prefix, settings)
 
     @abstractmethod
-    def insert(self, entry):
+    def insert(self, entry: Dict[str, str]):
         """Insert a password entry into the password repository.
 
         :param dict entry: The password entry to insert.
@@ -138,7 +139,7 @@ class PasswordExporter(PasswordManager):
             a password manager error.
         """
 
-    def clean(self, cmdclean, convert):
+    def clean(self, cmdclean: bool, convert: bool):
         """Clean data before export.
 
         **Features:**
@@ -163,7 +164,7 @@ class PasswordExporter(PasswordManager):
         clean.dpaths(self.data, cmdclean, convert)
         clean.duplicate(self.data)
 
-    def audit(self, hibp=False):
+    def audit(self, hibp: bool = False):
         """Audit the parsed password for vulnerable passwords.
 
         **Features:**

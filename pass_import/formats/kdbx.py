@@ -245,7 +245,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             return False
         return True
 
-    def checkheader(self, header, only=False):
+    def checkheader(self, header, only=False) -> bool:
         """No header check."""
         return True
 

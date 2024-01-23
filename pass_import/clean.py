@@ -5,6 +5,7 @@
 
 import os
 import re
+from typing import Dict
 from collections import defaultdict
 
 # Cleaning variables.
@@ -22,7 +23,7 @@ CLEANS = {
 }
 
 
-def cmdline(string, cleans=None):
+def cmdline(string: str, cleans: Dict[str, str] = None) -> str:
     """Make the string more command line friendly."""
     if not cleans:
         cleans = CLEANS
@@ -30,13 +31,13 @@ def cmdline(string, cleans=None):
     return replaces(cleans, string)
 
 
-def convert(string):
+def convert(string: str) -> str:
     """Convert invalid characters by the separator in a string."""
     characters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
     return replaces(characters, string)
 
 
-def domain(string):
+def domain(string: str) -> str:
     """Return the hostname part of a (potential) URLs."""
     for component in string.split('/'):
         if component != '':
@@ -44,7 +45,7 @@ def domain(string):
     return string
 
 
-def group(string):
+def group(string: str) -> str:
     """Remove invalids characters in a group. Convert sep to os.sep."""
     characters = dict(zip(INVALIDS, [SEPARATOR] * len(INVALIDS)))
     characters['/'] = os.sep
@@ -52,7 +53,7 @@ def group(string):
     return replaces(characters, string)
 
 
-def cpath(entry, path, cmdclean, conv):
+def cpath(entry: Dict[str, str], path: str, cmdclean: bool, conv: bool) -> str:
     """Create path from title and group."""
     ptitle = ''
     for key in ['title', 'host', 'url', 'login']:
@@ -79,7 +80,7 @@ def cpath(entry, path, cmdclean, conv):
     return path
 
 
-def dpaths(data, cmdclean, conv):
+def dpaths(data, cmdclean: bool, conv: bool):
     """Create subfolders for duplicated paths."""
     duplicated = defaultdict(list)
     for idx, entry in enumerate(data):
@@ -93,20 +94,20 @@ def dpaths(data, cmdclean, conv):
                 entry['path'] = cpath(entry, path, cmdclean, conv)
 
 
-def protocol(string):
+def protocol(string: str) -> str:
     """Remove the protocol prefix in a string."""
     characters = dict(zip(PROTOCOLS, [''] * len(PROTOCOLS)))
     return replaces(characters, string)
 
 
-def replaces(characters, string):
+def replaces(characters: Dict[str, str], string: str) -> str:
     """General purpose replace function."""
     for key in characters:
         string = string.replace(key, characters[key])
     return string
 
 
-def title(string):
+def title(string: str) -> str:
     """Clean the title from separator before addition to a path."""
     characters = {'/': SEPARATOR, '\\': SEPARATOR}
     return replaces(characters, string)

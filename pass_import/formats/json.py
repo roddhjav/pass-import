@@ -25,7 +25,7 @@ class JSON(Formatter, PasswordImporter):
 
     # Format recognition methods
 
-    def is_format(self):
+    def is_format(self) -> bool:
         """Return True if the file is a JSON file."""
         try:
             self.jsons = json.loads(self.file.read())
@@ -33,7 +33,7 @@ class JSON(Formatter, PasswordImporter):
             return False
         return True
 
-    def _ensureheader(self, data, header):
+    def _ensureheader(self, data, header) -> bool:
         """Ensure the data is in the header format.
 
         :return bool:
@@ -64,7 +64,7 @@ class JSON(Formatter, PasswordImporter):
 
         return data == header
 
-    def checkheader(self, header, only=False):
+    def checkheader(self, header, only=False) -> bool:
         """Ensure the file header is the same than the pm header."""
         return self._ensureheader(self.jsons, header)
 
