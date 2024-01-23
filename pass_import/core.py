@@ -113,7 +113,8 @@ class Asset(ABC):
             raise PMError(f"{self.prefix} is not a password repository.")
         if not self.isvalid():
             raise PMError(
-                "invalid credentials, password encryption/decryption aborted.")
+                "invalid credentials, password encryption/decryption aborted. "
+                "See https://github.com/roddhjav/pass-import#gpg-keyring")
 
         self.open()
         return self
