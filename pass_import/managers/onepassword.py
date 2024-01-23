@@ -88,7 +88,8 @@ class OnePassword4PIF(JSON):
         'login': 'username',
         'url': 'location',
         'comments': 'notesPlain',
-        'group': 'folderUuid'
+        'group': 'folderUuid',
+        'tags': 'tags'
     }
 
     # Import methods
@@ -145,6 +146,13 @@ class OnePassword4PIF(JSON):
                 for key, value in item.items():
                     if key not in self.ignore:
                         entry[keys.get(key, key)] = value
+
+                tags = []
+                if 'openContents' in item:
+                    open_contents = item['openContents']
+                    tags = open_contents.get('tags', [])
+
+                entry['tags'] = tags
                 self.data.append(entry)
         self._sortgroup(folders)
 
