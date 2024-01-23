@@ -461,6 +461,17 @@ Extra optional arguments:
   --del CHAR            Provide an alternative CSV delimiter character. Default: ','
   --cols COLS           CSV expected columns to map columns to credential attributes. Only used by the csv importer.
   --config CONFIG       Set a config file. Default: '.import'
+  --filter FILTER       Export whole entries matching a JSONPath filter
+                        expression. Default: (none)
+                        
+                        This field can be: 
+                         - a string JSONPath expression 
+                         - an absolute path to a file containing a JSONPath filter expression. 
+                         
+                        List of supported filter: https://github.com/h2non/jsonpath-ng
+                        
+                        Example: 
+                         - '$.entries[*].tags[?@="Defaults"]' : Export only entries with a tag matching 'Defaults'
 
 Help related optional arguments:
   -l, --list            List the supported password managers.

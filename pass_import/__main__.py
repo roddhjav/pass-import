@@ -23,6 +23,9 @@ import sys
 import traceback
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
+import jsonpath_ng.ext
+from jsonpath_ng.exceptions import JsonPathLexerError, JsonPathParserError
+
 from pass_import import Detecters, Managers, __version__
 from pass_import.auto import AutoDetect
 from pass_import.core import Cap
@@ -123,6 +126,19 @@ class ArgParser(ArgumentParser):
             '--cols', action='store', default='',
             help='CSV expected columns to map columns to credential attributes'
                  '. Only used by the csv importer.')
+        extra.add_argument(
+            '--filter', dest='filter', metavar='FILTER', default=None,
+            help="""Export whole entries matching a JSONPath filter expression.
+                 Default: (none)
+                 This field can be:
+                  - a string JSONPath expression
+                  - an absolute path to a file containing a JSONPath filter
+                     expression.
+                 List of supported filter:
+                 https://github.com/h2non/jsonpath-ng
+                 Example:
+                  - '$.entries[*].tags[?@="Defaults"]' : Export only entries
+                 with a tag matching 'Defaults'""")
         extra.add_argument('--config', action='store', default='',
                            help="Set a config file. Default: '.import'")
 
@@ -383,7 +399,8 @@ def pass_import(conf, cls_import):
 
 def pass_export(conf, cls_export, data):
     """Insert cleaned data into the password repository."""
-    paths = []
+    paths_imported = []
+    paths_exported = []
     try:
         settings = conf.getsettings(conf['droot'], Cap.EXPORT)
         with cls_export(conf['out'], settings=settings) as exporter:
@@ -394,20 +411,49 @@ def pass_export(conf, cls_export, data):
                 pmpath = os.path.join(conf['droot'], entry.get(
                     'path', entry.get('title', '')))
                 conf.show(entry)
+                exported = pass_filter(conf, entry)
                 try:
-                    if not conf['dry_run']:
-                        exporter.insert(entry)
+                    if exported:
+                        if not conf['dry_run']:
+                            exporter.insert(entry)
                 except PMError as error:
                     conf.debug(traceback.format_exc())
                     conf.warning(f"Impossible to insert {pmpath} into "
                                  f"{conf['exporter']}: {error}")
                 else:
-                    paths.append(pmpath)
+                    paths_imported.append(pmpath)
+                    if exported:
+                        paths_exported.append(pmpath)
     except PMError as error:
         conf.debug(traceback.format_exc())
         conf.die(error)
 
-    return paths, report
+    return paths_imported, paths_exported, report
+
+
+def pass_filter(conf, entry):
+    """Filter entry based on a JSONPath filter expression."""
+    filter_expression = conf.get('filter', None)
+    if filter_expression is None:
+        return True
+
+    # Having end users write their JSONPath filter expression as if
+    # pass-import processes/filters entries in bulk, will allow end
+    # users filter expression to continue to work when/if bulk filter is
+    # supported. Hence 'entries' being added
+    data = {'entries': [entry]}
+    try:
+        expr = jsonpath_ng.ext.parse(filter_expression)
+        matches = expr.find(data)
+        return len(matches) > 0
+    except (JsonPathLexerError, JsonPathParserError) as e:
+        conf.warning("Entry not exported due to error "
+                     "most likely in FILTER expression"
+                     + e.args[0])
+        if conf.verb >= 2:
+            conf.verbose("- Filter expression:" + filter_expression)
+            conf.verbose("- Entry: " + data)
+        return False
 
 
 def report(conf, paths, audit):
