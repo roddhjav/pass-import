@@ -23,9 +23,6 @@ import sys
 import traceback
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-import jsonpath_ng.ext
-from jsonpath_ng.exceptions import JsonPathLexerError, JsonPathParserError
-
 from pass_import import Detecters, Managers, __version__
 from pass_import.auto import AutoDetect
 from pass_import.core import Cap
@@ -33,6 +30,13 @@ from pass_import.errors import FormatError, PMError
 from pass_import.tools import Config, get_magics
 
 MANAGERS = Managers()
+
+try:
+    import jsonpath_ng.ext
+    from jsonpath_ng.exceptions import JsonPathLexerError, JsonPathParserError
+    JSONNG = True
+except ImportError:
+    JSONNG = False
 
 
 class ArgParser(ArgumentParser):
@@ -436,6 +440,11 @@ def pass_filter(conf, entry):
     filter_expression = conf.get('filter', None)
     if filter_expression is None:
         return True
+
+    if not JSONNG:
+        message = ("--filter requires pass-import[filter] "
+                   "or pass-import[all] to be installed")
+        raise ImportError('Missing packages. ' + message)
 
     # Having end users write their JSONPath filter expression as if
     # pass-import processes/filters entries in bulk, will allow end
