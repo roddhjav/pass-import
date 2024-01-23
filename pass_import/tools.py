@@ -133,6 +133,12 @@ class Config(dict):
         if os.path.isfile(configpath):
             with open(configpath, 'r') as file:
                 configs = yaml.safe_load(file)
+
+        filter_file = args.get('filter', None)
+        if filter_file is not None and os.path.isfile(filter_file):
+            with open(filter_file, mode='r') as f:
+                args['filter'] = f.read()
+
         self.merge(configs)
         self.merge(args)
         self.setclean()
