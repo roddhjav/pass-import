@@ -103,6 +103,9 @@ class OnePassword4PIF(JSON):
         cleaned = [v for v in cleaned if len(v) > 0]
         cleaned = ','.join(cleaned).rstrip(',')
         cleaned = f'[{cleaned}]'
+        # JSON string with eventual special characters are encoded properly
+        # eg: NUL, TAB
+        cleaned = json.dumps(json.loads(cleaned, strict=False))
         return json.loads(cleaned)
 
     def parse(self):
