@@ -456,7 +456,7 @@ def pass_filter(conf, entry):
         return False
 
 
-def report(conf, paths, audit):
+def report(conf, paths_imported, paths_exported, audit):
     """Print final success report."""
     if conf['dry_run']:
         conf.warning(f"Data would be imported from {conf['importer']} "
@@ -470,7 +470,7 @@ def report(conf, paths, audit):
         conf.message(f"Root path: {conf['sroot']}")
     if conf['droot'] != '':
         conf.message(f"Root path: {conf['droot']}")
-    conf.message(f"Number of password imported: {len(paths)}")
+    conf.message(f"Number of password imported: {len(paths_imported)}")
     if conf['convert']:
         conf.message("Forbidden chars converted")
         conf.message(f"Path separator used: {conf['separator']}")
@@ -486,11 +486,16 @@ def report(conf, paths, audit):
     for entry in audit['duplicated']:
         conf.warning(f"Duplicated passwords detected: "
                      f"{', '.join([item['path'] for item in entry])}")
-    if paths:
-        conf.message("Passwords imported:")
-        paths.sort()
-        for path in paths:
-            conf.echo(path)
+
+    for paths, header in [
+        (paths_imported, "Passwords imported"),
+        (paths_exported, "Passwords exported")
+    ]:
+        if paths is not None:
+            conf.message(header + ": " + str(len(paths)))
+            paths.sort()
+            for path in paths:
+                conf.echo(path)
 
 
 def main():
@@ -508,10 +513,10 @@ def main():
 
     # Import & export
     data = pass_import(conf, cls_import)
-    paths, audit = pass_export(conf, cls_export, data)
+    paths_imported, paths_exported, audit = pass_export(conf, cls_export, data)
 
     # Success!
-    report(conf, paths, audit)
+    report(conf, paths_imported, paths_exported, audit)
 
 
 if __name__ == "__main__":
