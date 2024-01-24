@@ -34,7 +34,7 @@ class NordPassCSV(CSV):
                 groups.append(entry['group'])
 
         self.data = list(filter(
-            lambda x: not(x['title'] in groups and not x['group']),
+            lambda x: not (x['title'] in groups and not x['group']),
             self.data))
 
 
