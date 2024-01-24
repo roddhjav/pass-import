@@ -15,7 +15,7 @@ local:
 	@echo "Remember to set PASSWORD_STORE_ENABLE_EXTENSIONS to 'true' for the extension to be enabled."
 
 tests:
-	@python3 -m green -vvv --run-coverage --termcolor --processes $(shell nproc)
+	@green -vvv --run-coverage --termcolor --processes $(shell nproc)
 	@coverage html
 
 lint:

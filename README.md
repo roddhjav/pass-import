@@ -640,7 +640,7 @@ invalids:
 
 **Requirements**
 * `pass 1.7.0` or greater.
-* Python 3.7+
+* Python 3.8+
 * `python3-setuptools` to build and install it.
 * `python3-yaml` (`apt install python3-yaml` or `pip3 install pyaml`, or `python3 -m pip install pyaml` if on MacOS running python installed via `brew`)
 
@@ -717,7 +717,7 @@ cd pass-import
 python3 setup.py install --user
 ```
 
-> [!WARNING]  
+> [!IMPORTANT]  
 > For local install you need to:
 >
 >  1. Set `PASSWORD_STORE_ENABLE_EXTENSIONS` to `true` for the local extension to be enabled.
@@ -771,23 +771,6 @@ with LastpassCSV('lastpass-export.csv') as importer:
 Feedback, contributors, pull requests are all very welcome. Please read the
 [`CONTRIBUTING.rst`](CONTRIBUTING.rst) file for more details on the contribution process.
 
-
-## License
-
-    Copyright (C) 2017-2020  Alexandre PUJOL
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 [github-link]: https://github.com/roddhjav/pass-import
 [workflow]: https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Froddhjav%2Fpass-import%2Fbadge&style=flat-square

@@ -26,20 +26,22 @@ variables:
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
 
 .sphinx: &sphinx
-  - pip3 install --upgrade pip
-  - pip3 install --upgrade pwdsphinx
+  - pip3 install --break-system-packages --upgrade pwdsphinx
   - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
   - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
   - ldconfig
   - cp tests/assets/db/sphinx.cfg ~/.sphinxrc
   - sphinx init
 
+.pip: &pip
+  - pip3 install --break-system-packages --upgrade pip
+  - pip3 install --break-system-packages --upgrade
+      coverage cryptography defusedxml dominate green pyaml jsonpath-ng
+      pykeepass pypandoc python-magic requests secretstorage zxcvbn
+
 .script:
   script:
-    - pip3 install --upgrade pip
-    - pip3 install --upgrade
-        coverage cryptography defusedxml dominate green pyaml
-        pykeepass pypandoc python-magic requests secretstorage zxcvbn
+    - *pip
     - *lpass
     - *gnome-keyring
     - make
@@ -60,9 +62,6 @@ variables:
 .distribution:
   extends: .script
   stage: dist
-  only:
-   - tags
-   - web
 
 
 # Jobs definitions
@@ -121,26 +120,25 @@ archlinux:
         dbus gnome-keyring file pandoc python-setuptools
 
 ubuntu:
-  image: ubuntu
+  image: ubuntu:24.04
   extends: .distribution
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep wget
+    - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
         dbus gnome-keyring pandoc
 
 debian:
   image: debian
   extends: .distribution
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep wget
+    - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
         dbus gnome-keyring pandoc
 
 fedora:
   image: fedora
   extends: .distribution
   before_script:
-    - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus dbus-daemon
-        gnome-keyring pandoc --setopt=install_weak_deps=False
-
+    - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus
+        dbus-daemon gnome-keyring pandoc --setopt=install_weak_deps=False
 
 # Code coverage deployment
 

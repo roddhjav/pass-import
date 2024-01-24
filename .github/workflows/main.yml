@@ -14,7 +14,7 @@ jobs:
       - name: Install required packages
         run: |
           pip install 'prospector[with_everything]' defusedxml requests zxcvbn dominate
-  
+
       - name: Prospector
         run: make lint
 
@@ -32,24 +32,21 @@ jobs:
 
       - name: Install required packages
         run: |
-          sudo apt-get install gnome-keyring libsodium23 pass
+          sudo apt-get install -y gnome-keyring libsodium23 pass python3-setuptools
 
       - name: Install python dependencies
         run: |
-          # sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
-          # sudo ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
-          # sudo ldconfig
-          pip3 install -U setuptools
-          pip3 install green coverage codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage zxcvbn ${{ matrix.magic }}
+          pip3 install --upgrade pip
+          pip3 install --upgrade green coverage \
+            codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage \
+            zxcvbn jsonpath-ng ${{ matrix.magic }}
 
-      - name: Configure password managers 
+      - name: Configure password managers
         run: |
           echo '#!/usr/bin/env bash\necho lpass' | sudo tee /usr/bin/lpass
           sudo chmod 755 /usr/bin/lpass
           mkdir -p ~/.local/share/keyrings/
           cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
-          cp tests/assets/db/sphinx.cfg ~/.sphinxrc
-          # sphinx init
 
       - name: Run the tests 
         run: dbus-run-session -- make tests
