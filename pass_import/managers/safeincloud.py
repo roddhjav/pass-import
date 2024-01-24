@@ -19,6 +19,7 @@ class SafeInCloudCSV(CSV):
         'password': 'Password',
         'url': 'URL',
         'comments': 'Notes',
+        'otpauth': 'OTP'
     }
 
 
