@@ -32,6 +32,7 @@ class TestExportKeepass(tests.Test):
         self.assertTrue(self.keepass.isvalid())
 
 
+@tests.skipIfNoModule('pykeepass')
 class TestExportKeepassInsert(tests.Test):
     """Test keepass insert features."""
     keep = {

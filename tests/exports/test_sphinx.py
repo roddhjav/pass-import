@@ -12,10 +12,8 @@ from pass_import.managers.sphinx import Sphinx
 try:
     from pwdsphinx import sphinx as pwdsphinx
     from pwdsphinx.sphinx import RULE_SIZE
-    PWDSPHINX = True
 except ImportError:
     RULE_SIZE = 79
-    PWDSPHINX = False
 
 
 class MockCreateSock:
@@ -69,7 +67,7 @@ def connect():
     return MockCreateSock()
 
 
-@tests.skipIfNo('pwdsphinx', PWDSPHINX)
+@tests.skipIfNoModule('pwdsphinx')
 class TestExportSphinx(tests.Test):
     """Test sphinx general features."""
 
@@ -91,7 +89,7 @@ class TestExportSphinx(tests.Test):
         self.assertTrue(self.sphinx.isvalid())
 
 
-@tests.skipIfNo('pwdsphinx', PWDSPHINX)
+@tests.skipIfNoModule('pwdsphinx')
 class TestExportSphinxInsert(tests.Test):
     """Test Sphinx insert features."""
 

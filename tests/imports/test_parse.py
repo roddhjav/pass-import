@@ -89,6 +89,7 @@ class TestParse(tests.Test):
             importer.parse()
             self.assertImport(importer.data, REFERENCE_CARD, keep)
 
+    @tests.skipIfNoModule('secretstorage')
     def test_import_gnome_keyring(self):
         """Testing: parse method for Gnome Keyring."""
         collection = 'pass-import'
@@ -132,6 +133,7 @@ class TestParse(tests.Test):
             importer.parse()
             self.assertImport(importer.data, REFERENCE_OTHER)
 
+    @tests.skipIfNoInstalled('lpass')
     @patch('pass_import.managers.LastpassCLI._command')
     @patch('pass_import.managers.LastpassCLI._call')
     @patch("getpass.getpass")

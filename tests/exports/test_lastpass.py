@@ -8,6 +8,7 @@ import tests
 from pass_import.managers.lastpass import LastpassCLI
 
 
+@tests.skipIfNoInstalled('lpass')
 class TestExportLastpass(tests.Test):
     """Test for Lastpass."""
 

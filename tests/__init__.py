@@ -32,6 +32,8 @@ It provides:
   - tests.captured() Context manager to capture stdout.
   - tests.mocked() Mock cloud password managers API response.
   - tests.skipIfNo() Skip a password manager test if it is disabled.
+  - tests.skipIfNoInstalled() Skip a test if a program is not installed.
+  - tests.skipIfNoModule() Skip a test if an optional module is not installed.
   - tests.mock_hibp() Mock HIBP API response.
 """
 
@@ -61,20 +63,32 @@ def _id(obj):
     return obj
 
 
-def skipIfNo(name, imported=True):
+def skipIfNo(name: str):
     """Skip a password manager test if it is disabled."""
-    if imported:
-        if name not in {'bitwarden', 'lastpass', 'onepassword'}:
-            return _id
-        manager = name.upper()
-        enabled = 'T_%s' % manager
-        password = 'TESTS_%s_PASS' % manager
-        if not (enabled in os.environ and password in os.environ):
-            return unittest.skip(f"Skipping: {name} tests disabled.")
+    if name not in {'bitwarden', 'lastpass', 'onepassword'}:
         return _id
-    else:
-        return unittest.skip(
-            f"Skipping: {name} tests disabled. No dependencies")
+    manager = name.upper()
+    enabled = 'T_%s' % manager
+    password = 'TESTS_%s_PASS' % manager
+    if not (enabled in os.environ and password in os.environ):
+        return unittest.skip(f"Skipping: {name} tests disabled.")
+    return _id
+
+
+def skipIfNoInstalled(name: str):
+    """Skip a test if a program is not installed."""
+    if shutil.which(name) is None:
+        return unittest.skip(f"Skipping: {name} not installed disabled.")
+    return _id
+
+
+def skipIfNoModule(name: str):
+    """Skip a test if an optional module is not installed."""
+    try:
+        __import__(name)
+    except ImportError:
+        return unittest.skip(f"Skipping: module {name} not installed.")
+    return _id
 
 
 def mocked(manager, cmd):
