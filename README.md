@@ -667,6 +667,7 @@ invalids:
 | [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 | [file-magic] | Detection of file decryption | `apt install python-magic` | `pip3 install file-magic` |
 | [pwdsphinx] | Export to SPHINX | N/A(coming soon) | `pip3 install pwdsphinx` |
+| filter | Filter exports | N/A | `pip3 install jsonpath-ng` |
 
 **ArchLinux**
 
