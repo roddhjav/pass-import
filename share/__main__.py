@@ -283,6 +283,8 @@ def zsh_exporter():
 DOCS = {
     'README.md': [
         ('<!-- NB BEGIN -->', '<!-- NB END -->', f'{len(MANAGERS)}'),
+        ('<!-- NB DST BEGIN -->', '<!-- NB DST END -->',
+         f'{len(MANAGERS.names(Cap.EXPORT))}'),
         ('<!-- LIST BEGIN -->', '<!-- LIST END -->', table_importer()),
         ('<!-- LIST DST BEGIN -->', '<!-- LIST DST END -->', table_exporter()),
         ('<!-- USAGE BEGIN -->', '<!-- USAGE END -->', usage()),
