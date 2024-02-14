@@ -6,6 +6,7 @@
 import io
 import os
 from contextlib import contextmanager
+from typing import Callable, List, Tuple, Union
 
 import pass_import
 from pass_import.core import Cap
@@ -29,16 +30,16 @@ class DummyDetecter(Formatter):
     def detecter_close(self):
         """Do nothing."""
 
-    def is_format(self):
+    def is_format(self) -> bool:
         """Return ``False``."""
         return False
 
-    def checkheader(self, header, only=False):
+    def checkheader(self, header, only=False) -> bool:
         """No header check."""
         return False  # pragma: no cover
 
     @classmethod
-    def header(cls):
+    def header(cls) -> str:
         """No header."""
         return ''  # pragma: no cover
 
@@ -80,7 +81,7 @@ class AutoDetect():
         self.classes = self.managers.matrix().get(name, [])
         self.stream = self.settings.get('decrypted', False)
 
-    def default(self, name=''):
+    def default(self, name='') -> Callable:
         """Retrieve the class of the default importer."""
         classes = self.classes
         if name != '':
@@ -90,7 +91,7 @@ class AutoDetect():
                 return pm
         raise pass_import.ManagerError('No default manager found.')
 
-    def format(self, path):
+    def format(self, path: str) -> Callable:
         """Full format detection of a file for a given password manager.
 
         - If only one format supported, use it.
@@ -117,7 +118,7 @@ class AutoDetect():
             return unknowns[0]
         return self.default()  # pragma: no cover
 
-    def manager(self, path):
+    def manager(self, path: str) -> Union[Callable, None]:
         """Full format detection of a file without knowing the  manager's name.
 
         :algorithm:
@@ -150,7 +151,8 @@ class AutoDetect():
                             return pm
         return None
 
-    def _tryopen(self, path):
+    def _tryopen(self, path: str
+                 ) -> Tuple[Union[Callable, None], List[Callable]]:
         """Knowing the manager's name, try to open the path in all formats.
 
         :algorithm:

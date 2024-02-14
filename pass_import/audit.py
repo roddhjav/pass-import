@@ -7,6 +7,7 @@ import hashlib
 
 import requests
 from zxcvbn import zxcvbn
+from typing import List, Tuple
 
 import pass_import
 
@@ -18,7 +19,7 @@ class PwnedAPI():
         self.headers = {
             'user-agent': f"{pass_import.__title__}/{pass_import.__version__}"}
 
-    def password_range(self, prefix):
+    def password_range(self, prefix: str) -> Tuple[List[str], List[int]]:
         """Query the haveibeenpwned api to retrieve the bucket ``prefix``."""
         url = f"https://api.pwnedpasswords.com/range/{prefix}"
         res = requests.get(url, headers=self.headers, verify=True)

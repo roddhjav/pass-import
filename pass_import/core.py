@@ -7,6 +7,7 @@ import io
 import os
 from abc import ABC
 from enum import IntFlag, auto
+from typing import Set, Callable
 
 from pass_import.errors import PMError
 
@@ -26,12 +27,12 @@ def register_detecters(*detecters):
         _DETECTERS.add(cls)
 
 
-def get_managers():
+def get_managers() -> Set[Callable]:
     """Return the registered password manager set."""
     return _MANAGERS
 
 
-def get_detecters():
+def get_detecters() -> Set[Callable]:
     """Return the registered detecter set."""
     return _DETECTERS
 

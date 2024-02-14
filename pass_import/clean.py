@@ -5,7 +5,7 @@
 
 import os
 import re
-from typing import Dict
+from typing import Dict, List
 from collections import defaultdict
 
 # Cleaning variables.
@@ -80,7 +80,7 @@ def cpath(entry: Dict[str, str], path: str, cmdclean: bool, conv: bool) -> str:
     return path
 
 
-def dpaths(data, cmdclean: bool, conv: bool):
+def dpaths(data: List[Dict[str, str]], cmdclean: bool, conv: bool):
     """Create subfolders for duplicated paths."""
     duplicated = defaultdict(list)
     for idx, entry in enumerate(data):
@@ -113,7 +113,7 @@ def title(string: str) -> str:
     return replaces(characters, string)
 
 
-def unused(entry):
+def unused(entry: Dict[str, str]) -> Dict[str, str]:
     """Remove unused keys and empty values."""
     empty = [k for k, v in entry.items() if not v]
     for key in empty:
@@ -121,7 +121,7 @@ def unused(entry):
     return entry
 
 
-def duplicate(data):
+def duplicate(data: List[Dict[str, str]]):
     """Add number to the remaining duplicated path."""
     seen = set()
     for entry in data:

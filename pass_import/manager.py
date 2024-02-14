@@ -37,7 +37,7 @@ class PasswordManager(Asset):
     hexport = ''
     himport = ''
     secure = True
-    keys = {}
+    keys: Dict[str, str] = {}
     keyslist = [
         'title', 'password', 'login', 'email', 'url', 'comments', 'otpauth',
         'group'
@@ -46,7 +46,7 @@ class PasswordManager(Asset):
     def __init__(self, prefix=None, settings=None):
         settings = {} if settings is None else settings
 
-        self.data = []
+        self.data: Dict[str, str] = []
         self.root = settings.get('root', '')
         self.cols = settings.get('cols', '')
         self.action = settings.get('action', Cap.IMPORT)

@@ -5,6 +5,7 @@
 """Passwords importer swiss army knife."""
 
 from collections import OrderedDict, defaultdict
+from typing import Callable, List, Dict, Union, Generator
 
 import pass_import.decrypters  # noqa
 import pass_import.formats  # noqa
@@ -30,7 +31,7 @@ class Managers(set):
     def __init__(self):
         super().__init__(get_managers())
 
-    def classes(self, cap=Cap.IMPORT, frmt=None):
+    def classes(self, cap=Cap.IMPORT, frmt=None) -> Generator:
         """Generate the classes of pm with capabilities and format."""
         ignore = {'csv'}
         for pm in self:
@@ -43,7 +44,8 @@ class Managers(set):
                 else:
                     yield pm
 
-    def get(self, name, frmt='', version='', cap=Cap.IMPORT):
+    def get(self, name, frmt='', version='', cap=Cap.IMPORT
+            ) -> Union[Callable, None]:
         """Return a manager class from its classname or its format."""
         default = None
         for pm in self.classes(cap):
@@ -62,21 +64,21 @@ class Managers(set):
             return default
         raise ManagerError(f'Unknown password manager: {name}')
 
-    def clsnames(self, cap=Cap.IMPORT):
+    def clsnames(self, cap=Cap.IMPORT) -> List[str]:
         """Return the sorted list of password managers classes name."""
         names = set()
         for pm in self.classes(cap):
             names.add(pm.__name__)
         return sorted(names)
 
-    def names(self, cap=Cap.IMPORT):
+    def names(self, cap=Cap.IMPORT) -> List[str]:
         """Return the sorted list of password managers name."""
         names = set()
         for pm in self.classes(cap):
             names.add(pm.name)
         return sorted(names)
 
-    def matrix(self, cap=Cap.IMPORT):
+    def matrix(self, cap=Cap.IMPORT) -> Dict[str, List[Callable]]:
         """Return a dict of ordered managers classes and formats.
 
         :return dict matrix:

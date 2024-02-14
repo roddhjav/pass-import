@@ -6,6 +6,7 @@
 import getpass
 import os
 import sys
+from typing import Tuple, Dict, Union
 
 try:
     import magic
@@ -19,12 +20,12 @@ from pass_import import clean
 from pass_import.core import Cap
 
 
-def getpassword(path, name='Password'):
+def getpassword(path, name='Password') -> str:
     """Get the master password."""
     return getpass.getpass(f"{name} for {path}: ")
 
 
-def get_magics(path):
+def get_magics(path) -> Tuple[str, str]:
     """Get file format and encoding.
 
     The magic library is not really good at detecting text file-based format
@@ -119,7 +120,7 @@ class Config(dict):
         if self.quiet:
             self.verb = 0
 
-    def readconfig(self, args):
+    def readconfig(self, args: Dict[str, str]):
         """Read and merge config from args, config file and default."""
         configs = {}
         if os.path.isfile(args.get('config', '')):
@@ -162,7 +163,8 @@ class Config(dict):
             self['list_importers'] = self.get('list', False)
             self['list_exporters'] = False
 
-    def getsettings(self, root='', action=Cap.IMPORT):
+    def getsettings(self, root='', action=Cap.IMPORT
+                    ) -> Dict[str, Union[str, bool]]:
         """Return a curated setting dict for use in a manager class."""
         settings = {'action': action, 'root': root}
         keep = {
