@@ -15,18 +15,19 @@ import from <!-- NB BEGIN -->62<!-- NB END --> different password managers.
 More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore
-the password store must have been initialised before with `pass init`.
+the password store must have been initialized before with `pass init`.
 
 By default, pass imports entries at the root of the password store and only keeps
-the main data (password, login, email, URL, group). This behavior can be changed
+the main data (password, login, email, URL, group). This behaviour can be changed
 using the provided options.
 
 Pass import handles duplicates and is compatible with [browserpass]. It imports
 OTP secret in a way that is compatible with [pass-otp].
 
 pass-import also provides a `pimport` script that allows importing passwords to
-other password managers. For instance, you can import passwords to a Keepass
-database to a generic CSV file...
+other password managers. For instance, you can import passwords from Lastpass to
+a Keepass database. It currently supports password export from 
+<!-- NB DST BEGIN -->8<!-- NB DST END --> managers.
 
 **The following password managers are supported:**
 
@@ -550,7 +551,7 @@ GPG keyring must be usable. In order words you need to ensure that:
 - All the public gpgids are trusted enough.
 - At least one private key is present in the keyring.
 
-Otherwise you will get the following error:
+Otherwise, you will get the following error:
 `invalid credentials, password encryption/decryption aborted.`
 
 To set the trust on a GPG key, one can run `gpg --edit-key <gpgid>` then `trust`.
@@ -561,7 +562,7 @@ To set the trust on a GPG key, one can run `gpg --edit-key <gpgid>` then `trust`
 **Direct import**
 
 Passwords should not be written in plain text form on the drive.
-Therefore when possible, you should import it directly from the encrypted data.
+Therefore, when possible, you should import it directly from the encrypted data.
 For instance, with an encrypted keepass database:
 ```sh
 pass import keepass file.kdbx
@@ -588,12 +589,12 @@ pass import lastpass lastpass.csv.gpg
 
 AppArmor profiles for `pass` and `pass-import` are available in 
 [`apparmor.d`][apparmor.d]. If your distribution support AppArmor, you can
-clone the [apparmor.d] and run: `sudo ./pick pass pass-import` to only install
+clone the [apparmor.d] and run: `make && sudo make install pass pass-import` to only install
 these apparmor security profiles.
 
 **Network**
 
-pass-import only needs to etablish network connection to support cloud based
+pass-import only needs to establish network connection to support cloud based
 password manager. If you do not use these importers you can ensure pass-import is
 not using the network by removing the `network` rules in the apparmor profile of
 pass-import.
