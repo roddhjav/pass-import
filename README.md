@@ -126,7 +126,7 @@ a Keepass database. It currently supports password export from
     <tr>
       <td align="center" rowspan="2"><a href="https://support.google.com/chrome">chrome</a></td>
       <td align="center"><code>csv</code></td>
-      <td align="center"><i>See <a href="https://support.google.com/chrome/answer/95606#see">this guide</a></i></td>
+      <td align="center"><i>In chrome://password-manager/settings under 2Export passwordsDownload File</i></td>
       <td align="center"><code>pass import chrome file.csv</code></td>
     </tr>
     <tr>
@@ -431,8 +431,8 @@ pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
 ### Help
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [-d] [--sep CHAR] [--del CHAR] [--cols COLS] [--config CONFIG] [-l] [-h] [-V]
-                   [-v | -q]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [-d] [--sep CHAR] [--del CHAR] [--cols COLS] [--filter FILTER] [--config CONFIG]
+                   [-l] [-h] [-V] [-v | -q]
                    [src ...]
 
   Import data from most of the password manager. Passwords are imported into
@@ -461,18 +461,10 @@ Extra optional arguments:
   --sep CHAR            Provide a characters of replacement for the path separator. Default: '-'
   --del CHAR            Provide an alternative CSV delimiter character. Default: ','
   --cols COLS           CSV expected columns to map columns to credential attributes. Only used by the csv importer.
+  --filter FILTER       Export whole entries matching a JSONPath filter expression. Default: (none) This field can be: - a string JSONPath expression - an
+                        absolute path to a file containing a JSONPath filter expression. List of supported filter: https://github.com/h2non/jsonpath-ng
+                        Example: - '$.entries[*].tags[?@="Defaults"]' : Export only entries with a tag matching 'Defaults'
   --config CONFIG       Set a config file. Default: '.import'
-  --filter FILTER       Export whole entries matching a JSONPath filter
-                        expression. Default: (none)
-                        
-                        This field can be: 
-                         - a string JSONPath expression 
-                         - an absolute path to a file containing a JSONPath filter expression. 
-                         
-                        List of supported filter: https://github.com/h2non/jsonpath-ng
-                        
-                        Example: 
-                         - '$.entries[*].tags[?@="Defaults"]' : Export only entries with a tag matching 'Defaults'
 
 Help related optional arguments:
   -l, --list            List the supported password managers.

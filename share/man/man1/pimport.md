@@ -468,7 +468,7 @@ invalids:
 ### chrome (csv) 
 **Website:** *https://support.google.com/chrome*
 
-**Export:** See this guide: https://support.google.com/chrome/answer/95606#see
+**Export:** In chrome://password-manager/settings under 2Export passwordsDownload File
 
 **Command:** pass import chrome file.csv
 
