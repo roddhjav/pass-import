@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # pass import - Passwords importer swiss army knife
-# Copyright (C) 2017-2020 Alexandre PUJOL <alexandre@pujol.io>.
+# Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
