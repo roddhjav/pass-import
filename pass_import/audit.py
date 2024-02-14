@@ -22,7 +22,7 @@ class PwnedAPI():
     def password_range(self, prefix: str) -> Tuple[List[str], List[int]]:
         """Query the haveibeenpwned api to retrieve the bucket ``prefix``."""
         url = f"https://api.pwnedpasswords.com/range/{prefix}"
-        res = requests.get(url, headers=self.headers, verify=True)
+        res = requests.get(url, headers=self.headers, verify=True, timeout=5)
         res.raise_for_status()
 
         hashes = []
