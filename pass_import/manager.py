@@ -148,6 +148,7 @@ class PasswordExporter(PasswordManager):
         2. Clean the protocol's name in the title.
         3. Clean group from unwanted values in Unix or Windows paths.
         4. Duplicate paths.
+        5. Format the One-Time Password (OTP) url.
 
         :param bool cmdclean:
             If ``True``, make the paths more command line friendly.
@@ -163,6 +164,7 @@ class PasswordExporter(PasswordManager):
         clean.dpaths(self.data, cmdclean, convert)
         clean.dpaths(self.data, cmdclean, convert)
         clean.duplicate(self.data)
+        clean.otp(self.data)
 
     def audit(self, hibp: bool = False):
         """Audit the parsed password for vulnerable passwords.

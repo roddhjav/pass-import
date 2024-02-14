@@ -142,3 +142,14 @@ def duplicate(data: List[Dict[str, str]]):
             entry['path'] = path
         else:
             seen.add(path)
+
+
+def otp(data: List[Dict[str, str]]):
+    """Format the otpauth url with sane default."""
+    for entry in data:
+        if 'otpauth' in entry:
+            if not entry['otpauth'].startswith('otpauth://'):
+                secret = entry['otpauth']
+                otp = f"otpauth://totp/{entry.get('title', 'otp-secret')}"
+                otp += f"?secret={secret}"
+                entry['otpauth'] = otp
