@@ -1,3 +1,8 @@
+#!/usr/bin/make -f
+# pass import - Passwords importer swiss army knife
+# Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 EXT = import
 DESTDIR ?= /
 
