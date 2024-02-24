@@ -1,6 +1,6 @@
 % pass-import(1)
 % pass import was written by Alexandre Pujol (alexandre@pujol.io)
-% September 2022
+% February 2024
 
 # NAME
 
@@ -13,20 +13,15 @@ the existing password manager.
 
 # DESCRIPTION
 
-**pass import** is a password store extension allowing you to import your
-password database to a password store repository conveniently. It natively
-supports import from <!-- NB BEGIN -->62<!-- NB END --> different password
-managers. More manager support can easily be added.
+**pass import** is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> different password managers. More manager support can easily be added.
 
-Passwords are imported into the existing default password store; therefore,
-the password store must have been initialised before with **pass init**.
+Passwords are imported into the existing default password store, therefore the password store must have been initialized before with **pass init**.
 
-By default, pass imports entries at the root of the password store and only
-keeps the primary data (password, login, email, URL, group). This behavior can
-be changed using the provided options.
+By default, pass imports entries at the root of the password store and only keeps the main data (password, login, email, URL, group). This behaviour can be changed using the provided options.
 
-Pass import handles duplicates and is compatible with *browserpass*. It
-imports OTP secret in a way that is compatible with *pass-otp*.
+Pass import handles duplicates and is compatible with *browserpass*. It imports OTP secret in a way that is compatible with *pass-otp*.
+
+pass-import also provides a **pimport** script that allows importing passwords to other password managers. For instance, you can import passwords from Lastpass to a Keepass database. It currently supports password export from <!-- NB DST BEGIN -->8<!-- NB DST END --> managers.
 
 # COMMAND
 
@@ -34,27 +29,19 @@ imports OTP secret in a way that is compatible with *pass-otp*.
 
 *src* [*src*]
 
-: Can refer to two things: the path to the data to import or to the
-  password manager name followed by the path to the data to import. If only the
-  path to the data to import is given, pass-import automatically detects the data
-  format to import. The complete list of supported managers can be found in the
-  section *SUPPORTED MANAGERS*. It can also be found with `pass import --list`.
+: Can refer to two things: the path to the data to import or to the password manager name followed by the path to the data to import. If only the path to the data to import is given, pass-import automatically detects the data format to import. The complete list of supported managers can be found in the section *SUPPORTED MANAGERS*. It can also be found with `pass import --list`.
 
 `--root=<path>`, `-r <path>` and `--path=<path>`, `-p <path>`
 
-: Specific root source and destination directory to use in the password store.
-  Where *`--root`* refer to the source repository and will only import the password from a specific subfolder. *`--path`* refer to the destination repository and
-  will import the passwords to a specific subfolder.
+: Specific root source and destination directory to use in the password store. Where *`--root`* refer to the source repository and will only import the password from a specific subfolder. *`--path`* refer to the destination repository and will import the passwords to a specific subfolder.
 
 `--key=<path>`, `-k <path>`
 
-: If required by a password manager, a key file can be given using the
-  `--key` or `-k` option along with the path to the keyfile to use.
+: If required by a password manager, a key file can be given using the `--key` or `-k` option along with the path to the keyfile to use.
 
 `--all`, `-a`
 
-: Conserve and import all the data present in the backup file. Otherwise, only
-  title, password, login, URL, comments, and group data are imported.
+: Conserve and import all the data present in the backup file. Otherwise, only title, password, login, URL, comments, and group data are imported.
 
 `--force`, `-f`
 
@@ -66,9 +53,7 @@ imports OTP secret in a way that is compatible with *pass-otp*.
 
 `--convert`, `-C`
 
-: Convert the invalid characters present in the paths before import. Invalid
-  characters for both Windows and Unix systems are supported. The default separator
-  replaces the invalid characters: '-'
+: Convert the invalid characters present in the paths before import. Invalid characters for both Windows and Unix systems are supported. The default separator replaces the invalid characters: '-'
 
 `--sep=<char>`
 
@@ -80,8 +65,7 @@ imports OTP secret in a way that is compatible with *pass-otp*.
 
 `--cols=<char>`
 
-: Set the expected CSV columns to map columns to credential attributes. Only used
-  for the generic csv importer.
+: Set the expected CSV columns to map columns to credential attributes. Only used for the generic csv importer.
 
 `--config=<path>`
 
@@ -89,20 +73,15 @@ imports OTP secret in a way that is compatible with *pass-otp*.
 
 `--list`, `-l`
 
-: Print the list of the available password manager. With the verbose
-  option (*-v*) it provides the python class name to use to be given as *src*.
-  It can be useful to bypass the automatic format detection. Also support the
-  quiet option (*-q*).
+: Print the list of the available password manager. With the verbose option (*-v*) it provides the python class name to use to be given as *src*. It can be useful to bypass the automatic format detection. Also support the quiet option (*-q*).
 
 `--help`, `-h`
 
-: Print the program usage. If the option is specified along with an argument and
-  if this argument is a supported password manager, prints usage for this manager.
+: Print the program usage. If the option is specified along with an argument and if this argument is a supported password manager, prints usage for this manager.
 
 `--verbose`, `-v`
 
-: Be more verbose. This option can be specified multiple times to set the
-  verbosity level.
+: Be more verbose. This option can be specified multiple times to set the verbosity level.
 
 `--quiet`, `-q`
 
@@ -116,7 +95,7 @@ To import password from any supported password manager simply run:
 pass import path/to/passwords
 ```
 
-If *pass-import* is not able to detect the format, you need provide the password
+If *pass-import* is not able to detect the format, you need to provide the password
 manager *<pm>* you want to import data from:
 ```sh
 pass import <pm> path/to/passwords
@@ -146,7 +125,7 @@ pass import keepass.xml
           Bank/aib
 ```
 
-This is the same than: *pimport pass keepass.xml --out ~/.password-store*
+This is the same as: *pimport pass keepass.xml --out ~/.password-store*
 
 ### Import password to a different password store
 
@@ -211,24 +190,21 @@ pass import bitwarden.json -p Import/
 
 # GPG KEYRING
 
-Before importing data to pass, your password-store repository must exist and your
-GPG keyring must be usable. In order words you need to ensure that:
+Before importing data to pass, your password-store repository must exist and your GPG keyring must be usable. In order words you need to ensure that:
 
 - All the public gpgids are present in the keyring.
 - All the public gpgids are trusted enough.
 - At least one private key is present in the keyring.
 
-Otherwise you will get the following error:
-*invalid credentials, password encryption/decryption aborted.*. 
+Otherwise, you will get the following error:
+*invalid credentials, password encryption/decryption aborted.*
 To set the trust on a GPG key, one can run `gpg --edit-key <gpgid>` then `trust`.
 
 # SECURITY CONSIDERATION
 
 ## Direct import
 
-Passwords should not be written in plain text form on the drive.
-Therefore when possible, you should import it directly from the encrypted data.
-For instance, with an encrypted keepass database:
+Passwords should not be written in plain text form on the drive. Therefore, when possible, you should import it directly from the encrypted data. For instance, with an encrypted keepass database:
 
 ```sh
 pass import keepass file.kdbx
@@ -236,8 +212,7 @@ pass import keepass file.kdbx
 
 ## Secure erasure
 
-Otherwise, if your password manager does not support it, you should take care
-of securely removing the plain text password database:
+Otherwise, if your password manager does not support it, you should take care of securely removing the plain text password database:
 
 ```sh
 pass import lastpass data.csv
@@ -246,8 +221,7 @@ shred -u data.csv
 
 ## Encrypted file
 
-Alternatively, pass-import can decrypt gpg encrypted file before importing it.
-For example:
+Alternatively, pass-import can decrypt gpg encrypted file before importing it. For example:
 
 ```sh
 pass import lastpass lastpass.csv.gpg
@@ -259,16 +233,15 @@ AppArmor profiles for *pass* and *pass-import* are available in **apparmor.d**.
 If your distribution support AppArmor, you can clone the repository and run:
 
 ```sh
-sudo ./pick pass pass-import
+make
+sudo make install pass pass-import
 ```
 
 to only install these apparmor security profiles.
 
 ## Network
 
-pass-import only needs to etablish network connection to support cloud based password manager. If you do not use these importers you can ensure pass-import is
-not using the network by removing the *network* rules in the apparmor profile of
-pass-import.
+pass-import only needs to establish network connection to support cloud based password manager. If you do not use these importers you can ensure pass-import is not using the network by removing the *network* rules in the apparmor profile of pass-import.
 
 ## Password Update
 
@@ -276,12 +249,9 @@ You might also want to update the passwords imported using **pass-update**(1).
 
 # CONFIGURATION FILE
 
-Some configurations can be read from a configuration file called *.import* if
-it is present at the root of the password repository. The configuration read from
-this file will be overwritten by their corresponding command-line option
-if present.
+Some configurations can be read from a configuration file called *.import* if it is present at the root of the password repository. The configuration read from this file will be overwritten by their corresponding command-line option if present.
 
-Example of the .import configuration file for the default password repository
+Example of the *.import* configuration file for the default password repository
 
 : **zx2c4@laptop ~ $ cat ~/.password-store/.import**
 
