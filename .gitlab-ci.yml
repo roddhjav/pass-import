@@ -1,5 +1,4 @@
 ---
-
 include:
   - template: Security/SAST.gitlab-ci.yml
 
@@ -12,7 +11,6 @@ stages:
 variables:
   DEBIAN_FRONTEND: noninteractive
   SAST_DEFAULT_ANALYZERS: bandit
-
 
 # Dependencies definitions
 # ------------------------
@@ -36,8 +34,8 @@ variables:
 .pip: &pip
   - pip3 install --break-system-packages --upgrade pip
   - pip3 install --break-system-packages --upgrade
-      coverage cryptography defusedxml dominate green pyaml jsonpath-ng
-      pykeepass pypandoc python-magic requests secretstorage zxcvbn
+    coverage cryptography defusedxml dominate green pyaml jsonpath-ng
+    pykeepass pypandoc python-magic requests secretstorage zxcvbn
 
 .script:
   script:
@@ -56,13 +54,11 @@ variables:
   stage: tests
   before_script:
     - apt-get update -q && apt-get install -y make pass python3-pip grep wget
-        dbus gnome-keyring pandoc libsodium23
-    # - *sphinx
+      dbus gnome-keyring pandoc libsodium23
 
 .distribution:
   extends: .script
   stage: dist
-
 
 # Jobs definitions
 # ----------------
@@ -117,28 +113,28 @@ archlinux:
   extends: .distribution
   before_script:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
-        dbus gnome-keyring file pandoc python-setuptools
+      dbus gnome-keyring file pandoc python-setuptools
 
 .ubuntu:
   image: ubuntu:24.04
   extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
-        dbus gnome-keyring pandoc
+      dbus gnome-keyring pandoc
 
 .debian:
   image: debian
   extends: .distribution
   before_script:
     - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
-        dbus gnome-keyring pandoc
+      dbus gnome-keyring pandoc
 
 fedora:
   image: fedora
   extends: .distribution
   before_script:
     - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus
-        dbus-daemon gnome-keyring pandoc --setopt=install_weak_deps=False
+      dbus-daemon gnome-keyring pandoc --setopt=install_weak_deps=False
 
 # Code coverage deployment
 
@@ -152,5 +148,5 @@ pages:
     expire_in: 1 day
     paths:
       - public
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
