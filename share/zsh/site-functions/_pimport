@@ -99,6 +99,7 @@ _pimport_arguments () {
 		--sep'[provide a character of replacement for the path]:-' \
 		--del'[provide an alternative CSV delimiter character]:,' \
 		--cols'[csv expected columns to map columns to credential attributes. Only used for the generic csv importer.]' \
+		--filter'[Export whole entries matching a JSONPath filter expression.]:' \
 		--config'[set a config file]:_files' \
 		{-h,--help}'[display help information]' \
 		{-V,--version}'[display version information]' \

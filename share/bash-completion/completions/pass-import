@@ -12,7 +12,7 @@ __password_store_extension_complete_import() {
 		safeincloud saferpass upm zoho)
 	# importers end
 	local args=(-r --root -p --path -k --key -a --all -f --force -c --clean
-		-C --convert --sep --del --cols --config -l --list -h --help
+		-C --convert --sep --del --cols --filter --config -l --list -h --help
 		-V --version -v --verbose -q --quiet)
 	local lastarg="${COMP_WORDS[$COMP_CWORD-1]}"
 	if [[ $lastarg == "-p" || $lastarg == "--path" ]]; then
