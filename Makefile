@@ -68,21 +68,20 @@ archive:
 
 PKGNAME := pass-extension-${EXT}
 BUILDIR := /home/build/${PKGNAME}
+BASEIMAGE := registry.gitlab.com/roddhjav/builders/debian
+CTNAME := builder-debian-pass-${EXT}
 debian:
-	@docker stop debian &> /dev/null || true
-	@docker run --rm -tid --name debian --volume ${PWD}:${BUILDIR} \
-	 	--volume ${HOME}/.gnupg:/home/build/.gnupg debian &> /dev/null || true
-	@docker exec debian useradd -m -s /bin/bash -u $(shell id -u) build || true
-	@docker exec debian chown -R build:build /home/build
-	@docker exec debian apt-get update
-	@docker exec debian apt-get -qq -y --no-install-recommends upgrade
-	@docker exec debian apt-get -qq -y --no-install-recommends install \
-		build-essential debhelper fakeroot dh-python python3-setuptools \
-		python3-requests python3-zxcvbn python3-yaml
-	@docker exec -it --user build --workdir=${BUILDIR} debian \
+	@docker stop ${CTNAME} &> /dev/null || true
+	@docker pull ${BASEIMAGE}
+	@docker run --rm -tid --name ${CTNAME} --volume ${PWD}:${BUILDIR} \
+		--volume ${HOME}/.gnupg:/home/build/.gnupg ${BASEIMAGE} &> /dev/null || true
+	@docker exec ${CTNAME} sudo apt-get update -q
+	@docker exec ${CTNAME} sudo apt-get install -y \
+		dh-python python3-setuptools python3-requests python3-zxcvbn python3-yaml
+	@docker exec --workdir=${BUILDIR} ${CTNAME} \
 		dpkg-buildpackage -b -d -us -ui --sign-key=${GPGKEY}
-	@docker exec -it --user build debian bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
-	@docker exec -it --user build debian bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
+	@docker exec ${CTNAME} bash -c 'mv ~/${PKGNAME}*.* ~/${PKGNAME}'
+	@docker exec ${CTNAME} bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
 
 pip:
 	@python3 setup.py sdist bdist_wheel
