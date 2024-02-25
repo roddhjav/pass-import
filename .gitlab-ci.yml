@@ -129,7 +129,7 @@ archlinux:
     - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
       dbus gnome-keyring pandoc
 
-fedora:
+.fedora:
   image: fedora
   extends: .distribution
   before_script:
