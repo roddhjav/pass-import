@@ -360,6 +360,9 @@ def makerelease():
         'pass_import/__about__.py': [
             ('__version__ = .*', f"__version__ = '{version}'"),
         ],
+        'setup.cfg': [
+            (f'version = {oldversion}', f'version = {version}'),
+        ],
     }
     debian_changelog(version)
     for path, pattern in release.items():
