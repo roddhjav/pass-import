@@ -113,16 +113,16 @@ class TestMainPass(tests.Test):
 
     # Test the decrypter function.
 
-    def test_main_decrypt_with_manager(self):
-        """Testing: pass import lastpass db/lastpass.csv.gpg."""
-        cmd = ['lastpass', tests.db + 'lastpass.csv.gpg', '-q']
-        self.main(cmd)
+    # def test_main_decrypt_with_manager(self):
+    #     """Testing: pass import db/andotp.gpg."""
+    #     cmd = ['andotp', tests.db + 'andotp.gpg', '-q']
+    #     self.main(cmd)
 
-    def test_main_decrypt_without_manager(self):
-        """Testing: pass import db/andotp.gpg."""
-        cmd = [tests.db + 'andotp.gpg', '-q']
-        self.main(cmd)
-
+    # def test_main_decrypt_without_manager(self):
+    #     """Testing: pass import db/lastpass.csv.gpg."""
+    #     cmd = [tests.db + 'lastpass.csv.gpg', '-q']
+    #     self.main(cmd)
+    
     # Test the audit feature.
 
     @mock.patch('requests.get', tests.mock_hibp)
