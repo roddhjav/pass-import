@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [3.5] - 2024-02-25
+
+### Added
+
+- Add the new filter option [#208](https://github.com/roddhjav/pass-import/pull/208)
+
+### Changed
+
+- Update chrome CSV format [#200](https://github.com/roddhjav/pass-import/pull/200)
+- Add a unified way to generate otpauth url.
+- Support 1PIF file format for 1Password v7.9 [#207](https://github.com/roddhjav/pass-import/pull/207)
+- Set a timeout to the audit api.
 
 ## [3.4] - 2022-12-10
 
@@ -352,6 +364,7 @@ importer's systems have been intensely tested against a test database.
 
 - Initial release.
 
+[3.5]: https://github.com/roddhjav/pass-import/releases/tag/v3.5
 [3.4]: https://github.com/roddhjav/pass-import/releases/tag/v3.4
 [3.3]: https://github.com/roddhjav/pass-import/releases/tag/v3.3
 [3.2]: https://github.com/roddhjav/pass-import/releases/tag/v3.2
