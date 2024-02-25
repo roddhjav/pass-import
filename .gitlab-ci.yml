@@ -115,7 +115,7 @@ archlinux:
     - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
       dbus gnome-keyring file pandoc python-setuptools
 
-ubuntu:
+.ubuntu:
   image: ubuntu:24.04
   extends: .distribution
   before_script:
