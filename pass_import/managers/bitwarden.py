@@ -113,7 +113,7 @@ class BitwardenJSON(JSON):
                         entry[keys.get(key, key)] = value
 
             urls = entry.get('url')
-            if urls:
+            if urls and isinstance(urls, list) and urls[0]:
                 entry['url'] = urls[0]['uri']
 
                 if len(urls) > 1:
