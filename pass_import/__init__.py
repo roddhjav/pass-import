@@ -82,7 +82,7 @@ class Managers(set):
         """Return a dict of ordered managers classes and formats.
 
         :return dict matrix:
-            { name: [pm_1, pm_2, ..., pm_n] } such as pm1 is the dedault pm and
+            { name: [pm_1, pm_2, ..., pm_n] } such as pm1 is the default pm and
             the other pm are ordered by they format.
         """
         umatrix = defaultdict(list)  # unordered  matrix

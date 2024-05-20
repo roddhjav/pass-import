@@ -70,7 +70,7 @@ class ManagerMeta():
 
     @property
     def format(self):
-        """Get format formated."""
+        """Get format formatted."""
         res = ''
         if self.pm.format != '':
             if self.man:
@@ -81,7 +81,7 @@ class ManagerMeta():
 
     @property
     def version(self):
-        """Get version formated."""
+        """Get version formatted."""
         res = ''
         if self.pm.version != '':
             res = f' v{self.pm.version}'
@@ -89,12 +89,12 @@ class ManagerMeta():
 
     @property
     def url(self):
-        """Get url formated."""
+        """Get url formatted."""
         return self.pm.url
 
     @property
     def hexport(self):
-        """Get export help formated."""
+        """Get export help formatted."""
         res = ''
         if self.markdown:
             res = self.urlto_markdown(self.pm.hexport)
@@ -108,7 +108,7 @@ class ManagerMeta():
 
     @property
     def himport(self):
-        """Get import help formated."""
+        """Get import help formatted."""
         res = self.pm.himport
         if res == '':
             res = f"{self.prog} {self.pm.name} file.{self.pm.format}"
@@ -116,7 +116,7 @@ class ManagerMeta():
 
     @property
     def usage(self):
-        """Get usage formated."""
+        """Get usage formatted."""
         res = self.pm.usage()
         if res != '':
             res = f'{res}\n\n'
@@ -124,7 +124,7 @@ class ManagerMeta():
 
     @property
     def description(self):
-        """Get description formated."""
+        """Get description formatted."""
         return self.pm.description()
 
 

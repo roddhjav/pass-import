@@ -364,7 +364,7 @@ def pass_import(conf, cls_import):
             importer.parse()
             if not importer.secure:  # pragma: no cover
                 conf.warning(f"The password manager {conf['importer']} has "
-                             "been flagged as unsecure, you should update all "
+                             "been flagged as insecure, you should update all "
                              "your newly imported credentials.")
             return importer.data
 

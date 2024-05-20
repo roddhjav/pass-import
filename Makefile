@@ -8,15 +8,15 @@ DESTDIR ?= /
 
 all:
 	@python3 setup.py build
-	@echo "pass-import was built successfully. You can now install it wit \"make install\""
+	@echo "pass-import was built successfully. You can now install it with \"make install\""
 
 install:
 	@python3 setup.py install --root="${DESTDIR}" --optimize=1 --skip-build
-	@echo "pass-import is installed succesfully"
+	@echo "pass-import is installed successfully"
 
 local:
 	@python3 setup.py install --user --optimize=1
-	@echo "pass-import is localy installed succesfully."
+	@echo "pass-import is locally installed successfully."
 	@echo "Remember to set PASSWORD_STORE_ENABLE_EXTENSIONS to 'true' for the extension to be enabled."
 
 tests:
