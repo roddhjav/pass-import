@@ -25,7 +25,7 @@ class LastpassCLI(CLI):
     .. code-block:: yml
 
         lastpass:
-          login: <your email addresss>
+          login: <your email address>
 
     """
     name = 'lastpass'
@@ -59,7 +59,7 @@ class LastpassCLI(CLI):
         self._setenv('LPASS_CLIPBOARD_COMMAND')
 
     def _path(self, path, rep=os.sep):
-        r"""Lpass is not consitent with / and '\\'. Replace them by os.sep."""
+        r"""Lpass is not consistent with / and '\\'. Replace them by os.sep."""
         return path.replace('/', rep).replace(self.sep, rep)
 
     def sync(self):

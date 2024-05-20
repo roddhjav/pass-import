@@ -107,7 +107,7 @@ pin: 97375
 
 @tests.skipIfNo('lastpass')
 class TestExportLastpassAPI(tests.Test):
-    """Test for Lastpass with API connexion."""
+    """Test for Lastpass with API connection."""
 
     def setUp(self):
         self._credentials('lastpass')

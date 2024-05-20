@@ -84,7 +84,7 @@ class Audit():
                 self.breached.append((entry.get('password', ''), count))
 
     def zxcvbn(self):
-        """Password strength estimaton usuing Dropbox' zxcvbn."""
+        """Password strength estimation using Dropbox' zxcvbn."""
         for entry in self.data:
             if entry.get('password', '') == '':
                 continue

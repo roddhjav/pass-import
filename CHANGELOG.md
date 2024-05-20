@@ -53,7 +53,7 @@ The format is based on [Keep a Changelog].
 - Support for python 3.10, dropped support for python 3.6
 - Remove Travis CI in favor of Github Action.
 - The man pages are now generated from markdown with pandoc.
-- Various refractor, style and linter improvments.
+- Various refactor, style and linter improvements.
 
 ### Fixed
 
@@ -135,7 +135,7 @@ targeted password manager.
 - pass-import can file encrypted by one of the supported algo before to import it.
 - pass import is now available in three way:
   * As a `pass` extension `pass import`
-  * As an independant command line program: `pimport`
+  * As an independent command line program: `pimport`
   * As a python library `pass_import`
 
 - Added support for the following password managers:
@@ -153,7 +153,7 @@ targeted password manager.
 - Added pip packaging.
 
 ### Changed
-- The command line interface changed completly. See `pass import -h`
+- The command line interface changed completely. See `pass import -h`
 - The old password manager name are not valid anymore
 - Removed old bash tests
 - Dropped support for python 3.4 & python 3.5
@@ -172,7 +172,7 @@ targeted password manager.
 
 ### Added
 - Added support for generic OTP entry import
-- Added support for binary attachements for manager that support it. [#63](https://github.com/roddhjav/pass-import/issues/63)
+- Added support for binary attachments for manager that support it. [#63](https://github.com/roddhjav/pass-import/issues/63)
 - Added support for the 10 following password managers: [#84](https://github.com/roddhjav/pass-import/pull/84)
   * passpie
   * keeper
