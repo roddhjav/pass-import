@@ -527,16 +527,15 @@ pass import bitwarden.json -p Import/
 
 ## GPG keyring
 
-Before importing data to pass, your password-store repository must exist and your GPG keyring must be usable. In order words you need to ensure that:
+Before importing data to pass, your password-store repository must exist and your GPG keyring must be usable. In other words, you need to ensure that:
 - All the public gpgids are present in the keyring.
-- All the public gpgids are trusted enough.
+- All the public gpgids are trusted enough (`ultimate`).
 - At least one private key is present in the keyring.
 
 Otherwise, you will get the following error:
 `invalid credentials, password encryption/decryption aborted.`
 
-To set the trust on a GPG key, one can run `gpg --edit-key <gpgid>` then `trust`.
-
+To set the trust on a GPG key, one can run `gpg --edit-key <gpgid>`. Next type `trust` and select `5 = I trust ultimately`.
 
 ## Security consideration
 
