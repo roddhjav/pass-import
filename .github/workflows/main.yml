@@ -46,6 +46,8 @@ jobs:
           cd ..
           sudo PREFIX=/usr make install
           sudo ldconfig
+          cd ../python
+          pip3 install --upgrade .
 
       - name: Install python dependencies
         run: |
