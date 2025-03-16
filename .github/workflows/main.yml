@@ -46,8 +46,10 @@ jobs:
           cd ..
           sudo PREFIX=/usr make install
           sudo ldconfig
+          rm -rf tests
           cd ../python
           pip3 install --upgrade .
+          rm -rf tests
 
       - name: Install python dependencies
         run: |
