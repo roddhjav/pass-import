@@ -92,9 +92,14 @@ class Audit():
             user_input = list(entry.values())
             if password in user_input:
                 user_input.remove(password)
-            results = zxcvbn(password, user_inputs=user_input)
-            if results['score'] <= 2:
-                self.weak.append((password, results))
+            try:
+                results = zxcvbn(password, user_inputs=user_input)
+                if results['score'] <= 2:
+                    self.weak.append((password, results))
+            except ValueError:
+                # zxcvbn raises ValueError on passwords greater than 72 chars.
+                # Anything that long needn't be appended to `self.weak`.
+                pass
 
     def duplicates(self):
         """Check for duplicated passwords."""
