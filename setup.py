@@ -3,6 +3,7 @@
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 
 import os
+import platform
 import sys
 
 from pathlib import Path
@@ -12,7 +13,7 @@ from setuptools import setup
 
 share = Path(sys.prefix, 'share')
 base = '/usr'
-if os.uname().sysname == 'Darwin':
+if platform.uname().system == 'Darwin':
     base = '/usr/local'
 lib = Path(base, 'lib', 'password-store', 'extensions')
 
@@ -29,8 +30,8 @@ if '--user' in sys.argv:
 setup(
     data_files=[
         (str(share / 'man' / 'man1'), [
-            'share/man/man1/pass-import.1',
-            'share/man/man1/pimport.1',
+            'share/man/man1/pass-import.md',
+            'share/man/man1/pimport.md',
         ]),
         (str(share / 'bash-completion' / 'completions'), [
             'share/bash-completion/completions/pass-import',
