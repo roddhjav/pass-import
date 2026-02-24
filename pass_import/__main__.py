@@ -100,6 +100,9 @@ class ArgParser(ArgumentParser):
             '-P', '--pwned', action='store_true',
             help='Check imported passwords against haveibeenpwned.com.')
         common.add_argument(
+            '-A', '--no-audit', action='store_true',
+            help='Skip password audit (strength check and duplicate detection).')
+        common.add_argument(
             '-d', '--dry-run', action='store_true',
             help='Do not import passwords, only show what would be imported.')
 
@@ -392,13 +395,15 @@ def pass_export(conf, cls_export, data):
     """Insert cleaned data into the password repository."""
     paths_imported = []
     paths_exported = []
+    total = len(data)
     try:
         settings = conf.getsettings(conf['droot'], Cap.EXPORT)
+        settings['verbose_callback'] = conf.verbose
         with cls_export(conf['out'], settings=settings) as exporter:
             exporter.data = data
             exporter.clean(conf['clean'], conf['convert'])
-            report = exporter.audit(conf['pwned'])
-            for entry in exporter.data:
+            report = exporter.audit(conf['pwned'], conf['no_audit'])
+            for i, entry in enumerate(exporter.data, 1):
                 pmpath = os.path.join(conf['droot'], entry.get(
                     'path', entry.get('title', '')))
                 conf.show(entry)
@@ -406,7 +411,10 @@ def pass_export(conf, cls_export, data):
                 try:
                     if exported:
                         if not conf['dry_run']:
+                            conf.verbose(f"[{i}/{total}] Inserting: {pmpath}")
                             exporter.insert(entry)
+                            if conf.verb >= 2:
+                                conf.success(f"[{i}/{total}] Inserted: {pmpath}")
                 except PMError as error:
                     conf.debug(traceback.format_exc())
                     conf.warning(f"Impossible to insert {pmpath} into "
@@ -504,8 +512,10 @@ def main():
     cls_export = MANAGERS.get(conf['exporter'], cap=Cap.EXPORT)
     conf.verbose(f"Importing passwords from {cls_import.__name__} "
                  f"to {cls_export.__name__}")
-    conf.verbose("Checking for breached passwords",
-                 "on haveibeenpwned.com" if conf['pwned'] else '')
+    if conf['no_audit']:
+        conf.verbose("Skipping password audit.")
+    elif conf['pwned']:
+        conf.verbose("Checking for breached passwords on haveibeenpwned.com")
 
     # Import & export
     data = pass_import(conf, cls_import)

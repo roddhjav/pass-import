@@ -169,7 +169,7 @@ class Config(dict):
         settings = {'action': action, 'root': root}
         keep = {
             'all', 'force', 'delimiter', 'cols', '1password', 'lastpass',
-            'key', 'decrypted'
+            'key', 'decrypted', 'no_audit'
         }
         for key in self:
             if key in keep:

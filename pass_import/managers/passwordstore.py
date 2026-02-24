@@ -174,6 +174,11 @@ class PasswordStore(CLI, Formatter):
             if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
                 raise PMError(f"An entry already exists for {path}.")
 
+        if self.force and os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
+            self.verbose(f"Overwriting existing entry: {path}")
+        else:
+            self.verbose(f"Creating new entry: {path}")
+
         if 'data' in entry:
             data = entry['data']
         else:

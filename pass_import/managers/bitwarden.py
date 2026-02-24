@@ -64,18 +64,8 @@ class BitwardenJSON(JSON):
         'comments': 'notes',
     }
     json_header = {
-        'encrypted': False,
-        'folders': [{
-            'id': str,
-            'name': str
-        }],
-        'items': [{
-            'id': str,
-            'folderId': str,
-            'type': int,
-            'name': str,
-            'favorite': bool,
-        }],
+        'encrypted': bool,
+        'items': list,
     }
 
     def _sortgroup(self, folders):
@@ -149,15 +139,9 @@ class BitwardenOrgJSON(BitwardenJSON):
     key_group = 'collections'
     key_group_id = 'collectionIds'
     json_header = {
-        'encrypted': False,
+        'encrypted': bool,
         'collections': list,
-        'items': [{
-            'id': str,
-            'type': int,
-            'name': str,
-            'favorite': bool,
-            'collectionIds': list,
-        }],
+        'items': list,
     }
 
 

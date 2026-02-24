@@ -51,7 +51,13 @@ class PasswordManager(Asset):
         self.cols = settings.get('cols', '')
         self.action = settings.get('action', Cap.IMPORT)
         self.delimiter = str(settings.get('delimiter', ','))
+        self._verbose_callback = settings.get('verbose_callback', None)
         super().__init__(prefix)
+
+    def verbose(self, msg):
+        """Print verbose message if callback is set."""
+        if self._verbose_callback:
+            self._verbose_callback(msg)
 
     @classmethod
     def usage(cls) -> str:
@@ -166,7 +172,7 @@ class PasswordExporter(PasswordManager):
         clean.duplicate(self.data)
         clean.otp(self.data)
 
-    def audit(self, hibp: bool = False):
+    def audit(self, hibp: bool = False, skip: bool = False):
         """Audit the parsed password for vulnerable passwords.
 
         **Features:**
@@ -177,10 +183,13 @@ class PasswordExporter(PasswordManager):
 
         :param bool hibp: A flag, to set to ``True`` to look for breached
             password from haveibeenpwned.com
+        :param bool skip: A flag, to set to ``True`` to skip all audit checks.
         :returns dict: A report dict.
 
         """
         audit = Audit(self.data)
+        if skip:
+            return {'breached': [], 'weak': [], 'duplicated': []}
         if hibp:
             audit.password()
         audit.zxcvbn()
