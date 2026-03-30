@@ -32,9 +32,6 @@ def get_magics(path) -> Tuple[str, str]:
     like CSV, JSON, YAML or, XML so we only use it to detect binary format and
     the encoding.
 
-    Support both file-magic and python-magic as both are shipped under the same
-    name in various distributions.
-
     """
     if not MAGIC:
         return None, None
@@ -42,13 +39,8 @@ def get_magics(path) -> Tuple[str, str]:
     with open(path, 'rb') as file:
         header = file.read(2048)
 
-    if hasattr(magic, 'detect_from_content'):  # file-magic
-        res = magic.detect_from_content(header)
-        mime_type = res.mime_type
-        magic_name = res.name
-    else:  # python-magic
-        mime_type = magic.from_buffer(header, mime=True)
-        magic_name = magic.from_buffer(header)
+    mime_type = magic.from_buffer(header, mime=True)
+    magic_name = magic.from_buffer(header)
 
     mime_to_format = {
         'application/pgp': 'gpg',
