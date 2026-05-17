@@ -77,20 +77,10 @@ pass-import also provides a `pimport` script that allows importing passwords to 
       <td align="center"><code>pass import applekeychain file.txt</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="4"><a href="https://bitwarden.com">bitwarden</a></td>
+      <td align="center" rowspan="2"><a href="https://bitwarden.com">bitwarden</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Tools> Export Vault> File Format: .csv</i></td>
       <td align="center"><code>pass import bitwarden file.csv</code></td>
-    </tr>
-    <tr>
-      <td align="center"><code>csv</code></td>
-      <td align="center"><i>Tools> Export Vault> File Format: .csv</i></td>
-      <td align="center"><code>pass import bitwarden file.csv</code></td>
-    </tr>
-    <tr>
-      <td align="center"><code>json</code></td>
-      <td align="center"><i>Tools> Export Vault> File Format: .json</i></td>
-      <td align="center"><code>pass import bitwarden file.json</code></td>
     </tr>
     <tr>
       <td align="center"><code>json</code></td>
@@ -369,12 +359,7 @@ pass-import also provides a `pimport` script that allows importing passwords to 
       <td align="center"><code>pass import upm file.csv</code></td>
     </tr>
     <tr>
-      <td align="center" rowspan="2"><a href="https://www.zoho.com/vault">zoho</a></td>
-      <td align="center"><code>csv</code></td>
-      <td align="center"><i>Tools > Export Secrets: Zoho Vault Format CSV</i></td>
-      <td align="center"><code>pass import zoho file.csv</code></td>
-    </tr>
-    <tr>
+      <td align="center"><a href="https://www.zoho.com/vault">zoho</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Tools > Export Secrets: Zoho Vault Format CSV</i></td>
       <td align="center"><code>pass import zoho file.csv</code></td>
@@ -709,7 +694,7 @@ python3 setup.py install --user
 
 ## The import Library
 
-One can use pass-import as a python library. Simply import the classes of the password manager you want to import and export. Then use them in a context manager. For instance, to import password from a cvs Lastpass exported file to password-store:
+One can use pass-import as a python library. Simply import the classes of the password manager you want to import and export. Then use them in a context manager. For instance, to import password from a csv Lastpass exported file to password-store:
 
 ```python
 from pass_import.managers.lastpass import LastpassCSV
