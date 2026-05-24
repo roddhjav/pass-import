@@ -13,7 +13,7 @@ the existing password manager.
 
 # DESCRIPTION
 
-**pass import** is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> different password managers. More manager support can easily be added.
+**pass import** is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->63<!-- NB END --> different password managers. More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore the password store must have been initialized before with **pass init**.
 
@@ -711,6 +711,13 @@ invalids:
 **Export:** Settings > Export Data: Export data
 
 **Command:** pass import saferpass file.csv
+
+### synology (csv) 
+**Website:** *https://c2.synology.com/en-global/password/overview*
+
+**Export:** Profile > Export > Download
+
+**Command:** pass import synology file.csv
 
 ### upm (csv) 
 **Website:** *http://upm.sourceforge.net*

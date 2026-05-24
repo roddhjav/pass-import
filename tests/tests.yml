@@ -228,6 +228,11 @@ SaferPass:
   without:
     - group
 
+SynologyC2CSV:
+  path: synology.csv
+  without:
+    - group
+
 UPM:
   path: upm.csv
   without:

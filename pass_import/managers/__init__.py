@@ -40,5 +40,6 @@ from pass_import.managers.roboform import Roboform
 from pass_import.managers.safeincloud import SafeInCloudCSV
 from pass_import.managers.saferpass import SaferPass
 from pass_import.managers.sphinx import Sphinx
+from pass_import.managers.synology import SynologyC2CSV
 from pass_import.managers.upm import UPM
 from pass_import.managers.zoho import ZohoCSV, ZohoCSVVault

@@ -10,7 +10,7 @@
 
 ## Description
 
-`pass import` is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> different password managers. More manager support can easily be added.
+`pass import` is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->63<!-- NB END --> different password managers. More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore the password store must have been initialized before with `pass init`.
 
@@ -363,6 +363,12 @@ pass-import also provides a `pimport` script that allows importing passwords to 
       <td align="center"><code>pass import saferpass file.csv</code></td>
     </tr>
     <tr>
+      <td align="center" rowspan="1"><a href="https://c2.synology.com/en-global/password/overview">synology</a></td>
+      <td align="center"><code>csv</code></td>
+      <td align="center"><i>Profile > Export > Download</i></td>
+      <td align="center"><code>pass import synology file.csv</code></td>
+    </tr>
+    <tr>
       <td align="center" rowspan="1"><a href="http://upm.sourceforge.net">upm</a></td>
       <td align="center"><code>csv</code></td>
       <td align="center"><i>Database > Export</i></td>
@@ -421,8 +427,9 @@ pimport <new_pm> <former_pm> path/to/passwords --out path/to/destination/pm
 ### Help
 <!-- USAGE BEGIN -->
 ```
-usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [-d] [--sep CHAR] [--del CHAR] [--cols COLS] [--filter FILTER] [--config CONFIG]
-                   [-l] [-h] [-V] [-v | -q]
+usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [-d]
+                   [--sep CHAR] [--del CHAR] [--cols COLS] [--filter FILTER]
+                   [--config CONFIG] [-l] [-h] [-V] [-v | -q]
                    [src ...]
 
   Import data from most of the password manager. Passwords are imported into
@@ -430,11 +437,17 @@ usage: pass import [-r path] [-p path] [-k KEY] [-a] [-f] [-c] [-C] [-P] [-d] [-
   been initialised before with 'pass init'.
 
 Password managers:
-  src                   Path to the data to import. Can also be the password manager name followed by the path to the data to import. The password manager
-                        name can be: 1password, aegis, andotp, apple-keychain, bitwarden, blur, buttercup, chrome, clipperz, csv, dashlane, encryptr,
-                        enpass, firefox, fpm, freeotp+, gnome, gnome-auth, gopass, gorilla, kedpm, keepass, keepassx, keepassx2, keepassxc, keeper,
-                        lastpass, myki, network-manager, nordpass, padlock, pass, passman, passpack, passpie, pwsafe, revelation, roboform, safeincloud,
-                        saferpass, upm, zoho.
+  src                   Path to the data to import. Can also be the password
+                        manager name followed by the path to the data to
+                        import. The password manager name can be: 1password,
+                        aegis, andotp, apple-keychain, bitwarden, blur,
+                        buttercup, chrome, clipperz, csv, dashlane, encryptr,
+                        enpass, firefox, fpm, freeotp+, gnome, gnome-auth,
+                        gopass, gorilla, kedpm, keepass, keepassx, keepassx2,
+                        keepassxc, keeper, lastpass, myki, network-manager,
+                        nordpass, padlock, pass, passman, passpack, passpie,
+                        pwsafe, revelation, roboform, safeincloud, saferpass,
+                        synology, upm, zoho.
 
 Common optional arguments:
   -r path, --root path  Only import the password from a specific subfolder.
@@ -445,15 +458,23 @@ Common optional arguments:
   -c, --clean           Make the paths more command line friendly.
   -C, --convert         Convert invalid characters present in the paths.
   -P, --pwned           Check imported passwords against haveibeenpwned.com.
-  -d, --dry-run         Do not import passwords, only show what would be imported.
+  -d, --dry-run         Do not import passwords, only show what would be
+                        imported.
 
 Extra optional arguments:
-  --sep CHAR            Provide a characters of replacement for the path separator. Default: '-'
-  --del CHAR            Provide an alternative CSV delimiter character. Default: ','
-  --cols COLS           CSV expected columns to map columns to credential attributes. Only used by the csv importer.
-  --filter FILTER       Export whole entries matching a JSONPath filter expression. Default: (none) This field can be: - a string JSONPath expression - an
-                        absolute path to a file containing a JSONPath filter expression. List of supported filter: https://github.com/h2non/jsonpath-ng
-                        Example: - '$.entries[*].tags[?@="Defaults"]' : Export only entries with a tag matching 'Defaults'
+  --sep CHAR            Provide a characters of replacement for the path
+                        separator. Default: '-'
+  --del CHAR            Provide an alternative CSV delimiter character.
+                        Default: ','
+  --cols COLS           CSV expected columns to map columns to credential
+                        attributes. Only used by the csv importer.
+  --filter FILTER       Export whole entries matching a JSONPath filter
+                        expression. Default: (none) This field can be: - a
+                        string JSONPath expression - an absolute path to a
+                        file containing a JSONPath filter expression. List of
+                        supported filter: https://github.com/h2non/jsonpath-ng
+                        Example: - '$.entries[*].tags[?@="Defaults"]' : Export
+                        only entries with a tag matching 'Defaults'
   --config CONFIG       Set a config file. Default: '.import'
 
 Help related optional arguments:
