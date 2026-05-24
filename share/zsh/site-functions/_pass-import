@@ -51,6 +51,7 @@ _pass-import () {
 			'roboform:Importer for roboform in CSV'
 			'safeincloud:Importer for safeincloud in CSV'
 			'saferpass:Importer for saferpass in CSV'
+			'synology:Importer for synology in CSV'
 			'upm:Importer for upm in CSV'
 			'zoho:Importer for zoho in CSV, CSV'
 		)
