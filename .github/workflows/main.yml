@@ -34,6 +34,23 @@ jobs:
         run: |
           sudo apt-get install -y gnome-keyring libsodium23 pass python3-setuptools
 
+      - name: Install liboprf sphinx dependency
+        run: |
+          sudo apt update
+          sudo apt install -y libsodium-dev pkgconf # build-essential git
+          git clone https://github.com/stef/liboprf/
+          cd liboprf/src/noise_xk
+          git checkout v0.7.0
+          sudo mkdir -p /usr/include/oprf/
+          sudo PREFIX=/usr make install
+          cd ..
+          sudo PREFIX=/usr make install
+          sudo ldconfig
+          rm -rf tests
+          cd ../python
+          pip3 install --upgrade .
+          rm -rf tests
+
       - name: Install python dependencies
         run: |
           pip3 install --upgrade pip
