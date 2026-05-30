@@ -110,14 +110,15 @@ class PasswordStore(CLI, Formatter):
             entry['data'] = self._command(['show', path], nline=False)
             return entry
 
-        data.pop()
         if data:
             line = data.pop(0)
             if ': ' in line:
                 (key, value) = line.split(': ', 1)
                 entry[key] = value
-            else:
+            elif line:
                 entry['password'] = line
+            else:
+                pass # blank password
         for line in data:
             if ': ' in line:
                 (key, value) = line.split(': ', 1)
@@ -126,6 +127,8 @@ class PasswordStore(CLI, Formatter):
                 entry['otpauth'] = line
             elif 'comments' in entry:
                 entry['comments'] += '\n' + line
+            else:
+                pass # blank or unsupported line
         return entry
 
     def parse(self):
