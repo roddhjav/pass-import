@@ -84,6 +84,18 @@ class TestAudit(tests.Test):
         audit.zxcvbn()
         self.assertTrue(len(audit.weak) == 0)
 
+    def test_zxcvbn_long(self):
+        """Testing: audit skips passwords exceeding zxcvbn's 72-char limit."""
+        data = [{
+            'path': 'Password/long/1',
+            'password': 'x' * 73,
+            'group': 'Password/long'
+        }]
+        audit = pass_import.audit.Audit(data)
+        audit.zxcvbn()
+        self.assertTrue(len(audit.weak) == 0)
+        self.assertTrue(len(audit.skipped) == 1)
+
     def test_duplicates_yes(self):
         """Testing: audit for duplicates password."""
         data = getpath('Password/notpwned/1')

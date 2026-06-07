@@ -50,6 +50,7 @@ class Audit():
         self.breached = []
         self.weak = []
         self.duplicated = []
+        self.skipped = []
 
     @property
     def report(self):
@@ -57,7 +58,8 @@ class Audit():
         return {
             'breached': self.breached,
             'weak': self.weak,
-            'duplicated': self.duplicated
+            'duplicated': self.duplicated,
+            'skipped': self.skipped,
         }
 
     def password(self):
@@ -89,6 +91,9 @@ class Audit():
             if entry.get('password', '') == '':
                 continue
             password = entry['password']
+            if len(password) > 72:
+                self.skipped.append(entry)
+                continue
             user_input = list(entry.values())
             if password in user_input:
                 user_input.remove(password)
