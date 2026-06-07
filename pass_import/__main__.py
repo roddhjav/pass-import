@@ -482,6 +482,9 @@ def report(conf, paths_imported, paths_exported, audit):
     for entry in audit['duplicated']:
         conf.warning(f"Duplicated passwords detected: "
                      f"{', '.join([item['path'] for item in entry])}")
+    for entry in audit.get('skipped', []):
+        conf.warning(f"Password too long for strength estimation (>72 chars),"
+                     f" skipped: {entry.get('path', entry.get('title', ''))}")
 
     for paths, header in [
         (paths_imported, "Passwords imported"),
