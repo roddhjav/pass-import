@@ -85,6 +85,44 @@ class Audit():
                 count = buckets[prefix][1][index]
                 self.breached.append((entry.get('password', ''), count))
 
+    def zxcvbn_parse(details):
+        """
+        Robust parser for zxcvbn results used in reporting.
+        Tolerates missing or unexpected keys and returns a friendly message.
+        """
+        if not details:
+            return ''
+    
+        # score must be an integer (0..4). Fallback to None is possible, we handle it.
+        score = details.get('score')
+        # guesses should be present; if not, we try guess_display or crack_times_display
+        guesses = details.get('guesses')
+        guesses_display = details.get('guesses_display') or \
+                          (details.get('crack_times_display') or {}).get('offline_slow_hashing_1e4_per_second')
+    
+        parts = []
+        if score is not None:
+            # Score is numerical; check whether guesses exists
+            if guesses is not None:
+                parts.append(f"Score {score} ({guesses} guesses).")
+            elif guesses_display:
+                parts.append(f"Score {score} (est.: {guesses_display}).")
+            else:
+                parts.append(f"Score {score}.")
+        else:
+            parts.append("Score: unknown.")
+    
+        feedback = details.get('feedback') or {}
+        warning = feedback.get('warning')
+        suggestions = feedback.get('suggestions') or []
+    
+        if warning:
+            parts.append(warning)
+        if suggestions:
+            parts.append(' '.join(suggestions))
+    
+        return ' '.join(parts)
+
     def zxcvbn(self):
         """Password strength estimation using Dropbox' zxcvbn."""
         for entry in self.data:
@@ -97,8 +135,44 @@ class Audit():
             user_input = list(entry.values())
             if password in user_input:
                 user_input.remove(password)
-            results = zxcvbn(password, user_inputs=user_input)
-            if results['score'] <= 2:
+                
+            try:
+                if password is None:
+                    results = {
+                        'score': 0,
+                        'guesses': 0,
+                        'guesses_display': 'no password',
+                        'crack_times_display': {},
+                        'feedback': {'warning': 'no password provided', 'suggestions': []}
+                    }
+                elif len(password) > 72:
+                    # zxcvbn cannot handle very long passwords, and we
+                    # do not want the import to crash. Long passphrases are considered strong
+                    # in practice — hence score=4.
+                    results = {
+                        'score': 4,
+                        'guesses': 10**12,  # Platzhalter große Zahl
+                        'guesses_display': 'skipped (password too long for zxcvbn)',
+                        'crack_times_display': {},
+                        'feedback': {'warning': 'password too long for zxcvbn; strength check skipped', 'suggestions': []}
+                    }
+                else:
+                    # Normal call
+                    results = zxcvbn(password, user_inputs=user_input)
+            except Exception:
+                # For any errors from zxcvbn: consistent fallback values,
+                # so that downstream code (e.g. if results['score'] <= 2) continues to function.
+                results = {
+                    'score': 3,
+                    'guesses': 10**6,
+                    'guesses_display': 'error (zxcvbn)',
+                    'crack_times_display': {},
+                    'feedback': {'warning': 'zxcvbn raised an error; strength check skipped', 'suggestions': []}
+                }
+
+            result_parsed = zxcvbn_parse(results)
+                
+            if result_parsed['score'] <= 2:
                 self.weak.append((password, results))
 
     def duplicates(self):
