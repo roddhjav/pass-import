@@ -16,6 +16,7 @@ REFERENCE_OTHER = tests.yaml_load('keepass-other.yml')
 REFERENCE_KDBX = tests.yaml_load('keepass-kdbx.yml')
 REFERENCE_REVELATION = tests.yaml_load('revelation-other.yml')
 REFERENCE_BITWARDEN = tests.yaml_load('bitwarden-other.yml')
+REFERENCE_C2 = tests.yaml_load('synology-c2.yml')
 
 
 class TestParse(tests.Test):
@@ -221,3 +222,27 @@ class TestParse(tests.Test):
         with tests.cls('BitwardenJSON', prefix) as importer:
             importer.parse()
             self.assertImport(importer.data, REFERENCE_BITWARDEN, keep)
+
+    def test_importers_synology(self):
+        """Testing: parse method for Synology C2 Password with custom fields."""
+        keep = [
+            'title', 'password', 'login', 'url', 'comments', 'otpauth',
+            'Captcha Security Check', 'Confirm Password',
+            'Email Address (Recommended)', 'Password', 'Text',
+            'Server:', 'Full Name', 'Email', 'Enter A New Password',
+            'Choose Password', 'Email (Optional)', 'Enter Captcha',
+            'Email Address', 'First Name', 'Last Name',
+            'Address', 'City', 'Country', 'Gender', 'Phone', 'Remember Me?',
+        ]
+        prefix = os.path.join(tests.db, 'c2password.csv')
+        with tests.cls('SynologyC2CSV', prefix) as importer:
+            importer.parse()
+            self.assertImport(importer.data, REFERENCE_C2, keep)
+
+    def test_import_synology_malformed_json(self):
+        """Testing: Synology C2 Password raises FormatError on bad JSON."""
+        from pass_import.errors import FormatError
+        prefix = os.path.join(tests.db, 'c2password-malformed.csv')
+        with self.assertRaises(FormatError):
+            with tests.cls('SynologyC2CSV', prefix) as importer:
+                importer.parse()

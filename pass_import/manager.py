@@ -4,7 +4,7 @@
 #
 
 import os
-from typing import Dict
+from typing import Dict, List
 from abc import abstractmethod
 
 from pass_import import clean
@@ -46,7 +46,7 @@ class PasswordManager(Asset):
     def __init__(self, prefix=None, settings=None):
         settings = {} if settings is None else settings
 
-        self.data: Dict[str, str] = []
+        self.data: List[Dict[str, str]] = []
         self.root = settings.get('root', '')
         self.cols = settings.get('cols', '')
         self.action = settings.get('action', Cap.IMPORT)
