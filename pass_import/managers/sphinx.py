@@ -12,6 +12,9 @@ try:
 except ImportError:
     PWDSPHINX = False
 
+if PWDSPHINX:
+    from pyoprf.multiplexer import Multiplexer
+
 from pass_import.core import register_managers
 from pass_import.errors import PMError
 from pass_import.manager import PasswordExporter
@@ -22,7 +25,7 @@ class Sphinx(PasswordExporter):
     """Exporter for Sphinx."""
     name = 'sphinx'
     default = True
-    url = 'https://github.com/stef/pwdsphinx/'
+    url = 'https://sphinx.pm/'
 
     # Export methods
 
@@ -52,12 +55,13 @@ class Sphinx(PasswordExporter):
             raise PMError(f"Failed to import password for {user}@{host}"
                           " to sphinx: password too long.")
 
-        s = sphinx.connect()
+        m = Multiplexer(sphinx.servers)
+        m.connect()
         try:
-            sphinx.create(s, self.masterpassword, user, host, target=pwd)
+            sphinx.create(m, self.masterpassword, user, host, target=pwd)
         except Exception:
             raise PMError(f"Failed to export {user}@{host} to sphinx.")
-        s.close()
+        m.close()
 
     # Context manager methods
 
