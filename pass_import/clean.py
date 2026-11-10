@@ -39,6 +39,8 @@ def convert(string: str) -> str:
 
 def domain(string: str) -> str:
     """Return the hostname part of a (potential) URLs."""
+    if '://' in string:
+        string = string.split('://', 1)[1]
     for component in string.split('/'):
         if component != '':
             return component
