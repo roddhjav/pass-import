@@ -651,7 +651,7 @@ invalids:
 | [pass] | Password Store import/export | `apt install pass` | N/A |
 | [lpass] | Lastpass cli based import/export | `apt install lpass` | N/A |
 | [defusedxml] | Recommended XML library | `apt install python3-defusedxml` | `pip3 install defusedxml` |
-| [pykeepass] | Keepass import from KDBX file | N/A | `pip3 install pykeepass` |
+| [pykeepass] | Keepass import from KDBX file | `apt install python3-pykeepass` | `pip3 install pykeepass` |
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
 | [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 | [file-magic] | Detection of file decryption | `apt install python-magic` | `pip3 install file-magic` |
