@@ -57,6 +57,16 @@ class TestStatic(tests.Test):
         string = pass_import.clean.title(string)
         self.assertEqual(string, string_expected)
 
+    def test_domain(self):
+        """Testing: clean.domain."""
+        self.assertEqual(
+            pass_import.clean.domain('https://example.com/login'),
+            'example.com')
+        self.assertEqual(
+            pass_import.clean.domain('example.com/login'), 'example.com')
+        self.assertEqual(pass_import.clean.domain('example.com'),
+                         'example.com')
+
     def test_replaces(self):
         """Testing: clean.replaces."""
         string = ''
