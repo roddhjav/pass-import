@@ -37,6 +37,7 @@
   my hidden field: another value
   a boolean field which is off: 'false'
   a boolean field which is on: 'true'
+  '': a field without name
   login: username
   password: password
   otpauth: '1019'

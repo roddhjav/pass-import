@@ -136,7 +136,7 @@ class BitwardenJSON(JSON):
     @staticmethod
     def _parse_custom_fields(destination_entry, custom_fields):
         for field in custom_fields:
-            name = field['name']
+            name = field.get('name', '')
             value = field['value']
             if name in destination_entry.keys():
                 name = f'{name}_'

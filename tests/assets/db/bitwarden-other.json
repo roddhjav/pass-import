@@ -152,6 +152,10 @@
           "name": "a boolean field which is on",
           "value": "true",
           "type": 2
+        },
+        {
+          "value": "a field without name",
+          "type": 1
         }
       ],
       "login": {
