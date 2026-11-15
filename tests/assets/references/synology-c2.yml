@@ -1,0 +1,137 @@
+---
+#
+# Reference data for Snyology C2 Password with custom fields (--all).
+#
+
+- login: claudia22@example.com
+  password: zVhw534B6HQy
+  title: obsidian.md
+  url: https://obsidian.md/account/
+
+- login: vsmith@example.com
+  password: Mci^A7*gUw6qMp
+  title: client.googiehost.com
+  url: https://client.googiehost.com/cart.php?a=checkout&e=false
+
+- login: MichaelWhite
+  otpauth: otpauth://totp/GitHub:MichaelWhite?secret=9CZBZAOFRM&issuer=GitHub
+  password: 9rXQ4Xyl^7
+  title: github.com
+  url: https://github.com
+
+- Captcha Security Check: deathdonna
+  Confirm Password: '#x5JMrV^7+'
+  Email Address (Recommended): vsmith@example.com
+  login: HollyHowell
+  password: '#x5JMrV^7+'
+  title: wikipedia.org
+  url: https://en.wikipedia.org/w/index.php
+
+- login: vsmith@example.com
+  password: RAYb0h4idYOCLpL2
+  title: my.anydesk.com
+  url: https://my.anydesk.com/auth/realms/myanydesk/protocol/openid-connect/auth?client_id=myanydesk-frontend&code_challenge=G380ldjh0ubWB6JBYdgyw8uoLyzcIiVrP8ROOBdyin0ZT&code_challenge_method=S256&kc_idp_hint=custom-idp&redirect_uri=https%3A%2F%2Fmy.anydesk.com%2Fv2%2F&response_mode=fragment&response_type=code&scope=openid&state=c27cd912-3334-465e-91be-71ba776eea64&ui_locales=en
+
+- login: 01234567890
+  password: $ri3sPuLw4
+  title: android://iQcLnIDl0CGP7IFOyNzMVJOH-vdIhdpXQeivuFwnPTwzZxhGNycafCfQkV8AqCwwNnMKdE3Yb9upiC2MlkcDfA==@com.facebook.katana/
+  url: android://iQcLnIDl0CGP7IFOyNzMVJOH-vdIhdpXQeivuFwnPTwzZxhGNycafCfQkV8AqCwwNnMKdE3Yb9upiC2MlkcDfA==@com.facebook.katana/
+
+- Password: '&x35h@Fz6I'
+  Text: JohnLucero
+  login: claudia22@example.com
+  password: '&x35h@Fz6I'
+  title: codeforces.com
+  url: https://codeforces.com/register
+
+- Password: )5R+Tw)Nx8
+  login: claudia22@example.com
+  password: )5R+Tw)Nx8
+  title: proton.me
+  url: https://account.proton.me/pass/signup
+
+- 'Server:': sql.freedb.tech
+  login: freedb_John
+  password: M!JPQbyJ@4
+  title: https://phpmyadmin.freedb.tech
+  url: https://phpmyadmin.freedb.tech
+
+- Full Name: Heather Costa
+  login: vsmith@example.com
+  password: 2_2I8EnO67
+  title: scribehow.com
+  url: https://scribehow.com/signup
+
+- login: محمد_عبد_الشكور
+  password: $)_nAMxh!9
+  title: tybaa.com
+  url: https://www.tybaa.com
+
+- Email: claudia22@example.com
+  login: SusanGillespie
+  password: '*G3#HVArU!'
+  title: archlinux.org
+  url: archlinux.org
+
+- Enter A New Password: g^k_9J7oKT
+  password: g^k_9J7oKT
+  title: x.com
+  url: https://x.com/i/flow/password_reset
+
+- login: claudia22@example.com
+  password: Qae.=`0z''hG*FK{4W!8:s,G"
+  title: 127.0.0.1:65000
+  url: http://127.0.0.1:65000/web/register
+
+- login: vsmith@example.com
+  password: ^lBb)!&dA9
+  title: account.postmarkapp.com
+  url: https://account.postmarkapp.com/sign_up
+
+- login: claudia22@example.com
+  password: da2eTfLqB%
+  title: clickup.com
+  url: https://app.clickup.com/
+
+- login: claudia22@example.com
+  otpauth: otpauth://totp/OpenAI%3Aqmorrison%40example.org?secret=Z7oWE5HLuWARlRQ4p5ABkN8M86iNcwIC&issuer=OpenAI
+  password: =#FhcshvymJ6Dc5
+  title: auth0.openai.com
+  url: 'https://auth0.openai.com
+
+    https://chatgpt.com'
+
+- Choose Password: pUZ(4Xhzl9
+  Email (Optional): iramirez@example.com
+  Enter Captcha: X6cmY
+  login: Cindy_Johnson
+  password: T!JUAWjg(7
+  title: windscribe.com
+  url: https://windscribe.com/signup
+
+- Email Address: claudia22@example.com
+  login: Glenda_Brewer
+  password: )Kxb5!Vp85
+  title: ollama.com
+  url: https://ollama.com/signup
+
+- First Name: John
+  Last Name: Doe
+  login: claudia22@example.com
+  password: N%*8Ww(OIN
+  title: freelancer.com
+  url: https://www.freelancer.com/signup
+
+- Address: Unit 7429 Box 0349 DPO AE 45359
+  City: Paris
+  Confirm Password: +Js#evql+8
+  Country: FR
+  First Name: Kelsey
+  Gender: M
+  Last Name: Marks
+  Phone: 01234567890
+  Remember Me?: ✓
+  login: qwilson@example.net
+  password: 80EMDga7(x
+  title: nassna.com
+  url: https://www.nassna.com/app/Identity/Account/Login
