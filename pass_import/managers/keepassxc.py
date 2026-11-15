@@ -16,6 +16,16 @@ class KeepassxcCSV(Keepassx2CSV):
     hexport = 'Database > Export to CSV File'
     himport = 'pass import keepassxc file.csv'
 
+    def parse(self):
+        """Parse KeepassXC CSV file, keeping the otpauth URL of the TOTP column.
+
+        Not in ``keys``: CSV exported before KeepassXC 2.6 has no TOTP column.
+        """
+        super().parse()
+        for entry in self.data:
+            if entry.get('TOTP', '').startswith('otpauth://'):
+                entry['otpauth'] = entry.pop('TOTP')
+
 
 class KeepassxcKDBX(KDBX):
     """Importer for KeepassXC encrypted KDBX format."""
