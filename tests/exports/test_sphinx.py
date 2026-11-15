@@ -4,79 +4,48 @@
 #
 
 from unittest.mock import patch
+from tempfile import mkdtemp
+from os import listdir, makedirs, path
+from shutil import rmtree
+import subprocess, time, pysodium
 
 import tests
 from pass_import.errors import PMError
-from pass_import.managers.sphinx import Sphinx
+from pass_import.managers.sphinx import Sphinx, PWDSPHINX
+if PWDSPHINX:
+    from pass_import.managers.sphinx import sphinx as pwdsphinx
+import logging
+logger = logging.getLogger(__name__)
 
-try:
-    from pwdsphinx import sphinx as pwdsphinx
-    from pwdsphinx.sphinx import RULE_SIZE
-except ImportError:
-    RULE_SIZE = 79
+servers = {'zero': {'host': 'localhost', 'port': 10000, 'ssl_cert': 'cert.pem'},
+           'one':  {'host': 'localhost', 'port': 10001, 'ssl_cert': 'cert.pem'},
+           'two':  {'host': 'localhost', 'port': 10002, 'ssl_cert': 'cert.pem'}}
 
+cert_pem = """
+-----BEGIN CERTIFICATE-----
+MIIBhTCCASugAwIBAgIURt1h20rXWGwyV5nuLDp2NBaXsgkwCgYIKoZIzj0EAwIw
+GDEWMBQGA1UEAwwNc3BoaW54IG9yYWNsZTAeFw0yMDA5MjkyMTI5MDBaFw0yMTA5
+MjQyMTI5MDBaMBgxFjAUBgNVBAMMDXNwaGlueCBvcmFjbGUwWTATBgcqhkjOPQIB
+BggqhkjOPQMBBwNCAATPl01K0Nuxm4wZaYzS4AvaXy4pIG96Zk5XC1o0TmkdnNPb
+kgSUm6dx1OVvx3u8kVGRHYfgC7C4I414W2v41Hb4o1MwUTAdBgNVHQ4EFgQUtpha
+TRgMR7SeM7gYPKoq8L874tcwHwYDVR0jBBgwFoAUtphaTRgMR7SeM7gYPKoq8L87
+4tcwDwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNIADBFAiEAnN1Y9WDfVW6f
+slgOnPs8eQdyoqA7S/rFf9wE/ZxR4tECICfCYMKpIRMYPEk2C+kqoJueB/JVdGKh
+pYxdMvjx8bsj
+-----END CERTIFICATE-----
+"""
 
-class MockCreateSock:
-    """Mock Sphinx response."""
-    state = 0
-    actions = (
-        ('send', 65),               # recv 0x00|id[32]|alpha[32]
-                                    # send beta[32]
-        ('recv', b'\xaa\x16\xc7?\x81\xf1\xf9qw\x00\x0b\x1b\xdb\x0bA\xcf\x19'
-         b'\xce\xeb_O\xe3\x99\xe5G\xb8M\xa9\x1a\xbcKM'),
-        ('send', 32+RULE_SIZE+64),  # pubkey, rule, signature
-        ('send', 32+64),            # id + signature
-        ('recv', b"\x00\x00"),
-        ('send', 0),                # pk[32], size[2], pkt[size], signature[64]
-        ('recv', 'ok')
-    )
-
-    def send(self, pkt):
-        action = self.actions[self.state]
-        assert action[0] == 'send'  # nosec
-        if action[1]:
-            assert len(pkt) == action[1]  # nosec
-        self.state += 1
-
-    def recv(self, size):
-        action = self.actions[self.state]
-        assert action[0] == 'recv'  # nosec
-        assert size == len(action[1])  # nosec
-        self.state += 1
-        return action[1]
-
-    def close(self):
-        return
-
-
-def challenge(_):
-    return (
-        b"\xaeiOo\xda\x8d54#\x02\x03uBXr\xdfSie\xbb\xfb?_\x07Z\xb7b'\xd1n"
-        b"\xde\x00",
-        b'\xdc\xb2\x9c\xf6\x06\xa4\x82\x18\xc2\xc4$\xed\x01(\x12\x16\xeb@'
-        b'\xdeOr\xca\x14\xf7\xf6\xb7\x04\x86B\xdaoW'
-    )
-
-
-def finish(w, x, y, z):
-    return b'\\\xd6{\xed\xc70\xa1\xb3\xca\xeb\x0b\x91p\x11\x15\xe9P\xdfx\xe1'
-    b'\x8f\x12\x96[\x05\xed\x8c\xad\xb8\xeb\xd7Z'
-
-
-def connect():
-    return MockCreateSock()
-
+key_pem = """
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIBvDA1MfRSB+jbflO/Db0XkbHWoxHceapqqwdww/nXiHoAoGCCqGSM49
+AwEHoUQDQgAEz5dNStDbsZuMGWmM0uAL2l8uKSBvemZOVwtaNE5pHZzT25IElJun
+cdTlb8d7vJFRkR2H4AuwuCONeFtr+NR2+A==
+-----END EC PRIVATE KEY-----
+"""
 
 @tests.skipIfNoModule('pwdsphinx')
 class TestExportSphinx(tests.Test):
     """Test sphinx general features."""
-
-    @classmethod
-    def setUpClass(cls):
-        pwdsphinx.connect = connect
-        pwdsphinx.sphinxlib.challenge = challenge
-        pwdsphinx.sphinxlib.finish = finish
-
     def setUp(self):
         self.sphinx = Sphinx(self.prefix)
 
@@ -95,9 +64,67 @@ class TestExportSphinxInsert(tests.Test):
 
     @classmethod
     def setUpClass(cls):
-        pwdsphinx.connect = connect
-        pwdsphinx.sphinxlib.challenge = challenge
-        pwdsphinx.sphinxlib.finish = finish
+        pwdsphinx.threshold=2
+        pwdsphinx.verbose=True
+        pwdsphinx.datadir = '/tmp/sphinx/'
+        pwdsphinx.timeout = 30
+        pwdsphinx.rwd_keys = True
+        pwdsphinx.threshold = 2
+        pwdsphinx.validate_password = False
+
+        cls._root = mkdtemp(prefix='sphinx-oracle-root.')
+        root = cls._root
+        pks = []
+        for idx, k in enumerate(servers.keys()):
+            makedirs(f"{root}/servers/{idx}")
+            with open(f"{root}/servers/{idx}/cert.pem", 'w') as fd:
+                fd.write(cert_pem)
+            with open(f"{root}/servers/{idx}/key.pem", 'w') as fd:
+                 fd.write(key_pem)
+            pk, sk = pysodium.crypto_sign_keypair()
+            with open(f"{root}/servers/{idx}/ltsig.key", 'wb') as fd:
+                fd.write(sk)
+            servers[k]['ltsigkey']=pk
+            servers[k]['ssl_cert']=f"{root}/servers/{idx}/cert.pem"
+            with open(f"{root}/servers/{idx}/sphinx.cfg", 'w') as fd:
+                fd.write(f'[server]\n'
+                         f'verbose = true\n'
+                         f'address = "127.0.0.1"\n'
+                         f'port={10000+idx}\n'
+                         f'timeout = 30\n'
+                         f'max_kids = 5\n'
+                         f'ssl_key= "key.pem"\n'
+                         f'ssl_cert= "cert.pem"\n'
+                         f'ltsigkey = "ltsig.key"\n'
+                         f'datadir = "data"\n'
+                         f'rl_decay=1800\n'
+                         f'rl_threshold=10\n')
+        cls._oracles = []
+        for idx in range(len(servers)):
+          log = open(f"{root}/servers/{idx}/log", "w")
+          cls._oracles.append(
+            (subprocess.Popen(["python3", path.dirname(path.abspath(pwdsphinx.__file__)) + "/oracle.py"], cwd = f"{root}/servers/{idx}/", stdout=log, stderr=log, pass_fds=[log.fileno()]), log))
+          log.close()
+        time.sleep(0.8)
+        pwdsphinx.servers = servers
+        pwdsphinx.create_masterkey()
+
+    @classmethod
+    def tearDownClass(cls):
+        for p, log in cls._oracles:
+            p.kill()
+            r = p.wait()
+            log.close()
+        rmtree(cls._root)
+        time.sleep(0.4)
+
+    def tearDown(self):
+      for idx in range(len(servers)):
+          ddir = f"{self._root}/servers/{idx}/data/"
+          if not path.exists(ddir): continue
+          for f in listdir(ddir):
+              if f == 'key': continue
+              rmtree(ddir+f)
 
     @patch("getpass.getpass")
     def test_sphinx_insert(self, pw):

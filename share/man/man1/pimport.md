@@ -314,7 +314,7 @@ invalids:
 **Command:** pimport pass src [src]
 
 ### sphinx  
-**Website:** *https://github.com/stef/pwdsphinx/*
+**Website:** *https://sphinx.pm/*
 
 **Command:** pimport sphinx src [src]
 

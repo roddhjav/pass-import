@@ -402,7 +402,7 @@ pass-import also provides a `pimport` script that allows importing passwords to 
 | [keepassxc](https://keepassxc.org) | kdbx | `pimport keepassxc src [src]` |
 | [lastpass](https://www.lastpass.com) | cli | `pimport lastpass src [src]` |
 | [pass](https://passwordstore.org) | pass | `pimport pass src [src]` |
-| [sphinx](https://github.com/stef/pwdsphinx/) |  | `pimport sphinx src [src]` |
+| [sphinx](https://sphinx.pm/) |  | `pimport sphinx src [src]` |
 
 <!-- LIST DST END -->
 
@@ -655,7 +655,7 @@ invalids:
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
 | [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 | [file-magic] | Detection of file decryption | `apt install python-magic` | `pip3 install file-magic` |
-| [pwdsphinx] | Export to SPHINX | N/A(coming soon) | `pip3 install pwdsphinx` |
+| [pwdsphinx] | Export to SPHINX | `apt install pwdsphinx` | `pip3 install pwdsphinx` |
 | filter | Filter exports | N/A | `pip3 install jsonpath-ng` |
 
 **ArchLinux**
@@ -799,4 +799,4 @@ Feedback, contributors, pull requests are all very welcome. Please read the [`CO
 [secretstorage]: https://secretstorage.readthedocs.io/en/latest/
 [cryptography]: https://cryptography.io
 [file-magic]: https://www.darwinsys.com/file/
-[pwdsphinx]: https://github.com/stef/pwdsphinx/
+[pwdsphinx]: https://sphinx.pm/
