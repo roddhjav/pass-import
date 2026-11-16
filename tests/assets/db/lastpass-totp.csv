@@ -1,0 +1,2 @@
+url,username,password,totp,extra,name,grouping,fav
+https://github.com/login,alice,pw1,JBSWY3DPEHPK3PXP,,GitHub,Dev,0

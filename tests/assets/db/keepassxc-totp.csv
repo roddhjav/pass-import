@@ -1,0 +1,2 @@
+"Group","Title","Username","Password","URL","Notes","TOTP","Icon","Last Modified","Created"
+"Root/Emails","alice@google.com","alice","pw","https://mail.google.com","","otpauth://totp/totp-secret?secret=JBSWY3DPEHPK3PXP&issuer=alice@google.com&algorithm=SHA1&digits=6&period=30","0","2026-01-01T10:00:00Z","2025-01-01T10:00:00Z"

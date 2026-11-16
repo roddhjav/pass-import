@@ -240,6 +240,10 @@ class LastpassCSV(CSV):
                 # resulting in a value of None.
                 raise FormatError(f'Invalid group in entry:\n{entry}.')
             entry['group'] = entry.get('group', '').replace('\\', os.sep)
+            # Not in keys: exports made before LastPass added the column
+            # have no totp column.
+            if entry.get('totp'):
+                entry['otpauth'] = entry.pop('totp')
 
 
 register_managers(LastpassCLI, LastpassCSV)

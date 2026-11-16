@@ -126,6 +126,21 @@ class TestParse(tests.Test):
                           keep=['title', 'password', 'login', 'url',
                                 'comments', 'group', 'otpauth'])
 
+    def test_import_keepassxc_csv_totp(self):
+        """Testing: parse method for KeepassXC CSV with a TOTP column."""
+        prefix = os.path.join(tests.db, 'keepassxc-totp.csv')
+        with tests.cls('KeepassxcCSV', prefix) as importer:
+            importer.parse()
+            self.assertEqual(importer.data[0]['otpauth'],
+                             REFERENCE_OTP[0]['otpauth'])
+
+    def test_import_lastpass_csv_totp(self):
+        """Testing: parse method for Lastpass CSV with a totp column."""
+        prefix = os.path.join(tests.db, 'lastpass-totp.csv')
+        with tests.cls('LastpassCSV', prefix) as importer:
+            importer.parse()
+            self.assertEqual(importer.data[0]['otpauth'], 'JBSWY3DPEHPK3PXP')
+
     def test_import_keepass_other(self):
         """Testing: parse method for Keepass with special cases."""
         prefix = os.path.join(tests.db, 'keepass-other.xml')
