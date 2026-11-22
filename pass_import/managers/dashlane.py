@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -12,6 +11,7 @@ from pass_import.formats.json import JSON
 
 class DashlaneCSV(CSV):
     """Importer for Dashlane in CSV format."""
+
     name = 'dashlane'
     url = 'https://www.dashlane.com'
     hexport = 'File > Export > Unsecured Archive in CSV'
@@ -28,6 +28,7 @@ class DashlaneCSV(CSV):
 
 class DashlaneJSON(JSON):
     """Importer for Dashlane in JSON format."""
+
     name = 'dashlane'
     default = False
     url = 'https://www.dashlane.com'

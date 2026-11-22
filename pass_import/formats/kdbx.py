@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -9,8 +8,11 @@ import uuid
 
 try:
     from pykeepass import PyKeePass
-    from pykeepass.exceptions import (CredentialsError, HeaderChecksumError,
-                                      PayloadChecksumError)
+    from pykeepass.exceptions import (
+        CredentialsError,
+        HeaderChecksumError,
+        PayloadChecksumError,
+    )
     PYKEEPASS = True
 except ImportError:
     PYKEEPASS = False
@@ -31,6 +33,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     :param list attributes: List of the attributes of PyKeePass to import.
 
     """
+
     cap = Cap.FORMAT | Cap.IMPORT | Cap.EXPORT
     name = 'keepass'
     format = 'kdbx'
@@ -241,9 +244,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
     def is_format(self):
         """Return True if the file is a KDBX file."""
         sign = self.file.read(4)
-        if sign != self.magic:
-            return False
-        return True
+        return sign == self.magic
 
     def checkheader(self, header, only=False) -> bool:
         """No header check."""

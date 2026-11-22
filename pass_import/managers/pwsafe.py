@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -11,6 +10,7 @@ from pass_import.formats.xml import XML
 
 class Pwsafe(XML):
     """Importer for Pwsafe in XML format."""
+
     name = 'pwsafe'
     url = 'https://pwsafe.org'
     hexport = 'File > Export To > XML Format'

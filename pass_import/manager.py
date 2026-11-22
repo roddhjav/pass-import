@@ -1,10 +1,8 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import os
-from typing import Dict
 from abc import abstractmethod
 
 from pass_import import clean
@@ -33,11 +31,12 @@ class PasswordManager(Asset):
         generic importer.
 
     """
+
     url = ''
     hexport = ''
     himport = ''
     secure = True
-    keys: Dict[str, str] = {}
+    keys: dict[str, str] = {}
     keyslist = [
         'title', 'password', 'login', 'email', 'url', 'comments', 'otpauth',
         'group'
@@ -46,7 +45,7 @@ class PasswordManager(Asset):
     def __init__(self, prefix=None, settings=None):
         settings = {} if settings is None else settings
 
-        self.data: Dict[str, str] = []
+        self.data: dict[str, str] = []
         self.root = settings.get('root', '')
         self.cols = settings.get('cols', '')
         self.action = settings.get('action', Cap.IMPORT)
@@ -82,17 +81,18 @@ class PasswordImporter(PasswordManager):
         password manager considered.
 
     """
+
     cap = Cap.IMPORT
 
     @abstractmethod
     def parse(self):
         """Parse the password manager repository and retrieve passwords."""
 
-    def invkeys(self) -> Dict[str, str]:
+    def invkeys(self) -> dict[str, str]:
         """Return the invert of ``keys``."""
         return {v: k for k, v in self.keys.items()}
 
-    def _sortgroup(self, folders: Dict[str, Dict[str, str]]):
+    def _sortgroup(self, folders: dict[str, dict[str, str]]):
         """Order groups in ``data``.
 
         :param dict folders: The group structure, it must be generated
@@ -122,6 +122,7 @@ class PasswordExporter(PasswordManager):
         exist. Default: ``False``
 
     """
+
     cap = Cap.EXPORT
 
     def __init__(self, prefix=None, settings=None):
@@ -131,7 +132,7 @@ class PasswordExporter(PasswordManager):
         super().__init__(prefix, settings)
 
     @abstractmethod
-    def insert(self, entry: Dict[str, str]):
+    def insert(self, entry: dict[str, str]):
         """Insert a password entry into the password repository.
 
         :param dict entry: The password entry to insert.

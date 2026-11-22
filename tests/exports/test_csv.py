@@ -1,13 +1,11 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+import tests
 from pass_import.core import Cap
 from pass_import.errors import PMError
 from pass_import.managers.csv import GenericCSV
-import tests
-
 
 DATA = [{
     'password': 'UuQHzvv6IHRIJGjwKru7',

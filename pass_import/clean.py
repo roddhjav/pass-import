@@ -1,11 +1,9 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import os
 import re
-from typing import Dict, List
 from collections import defaultdict
 
 # Cleaning variables.
@@ -23,7 +21,7 @@ CLEANS = {
 }
 
 
-def cmdline(string: str, cleans: Dict[str, str] = None) -> str:
+def cmdline(string: str, cleans: dict[str, str] | None = None) -> str:
     """Make the string more command line friendly."""
     if not cleans:
         cleans = CLEANS
@@ -53,11 +51,11 @@ def group(string: str) -> str:
     return replaces(characters, string)
 
 
-def cpath(entry: Dict[str, str], path: str, cmdclean: bool, conv: bool) -> str:
+def cpath(entry: dict[str, str], path: str, cmdclean: bool, conv: bool) -> str:
     """Create path from title and group."""
     ptitle = ''
     for key in ['title', 'host', 'url', 'login']:
-        if key in entry and entry[key]:
+        if entry.get(key):
             ptitle = entry[key]
             if key in ['title', 'host', 'url']:
                 ptitle = protocol(ptitle)
@@ -69,10 +67,9 @@ def cpath(entry: Dict[str, str], path: str, cmdclean: bool, conv: bool) -> str:
                 ptitle = cmdline(ptitle)
             if conv:
                 ptitle = convert(ptitle)
-            if ptitle != '':
-                if os.path.basename(path) != ptitle:
-                    path = os.path.join(path, ptitle)
-                    break
+            if ptitle != '' and os.path.basename(path) != ptitle:
+                path = os.path.join(path, ptitle)
+                break
 
     if ptitle == '' and os.path.basename(path) != NOTITLE:
         path = os.path.join(path, NOTITLE)
@@ -80,7 +77,7 @@ def cpath(entry: Dict[str, str], path: str, cmdclean: bool, conv: bool) -> str:
     return path
 
 
-def dpaths(data: List[Dict[str, str]], cmdclean: bool, conv: bool):
+def dpaths(data: list[dict[str, str]], cmdclean: bool, conv: bool):
     """Create subfolders for duplicated paths."""
     duplicated = defaultdict(list)
     for idx, entry in enumerate(data):
@@ -100,10 +97,10 @@ def protocol(string: str) -> str:
     return replaces(characters, string)
 
 
-def replaces(characters: Dict[str, str], string: str) -> str:
+def replaces(characters: dict[str, str], string: str) -> str:
     """General purpose replace function."""
-    for key in characters:
-        string = string.replace(key, characters[key])
+    for key, value in characters.items():
+        string = string.replace(key, value)
     return string
 
 
@@ -113,7 +110,7 @@ def title(string: str) -> str:
     return replaces(characters, string)
 
 
-def unused(entry: Dict[str, str]) -> Dict[str, str]:
+def unused(entry: dict[str, str]) -> dict[str, str]:
     """Remove unused keys and empty values."""
     empty = [k for k, v in entry.items() if not v]
     for key in empty:
@@ -121,7 +118,7 @@ def unused(entry: Dict[str, str]) -> Dict[str, str]:
     return entry
 
 
-def duplicate(data: List[Dict[str, str]]):
+def duplicate(data: list[dict[str, str]]):
     """Add number to the remaining duplicated path."""
     seen = set()
     for entry in data:
@@ -144,12 +141,11 @@ def duplicate(data: List[Dict[str, str]]):
             seen.add(path)
 
 
-def otp(data: List[Dict[str, str]]):
+def otp(data: list[dict[str, str]]):
     """Format the otpauth url with sane default."""
     for entry in data:
-        if 'otpauth' in entry:
-            if not entry['otpauth'].startswith('otpauth://'):
-                secret = entry['otpauth']
-                otp = f"otpauth://totp/{entry.get('title', 'otp-secret')}"
-                otp += f"?secret={secret}"
-                entry['otpauth'] = otp
+        if 'otpauth' in entry and not entry['otpauth'].startswith('otpauth://'):
+            secret = entry['otpauth']
+            otp = f"otpauth://totp/{entry.get('title', 'otp-secret')}"
+            otp += f"?secret={secret}"
+            entry['otpauth'] = otp

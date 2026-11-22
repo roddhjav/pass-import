@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -14,6 +13,7 @@ from pass_import.formats.json import JSON
 
 class Enpass(CSV):
     """Importer for Enpass in CSV format."""
+
     name = 'enpass'
     default = False
     url = 'https://www.enpass.io'
@@ -55,6 +55,7 @@ class Enpass(CSV):
 
 class Enpass6(JSON):
     """Importer for Enpass 6 in JSON format."""
+
     name = 'enpass'
     version = '6'
     url = 'https://www.enpass.io'

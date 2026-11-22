@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -6,8 +5,8 @@
 import io
 import os
 from abc import ABC
+from collections.abc import Callable
 from enum import IntFlag, auto
-from typing import Set, Callable
 
 from pass_import.errors import PMError
 
@@ -27,18 +26,19 @@ def register_detecters(*detecters):
         _DETECTERS.add(cls)
 
 
-def get_managers() -> Set[Callable]:
+def get_managers() -> set[Callable]:
     """Return the registered password manager set."""
     return _MANAGERS
 
 
-def get_detecters() -> Set[Callable]:
+def get_detecters() -> set[Callable]:
     """Return the registered detecter set."""
     return _DETECTERS
 
 
 class Cap(IntFlag):
     """Set the class capabilities (IMPORT, EXPORT, FORMAT, DECRYPT)."""
+
     UNKNOWN = auto()
     IMPORT = auto()
     EXPORT = auto()
@@ -62,6 +62,7 @@ class Asset(ABC):
     :param str mode: File reading mode, default: ``r``
 
     """
+
     cap = Cap.UNKNOWN
     name = ''
     format = ''

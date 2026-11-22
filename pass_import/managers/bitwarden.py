@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -12,6 +11,7 @@ from pass_import.formats.json import JSON
 
 class BitwardenCSV(CSV):
     """Importer for Bitwarden in CSV format."""
+
     name = 'bitwarden'
     url = 'https://bitwarden.com'
     hexport = 'Tools> Export Vault> File Format: .csv'
@@ -29,6 +29,7 @@ class BitwardenCSV(CSV):
 
 class BitwardenOrgCSV(BitwardenCSV):
     """Importer for Bitwarden in CSV format."""
+
     default = False
     keys = {
         'title': 'name',
@@ -43,6 +44,7 @@ class BitwardenOrgCSV(BitwardenCSV):
 
 class BitwardenJSON(JSON):
     """Importer for Bitwarden in JSON format."""
+
     name = 'bitwarden'
     default = False
     url = 'https://bitwarden.com'
@@ -128,7 +130,7 @@ class BitwardenJSON(JSON):
     @staticmethod
     def _parse_nested(destination_entry, nesting_source):
         for key, value in nesting_source.items():
-            if key in destination_entry.keys():
+            if key in destination_entry:
                 key = f'{key}_'
             if value:
                 destination_entry[key] = value
@@ -138,7 +140,7 @@ class BitwardenJSON(JSON):
         for field in custom_fields:
             name = field.get('name', '')
             value = field['value']
-            if name in destination_entry.keys():
+            if name in destination_entry:
                 name = f'{name}_'
             if value:
                 destination_entry[name] = value
@@ -146,6 +148,7 @@ class BitwardenJSON(JSON):
 
 class BitwardenOrgJSON(BitwardenJSON):
     """Importer for Bitwarden Organisation in JSON format."""
+
     key_group = 'collections'
     key_group_id = 'collectionIds'
     json_header = {

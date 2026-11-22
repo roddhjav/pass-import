@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -11,6 +10,7 @@ from pass_import.formats.csv import CSV
 
 class Passpack(CSV):
     """Importer for Passpack in CSV format."""
+
     name = 'passpack'
     url = 'https://www.passpack.com'
     hexport = 'Settings > Export > Save to CSV'

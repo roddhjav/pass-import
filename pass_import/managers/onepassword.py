@@ -1,21 +1,21 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import json
 import re
-from pass_import.core import register_managers, register_detecters
+
+from pass_import.core import register_detecters, register_managers
 from pass_import.formats.csv import CSV
 from pass_import.formats.json import JSON
 
 
 class OnePasswordCSV(CSV):
     """Importer for 1password 6 in CSV format."""
+
     name = '1password'
     default = False
     version = '6'
-    default = False
     url = 'https://1password.com'
     hexport = 'See this guide: https://support.1password.com/export'
     himport = 'pass import 1password file.csv'
@@ -31,6 +31,7 @@ class OnePasswordCSV(CSV):
 
 class OnePassword4CSV(CSV):
     """Importer for 1password 4 in CSV format."""
+
     name = '1password'
     default = False
     version = '4'
@@ -49,6 +50,7 @@ class OnePassword4CSV(CSV):
 
 class OnePassword8CSV(CSV):
     """Importer for 1password 8 in CSV format."""
+
     name = '1password'
     version = '8'
     url = 'https://1password.com'
@@ -73,6 +75,7 @@ class OnePassword4PIF(JSON):
     :param list ignore: List of key in the PIF file to not try to import.
 
     """
+
     name = '1password'
     format = '1pif'
     default = False

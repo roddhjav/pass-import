@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -14,6 +13,7 @@ from pass_import.formats.json import JSON
 
 class PassmanCSV(CSV):
     """Importer for Passman in CSV format."""
+
     name = 'passman'
     url = 'https://passman.cc'
     hexport = 'Settings > Export credentials  > Export type: CSV'
@@ -38,6 +38,7 @@ class PassmanCSV(CSV):
 
 class PassmanJSON(JSON):
     """Importer for Passman in JSON format."""
+
     name = 'passman'
     default = False
     url = 'https://passman.cc'

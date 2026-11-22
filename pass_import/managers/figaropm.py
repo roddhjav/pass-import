@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -9,6 +8,7 @@ from pass_import.formats.xml import XML
 
 class FigaroPM(XML):
     """Importer for Figaro Password Manager in XML format."""
+
     name = 'fpm'
     url = 'http://fpm.sourceforge.net'
     hexport = 'File > Export Passwords: Plain XML'
@@ -35,6 +35,7 @@ class FigaroPM(XML):
 
 class Kedpm(FigaroPM):
     """Importer for Ked Password Manager in XML format."""
+
     name = 'kedpm'
     url = 'http://fpm.sourceforge.net'
     hexport = 'File > Export Passwords: Plain XML'

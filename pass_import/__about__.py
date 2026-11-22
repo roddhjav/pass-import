@@ -1,11 +1,16 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 __all__ = [
-    '__title__', '__summary__', '__uri__', '__version__', '__author__',
-    '__email__', '__license__', '__copyright__'
+    '__author__',
+    '__copyright__',
+    '__email__',
+    '__license__',
+    '__summary__',
+    '__title__',
+    '__uri__',
+    '__version__'
 ]
 
 __title__ = 'pass-import'

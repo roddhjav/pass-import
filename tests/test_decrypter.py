@@ -1,12 +1,11 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import os
 
-from pass_import.decrypters.gpg import GPG
 import tests
+from pass_import.decrypters.gpg import GPG
 
 
 class TestDecrypter(tests.Test):

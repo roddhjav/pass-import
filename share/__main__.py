@@ -9,6 +9,7 @@ import re
 import subprocess  # nosec
 import sys
 from datetime import datetime
+
 try:
     from dominate import tags
     from dominate.util import raw
@@ -34,8 +35,9 @@ def replace(marker_begin, marker_end, string, newcontent):
                           marker_begin + newcontent + marker_end)
 
 
-class ManagerMeta():
+class ManagerMeta:
     """Generate curated password managers metadata."""
+
     guide = 'this guide: '
 
     def __init__(self, pm, ext=True, mode='md'):

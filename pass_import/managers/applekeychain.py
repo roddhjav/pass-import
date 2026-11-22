@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 # Copyright (C) 2019 Santi González https://github.com/santigz
@@ -13,6 +12,7 @@ except ImportError:
     from xml.etree import ElementTree
 
 import yaml
+
 from pass_import.core import Cap, register_detecters, register_managers
 from pass_import.detecter import Formatter
 from pass_import.manager import PasswordImporter
@@ -20,6 +20,7 @@ from pass_import.manager import PasswordImporter
 
 class AppleKeychain(Formatter, PasswordImporter):
     """Importer for Apple Keychain."""
+
     cap = Cap.FORMAT | Cap.IMPORT
     name = 'apple-keychain'
     format = 'keychain'
@@ -62,7 +63,7 @@ class AppleKeychain(Formatter, PasswordImporter):
         }
         for key, value in characters.items():
             data = re.sub(key, value, data)
-        data = data.strip('---').split('---')
+        data = data.strip('-').split('---')
         for block in data:
             yamls.append(yaml.safe_load(block))
         return yamls

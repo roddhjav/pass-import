@@ -1,23 +1,35 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 """Passwords importer swiss army knife."""
 
 from collections import OrderedDict, defaultdict
-from typing import Callable, List, Dict, Union, Generator
+from collections.abc import Callable, Generator
 
-import pass_import.decrypters  # noqa
-import pass_import.formats  # noqa
-import pass_import.managers  # noqa
-from pass_import.__about__ import (__author__, __copyright__, __email__,
-                                   __license__, __summary__, __title__,
-                                   __uri__, __version__)
+import pass_import.decrypters
+import pass_import.formats
+import pass_import.managers
+from pass_import.__about__ import (
+    __author__,
+    __copyright__,
+    __email__,
+    __license__,
+    __summary__,
+    __title__,
+    __uri__,
+    __version__,
+)
 from pass_import.core import Cap, get_detecters, get_managers
 
 __all__ = [
-    '__title__', '__summary__', '__uri__', '__version__', '__author__',
-    '__email__', '__license__', '__copyright__'
+    '__author__',
+    '__copyright__',
+    '__email__',
+    '__license__',
+    '__summary__',
+    '__title__',
+    '__uri__',
+    '__version__'
 ]
 
 
@@ -45,7 +57,7 @@ class Managers(set):
                     yield pm
 
     def get(self, name, frmt='', version='', cap=Cap.IMPORT
-            ) -> Union[Callable, None]:
+            ) -> Callable | None:
         """Return a manager class from its classname or its format."""
         default = None
         for pm in self.classes(cap):
@@ -64,21 +76,21 @@ class Managers(set):
             return default
         raise ManagerError(f'Unknown password manager: {name}')
 
-    def clsnames(self, cap=Cap.IMPORT) -> List[str]:
+    def clsnames(self, cap=Cap.IMPORT) -> list[str]:
         """Return the sorted list of password managers classes name."""
         names = set()
         for pm in self.classes(cap):
             names.add(pm.__name__)
         return sorted(names)
 
-    def names(self, cap=Cap.IMPORT) -> List[str]:
+    def names(self, cap=Cap.IMPORT) -> list[str]:
         """Return the sorted list of password managers name."""
         names = set()
         for pm in self.classes(cap):
             names.add(pm.name)
         return sorted(names)
 
-    def matrix(self, cap=Cap.IMPORT) -> Dict[str, List[Callable]]:
+    def matrix(self, cap=Cap.IMPORT) -> dict[str, list[Callable]]:
         """Return a dict of ordered managers classes and formats.
 
         :return dict matrix:
@@ -116,6 +128,7 @@ class Detecters(OrderedDict):
       ``JSON`` before ``YAML``...
 
     """
+
     orders = {
         Cap.FORMAT: [
             'csv', 'xml', 'json', 'kdbx', 'yaml', '1pif', 'html', 'keychain'

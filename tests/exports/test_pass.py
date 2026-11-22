@@ -1,13 +1,12 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import os
 
+import tests
 from pass_import.errors import PMError
 from pass_import.managers.passwordstore import PasswordStore
-import tests
 
 
 class TestPass(tests.Test):

@@ -1,15 +1,14 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
-#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
 from unittest.mock import patch
 
-import pass_import.clean as clean
 import pass_import.tools
-from pass_import.core import Cap
 import tests
+from pass_import import clean
+from pass_import.core import Cap
 
 
 class TestStatic(tests.Test):

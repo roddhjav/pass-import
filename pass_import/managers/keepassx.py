@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -11,6 +10,7 @@ from pass_import.formats.xml import XML
 
 class KeepassxXML(XML):
     """Importer for KeepassX in XML format."""
+
     name = 'keepassx'
     url = 'https://www.keepassx.org'
     hexport = 'File > Export to > Keepass XML File'
@@ -32,9 +32,8 @@ class KeepassxXML(XML):
     @classmethod
     def _getpath(cls, element, path=''):
         title = ''
-        if element.tag != 'database':
-            if element.find('title').text:
-                title = element.find('title').text
+        if element.tag != 'database' and element.find('title').text:
+            title = element.find('title').text
         return os.path.join(path, title)
 
     def _import(self, element, path=''):

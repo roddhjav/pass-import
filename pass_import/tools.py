@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -6,7 +5,6 @@
 import getpass
 import os
 import sys
-from typing import Tuple, Dict, Union
 
 try:
     import magic
@@ -25,7 +23,7 @@ def getpassword(path, name='Password') -> str:
     return getpass.getpass(f"{name} for {path}: ")
 
 
-def get_magics(path) -> Tuple[str, str]:
+def get_magics(path) -> tuple[str, str]:
     """Get file format and encoding.
 
     The magic library is not really good at detecting text file-based format
@@ -83,6 +81,7 @@ class Config(dict):
         precedence over ``verbose``.
 
     """
+
     # Normal colors
     green = '\033[32m'
     yellow = '\033[33m'
@@ -112,7 +111,7 @@ class Config(dict):
         if self.quiet:
             self.verb = 0
 
-    def readconfig(self, args: Dict[str, str]):
+    def readconfig(self, args: dict[str, str]):
         """Read and merge config from args, config file and default."""
         configs = {}
         if os.path.isfile(args.get('config', '')):
@@ -156,7 +155,7 @@ class Config(dict):
             self['list_exporters'] = False
 
     def getsettings(self, root='', action=Cap.IMPORT
-                    ) -> Dict[str, Union[str, bool]]:
+                    ) -> dict[str, str | bool]:
         """Return a curated setting dict for use in a manager class."""
         settings = {'action': action, 'root': root}
         keep = {

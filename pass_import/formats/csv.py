@@ -1,10 +1,8 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import csv
-from typing import List
 
 from pass_import.core import Cap, register_detecters
 from pass_import.detecter import Formatter
@@ -20,10 +18,11 @@ class CSV(Formatter, PasswordImporter):
         file.
 
     """
+
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'csv'
     csv_header = ''
-    fieldnames: List = []
+    fieldnames: list = []
     quotechar = '"'
     reader = None
 
@@ -79,12 +78,11 @@ class CSV(Formatter, PasswordImporter):
 
             def is_json_open_end_bracket(keys):
                 count = len(keys)
-                if count > 0:
-                    if (
-                            keys[0].startswith('{') and
-                            keys[-1].endswith('}')
-                    ):
-                        return False
+                if count > 0 and (
+                        keys[0].startswith('{') and
+                        keys[-1].endswith('}')
+                ):
+                    return False
                 return False
 
             # Read first data line when available
@@ -93,17 +91,17 @@ class CSV(Formatter, PasswordImporter):
                     # skip header
                     continue
 
-                keys = [k for k in row.keys() if k is not None]
-                if all(map(is_json_key_value_format, keys)):
-                    if is_json_open_end_bracket(keys):
-                        return False
+                keys = [k for k in row if k is not None]
+                if (all(map(is_json_key_value_format, keys))
+                        and is_json_open_end_bracket(keys)):
+                    return False
 
                 break
         except (csv.Error, UnicodeDecodeError):
             return False
         return True
 
-    def checkheader(self, header: List, only: bool = False) -> bool:
+    def checkheader(self, header: list, only: bool = False) -> bool:
         """Ensure the file header is the same than the pm header."""
         try:
             if only and len(self.reader.fieldnames) != len(header):

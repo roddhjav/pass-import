@@ -1,14 +1,12 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+import tests
 from pass_import.__main__ import pass_export
 from pass_import.core import Cap
-from pass_import.manager import PasswordImporter, PasswordExporter
+from pass_import.manager import PasswordExporter, PasswordImporter
 from pass_import.tools import Config
-
-import tests
 
 
 class MockManager(PasswordImporter, PasswordExporter):
@@ -69,7 +67,7 @@ class TestFilter(tests.Test):
             'password': 'v_password',
             'login': 'v_login',
         }]
-        paths_imported, paths_exported, audit = pass_export(
+        paths_imported, paths_exported, _audit = pass_export(
             self.conf, MockManager, data
         )
         self.assertTrue(len(paths_imported) == 1)
@@ -79,7 +77,7 @@ class TestFilter(tests.Test):
         """Testing: export all entries when no filter provided using
         empty data source."""
         data = [{}]
-        paths_imported, paths_exported, audit = pass_export(
+        paths_imported, paths_exported, _audit = pass_export(
             self.conf, MockManager, data
         )
         self.assertTrue(len(paths_imported) == 1)
@@ -102,7 +100,7 @@ class TestFilter(tests.Test):
         ]
 
         self.conf['filter'] = "$.entries[*].tags[?@=\"Defaults\"]"
-        paths_imported, paths_exported, audit = pass_export(
+        paths_imported, paths_exported, _audit = pass_export(
             self.conf, MockManager, data
         )
         self.assertTrue(len(paths_imported) == 2)

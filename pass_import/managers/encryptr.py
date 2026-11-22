@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -9,6 +8,7 @@ from pass_import.formats.csv import CSV
 
 class Encryptr(CSV):
     """Importer for Encryptr in CSV format."""
+
     name = 'encryptr'
     url = 'https://spideroak.com/encryptr'
     hexport = ('Compile from source and follow instructions from this guide: '

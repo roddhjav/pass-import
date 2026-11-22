@@ -1,12 +1,11 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import io
 import os
+from collections.abc import Callable
 from contextlib import contextmanager
-from typing import Callable, List, Tuple, Union
 
 import pass_import
 from pass_import.core import Cap
@@ -60,7 +59,7 @@ def detector(cls, prefix, settings=None):
         manager.detecter_close()
 
 
-class AutoDetect():
+class AutoDetect:
     """Give a file, detect the format, and the password manager.
 
     Considering a manager's name and optional version number, tell if a given
@@ -118,7 +117,7 @@ class AutoDetect():
             return unknowns[0]
         return self.default()  # pragma: no cover
 
-    def manager(self, path: str) -> Union[Callable, None]:
+    def manager(self, path: str) -> Callable | None:
         """Full format detection of a file without knowing the  manager's name.
 
         :algorithm:
@@ -152,7 +151,7 @@ class AutoDetect():
         return None
 
     def _tryopen(self, path: str
-                 ) -> Tuple[Union[Callable, None], List[Callable]]:
+                 ) -> tuple[Callable | None, list[Callable]]:
         """Knowing the manager's name, try to open the path in all formats.
 
         :algorithm:
@@ -181,9 +180,9 @@ class AutoDetect():
                 if self.stream:
                     prefix = io.StringIO(path)
                 with detector(pm, prefix, self.settings) as file:
-                    if file.is_format():
-                        if file.checkheader(file.header(), file.only):
-                            return pm, []
+                    if file.is_format() and file.checkheader(
+                            file.header(), file.only):
+                        return pm, []
             else:
                 unknowns.append(pm)
         return None, unknowns

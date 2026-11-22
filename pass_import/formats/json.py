@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -12,6 +11,7 @@ from pass_import.manager import PasswordImporter
 
 class JSON(Formatter, PasswordImporter):
     """Base class for JSON based importers."""
+
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'json'
     json_header = {}
@@ -42,9 +42,7 @@ class JSON(Formatter, PasswordImporter):
         """
         # pylint: disable=too-many-return-statements
         if isinstance(header, type):
-            if data is not None and not isinstance(data, header):
-                return False
-            return True
+            return data is None or isinstance(data, header)
 
         if isinstance(data, list):
             if not isinstance(header, list):

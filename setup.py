@@ -1,15 +1,12 @@
-#!/usr/bin/env python3
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 
 import os
 import platform
 import sys
-
 from pathlib import Path
 
 from setuptools import setup
-
 
 share = Path(sys.prefix, 'share')
 base = '/usr'

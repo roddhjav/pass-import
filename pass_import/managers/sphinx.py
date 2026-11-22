@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2022 Stefan Marsiske <sphinx@ctrlc.hu>.
 # Copyright (C) 2022 Alexandre PUJOL <alexandre@pujol.io>.
@@ -20,6 +19,7 @@ from pass_import.tools import getpassword
 
 class Sphinx(PasswordExporter):
     """Exporter for Sphinx."""
+
     name = 'sphinx'
     default = True
     url = 'https://github.com/stef/pwdsphinx/'
@@ -55,8 +55,8 @@ class Sphinx(PasswordExporter):
         s = sphinx.connect()
         try:
             sphinx.create(s, self.masterpassword, user, host, target=pwd)
-        except Exception:
-            raise PMError(f"Failed to export {user}@{host} to sphinx.")
+        except Exception as error:
+            raise PMError(f"Failed to export {user}@{host} to sphinx.") from error
         s.close()
 
     # Context manager methods

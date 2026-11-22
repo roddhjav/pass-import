@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -9,6 +8,7 @@ from pass_import.formats.csv import CSV
 
 class Roboform(CSV):
     """Importer for Roboform in CSV format."""
+
     name = 'roboform'
     url = 'https://www.roboform.com'
     hexport = 'Roboform > Options > Data & Sync > Export To: CSV file'

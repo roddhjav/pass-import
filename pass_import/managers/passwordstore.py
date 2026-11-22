@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -26,6 +25,7 @@ class PasswordStore(CLI, Formatter):
     :param dict env: Environment variables used by ``pass``.
 
     """
+
     cap = Cap.FORMAT | Cap.IMPORT | Cap.EXPORT
     name = 'pass'
     format = 'pass'
@@ -170,9 +170,9 @@ class PasswordStore(CLI, Formatter):
 
         """
         path = os.path.join(self.root, entry.get('path'))
-        if not self.force:
-            if os.path.isfile(os.path.join(self.prefix, path + '.gpg')):
-                raise PMError(f"An entry already exists for {path}.")
+        if not self.force and os.path.isfile(
+                os.path.join(self.prefix, path + '.gpg')):
+            raise PMError(f"An entry already exists for {path}.")
 
         if 'data' in entry:
             data = entry['data']

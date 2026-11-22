@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -10,6 +9,7 @@ from pass_import.formats.kdbx import KDBX
 
 class Keepassx2CSV(CSV):
     """Importer for KeepassX2 in CSV format."""
+
     name = 'keepassx2'
     default = False
     url = 'https://www.keepassx.org'
@@ -27,6 +27,7 @@ class Keepassx2CSV(CSV):
 
 class Keepassx2KDBX(KDBX):
     """Importer for KeepassX2 encrypted KDBX format."""
+
     name = 'keepassx2'
     url = 'https://www.keepassx.org'
     himport = 'pass import keepassx2 file.kdbx'

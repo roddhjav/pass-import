@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -27,6 +26,7 @@ class NetworkManager(Formatter, PasswordImporter):
     - From ini file: `pass import networkmanager file.ini`.
 
     """
+
     cap = Cap.FORMAT | Cap.IMPORT
     name = 'network-manager'
     format = 'nm'

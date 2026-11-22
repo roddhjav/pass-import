@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -20,11 +19,11 @@ class TestDetect(tests.Test):
             'keepass': tests.managers.get('Keepass'),
             '1password': tests.managers.get('OnePassword8CSV'),
         }
-        for name in defaults:
+        for name, expected in defaults.items():
             with self.subTest(name):
                 detect = pass_import.auto.AutoDetect(name)
                 pm = detect.default()
-                self.assertEqual(defaults[name], pm)
+                self.assertEqual(expected, pm)
 
     def test_default_unknown(self):
         """Testing: default manager of an unknown manager."""

@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -7,19 +6,18 @@ import hashlib
 
 import requests
 from zxcvbn import zxcvbn
-from typing import List, Tuple
 
 import pass_import
 
 
-class PwnedAPI():
+class PwnedAPI:
     """Simple wrapper for https://haveibeenpwned.com API."""
 
     def __init__(self):
         self.headers = {
             'user-agent': f"{pass_import.__title__}/{pass_import.__version__}"}
 
-    def password_range(self, prefix: str) -> Tuple[List[str], List[int]]:
+    def password_range(self, prefix: str) -> tuple[list[str], list[int]]:
         """Query the haveibeenpwned api to retrieve the bucket ``prefix``."""
         url = f"https://api.pwnedpasswords.com/range/{prefix}"
         res = requests.get(url, headers=self.headers, verify=True, timeout=5)
@@ -34,7 +32,7 @@ class PwnedAPI():
         return (hashes, counts)
 
 
-class Audit():
+class Audit:
     """Audit passwords for vulnerabilities.
 
     Based on the PassAudit class from pass-audit.

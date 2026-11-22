@@ -1,14 +1,13 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
-import os
 import copy
+import os
 from unittest.mock import patch
 
-from pass_import.managers.keepass import Keepass
 import tests
+from pass_import.managers.keepass import Keepass
 
 
 class TestExportKeepass(tests.Test):

@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -7,7 +6,6 @@ from unittest import mock
 
 import pass_import.audit
 import tests
-
 
 REFERENCE_AUDIT = tests.yaml_load('audit.yml')
 
@@ -59,11 +57,9 @@ class TestAudit(tests.Test):
         audit = pass_import.audit.Audit(data)
         audit.password()
         self.assertTrue(len(audit.breached) == self.passwords_nb)
-        idx = 0
-        for password, count in audit.breached:
+        for idx, (password, count) in enumerate(audit.breached):
             self.assertTrue(data[idx]['password'] == password)
             self.assertTrue(ref_counts[idx] == count)
-            idx += 1
 
     def test_zxcvbn_weak(self):
         """Testing: audit for weak password with zxcvbn."""

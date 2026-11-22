@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2022 Alexandre PUJOL <alexandre@pujol.io>.
 

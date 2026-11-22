@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -10,9 +9,9 @@ try:
     from defusedxml.ElementTree import ParseError
     from defusedxml.minidom import parse
 except ImportError:
+    from xml.dom.minidom import parse
     from xml.etree import ElementTree
     from xml.etree.ElementTree import ParseError
-    from xml.dom.minidom import parse
 
 from pass_import.core import Cap, register_detecters
 from pass_import.detecter import Formatter
@@ -26,6 +25,7 @@ class XML(Formatter, PasswordImporter):
     :param dict xml_header: XML root tag and doctype.
 
     """
+
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'xml'
     xml_header = {}
@@ -76,9 +76,9 @@ class XML(Formatter, PasswordImporter):
     def checkheader(self, header, only=False):
         """Ensure the file header is the same than the pm header."""
         if self.dom:
-            if self.dom.doctype:
-                if self.dom.doctype.toxml() != header.get('doctype', ''):
-                    return False
+            if (self.dom.doctype and
+                    self.dom.doctype.toxml() != header.get('doctype', '')):
+                return False
             if self.dom.documentElement.tagName != header.get('root', ''):
                 return False
         elif self.tree.tag != header.get('root', ''):
@@ -93,6 +93,7 @@ class XML(Formatter, PasswordImporter):
 
 class HTML(Formatter, PasswordImporter):
     """Base class for HTML based importers."""
+
     cap = Cap.FORMAT | Cap.IMPORT
     format = 'html'
     html_header = ''
@@ -119,9 +120,7 @@ class HTML(Formatter, PasswordImporter):
     def checkheader(self, header, only=False):
         """Ensure the file header is the same than the pm header."""
         found = self.tree.find(header)
-        if found is None:
-            return False
-        return True
+        return found is not None
 
     @classmethod
     def header(cls):

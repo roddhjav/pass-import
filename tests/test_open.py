@@ -1,15 +1,14 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
 import os
 
+import tests
 from pass_import.errors import PMError
 from pass_import.managers.keepass import Keepass
-from pass_import.managers.passwordstore import PasswordStore
 from pass_import.managers.networkmanager import NetworkManager
-import tests
+from pass_import.managers.passwordstore import PasswordStore
 
 
 class TestOpen(tests.Test):

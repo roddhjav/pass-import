@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -11,6 +10,7 @@ from pass_import.formats.csv import CSV
 
 class ZohoCSV(CSV):
     """Importer for Zoho in CSV format."""
+
     name = 'zoho'
     url = 'https://www.zoho.com/vault'
     hexport = 'Tools > Export Secrets: Zoho Vault Format CSV'
@@ -34,6 +34,7 @@ class ZohoCSV(CSV):
 
 class ZohoCSVVault(CSV):
     """Importer for Zoho Vault in CSV format."""
+
     name = 'zoho'
     default = False
     url = 'https://www.zoho.com/vault'

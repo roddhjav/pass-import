@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -12,6 +11,7 @@ from pass_import.formats.otp import OTP
 
 class FreeOTPPlus(OTP):
     """Importer for FreeOTPPlus in JSON format."""
+
     name = 'freeotp+'
     format = 'json'
     url = 'https://github.com/helloworld1/FreeOTPPlus'

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -404,9 +402,8 @@ def pass_export(conf, cls_export, data):
                 conf.show(entry)
                 exported = pass_filter(conf, entry)
                 try:
-                    if exported:
-                        if not conf['dry_run']:
-                            exporter.insert(entry)
+                    if exported and not conf['dry_run']:
+                        exporter.insert(entry)
                 except PMError as error:
                     conf.debug(traceback.format_exc())
                     conf.warning(f"Impossible to insert {pmpath} into "

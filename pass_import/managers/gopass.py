@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -9,6 +8,7 @@ from pass_import.managers import PasswordStore
 
 class Gopass(PasswordStore):
     """Importer & Exporter for gopass."""
+
     name = 'gopass'
     format = 'gopass'
     command = 'gopass'

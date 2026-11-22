@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass-import - test suite common resources
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -25,16 +24,16 @@ It provides:
 """
 
 import os
-import sys
 import shutil
+import sys
 import unittest
-from io import StringIO
 from contextlib import contextmanager
+from io import StringIO
+
 import yaml
 
 import pass_import
 import pass_import.__main__
-
 
 tmp = '/tmp/tests/pass-import/'  # nosec
 tests = os.path.abspath('tests')
@@ -55,8 +54,8 @@ def skipIfNo(name: str):
     if name not in {'bitwarden', 'lastpass', 'onepassword'}:
         return _id
     manager = name.upper()
-    enabled = 'T_%s' % manager
-    password = 'TESTS_%s_PASS' % manager
+    enabled = f'T_{manager}'
+    password = f'TESTS_{manager}_PASS'
     if not (enabled in os.environ and password in os.environ):
         return unittest.skip(f"Skipping: {name} tests disabled.")
     return _id
@@ -144,7 +143,7 @@ def clear(data, keep=None):
     if not keep:
         keep = ['title', 'password', 'login', 'url', 'comments', 'group']
     for entry in data:
-        delete = [k for k in entry.keys() if k not in keep]
+        delete = [k for k in entry if k not in keep]
         empty = [k for k, v in entry.items() if not v]
         delete.extend(empty)
         for key in delete:
@@ -196,7 +195,7 @@ class Test(unittest.TestCase):
     masterpassword = 'correct horse battery staple'
     gpgids = ['D4C78DB7920E1E27F5416B81CC9DB947CF90C77B', '']
 
-    def __init__(self, methodName='runTest'):  # noqa
+    def __init__(self, methodName='runTest'):
         super().__init__(methodName)
 
         # GPG keyring & pass settings
@@ -243,7 +242,7 @@ class Test(unittest.TestCase):
 
     # Import related methods
 
-    def assertImport(self, data, refdata, keep=None):  # noqa
+    def assertImport(self, data, refdata, keep=None):
         """Compare imported data with the reference data."""
         clear(data, keep)
         self.assertEqual(len(data), len(refdata))

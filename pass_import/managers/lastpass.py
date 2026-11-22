@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -28,6 +27,7 @@ class LastpassCLI(CLI):
           login: <your email address>
 
     """
+
     name = 'lastpass'
     command = 'lpass'
     url = 'https://www.lastpass.com'
@@ -208,6 +208,7 @@ class LastpassCLI(CLI):
 
 class LastpassCSV(CSV):
     """Importer for Lastpass in CSV format."""
+
     name = 'lastpass'
     default = False
     url = 'https://www.lastpass.com'

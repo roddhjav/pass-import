@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2024 SAY-5 <say.apm35@gmail.com>.
 #
@@ -9,6 +8,7 @@ from pass_import.formats.csv import CSV
 
 class SynologyC2CSV(CSV):
     """Importer for Synology C2 Password in CSV format."""
+
     name = 'synology'
     url = 'https://c2.synology.com/en-global/password/overview'
     hexport = 'Profile > Export > Download'

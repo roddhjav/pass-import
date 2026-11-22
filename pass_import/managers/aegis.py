@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -23,6 +22,7 @@ from pass_import.tools import getpassword
 
 class Aegis(OTP):
     """Importer for Aegis otp plain JSON format."""
+
     name = 'aegis'
     format = 'json'
     url = 'https://github.com/beemdevelopment/Aegis'
@@ -72,6 +72,7 @@ class Aegis(OTP):
 
 class AegisCipher(Aegis):
     """Importer for Aegis otp encrypted JSON format."""
+
     name = 'aegis'
     format = 'json'
     default = False

@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -9,6 +8,7 @@ from pass_import.formats.csv import CSV
 
 class Buttercup(CSV):
     """Importer for Buttercup in CSV format."""
+
     name = 'buttercup'
     url = 'https://buttercup.pw'
     hexport = 'File > Export > Export File to CSV'

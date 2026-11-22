@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 # pass import - Passwords importer swiss army knife
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
@@ -15,6 +14,7 @@ from pass_import.manager import PasswordExporter, PasswordImporter
 
 class CLI(PasswordImporter, PasswordExporter):
     """Base class for CLI based importer and exporter."""
+
     cap = Cap.IMPORT | Cap.EXPORT
     format = 'cli'
     command = ''
