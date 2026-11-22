@@ -85,8 +85,8 @@ sast:
 
 # Code tests
 
-python 3.11:
-  image: python:3.11
+python 3.14:
+  image: python:3.14
   extends: .tests
   coverage: '/\d+\%\s*$/'
   artifacts:
@@ -94,16 +94,20 @@ python 3.11:
     paths:
       - htmlcov/
 
+python 3.13:
+  image: python:3.13
+  extends: .tests
+
+python 3.12:
+  image: python:3.12
+  extends: .tests
+
+python 3.11:
+  image: python:3.11
+  extends: .tests
+
 python 3.10:
   image: python:3.10
-  extends: .tests
-
-python 3.9:
-  image: python:3.9
-  extends: .tests
-
-python 3.8:
-  image: python:3.8
   extends: .tests
 
 # Distribution tests
@@ -141,7 +145,7 @@ debian:
 pages:
   stage: deploy
   dependencies:
-    - python 3.11
+    - python 3.14
   script:
     - mv htmlcov/ public/
   artifacts:

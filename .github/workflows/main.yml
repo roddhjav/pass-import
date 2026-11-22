@@ -20,10 +20,18 @@ jobs:
 
   tests:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.14']
     steps:
 
       - name: Check out repository code
         uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
 
       - name: Install required packages
         run: |
@@ -31,8 +39,8 @@ jobs:
 
       - name: Install python dependencies
         run: |
-          pip3 install --upgrade pip
-          pip3 install --upgrade green coverage \
+          pip install --upgrade pip
+          pip install --upgrade green coverage \
             codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage \
             zxcvbn jsonpath-ng python-magic
 
