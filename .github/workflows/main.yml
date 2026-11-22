@@ -40,7 +40,7 @@ jobs:
       - name: Install python dependencies
         run: |
           pip install --upgrade pip
-          pip install --upgrade green coverage \
+          pip install --upgrade pytest pytest-xdist pytest-cov \
             codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage \
             zxcvbn jsonpath-ng python-magic
 

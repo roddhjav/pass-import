@@ -3,6 +3,7 @@
 #
 
 import os
+import unittest
 from unittest.mock import patch
 
 import tests
@@ -89,6 +90,10 @@ class TestParse(tests.Test):
             self.assertImport(importer.data, REFERENCE_CARD, keep)
 
     @tests.skipIfNoModule('secretstorage')
+    @unittest.skipUnless(
+        os.path.isfile(os.path.expanduser(
+            '~/.local/share/keyrings/pass-import.keyring')),
+        "Skipping: pass-import test keyring not installed.")
     def test_import_gnome_keyring(self):
         """Testing: parse method for Gnome Keyring."""
         collection = 'pass-import'

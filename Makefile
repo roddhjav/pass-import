@@ -20,11 +20,10 @@ local:
 	@echo "Remember to set PASSWORD_STORE_ENABLE_EXTENSIONS to 'true' for the extension to be enabled."
 
 tests:
-	@green -vvv --run-coverage --termcolor --processes $(shell nproc)
-	@coverage html
+	@python3 -m pytest -n auto --cov=pass_import --cov-report=term --cov-report=html
 
 lint:
-	@ruff check pass_${EXT} tests setup.py
+	@ruff check pass_${EXT} share tests setup.py
 
 security:
 	@bandit --ini .bandit -r pass_${EXT} tests setup.py share

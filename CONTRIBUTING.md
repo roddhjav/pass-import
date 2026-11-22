@@ -12,8 +12,8 @@ health reports.
 
 ##### Tests
 To run the tests, you need to install the following programs:
-* [python-green] as python test runner.
-* [python-coverage] as code coverage system.
+* [pytest] as python test runner, with [pytest-xdist] and [pytest-cov]:
+  `pip install pytest pytest-xdist pytest-cov`
 
 Then simply run: `make tests`
 
@@ -162,8 +162,9 @@ Process to make a new release:
 4. Build the pip & debian package: `make debian` and `make pip`
 
 
-[python-green]: https://github.com/CleanCut/green
-[python-coverage]: http://nedbatchelder.com/code/coverage/
+[pytest]: https://docs.pytest.org
+[pytest-xdist]: https://github.com/pytest-dev/pytest-xdist
+[pytest-cov]: https://github.com/pytest-dev/pytest-cov
 [ruff]: https://docs.astral.sh/ruff/
 [bandit]: https://github.com/PyCQA/bandit
 [git]: https://help.github.com/articles/set-up-git/

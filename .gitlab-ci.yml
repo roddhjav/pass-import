@@ -34,7 +34,7 @@ variables:
 .pip: &pip
   - pip3 install --break-system-packages --upgrade pip
   - pip3 install --break-system-packages --upgrade
-    coverage cryptography defusedxml dominate green pyaml jsonpath-ng
+    cryptography defusedxml dominate pyaml jsonpath-ng pytest pytest-xdist pytest-cov
     pykeepass pypandoc python-magic requests secretstorage zxcvbn
 
 .script:
