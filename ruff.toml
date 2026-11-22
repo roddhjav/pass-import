@@ -1,0 +1,19 @@
+target-version = "py310"
+extend-exclude = ["pass_import/*/__init__.py"]
+
+[lint]
+# ruff defaults + docstrings and complexity from the old prospector setup
+extend-select = ["D", "C90"]
+ignore = [
+    "F401",
+    "D100", "D107", "D213",
+    "RUF012",  # class-level keys mappings are read-only by design
+    "SIM115",  # Asset keeps files open across its lifetime
+    "SIM117",
+]
+
+[lint.per-file-ignores]
+"tests/**" = ["D"]
+
+[lint.mccabe]
+max-complexity = 15

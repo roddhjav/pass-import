@@ -54,4 +54,4 @@ class Formatter(Detecter):
     @classmethod
     @abstractmethod
     def header(cls):
-        """Common interface to get format header."""
+        """Return the format header."""

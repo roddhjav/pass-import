@@ -24,18 +24,7 @@ tests:
 	@coverage html
 
 lint:
-	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
-		-t profile-validator -t pyflakes -t pyroma \
-		pass_${EXT}
-	@prospector --profile .prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t pydocstyle -t pycodestyle \
-		-t profile-validator -t pyflakes -t pyroma \
-		share
-	@prospector --profile tests/assets/prospector.yaml --strictness veryhigh \
-		-t dodgy -t mccabe -t mypy -t pydocstyle -t pycodestyle \
-		-t profile-validator -t pyflakes -t pyroma \
-		tests
+	@ruff check pass_${EXT} tests setup.py
 
 security:
 	@bandit --ini .bandit -r pass_${EXT} tests setup.py share

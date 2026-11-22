@@ -13,9 +13,9 @@ jobs:
 
       - name: Install required packages
         run: |
-          pip install 'prospector[with_everything]' defusedxml requests zxcvbn dominate
+          pip install ruff
 
-      - name: Prospector
+      - name: Ruff
         run: make lint
 
   tests:

@@ -122,7 +122,7 @@ class TestMainPass(tests.Test):
     #     """Testing: pass import db/lastpass.csv.gpg."""
     #     cmd = [tests.db + 'lastpass.csv.gpg', '-q']
     #     self.main(cmd)
-    
+
     # Test the audit feature.
 
     @mock.patch('requests.get', tests.mock_hibp)

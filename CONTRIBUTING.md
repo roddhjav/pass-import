@@ -19,7 +19,7 @@ Then simply run: `make tests`
 
 ##### Code health
 To run the code health report, you need to install the following programs:
-* [prospector]: `pip install prospector[with_everything]`
+* [ruff]: `pip install ruff`
 
 Then simply run: `make lint`
 
@@ -164,6 +164,6 @@ Process to make a new release:
 
 [python-green]: https://github.com/CleanCut/green
 [python-coverage]: http://nedbatchelder.com/code/coverage/
-[prospector]: https://github.com/PyCQA/prospector
+[ruff]: https://docs.astral.sh/ruff/
 [bandit]: https://github.com/PyCQA/bandit
 [git]: https://help.github.com/articles/set-up-git/

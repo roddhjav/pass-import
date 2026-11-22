@@ -71,12 +71,12 @@ shellcheck:
   script:
     - shellcheck --shell=bash import.bash
 
-prospector:
+ruff:
   stage: lint
   image: python:latest
   allow_failure: True
   before_script:
-    - pip install 'prospector[with_everything]' defusedxml requests zxcvbn dominate
+    - pip install ruff
   script:
     - make lint
 
