@@ -106,3 +106,14 @@ class TestFilter(tests.Test):
         self.assertTrue(len(paths_imported) == 2)
         self.assertTrue(len(paths_exported) == 1)
         self.assertTrue(data[0]['login'] in paths_exported[0])
+
+    def test_filter_invalid_expression(self):
+        """Testing: an invalid filter expression exports nothing."""
+        data = [{'password': 'v_password', 'login': 'v_login_0'}]
+        self.conf['filter'] = "$.entries[*"
+        self.conf.verb = 2
+        with tests.captured():
+            _imported, paths_exported, _audit = pass_export(
+                self.conf, MockManager, data
+            )
+        self.assertEqual(paths_exported, [])

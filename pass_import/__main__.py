@@ -472,11 +472,10 @@ def pass_filter(conf, entry):
         return len(matches) > 0
     except (JsonPathLexerError, JsonPathParserError) as e:
         conf.warning("Entry not exported due to error "
-                     "most likely in FILTER expression"
-                     + e.args[0])
+                     f"most likely in FILTER expression: {e.args[0]}")
         if conf.verb >= 2:
             conf.verbose("- Filter expression:" + filter_expression)
-            conf.verbose("- Entry: " + data)
+            conf.verbose(f"- Entry: {entry}")
         return False
 
 
