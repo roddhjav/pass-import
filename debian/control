@@ -6,6 +6,7 @@ Build-Depends:
  debhelper-compat (= 13),
  dh-python,
  python3-all,
+ pybuild-plugin-pyproject,
  python3-setuptools,
  python3-yaml,
  python3-requests,

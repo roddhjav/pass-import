@@ -89,3 +89,14 @@ class TestMainSanityChecks(tests.Test):
         """Testing: pimport --not-an-option."""
         cmd = ['--not-an-option']
         self.main(cmd, 2)
+
+    def test_main_install_extension(self):
+        """Testing: pimport --install-extension."""
+        self._tmpdir()
+        os.environ['PASSWORD_STORE_EXTENSIONS_DIR'] = self.prefix
+        try:
+            self.main(['--install-extension'], 0)
+        finally:
+            del os.environ['PASSWORD_STORE_EXTENSIONS_DIR']
+        dest = os.path.join(self.prefix, 'import.bash')
+        self.assertTrue(os.access(dest, os.X_OK))

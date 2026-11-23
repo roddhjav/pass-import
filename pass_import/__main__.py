@@ -7,6 +7,8 @@ import os
 import sys
 import traceback
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from importlib.resources import files
+from pathlib import Path
 
 from pass_import import Detecters, Managers, __version__
 from pass_import.auto import AutoDetect
@@ -142,6 +144,10 @@ class ArgParser(ArgumentParser):
                                help='List the supported password importers.')
             usage.add_argument('-e', '--list-exporters', action='store_true',
                                help='List the supported password exporters.')
+            usage.add_argument(
+                '--install-extension', action='store_true',
+                help="Install the 'pass import' extension for the current "
+                     "user and exit.")
 
         # Help and version
         usage.add_argument('-h', '--help', action='store_true',
@@ -210,6 +216,9 @@ def setup():
     parser = ArgParser(conf.passwordstore)
     arg = parser.parse_args()
     conf.verbosity(arg['verbose'], arg['quiet'])
+    if arg.get('install_extension'):
+        install_extension(conf)
+        sys.exit(0)
     try:
         conf.readconfig(arg)
     except AttributeError as error:
@@ -231,6 +240,26 @@ def setup():
         conf.die("The source password manager or the path to import is empty.")
 
     return conf
+
+
+def install_extension(conf):
+    """Install the pass extension script in the user extension directory."""
+    store = os.environ.get('PASSWORD_STORE_DIR',
+                           os.path.expanduser('~/.password-store'))
+    extdir = Path(os.environ.get('PASSWORD_STORE_EXTENSIONS_DIR',
+                                 os.path.join(store, '.extensions')))
+    dest = extdir / 'import.bash'
+    extdir.mkdir(parents=True, exist_ok=True)
+    dest.write_text(files('pass_import').joinpath('import.bash').read_text())
+    dest.chmod(0o700)
+    conf.success(f"Extension installed in {dest}")
+    conf.message("Set PASSWORD_STORE_ENABLE_EXTENSIONS=true to enable it.")
+    keys = os.environ.get('PASSWORD_STORE_SIGNING_KEY', '').split()
+    if keys:
+        cmd = ' '.join(f'--default-key {key}' for key in keys)
+        conf.warning("PASSWORD_STORE_SIGNING_KEY is set, pass will refuse to "
+                     "run the extension until it is signed. Run:")
+        conf.echo(f"gpg {cmd} --yes --detach-sign {dest}")
 
 
 def listmanagers(conf):

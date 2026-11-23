@@ -4,29 +4,39 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 EXT = import
-DESTDIR ?= /
+PREFIX ?= /usr
+DESTDIR ?=
+LIBDIR ?= $(PREFIX)/lib
+MANDIR ?= $(PREFIX)/share/man
+SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
+BASHCOMPDIR ?= $(PREFIX)/share/bash-completion/completions
+ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 
 all:
-	@python3 setup.py build
+	@python3 -m build --wheel --no-isolation
 	@echo "pass-import was built successfully. You can now install it with \"make install\""
 
 install:
-	@python3 setup.py install --root="${DESTDIR}" --optimize=1 --skip-build
+	@python3 -m installer --destdir="$(DESTDIR)" --prefix="$(PREFIX)" dist/*.whl
+	@install -Dm0755 pass_import/import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
+	@install -Dm0644 -t "$(DESTDIR)$(MANDIR)/man1" share/man/man1/pass-import.1 share/man/man1/pimport.1
+	@install -Dm0644 -t "$(DESTDIR)$(BASHCOMPDIR)" share/bash-completion/completions/pass-import share/bash-completion/completions/pimport
+	@install -Dm0644 -t "$(DESTDIR)$(ZSHCOMPDIR)" share/zsh/site-functions/_pass-import share/zsh/site-functions/_pimport
 	@echo "pass-import is installed successfully"
 
 local:
-	@python3 setup.py install --user --optimize=1
+	@pipx install --force .
+	@pimport --install-extension
 	@echo "pass-import is locally installed successfully."
-	@echo "Remember to set PASSWORD_STORE_ENABLE_EXTENSIONS to 'true' for the extension to be enabled."
 
 tests:
 	@python3 -m pytest -n auto --cov=pass_import --cov-report=term --cov-report=html
 
 lint:
-	@ruff check pass_${EXT} share tests setup.py
+	@ruff check pass_${EXT} share tests
 
 security:
-	@bandit --ini .bandit -r pass_${EXT} tests setup.py share
+	@bandit --ini .bandit -r pass_${EXT} tests share
 
 export PYTHONPATH = ./
 docs:
@@ -72,7 +82,7 @@ debian:
 	@docker exec ${CTNAME} bash -c 'mv ~/pass-${EXT}*.* ~/${PKGNAME}'
 
 pip:
-	@python3 setup.py sdist bdist_wheel
+	@python3 -m build
 	@twine check dist/*
 	@gpg --detach-sign -a dist/*
 	@twine upload --sign --identity ${GPGKEY} dist/*

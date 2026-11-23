@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pass-import"
+version = "3.5"
+description = "A pass extension for importing data from most of the existing password manager."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+keywords = [
+    "password-store",
+    "password",
+    "pass",
+    "pass-extension",
+    "password-manager",
+    "importer",
+]
+authors = [{ name = "Alexandre Pujol", email = "alexandre@pujol.io" }]
+maintainers = [{ name = "Alexandre Pujol", email = "alexandre@pujol.io" }]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX",
+    "Operating System :: POSIX :: BSD",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Security :: Cryptography",
+]
+
+dependencies = ["pyaml", "zxcvbn", "requests"]
+
+[project.scripts]
+pimport = "pass_import.__main__:main"
+
+[project.optional-dependencies]
+xml = ["defusedxml"]
+keepass = ["pykeepass"]
+gnomekeyring = ["secretstorage"]
+encrypted_otp = ["cryptography"]
+decrypt = ["python-magic"]
+filter = ["jsonpath-ng"]
+all = [
+    "defusedxml",
+    "pykeepass",
+    "secretstorage",
+    "cryptography",
+    "python-magic",
+    "jsonpath-ng",
+]
+
+
+[project.urls]
+Homepage = "https://github.com/roddhjav/pass-import"
+Documentation = "https://github.com/roddhjav/pass-import"
+Repository = "https://github.com/roddhjav/pass-import"
+Source = "https://github.com/roddhjav/pass-import"
+Issues = "https://github.com/roddhjav/pass-import/issues"
+Changelog = "https://github.com/roddhjav/pass-import/blob/master/CHANGELOG.md"
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.setuptools.packages.find]
+include = ["pass_import*"]
+
+[tool.setuptools.package-data]
+pass_import = ["py.typed", "import.bash"]
+
