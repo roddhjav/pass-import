@@ -155,7 +155,7 @@ class AppleKeychain(Formatter, PasswordImporter):
         """Check keychain file format."""
         try:
             self.yamls = self.keychain2yaml(self.file)
-            if isinstance(self.yamls, str):
+            if not isinstance(self.yamls[0], dict):
                 return False
         except (yaml.scanner.ScannerError, yaml.parser.ParserError,
                 UnicodeDecodeError):

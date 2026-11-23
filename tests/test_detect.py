@@ -113,3 +113,10 @@ class TestDetect(tests.Test):
         """Testing: unknown decrypted plain data is not detected."""
         detect = pass_import.auto.AutoDetect(settings={'decrypted': True})
         self.assertIsNone(detect.manager('foo,bar\n1,2\n'))
+
+    def test_applekeychain_plain_text(self):
+        """Testing: plain text is not an Apple keychain file."""
+        pm = tests.managers.get('AppleKeychain')
+        for text in ('hello world\nfoo\n', ''):
+            with self.subTest(text), pm(io.StringIO(text)) as importer:
+                self.assertFalse(importer.is_format())
