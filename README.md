@@ -711,23 +711,24 @@ gpg --verify pass-import-3.5.tar.gz.asc
 
 **Local install**
 
-Alternatively, from git or from a stable version you can do a local install with:
+Install it for your user only with [pipx] (or `uv tool`), then install the pass
+extension in your password store:
 ```sh
-cd pass-import
-python3 setup.py install --user
+pipx install pass-import
+pimport --install-extension
 ```
 
-> [!IMPORTANT]  
-> For local install you need to:
+> [!IMPORTANT]
+> pass only loads user extensions when `PASSWORD_STORE_ENABLE_EXTENSIONS` is
+> exactly `true`. Add it to your shell profile:
+> ```sh
+> export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+> ```
+> If you set `PASSWORD_STORE_SIGNING_KEY`, the extension must also be signed:
+> `pimport --install-extension` prints the command to run.
 >
->  1. Set `PASSWORD_STORE_ENABLE_EXTENSIONS` to `true` for the local extension to be enabled.
->  2. Set `PASSWORD_STORE_EXTENSIONS_DIR` to local the install path of python
->
->  Example:
->  ```sh
->  export PASSWORD_STORE_ENABLE_EXTENSIONS=true
->  export PASSWORD_STORE_EXTENSIONS_DIR="$(python -m site --user-site)/usr/lib/password-store/extensions/"
->  ```
+> This is not needed for a system install (distribution package or
+> `sudo just install`), whose extension is always enabled.
 
 ## The import Library
 
@@ -802,3 +803,4 @@ Feedback, contributors, pull requests are all very welcome. Please read the [`CO
 [cryptography]: https://cryptography.io
 [file-magic]: https://www.darwinsys.com/file/
 [pwdsphinx]: https://github.com/stef/pwdsphinx/
+[pipx]: https://pipx.pypa.io
