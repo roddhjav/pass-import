@@ -471,12 +471,9 @@ def pass_filter(conf, entry):
         matches = expr.find(data)
         return len(matches) > 0
     except (JsonPathLexerError, JsonPathParserError) as e:
-        conf.warning("Entry not exported due to error "
-                     f"most likely in FILTER expression: {e.args[0]}")
-        if conf.verb >= 2:
-            conf.verbose("- Filter expression:" + filter_expression)
-            conf.verbose(f"- Entry: {entry}")
-        return False
+        # Stop on the first entry, before anything is exported
+        conf.die(f"Invalid filter expression {filter_expression}: "
+                 f"{e.args[0]}")
 
 
 def report(conf, paths_imported, paths_exported, audit):
