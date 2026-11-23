@@ -34,7 +34,7 @@ variables:
 .pip: &pip
   - pip3 install --break-system-packages --upgrade pip
   - pip3 install --break-system-packages --upgrade
-    build installer setuptools uv
+    build installer setuptools uv rust-just
     cryptography defusedxml dominate pyaml jsonpath-ng
     pykeepass pypandoc python-magic requests secretstorage zxcvbn
 
@@ -43,10 +43,10 @@ variables:
     - *pip
     - *lpass
     - *gnome-keyring
-    - make
-    - dbus-run-session -- make tests
-    - make docs
-    - make install
+    - just build
+    - dbus-run-session -- just tests
+    - just docs
+    - just install
     - cd ~
     - pass import --help
 
@@ -77,9 +77,9 @@ ruff:
   image: python:latest
   allow_failure: True
   before_script:
-    - pip install uv
+    - pip install uv rust-just
   script:
-    - make lint
+    - just lint
 
 sast:
   stage: lint

@@ -13,8 +13,11 @@ jobs:
 
       - uses: astral-sh/setup-uv@v10.4.0
 
+      - name: Install just
+        run: pipx install rust-just
+
       - name: Ruff
-        run: make lint
+        run: just lint
 
   tests:
     runs-on: ubuntu-22.04
@@ -34,6 +37,7 @@ jobs:
       - name: Install required packages
         run: |
           sudo apt-get install -y gnome-keyring libsodium23 pass
+          pipx install rust-just
 
       - name: Configure password managers
         run: |
@@ -43,4 +47,4 @@ jobs:
           cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
 
       - name: Run the tests 
-        run: dbus-run-session -- make tests
+        run: dbus-run-session -- just tests
