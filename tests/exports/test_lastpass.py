@@ -4,6 +4,7 @@
 from unittest.mock import patch
 
 import tests
+from pass_import.errors import PMError
 from pass_import.managers.lastpass import LastpassCLI
 
 
@@ -67,6 +68,25 @@ class TestExportLastpass(tests.Test):
         }
         entry = self.lpass.show('8273029964772952977')
         self.assertEqual(entry, ref)
+
+    @patch('pass_import.managers.LastpassCLI.list')
+    @patch('pass_import.managers.LastpassCLI._command')
+    def test_lastpass_insert_exists(self, command, uids):
+        """Testing: lastpass insert an existing entry."""
+        uids.return_value = ['1', '2']
+        with self.assertRaises(PMError):
+            self.lpass.insert({'path': 'Test/test', 'password': 'a'})
+        self.lpass.force = True
+        self.lpass.insert({'path': 'Test/test', 'password': 'a'})
+        removed = [call.args[0] for call in command.call_args_list
+                   if call.args[0][0] == 'rm']
+        self.assertEqual(removed, [['rm', '--color=never', '1'],
+                                   ['rm', '--color=never', '2']])
+
+    def test_lastpass_open_no_login(self):
+        """Testing: lastpass open without a login."""
+        with self.assertRaises(PMError):
+            LastpassCLI('').open()
 
     @patch('pass_import.managers.LastpassCLI._command')
     def test_lastpass_insert(self, command):

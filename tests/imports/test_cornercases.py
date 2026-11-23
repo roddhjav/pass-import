@@ -90,6 +90,21 @@ class TestParseCornerCases(tests.Test):
         with pm(io.StringIO('<root><a>b</a></root>')) as importer:
             self.assertFalse(importer.is_format())
 
+    def test_xml_doctype(self):
+        """Testing: XML file with another doctype."""
+        pm = tests.managers.get('KeepassxXML')
+        content = '<!DOCTYPE OTHER>\n<database></database>\n'
+        with pm(io.StringIO(content)) as importer:
+            self.assertTrue(importer.is_format())
+            self.assertFalse(importer.checkheader(pm.header()))
+
+    def test_applekeychain_header(self):
+        """Testing: YAML file without the Apple keychain keys."""
+        pm = tests.managers.get('AppleKeychain')
+        with pm(io.StringIO('foo: bar\n')) as importer:
+            self.assertTrue(importer.is_format())
+            self.assertFalse(importer.checkheader(pm.header()))
+
     def test_pass_root(self):
         """Testing: password-store import with a root."""
         prefix = os.path.join(tests.db, 'pass')
