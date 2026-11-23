@@ -17,7 +17,7 @@ all:
 	@echo "pass-import was built successfully. You can now install it with \"make install\""
 
 install:
-	@python3 -m installer --destdir="$(DESTDIR)" --prefix="$(PREFIX)" dist/*.whl
+	@python3 -m installer --destdir="$(DESTDIR)" dist/*.whl
 	@install -Dm0755 pass_import/import.bash "$(DESTDIR)$(SYSTEM_EXTENSION_DIR)/import.bash"
 	@install -Dm0644 -t "$(DESTDIR)$(MANDIR)/man1" share/man/man1/pass-import.1 share/man/man1/pimport.1
 	@install -Dm0644 -t "$(DESTDIR)$(BASHCOMPDIR)" share/bash-completion/completions/pass-import share/bash-completion/completions/pimport
