@@ -21,6 +21,16 @@ class TestStatic(tests.Test):
         password = pass_import.tools.getpassword('Dummy')
         self.assertEqual(password, self.masterpassword)
 
+    @tests.skipIfNoModule('magic')
+    def test_get_magics_bom(self):
+        """Testing: UTF-8 BOM files are read as utf-8-sig."""
+        self._tmpdir()
+        path = os.path.join(self.prefix, 'bom.csv')
+        with open(path, 'wb') as file:
+            file.write(b'\xef\xbb\xbftitle,password\nt,p\n')
+        _, encoding = pass_import.tools.get_magics(path)
+        self.assertEqual(encoding, 'utf-8-sig')
+
 
 class TestConfig(tests.Test):
     """Test the Config class."""

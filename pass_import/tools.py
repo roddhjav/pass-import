@@ -2,6 +2,7 @@
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+import codecs
 import getpass
 import os
 import sys
@@ -52,7 +53,8 @@ def get_magics(path) -> tuple[str, str]:
             frmt = plain_format
 
     encoding = None
-    if 'UTF-8 Unicode (with BOM)' in magic_name:
+    # Check the bytes, libmagic wording for BOM changes between versions
+    if header.startswith(codecs.BOM_UTF8):
         encoding = 'utf-8-sig'
 
     return frmt, encoding
