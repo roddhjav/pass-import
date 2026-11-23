@@ -30,13 +30,13 @@ local:
 	@echo "pass-import is locally installed successfully."
 
 tests:
-	@python3 -m pytest -n auto --cov=pass_import --cov-report=term --cov-report=html
+	@uv run --extra all pytest -n auto --cov=pass_import --cov-report=term --cov-report=html
 
 lint:
-	@ruff check pass_${EXT} share tests
+	@uv run ruff check pass_${EXT} share tests
 
 security:
-	@bandit --ini .bandit -r pass_${EXT} tests share
+	@uv run bandit --ini .bandit -r pass_${EXT} tests share
 
 export PYTHONPATH = ./
 docs:

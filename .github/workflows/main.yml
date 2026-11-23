@@ -9,11 +9,9 @@ jobs:
     steps:
 
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
-      - name: Install required packages
-        run: |
-          pip install ruff
+      - uses: astral-sh/setup-uv@v10.4.0
 
       - name: Ruff
         run: make lint
@@ -27,22 +25,15 @@ jobs:
     steps:
 
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v10.4.0
         with:
           python-version: ${{ matrix.python }}
 
       - name: Install required packages
         run: |
-          sudo apt-get install -y gnome-keyring libsodium23 pass python3-setuptools
-
-      - name: Install python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install --upgrade pytest pytest-xdist pytest-cov \
-            codacy-coverage pyaml defusedxml cryptography pykeepass secretstorage \
-            zxcvbn jsonpath-ng python-magic
+          sudo apt-get install -y gnome-keyring libsodium23 pass
 
       - name: Configure password managers
         run: |

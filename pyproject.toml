@@ -60,6 +60,8 @@ all = [
     "jsonpath-ng",
 ]
 
+[dependency-groups]
+dev = ["pytest", "pytest-xdist", "pytest-cov", "ruff", "bandit"]
 
 [project.urls]
 Homepage = "https://github.com/roddhjav/pass-import"
