@@ -87,6 +87,18 @@ class TestMainPass(tests.Test):
         cmd = ['gorilla', tests.db + 'gorilla.csv', '--convert', '-q']
         self.main(cmd)
 
+    def test_main_default_manager_no_file(self):
+        """Testing: pass import keepass."""
+        cmd = ['keepass', '-q']
+        self.main(cmd, 1)
+
+    def test_main_sroot(self):
+        """Testing: pass import lastpass db/lastpass.csv --root root."""
+        cmd = ['lastpass', tests.db + 'lastpass.csv', '--root', 'root']
+        with tests.captured() as (out, _):
+            self.main(cmd)
+        self.assertIn('Root path: root', out.getvalue())
+
     def test_main_dry_run(self):
         """Testing: pass import keeper db/keeper.csv --dry-run."""
         cmd = ['keeper', tests.db + 'keeper.csv', '--dry-run', '-q']
@@ -112,15 +124,15 @@ class TestMainPass(tests.Test):
 
     # Test the decrypter function.
 
-    # def test_main_decrypt_with_manager(self):
-    #     """Testing: pass import db/andotp.gpg."""
-    #     cmd = ['andotp', tests.db + 'andotp.gpg', '-q']
-    #     self.main(cmd)
+    def test_main_decrypt_with_manager(self):
+        """Testing: pass import db/andotp.gpg."""
+        cmd = ['andotp', tests.db + 'andotp.gpg', '-q']
+        self.main(cmd)
 
-    # def test_main_decrypt_without_manager(self):
-    #     """Testing: pass import db/lastpass.csv.gpg."""
-    #     cmd = [tests.db + 'lastpass.csv.gpg', '-q']
-    #     self.main(cmd)
+    def test_main_decrypt_without_manager(self):
+        """Testing: pass import db/lastpass.csv.gpg."""
+        cmd = [tests.db + 'lastpass.csv.gpg', '-q']
+        self.main(cmd)
 
     # Test the audit feature.
 
@@ -129,3 +141,15 @@ class TestMainPass(tests.Test):
         """Testing: pass import db/audit.yml."""
         cmd = [tests.db + 'audit.yml', '--pwned']
         self.main(cmd)
+
+    @tests.skipIfNoModule('zxcvbn_rs_py')
+    def test_main_audit_long(self):
+        """Testing: audit report of a password too long for zxcvbn."""
+        path = os.path.join(self.prefix, 'long.yml')
+        with open(path, 'w') as file:
+            file.write('handler: passpie\nversion: 1.0\ncredentials:\n'
+                       '- name: long\n  password: ' + 'x' * 73 + '\n')
+        cmd = ['passpie', path]
+        with tests.captured() as (out, _):
+            self.main(cmd)
+        self.assertIn('Password too long', out.getvalue())

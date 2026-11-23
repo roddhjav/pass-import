@@ -95,6 +95,14 @@ class TestAudit(tests.Test):
         self.assertTrue(len(audit.weak) == 0)
         self.assertTrue(len(audit.skipped) == 1)
 
+    @mock.patch('pass_import.audit.ZXCVBN', False)
+    def test_zxcvbn_missing(self):
+        """Testing: audit without zxcvbn installed."""
+        data = [{'path': 'Password/pwned/1', 'password': 'P@ssw0rd'}]
+        audit = pass_import.audit.Audit(data)
+        audit.zxcvbn()
+        self.assertEqual(audit.weak, [])
+
     def test_duplicates_yes(self):
         """Testing: audit for duplicates password."""
         data = getpath('Password/notpwned/1')

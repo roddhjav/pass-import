@@ -35,6 +35,19 @@ class TestStatic(tests.Test):
         self.assertEqual(string, string_expected)
         pass_import.clean.SEPARATOR = '-'
 
+    def test_domain_empty(self):
+        """Testing: domain with no hostname part."""
+        self.assertEqual(pass_import.clean.domain('///'), '///')
+
+    def test_otp(self):
+        """Testing: otp secret converted to an otpauth url."""
+        data = [{'otpauth': 'JBSWY3DP', 'title': 't'},
+                {'otpauth': 'otpauth://totp/t?secret=JBSWY3DP'}]
+        pass_import.clean.otp(data)
+        for entry in data:
+            self.assertEqual(entry['otpauth'],
+                             'otpauth://totp/t?secret=JBSWY3DP')
+
     def test_group(self):
         """Testing: clean.group."""
         string = 'Root/Group\\Named>root\0directory'

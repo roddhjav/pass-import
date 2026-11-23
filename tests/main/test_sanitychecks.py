@@ -3,8 +3,11 @@
 #
 
 import os
+from unittest import mock
 
 import tests
+from pass_import.__main__ import pass_filter
+from pass_import.tools import Config
 
 
 class TestMainSanityChecks(tests.Test):
@@ -100,3 +103,23 @@ class TestMainSanityChecks(tests.Test):
             del os.environ['PASSWORD_STORE_EXTENSIONS_DIR']
         dest = os.path.join(self.prefix, 'import.bash')
         self.assertTrue(os.access(dest, os.X_OK))
+
+    def test_main_install_extension_signing_key(self):
+        """Testing: pimport --install-extension with a signing key."""
+        self._tmpdir()
+        os.environ['PASSWORD_STORE_EXTENSIONS_DIR'] = self.prefix
+        os.environ['PASSWORD_STORE_SIGNING_KEY'] = 'AAAA BBBB'
+        try:
+            self.main(['--install-extension'], 0,
+                      'gpg --default-key AAAA --default-key BBBB')
+        finally:
+            del os.environ['PASSWORD_STORE_EXTENSIONS_DIR']
+            del os.environ['PASSWORD_STORE_SIGNING_KEY']
+
+    @mock.patch('pass_import.__main__.JSONNG', False)
+    def test_filter_missing_jsonpath(self):
+        """Testing: --filter without jsonpath-ng installed."""
+        conf = Config()
+        conf['filter'] = '$.entries[?(@.title)]'
+        with self.assertRaises(ImportError):
+            pass_filter(conf, {'title': 't'})

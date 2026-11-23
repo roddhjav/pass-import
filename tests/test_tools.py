@@ -31,6 +31,20 @@ class TestStatic(tests.Test):
         _, encoding = pass_import.tools.get_magics(path)
         self.assertEqual(encoding, 'utf-8-sig')
 
+    @patch('pass_import.tools.MAGIC', False)
+    def test_get_magics_no_magic(self):
+        """Testing: get_magics without the magic module."""
+        res = pass_import.tools.get_magics(tests.db + 'keepass.kdbx')
+        self.assertEqual(res, (None, None))
+
+    @tests.skipIfNoModule('magic')
+    def test_get_magics(self):
+        """Testing: get_magics on binary formats."""
+        for name, frmt in [('keepass.kdbx', 'kdbx'), ('andotp.gpg', 'gpg')]:
+            with self.subTest(name):
+                res = pass_import.tools.get_magics(tests.db + name)
+                self.assertEqual(res, (frmt, None))
+
 
 class TestConfig(tests.Test):
     """Test the Config class."""
@@ -60,6 +74,16 @@ class TestConfig(tests.Test):
             'delimiter': ',',
             'root': '',
         })
+
+    def test_readconfig_filter(self):
+        """Testing: read the filter expression from a file."""
+        self._tmpdir()
+        path = os.path.join(self.prefix, 'filter')
+        with open(path, 'w') as file:
+            file.write('$.entries[?(@.title)]')
+        conf = pass_import.tools.Config()
+        conf.readconfig({'filter': path})
+        self.assertEqual(conf['filter'], '$.entries[?(@.title)]')
 
     def test_showentry(self):
         """Testing: show a password entry."""

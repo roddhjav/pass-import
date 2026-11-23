@@ -32,6 +32,12 @@ class TestDetect(tests.Test):
             detect = pass_import.auto.AutoDetect('not-a-manager')
             detect.default()
 
+    def test_default_name(self):
+        """Testing: default manager from a name given to the method."""
+        detect = pass_import.auto.AutoDetect()
+        pm = detect.default('keepass')
+        self.assertEqual(pm, tests.managers.get('Keepass'))
+
     def test_tryopen(self):
         """Testing: tryopen path method."""
         tryopen = {
@@ -68,6 +74,29 @@ class TestDetect(tests.Test):
         detect = pass_import.auto.AutoDetect('keepass')
         pm = detect.format('dummy')
         self.assertEqual(pm.__name__, 'Keepass')
+
+    def test_format_unknown(self):
+        """Testing: format falls back on the only untestable format."""
+        detect = pass_import.auto.AutoDetect('lastpass')
+        pm = detect.format(tests.db + 'keepass.xml')
+        self.assertEqual(pm.__name__, 'LastpassCLI')
+
+    def test_format_stream(self):
+        """Testing: format of decrypted plain data."""
+        with open(tests.db + 'lastpass.csv') as file:
+            plain = file.read()
+        detect = pass_import.auto.AutoDetect(
+            'lastpass', settings={'decrypted': True})
+        pm = detect.format(plain)
+        self.assertEqual(pm.__name__, 'LastpassCSV')
+
+    def test_manager_stream(self):
+        """Testing: manager of decrypted plain data."""
+        with open(tests.db + 'lastpass.csv') as file:
+            plain = file.read()
+        detect = pass_import.auto.AutoDetect(settings={'decrypted': True})
+        pm = detect.manager(plain)
+        self.assertEqual(pm.__name__, 'LastpassCSV')
 
     def test_manager(self):
         """Testing: manager for all managers."""
