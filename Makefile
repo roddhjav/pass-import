@@ -5,7 +5,7 @@
 
 EXT = import
 PREFIX ?= /usr
-DESTDIR ?=
+DESTDIR ?= /
 LIBDIR ?= $(PREFIX)/lib
 MANDIR ?= $(PREFIX)/share/man
 SYSTEM_EXTENSION_DIR ?= $(LIBDIR)/password-store/extensions
