@@ -124,13 +124,8 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             if kpentry is None:
                 value = value[:start] + value[end:]
             else:
-                attr = 'password' if cat == 'P' else 'username'
-                if hasattr(kpentry, attr):
-                    attr = getattr(kpentry, attr)
-                    value = value[:start] + \
-                        (attr if attr is not None else '') + value[end:]
-                else:
-                    value = value[:start] + value[end:]
+                attr = kpentry.password if cat == 'P' else kpentry.username
+                value = value[:start] + (attr or '') + value[end:]
         return value
 
     def parse(self):
