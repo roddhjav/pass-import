@@ -10,28 +10,22 @@ in this page all the useful information needed to contribute to `pass-import`.
 for all the parts of the program. Moreover, it provides test coverage and code
 health reports.
 
-##### Tests
-To run the tests, you need to install the following programs:
-* [pytest] as python test runner, with [pytest-xdist] and [pytest-cov]:
-  `pip install pytest pytest-xdist pytest-cov`
+The development tasks are run with [just], and [uv] installs the Python
+dependencies they need (pytest, ruff, bandit) in a local virtual environment.
+Run `just` to list all the available recipes.
 
-Then simply run: `make tests`
+##### Tests
+Run: `just tests`
 
 ##### Code health
-To run the code health report, you need to install the following programs:
-* [ruff]: `pip install ruff`
-
-Then simply run: `make lint`
+Run: `just lint`
 
 ##### Security check
-To run the security check, you need to install the following programs:
-* [bandit]: `pip install bandit`
-
-Then simply run: `make security`
+Run: `just security`
 
 ##### Generate the documentation
 To re-generate the README table as well as the man pages and the completion
-file simply run: `make docs`
+file simply run: `just docs`
 
 
 ## How to contribute?
@@ -158,13 +152,9 @@ description of any extra data we can find in the exported file.
 Process to make a new release:
 1. Update the `CHANGELOG.md` and commit the changes.
 2. Clean the workding directory: `git stash --include-untracked`
-3. Release: `make release VERSION=<version>`
-4. Build the pip & debian package: `make debian` and `make pip`
+3. Release: `just release`
 
 
-[pytest]: https://docs.pytest.org
-[pytest-xdist]: https://github.com/pytest-dev/pytest-xdist
-[pytest-cov]: https://github.com/pytest-dev/pytest-cov
-[ruff]: https://docs.astral.sh/ruff/
-[bandit]: https://github.com/PyCQA/bandit
+[just]: https://just.systems
+[uv]: https://docs.astral.sh/uv/
 [git]: https://help.github.com/articles/set-up-git/

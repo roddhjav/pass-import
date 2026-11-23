@@ -111,5 +111,8 @@ tests/assets/database
 # generated man pages
 share/man/man1/*.1
 
+# just build directory
+.build/
+
 # IDE
 .idea/
