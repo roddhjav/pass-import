@@ -67,7 +67,7 @@ value=org.gnome.keyring.Note
 [7]
 item-type=2
 display-name=dpbx@afoqwdr.tx
-secret=9KVHnx:.S_S;cF`=CE@e\p{v6
+secret=9KVHnx:.S_S;cF`=CE@e\\p{v6
 mtime=1483228800
 ctime=1483228800
 
