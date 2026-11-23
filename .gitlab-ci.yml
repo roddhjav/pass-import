@@ -5,11 +5,13 @@ include:
 stages:
   - lint
   - tests
-  - dist
+  - build
+  - install
   - deploy
 
 variables:
   DEBIAN_FRONTEND: noninteractive
+  PKGDEST: $CI_PROJECT_DIR/.pkg
   SAST_DEFAULT_ANALYZERS: bandit
 
 # Dependencies definitions
@@ -32,11 +34,10 @@ variables:
   - sphinx init
 
 .pip: &pip
-  - pip3 install --break-system-packages --upgrade pip
   - pip3 install --break-system-packages --upgrade
     build installer setuptools uv rust-just
-    cryptography defusedxml dominate pyaml jsonpath-ng
-    pykeepass pypandoc python-magic requests secretstorage zxcvbn
+    cryptography defusedxml dominate PyYAML jsonpath-ng
+    pykeepass pypandoc python-magic requests secretstorage zxcvbn-rs-py
 
 .script:
   script:
@@ -54,12 +55,8 @@ variables:
   extends: .script
   stage: tests
   before_script:
-    - apt-get update -q && apt-get install -y make pass python3-pip grep wget
+    - apt-get update -q && apt-get install -y pass python3-pip grep wget
       dbus gnome-keyring pandoc libsodium23
-
-.distribution:
-  extends: .script
-  stage: dist
 
 # Jobs definitions
 # ----------------
@@ -94,6 +91,7 @@ python 3.14:
     expire_in: 2 days
     paths:
       - htmlcov/
+      - share/man/man1/*.1
 
 python 3.13:
   image: python:3.13
@@ -107,35 +105,109 @@ python 3.11:
   image: python:3.11
   extends: .tests
 
-# Distribution tests
+# Package build
 
-archlinux:
+.build:
+  stage: build
+  dependencies:
+    - python 3.14
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - $PKGDEST/*
+
+build archlinux:
+  extends: .build
+  image: registry.gitlab.com/roddhjav/builders/archlinux
+  script:
+    - sudo pacman -Syu --noconfirm --noprogressbar
+    - just build-pkg
+
+.build-dpkg:
+  extends: .build
+  script:
+    - sudo chown -R build:build /builds/
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - sudo apt-get update -q && sudo apt-get build-dep -y .
+    - just build-dpkg
+
+build debian:
+  extends: .build-dpkg
+  image: registry.gitlab.com/roddhjav/builders/debian:13
+
+build ubuntu:
+  extends: .build-dpkg
+  image: registry.gitlab.com/roddhjav/builders/ubuntu:26.04
+
+build opensuse:
+  extends: .build
+  image: registry.gitlab.com/roddhjav/builders/opensuse
+  script:
+    - sudo zypper install -y $(rpmspec -q --buildrequires dists/pass-import.spec)
+    - just build-rpm
+
+build fedora:
+  extends: .build
+  image: registry.gitlab.com/roddhjav/builders/fedora:44
+  script:
+    - sudo dnf -y builddep dists/pass-import.spec
+    - just build-rpm
+
+# Package install & test
+
+.check: &check
+  - cd ~
+  - pimport --version
+  - pass import --help
+
+.install:
+  stage: install
+
+install archlinux:
+  extends: .install
   image: archlinux
-  extends: .distribution
-  before_script:
-    - pacman -Syu --noconfirm --noprogressbar which grep make python-pip pass
-      dbus gnome-keyring file pandoc python-setuptools
+  dependencies:
+    - build archlinux
+  script:
+    - pacman -Syu --noconfirm --noprogressbar
+    - pacman -U --noconfirm --noprogressbar $PKGDEST/*.pkg.tar.zst
+    - *check
 
-.ubuntu:
-  image: ubuntu:24.04
-  extends: .distribution
-  before_script:
-    - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
-      dbus gnome-keyring pandoc
+install debian:
+  extends: .install
+  image: debian:13
+  dependencies:
+    - build debian
+  script:
+    - apt-get update -q && apt-get install -y $PKGDEST/*.deb
+    - *check
 
-debian:
-  image: debian
-  extends: .distribution
-  before_script:
-    - apt-get update -q && apt-get install -y make gpg pass python3-pip grep wget
-      dbus gnome-keyring pandoc
+install ubuntu:
+  extends: .install
+  image: ubuntu:26.04
+  dependencies:
+    - build ubuntu
+  script:
+    - apt-get update -q && apt-get install -y $PKGDEST/*.deb
+    - *check
 
-.fedora:
-  image: fedora
-  extends: .distribution
-  before_script:
-    - dnf -y install make gpg pass python-setuptools python3-pip grep which dbus
-      dbus-daemon gnome-keyring pandoc --setopt=install_weak_deps=False
+install opensuse:
+  extends: .install
+  image: opensuse/tumbleweed
+  dependencies:
+    - build opensuse
+  script:
+    - zypper --non-interactive install --allow-unsigned-rpm $PKGDEST/*.rpm
+    - *check
+
+install fedora:
+  extends: .install
+  image: fedora:44
+  dependencies:
+    - build fedora
+  script:
+    - dnf -y install $PKGDEST/*.rpm
+    - *check
 
 # Code coverage deployment
 
