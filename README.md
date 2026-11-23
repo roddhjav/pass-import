@@ -10,7 +10,7 @@
 
 ## Description
 
-`pass import` is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->63<!-- NB END --> different password managers. More manager support can easily be added.
+`pass import` is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> different password managers. More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore the password store must have been initialized before with `pass init`.
 
@@ -18,7 +18,7 @@ By default, pass imports entries at the root of the password store and only keep
 
 Pass import handles duplicates and is compatible with [browserpass]. It imports OTP secret in a way that is compatible with [pass-otp].
 
-pass-import also provides a `pimport` script that allows importing passwords to other password managers. For instance, you can import passwords from Lastpass to a Keepass database. It currently supports password export from <!-- NB DST BEGIN -->8<!-- NB DST END --> managers.
+pass-import also provides a `pimport` script that allows importing passwords to other password managers. For instance, you can import passwords from Lastpass to a Keepass database. It currently supports password export from <!-- NB DST BEGIN -->7<!-- NB DST END --> managers.
 
 **The following password managers are supported:**
 
@@ -402,7 +402,6 @@ pass-import also provides a `pimport` script that allows importing passwords to 
 | [keepassxc](https://keepassxc.org) | kdbx | `pimport keepassxc src [src]` |
 | [lastpass](https://www.lastpass.com) | cli | `pimport lastpass src [src]` |
 | [pass](https://passwordstore.org) | pass | `pimport pass src [src]` |
-| [sphinx](https://github.com/stef/pwdsphinx/) |  | `pimport sphinx src [src]` |
 
 <!-- LIST DST END -->
 
@@ -544,7 +543,6 @@ pass import bitwarden.json -p Import/
 - Import a Passman JSON file: `pass import passman.json`
 - Import Lastpass file to a keepass db: `pimport keepass lastpass.csv --out keepass.kdbx`
 - Import a password store to a CSV file: `pimport csv ~/.password-store --out file.csv`
-- Export Bitwarden to SPHINX: pimport sphinx bitwarden.json -o sphinx.cfg
 
 ## GPG keyring
 
@@ -655,7 +653,6 @@ invalids:
 | [secretstorage] | Gnome Keyring import | `apt install python3-secretstorage` | `pip3 install secretstorage` |
 | [cryptography] | AndOTP or Aegis encrypted import | `apt install python3-cryptography` | `pip3 install cryptography` |
 | [file-magic] | Detection of file decryption | `apt install python-magic` | `pip3 install file-magic` |
-| [pwdsphinx] | Export to SPHINX | N/A(coming soon) | `pip3 install pwdsphinx` |
 | filter | Filter exports | N/A | `pip3 install jsonpath-ng` |
 | [zxcvbn-rs-py] | Password strength estimation | `apt install python3-python-zxcvbn-rs-py` | `pip3 install zxcvbn-rs-py` |
 
@@ -802,5 +799,4 @@ Feedback, contributors, pull requests are all very welcome. Please read the [`CO
 [secretstorage]: https://secretstorage.readthedocs.io/en/latest/
 [cryptography]: https://cryptography.io
 [file-magic]: https://www.darwinsys.com/file/
-[pwdsphinx]: https://github.com/stef/pwdsphinx/
 [pipx]: https://pipx.pypa.io

@@ -4,8 +4,7 @@ _pimport() {
 	COMPREPLY=()
 	local cur="${COMP_WORDS[COMP_CWORD]}"
 	# exporter begin
-	local exporters=(csv gopass keepass keepassx2 keepassxc lastpass pass 
-		sphinx)
+	local exporters=(csv gopass keepass keepassx2 keepassxc lastpass pass)
 	# importers begin
 	local importers=(1password aegis andotp apple-keychain bitwarden blur 
 		buttercup chrome clipperz csv dashlane encryptr enpass firefox fpm 

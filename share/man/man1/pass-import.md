@@ -13,7 +13,7 @@ the existing password manager.
 
 # DESCRIPTION
 
-**pass import** is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->63<!-- NB END --> different password managers. More manager support can easily be added.
+**pass import** is a password store extension allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> different password managers. More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore the password store must have been initialized before with **pass init**.
 
@@ -21,7 +21,7 @@ By default, pass imports entries at the root of the password store and only keep
 
 Pass import handles duplicates and is compatible with *browserpass*. It imports OTP secret in a way that is compatible with *pass-otp*.
 
-pass-import also provides a **pimport** script that allows importing passwords to other password managers. For instance, you can import passwords from Lastpass to a Keepass database. It currently supports password export from <!-- NB DST BEGIN -->8<!-- NB DST END --> managers.
+pass-import also provides a **pimport** script that allows importing passwords to other password managers. For instance, you can import passwords from Lastpass to a Keepass database. It currently supports password export from <!-- NB DST BEGIN -->7<!-- NB DST END --> managers.
 
 # COMMAND
 

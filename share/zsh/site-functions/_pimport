@@ -72,7 +72,6 @@ _pimport () {
 			'keepassxc:Exporter for keepassxc in KDBX'
 			'lastpass:Exporter for lastpass in CLI'
 			'pass:Exporter for pass in PASS'
-			'sphinx:Exporter for sphinx in '
 		)
 		# exporter end
 		_arguments : \

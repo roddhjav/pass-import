@@ -25,14 +25,6 @@ variables:
   - mkdir -p ~/.local/share/keyrings/
   - cp tests/assets/db/gnome-keyring.keyring ~/.local/share/keyrings/pass-import.keyring
 
-.sphinx: &sphinx
-  - pip3 install --break-system-packages --upgrade pwdsphinx
-  - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libequihash.so
-  - ln -s /usr/lib/x86_64-linux-gnu/libsodium.so.23 /usr/lib/x86_64-linux-gnu/libsphinx.so
-  - ldconfig
-  - cp tests/assets/db/sphinx.cfg ~/.sphinxrc
-  - sphinx init
-
 .pip: &pip
   - pip3 install --break-system-packages --upgrade
     build installer setuptools uv rust-just
@@ -56,7 +48,7 @@ variables:
   stage: tests
   before_script:
     - apt-get update -q && apt-get install -y pass python3-pip grep wget
-      dbus gnome-keyring pandoc libsodium23
+      dbus gnome-keyring pandoc
 
 # Jobs definitions
 # ----------------
