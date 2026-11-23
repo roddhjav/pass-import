@@ -72,31 +72,10 @@ class CSV(Formatter, PasswordImporter):
             # Solution:
             #    If the line looks like a JSON, then consider the
             #    file not a CSV file
-            def is_json_key_value_format(value):
-                values = value.split(':', 2)
-                return len(values) > 1
-
-            def is_json_open_end_bracket(keys):
-                count = len(keys)
-                if count > 0 and (
-                        keys[0].startswith('{') and
-                        keys[-1].endswith('}')
-                ):
-                    return False
+            keys = [k for k in self.reader.fieldnames or [] if k]
+            if (keys and keys[0].startswith('{') and keys[-1].endswith('}')
+                    and all(':' in key for key in keys)):
                 return False
-
-            # Read first data line when available
-            for index, row in enumerate(self.reader):
-                if index == 0:
-                    # skip header
-                    continue
-
-                keys = [k for k in row if k is not None]
-                if (all(map(is_json_key_value_format, keys))
-                        and is_json_open_end_bracket(keys)):
-                    return False
-
-                break
         except (csv.Error, UnicodeDecodeError):
             return False
         return True

@@ -2,6 +2,7 @@
 # Copyright (C) 2017-2024 Alexandre PUJOL <alexandre@pujol.io>.
 #
 
+import io
 import os
 
 import pass_import.auto
@@ -100,3 +101,10 @@ class TestDetect(tests.Test):
                         self.assertEqual(identical[manager], pm.__name__)
                 else:
                     self.assertEqual(manager, pm.__name__)
+
+    def test_csv_json_line(self):
+        """Testing: a JSON formatted line is not a CSV file."""
+        line = '{"uuid":"a","title":"t"}\n{"uuid":"b","title":"u"}\n'
+        pm = tests.managers.get('OnePassword8CSV')
+        with pm(io.StringIO(line)) as importer:
+            self.assertFalse(importer.is_format())
