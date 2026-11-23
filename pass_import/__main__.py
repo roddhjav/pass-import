@@ -253,7 +253,10 @@ def install_extension(conf):
     dest.write_text(files('pass_import').joinpath('import.bash').read_text())
     dest.chmod(0o700)
     conf.success(f"Extension installed in {dest}")
-    conf.message("Set PASSWORD_STORE_ENABLE_EXTENSIONS=true to enable it.")
+    if os.environ.get('PASSWORD_STORE_ENABLE_EXTENSIONS') != 'true':
+        conf.warning("pass only loads user extensions when enabled, add to "
+                     "your shell profile:")
+        conf.echo("export PASSWORD_STORE_ENABLE_EXTENSIONS=true")
     keys = os.environ.get('PASSWORD_STORE_SIGNING_KEY', '').split()
     if keys:
         cmd = ' '.join(f'--default-key {key}' for key in keys)
