@@ -55,9 +55,6 @@ class CSV(Formatter, PasswordImporter):
                                           delimiters=self.delimiter)
             if dialect.quotechar != self.quotechar:  # pragma: no cover
                 return False
-            self.file.seek(0)
-            self.reader = csv.DictReader(self.file, dialect=dialect)
-
             # Context:
             #   1password can export data in:
             #   - 1PIF (json like format)
@@ -72,10 +69,12 @@ class CSV(Formatter, PasswordImporter):
             # Solution:
             #    If the line looks like a JSON, then consider the
             #    file not a CSV file
-            keys = [k for k in self.reader.fieldnames or [] if k]
-            if (keys and keys[0].startswith('{') and keys[-1].endswith('}')
-                    and all(':' in key for key in keys)):
+            self.file.seek(0)
+            line = self.file.readline().lstrip('\ufeff').strip()
+            if line.startswith('{') and line.endswith('}'):
                 return False
+            self.file.seek(0)
+            self.reader = csv.DictReader(self.file, dialect=dialect)
         except (csv.Error, UnicodeDecodeError):
             return False
         return True

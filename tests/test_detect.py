@@ -104,9 +104,15 @@ class TestDetect(tests.Test):
 
     def test_csv_json_line(self):
         """Testing: a JSON formatted line is not a CSV file."""
-        line = '{"uuid":"a","title":"t"}\n{"uuid":"b","title":"u"}\n'
+        lines = [
+            '{"uuid":"a","title":"t"}\n{"uuid":"b","title":"u"}\n',
+            '\ufeff{"uuid":"a","tags":["x","y"],"title":"a, b"}\n',
+        ]
         pm = tests.managers.get('OnePassword8CSV')
-        with pm(io.StringIO(line)) as importer:
+        for line in lines:
+            with self.subTest(line), pm(io.StringIO(line)) as importer:
+                self.assertFalse(importer.is_format())
+        with pm(os.path.join(tests.db, '1password.1pif')) as importer:
             self.assertFalse(importer.is_format())
 
     def test_manager_stream_unknown(self):
