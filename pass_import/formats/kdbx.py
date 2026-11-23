@@ -47,6 +47,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
 
     def __init__(self, prefix=None, settings=None):
         self.keepass = None
+        self.modified = False
         settings = {} if settings is None else settings
         keyfile = settings.get('key', '')
         self.keyfile = None if keyfile == '' else keyfile
@@ -162,6 +163,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
 
     def insert(self, entry):
         """Insert a password entry into KDBX encrypted vault file."""
+        self.modified = True
         ignore = {'password', 'path', 'title', 'group', 'data'}
         path = os.path.join(self.root, entry.get('path'))
         title = os.path.basename(path)
@@ -225,8 +227,9 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
             raise PMError(error) from error
 
     def close(self):
-        """Close the keepass repository."""
-        self.keepass.save()
+        """Close the keepass repository, only save it when it was modified."""
+        if self.modified:
+            self.keepass.save()
 
     # Format recognition methods
 

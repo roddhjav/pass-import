@@ -116,9 +116,13 @@ class TestParse(tests.Test):
         prefix = os.path.join(tests.db, 'keepass.kdbx')
         reference = tests.reference()
         pw.return_value = self.masterpassword
+        with open(prefix, 'rb') as file:
+            content = file.read()
         with tests.cls('Keepass', prefix) as importer:
             importer.parse()
             data = importer.data
+        with open(prefix, 'rb') as file:
+            self.assertEqual(file.read(), content)
 
         # Manual cleaning
         reference.extend(REFERENCE_KDBX)
