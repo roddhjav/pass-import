@@ -14,7 +14,6 @@ ZSHCOMPDIR ?= $(PREFIX)/share/zsh/site-functions
 
 all:
 	@python3 -m build --wheel --no-isolation
-	@echo "pass-import was built successfully. You can now install it with \"make install\""
 
 install:
 	@python3 -m installer --destdir="$(DESTDIR)" dist/*.whl
@@ -22,12 +21,10 @@ install:
 	@install -Dm0644 -t "$(DESTDIR)$(MANDIR)/man1" share/man/man1/pass-import.1 share/man/man1/pimport.1
 	@install -Dm0644 -t "$(DESTDIR)$(BASHCOMPDIR)" share/bash-completion/completions/pass-import share/bash-completion/completions/pimport
 	@install -Dm0644 -t "$(DESTDIR)$(ZSHCOMPDIR)" share/zsh/site-functions/_pass-import share/zsh/site-functions/_pimport
-	@echo "pass-import is installed successfully"
 
 local:
 	@pipx install --force .
 	@pimport --install-extension
-	@echo "pass-import is locally installed successfully."
 
 tests:
 	@uv run --extra all pytest -n auto --cov=pass_import --cov-report=term --cov-report=html
