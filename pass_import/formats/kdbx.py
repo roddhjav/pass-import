@@ -82,10 +82,7 @@ class KDBX(Formatter, PasswordImporter, PasswordExporter):
 
     @staticmethod
     def _getotpauth(properties):
-        # KeeWeb style
-        if 'otp' in properties:
-            return properties['otp']
-
+        # KeeWeb style 'otp' field is read by pykeepass as Entry.otp
         issuer = 'Imported'
         # KeePass 2.47 {TIMEOTP} style
         if 'TimeOtp-Secret-Base32' in properties:
