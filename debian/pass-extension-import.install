@@ -1,0 +1,4 @@
+pass_import/import.bash usr/lib/password-store/extensions/
+share/man/man1/*.1 usr/share/man/man1/
+share/bash-completion/completions/* usr/share/bash-completion/completions/
+share/zsh/site-functions/* usr/share/zsh/vendor-completions/

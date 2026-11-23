@@ -29,6 +29,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+!dists/*.spec
 
 # Installer logs
 pip-log.txt
@@ -111,8 +112,9 @@ tests/assets/database
 # generated man pages
 share/man/man1/*.1
 
-# just build directory
+# just build and package directories
 .build/
+.pkg/
 
 # IDE
 .idea/

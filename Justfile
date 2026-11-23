@@ -7,16 +7,20 @@
 # Build settings
 
 destdir := "/"
+python := "python3"
 prefix := "/usr"
 extdir := prefix / "lib/password-store/extensions"
 build := ".build"
 pkgdest := `pwd` / ".pkg"
 pkgname := "pass-import"
+debname := "pass-extension-import"
 gpgkey := "06A26D531D56C42D66805049C5469996F0DF68EC"
+sign := "false"
 
 usage := "
 Build variables available:
     build        " + BLUE + "# Build directory (default: " + build + ")" + NORMAL + "
+    python       " + BLUE + "# Python interpreter (default: " + python + ")" + NORMAL + "
     destdir      " + BLUE + "# Installation destination (default: " + destdir + ")" + NORMAL + "
     prefix       " + BLUE + "# Installation prefix (default: " + prefix + ")" + NORMAL + "
     extdir       " + BLUE + "# Pass system extension directory (default: " + extdir + ")" + NORMAL + "
@@ -31,7 +35,7 @@ help:
 # Build the python wheel
 [group('build')]
 build:
-	@python3 -m build --wheel --no-isolation --outdir {{build}}
+	@{{python}} -m build --wheel --no-isolation --outdir {{build}}
 
 # Generate the man pages
 [group('build')]
@@ -42,7 +46,7 @@ man:
 # Install the python package
 [group('install')]
 install-python:
-	@python3 -m installer --destdir="{{destdir}}" {{build}}/*.whl
+	@{{python}} -m installer --destdir="{{destdir}}" {{build}}/*.whl
 
 # Install the pass extension, the man pages and the shell completions
 [group('install')]
@@ -61,6 +65,77 @@ install: install-python install-data
 local:
 	@pipx install --force .
 	@pimport --install-extension
+
+# Build the package on Arch Linux
+[group('packages')]
+build-pkg: (_ensure_pkgdest)
+	@PKGDEST={{pkgdest}} BUILDDIR=/tmp/makepkg makepkg --syncdeps --force --cleanbuild --noconfirm --noprogressbar
+
+# Build the package on Debian, the same package works on Ubuntu
+[group('packages')]
+build-dpkg: (_ensure_pkgdest)
+	@dpkg-buildpackage -b -d {{ if sign == "true" { "--sign-key=" + gpgkey } else { "--no-sign" } }}
+	@lintian --color always --display-info --pedantic --tag-display-limit 0 || true
+	@mv ../{{debname}}_*.deb {{pkgdest}}/
+
+# Build the package on openSUSE or Fedora
+[group('packages')]
+build-rpm: (_ensure_pkgdest)
+	#!/usr/bin/env bash
+	set -eu -o pipefail
+	RPMBUILD_ROOT=$(mktemp -d /tmp/{{pkgname}}.XXXXXX)
+	VERSION="$(just version)"
+	readonly RPMBUILD_ROOT VERSION
+
+	mkdir -p "$RPMBUILD_ROOT"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS/tmp}
+	cp -p "dists/{{pkgname}}.spec" "$RPMBUILD_ROOT/SPECS/{{pkgname}}.spec"
+	tar -czf "$RPMBUILD_ROOT/SOURCES/{{pkgname}}-$VERSION.tar.gz" --transform "s,^,{{pkgname}}-$VERSION/," ./*
+
+	cd "$RPMBUILD_ROOT"
+	sed -i "s/^Version:.*/Version:        $VERSION/" "SPECS/{{pkgname}}.spec"
+	rpmbuild -bb --define "_topdir $RPMBUILD_ROOT" "SPECS/{{pkgname}}.spec"
+
+	find "$RPMBUILD_ROOT/RPMS" -name '*.rpm' -exec mv -t "{{pkgdest}}/" {} +
+	rm -rf "$RPMBUILD_ROOT"
+
+# Build & install pass-import on Arch based systems
+[group('packages')]
+pkg: build-pkg
+	@sudo pacman -U --noconfirm {{pkgdest}}/{{pkgname}}-`just version`-*.pkg.tar.zst
+
+# Build & install pass-import on Debian based systems
+[group('packages')]
+dpkg: build-dpkg
+	@sudo apt-get install -y {{pkgdest}}/{{debname}}_`just version`-*_all.deb
+
+# Build & install pass-import on openSUSE or Fedora based systems
+[group('packages')]
+rpm: build-rpm
+	@sudo rpm -ivh --force {{pkgdest}}/{{pkgname}}-`just version`-*.rpm
+
+# Build the package in a clean OCI container
+[group('packages')]
+package dist release="":
+	@bash dists/docker.sh {{dist}} {{release}}
+
+# Build all packages in a clean OCI container
+[group('packages')]
+packages: clean
+	#!/usr/bin/env bash
+	set -eu -o pipefail
+	declare -A matrix=(
+		["archlinux"]="-"
+		["debian"]="13"
+		["opensuse"]="-"
+		["fedora"]="44"
+	)
+	for dist in "${!matrix[@]}"; do
+		IFS=' ' read -r -a releases <<< "${matrix[$dist]}"
+		for release in "${releases[@]}"; do
+			echo "{{ RED + BOLD }}Building package for $dist $release{{ NORMAL }}"
+			bash dists/docker.sh $dist $release
+		done
+	done
 
 # Run the tests
 [group('tests')]
@@ -87,6 +162,7 @@ clean:
 	@rm -rf \
 		debian/.debhelper debian/debhelper* debian/*.debhelper debian/pass-extension-import/ \
 		debian/*.substvars debian/*.debhelper.log debian/files .pybuild \
+		{{pkgdest}}/{{pkgname}}* {{pkgdest}}/{{debname}}* \
 		{{build}} build dist *.egg-info .coverage htmlcov \
 		tests/assets/gnupg/random_seed tests/assets/test-results/
 	@find . -name __pycache__ -type d -not -path './.venv/*' -prune -exec rm -rf {} +
@@ -124,6 +200,8 @@ commit:
 	EOF
 	cat debian/changelog >> debian/changelog.tmp
 	mv debian/changelog.tmp debian/changelog
+	sed -i "s/^pkgver=.*/pkgver=$version/" PKGBUILD
+	sed -i "s/^Version:.*/Version:        $version/" dists/{{pkgname}}.spec
 	sed -i "s/^version = .*/version = \"$version\"/" pyproject.toml
 	sed -i "s/^__version__ = .*/__version__ = '$version'/" pass_import/__about__.py
 	# Stage only the version-bump line, rebuilt from HEAD, so any other
@@ -134,6 +212,8 @@ commit:
 		blob=$(git cat-file -p "HEAD:$file" | sed "$expr" | git hash-object -w --stdin)
 		git update-index --cacheinfo "$mode,$blob,$file"
 	}
+	stage_bump PKGBUILD "s/^pkgver=.*/pkgver=$version/"
+	stage_bump dists/{{pkgname}}.spec "s/^Version:.*/Version:        $version/"
 	stage_bump pyproject.toml "s/^version = .*/version = \"$version\"/"
 	stage_bump pass_import/__about__.py "s/^__version__ = .*/__version__ = '$version'/"
 	git add debian/changelog
@@ -172,3 +252,12 @@ publish:
 		{{pkgdest}}/release/{{pkgname}}-$version.tar.gz.asc
 	uv build --out-dir {{build}}/pypi
 	uv publish {{build}}/pypi/*
+
+# Create & upload new release packages to the repositories
+[group('release')]
+repo path="../../../Packages":
+	just --justfile {{path}}/pkgbuilds/Justfile publish {{pkgname}} `just version`
+	just --justfile {{path}}/repo.pujol.io/Justfile publish {{pkgname}} `just version`
+
+_ensure_pkgdest:
+	@mkdir -p {{pkgdest}}

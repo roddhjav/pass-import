@@ -27,6 +27,12 @@ Run: `just security`
 To re-generate the README table as well as the man pages and the completion
 file simply run: `just docs`
 
+##### Build the packages
+Build the Arch Linux, Debian (also used for Ubuntu), openSUSE and Fedora
+packages in clean containers with `just packages`, or a single one with, for
+example, `just package debian 13`. The packages are written in `.pkg/`. They
+are built from a release tree, which contains the generated man pages.
+
 
 ## How to contribute?
 
