@@ -12,7 +12,7 @@ pimport —  A passwords importer swiss army knife
 
 # DESCRIPTION
 
-**pimport** is a passwords importer swiss army knife allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> password managers, and export to <!-- NB EXPORT BEGIN -->8<!-- NB EXPORT END --> destination password managers. More manager support can easily be added.
+**pimport** is a passwords importer swiss army knife allowing you to import your password database to a password store repository conveniently. It natively supports import from <!-- NB BEGIN -->62<!-- NB END --> password managers, and export to <!-- NB EXPORT BEGIN -->7<!-- NB EXPORT END --> destination password managers. More manager support can easily be added.
 
 Passwords are imported into the existing default password store, therefore the password store must have been initialized before.
 
