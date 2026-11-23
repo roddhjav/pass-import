@@ -5,7 +5,12 @@
 import hashlib
 
 import requests
-from zxcvbn import zxcvbn
+
+try:
+    from zxcvbn_rs_py import zxcvbn
+    ZXCVBN = True
+except ImportError:
+    ZXCVBN = False
 
 import pass_import
 
@@ -84,7 +89,9 @@ class Audit:
                 self.breached.append((entry.get('password', ''), count))
 
     def zxcvbn(self):
-        """Password strength estimation using Dropbox' zxcvbn."""
+        """Password strength estimation using zxcvbn, if installed."""
+        if not ZXCVBN:
+            return
         for entry in self.data:
             if entry.get('password', '') == '':
                 continue
@@ -92,12 +99,16 @@ class Audit:
             if len(password) > 72:
                 self.skipped.append(entry)
                 continue
-            user_input = list(entry.values())
-            if password in user_input:
-                user_input.remove(password)
+            user_input = [str(value) for value in entry.values()
+                          if value != password]
             results = zxcvbn(password, user_inputs=user_input)
-            if results['score'] <= 2:
-                self.weak.append((password, results))
+            if int(results.score) <= 2:
+                feedback = results.feedback
+                self.weak.append((password, {
+                    'score': int(results.score),
+                    'guesses': results.guesses,
+                    'warning': str(feedback.warning or '') if feedback else '',
+                }))
 
     def duplicates(self):
         """Check for duplicated passwords."""

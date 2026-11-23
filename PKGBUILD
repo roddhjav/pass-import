@@ -15,7 +15,6 @@ depends=(
   'python'
   'python-yaml'
   'python-requests'
-  'python-zxcvbn'
 )
 makedepends=('python-build' 'python-installer' 'python-setuptools' 'rsync' 'just')
 optdepends=(
@@ -25,6 +24,7 @@ optdepends=(
   'python-cryptography: password encrypted otp import'
   'python-magic: Detection of file decryption'
   'python-jsonpath-ng: json based filter'
+  'python-zxcvbn-rs: password strength estimation'
 )
 
 prepare() {

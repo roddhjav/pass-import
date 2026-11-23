@@ -61,6 +61,7 @@ class TestAudit(tests.Test):
             self.assertTrue(data[idx]['password'] == password)
             self.assertTrue(ref_counts[idx] == count)
 
+    @tests.skipIfNoModule('zxcvbn_rs_py')
     def test_zxcvbn_weak(self):
         """Testing: audit for weak password with zxcvbn."""
         data = [{
@@ -73,6 +74,7 @@ class TestAudit(tests.Test):
         self.assertTrue(len(audit.weak) == 1)
         self.assertTrue(audit.weak[0][1]['score'] == 0)
 
+    @tests.skipIfNoModule('zxcvbn_rs_py')
     def test_zxcvbn_strong(self):
         """Testing: audit for strong password with zxcvbn."""
         data = getpath('Password/good')
@@ -80,6 +82,7 @@ class TestAudit(tests.Test):
         audit.zxcvbn()
         self.assertTrue(len(audit.weak) == 0)
 
+    @tests.skipIfNoModule('zxcvbn_rs_py')
     def test_zxcvbn_long(self):
         """Testing: audit skips passwords exceeding zxcvbn's 72-char limit."""
         data = [{

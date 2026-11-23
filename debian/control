@@ -10,7 +10,6 @@ Build-Depends:
  python3-setuptools,
  python3-yaml,
  python3-requests,
- python3-zxcvbn,
  pass (>= 1.7.0),
 Homepage: https://github.com/roddhjav/pass-import
 Vcs-Browser: https://github.com/roddhjav/pass-import
@@ -29,6 +28,7 @@ Recommends:
   python3-defusedxml,
   python3-secretstorage,
   python3-cryptography,
+  python3-python-zxcvbn-rs-py,
 Description: passwords importer swiss army knife (pass extensions)
  An extension to import data from most of the existing password manager.
  .

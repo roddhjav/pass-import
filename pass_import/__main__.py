@@ -375,11 +375,10 @@ def detectmanager(conf):
 
 def zxcvbn_parse(details):
     """Nicely print the results from zxcvbn."""
-    sequence = ''
-    for seq in details.get('sequence', []):
-        sequence += f"{seq['token']}({seq['pattern']}) "
-    res = f"Score {details['score']} ({details['guesses']} guesses). "
-    return res + f"This estimate is based on the sequence {sequence}"
+    res = f"Score {details['score']} ({details['guesses']} guesses)."
+    if details['warning']:
+        res += f" {details['warning']}"
+    return res
 
 
 # pylint: disable=inconsistent-return-statements

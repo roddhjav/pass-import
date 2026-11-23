@@ -38,7 +38,7 @@ classifiers = [
     "Topic :: Security :: Cryptography",
 ]
 
-dependencies = ["PyYAML", "zxcvbn", "requests"]
+dependencies = ["PyYAML", "requests"]
 
 [project.scripts]
 pimport = "pass_import.__main__:main"
@@ -50,6 +50,7 @@ gnomekeyring = ["secretstorage"]
 encrypted_otp = ["cryptography"]
 decrypt = ["python-magic"]
 filter = ["jsonpath-ng"]
+audit = ["zxcvbn-rs-py"]
 all = [
     "defusedxml",
     "pykeepass",
@@ -57,6 +58,7 @@ all = [
     "cryptography",
     "python-magic",
     "jsonpath-ng",
+    "zxcvbn-rs-py",
 ]
 
 [dependency-groups]

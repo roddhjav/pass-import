@@ -18,6 +18,7 @@ Requires:       password-store
 Requires:       python3-PyYAML
 Recommends:     python3-SecretStorage
 Recommends:     python3-python-magic
+Recommends:     python3-zxcvbn-rs-py
 BuildRequires:  python-rpm-macros
 %else
 Requires:       pass
@@ -27,7 +28,6 @@ Recommends:     python3-magic
 BuildRequires:  python3-devel
 %endif
 Requires:       python3-requests
-Requires:       python3-zxcvbn
 Recommends:     python3-defusedxml
 Recommends:     python3-pykeepass
 Recommends:     python3-cryptography

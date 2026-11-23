@@ -657,6 +657,7 @@ invalids:
 | [file-magic] | Detection of file decryption | `apt install python-magic` | `pip3 install file-magic` |
 | [pwdsphinx] | Export to SPHINX | N/A(coming soon) | `pip3 install pwdsphinx` |
 | filter | Filter exports | N/A | `pip3 install jsonpath-ng` |
+| [zxcvbn-rs-py] | Password strength estimation | `apt install python3-python-zxcvbn-rs-py` | `pip3 install zxcvbn-rs-py` |
 
 **ArchLinux**
 
@@ -782,6 +783,7 @@ Feedback, contributors, pull requests are all very welcome. Please read the [`CO
 [repology-link]: https://repology.org/project/pass-import/versions
 
 [pass]: https://www.passwordstore.org/
+[zxcvbn-rs-py]: https://github.com/fief-dev/zxcvbn-rs-py
 [keys]: https://pujol.io/keys
 [repo]: https://pkg.pujol.io
 [aur]: https://aur.archlinux.org/packages/pass-import
