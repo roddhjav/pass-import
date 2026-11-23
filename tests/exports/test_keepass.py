@@ -7,6 +7,7 @@ import os
 from unittest.mock import patch
 
 import tests
+from pass_import.errors import PMError
 from pass_import.managers.keepass import Keepass
 
 
@@ -97,3 +98,55 @@ class TestExportKeepassInsert(tests.Test):
             keepass.insert(entry)
             keepass.parse()
         self.assertEqual(keepass.data[0]['data'], ref['data'])
+
+    @patch("getpass.getpass")
+    def test_keepass_insert_exists(self, pw):
+        """Testing: keepass insert an existing entry without force."""
+        pw.return_value = self.masterpassword
+        self._init_keepass()
+        with Keepass(self.prefix) as keepass:
+            keepass.insert({'path': 'Test/test', 'password': 'a'})
+            with self.assertRaises(PMError):
+                keepass.insert({'path': 'Test/test', 'password': 'b'})
+
+
+@tests.skipIfNoModule('pykeepass')
+class TestImportKeepassReference(tests.Test):
+    """Test keepass field references and root import."""
+
+    def setUp(self):
+        """Create a new keepass repository with field references."""
+        from pykeepass import create_database
+        self._tmpdir('keepass.kdbx')
+        kdbx = create_database(self.prefix, password=self.masterpassword)
+        group = kdbx.add_group(kdbx.root_group, 'Social')
+        ref = kdbx.add_entry(kdbx.root_group, 'ref', 'alice', 'secret')
+        uid = ref.uuid.hex.upper()
+        missing = 'F' * 32
+        kdbx.add_entry(group, 'entry', f'{{REF:U@I:{uid}}}',
+                       f'pre-{{REF:P@I:{uid}}}-post',
+                       url=f'{{REF:T@I:{uid}}}',
+                       notes=f'a{{REF:P@I:{missing}}}b')
+        kdbx.save()
+
+    @patch("getpass.getpass")
+    def test_keepass_subref(self, pw):
+        """Testing: keepass field references."""
+        pw.return_value = self.masterpassword
+        with Keepass(self.prefix) as keepass:
+            keepass.parse()
+        data = {entry['title']: entry for entry in keepass.data}
+        entry = data['entry']
+        self.assertEqual(entry['login'], 'alice')
+        self.assertEqual(entry['password'], 'pre-secret-post')
+        self.assertTrue(entry['url'].startswith('{REF:T@I:'))
+        self.assertEqual(entry['comments'], 'ab')
+
+    @patch("getpass.getpass")
+    def test_keepass_root(self, pw):
+        """Testing: keepass import with a root."""
+        pw.return_value = self.masterpassword
+        with Keepass(self.prefix, settings={'root': 'Social'}) as keepass:
+            keepass.parse()
+        self.assertEqual([entry['title'] for entry in keepass.data],
+                         ['entry'])

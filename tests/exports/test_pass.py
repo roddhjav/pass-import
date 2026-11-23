@@ -3,6 +3,7 @@
 #
 
 import os
+from unittest.mock import patch
 
 import tests
 from pass_import.errors import PMError
@@ -201,3 +202,15 @@ class TestExportPassBinary(TestPass):
 
         entry2 = self.store.show('pass.png')
         self.assertEqual(entry['data'], entry2['data'])
+
+
+class TestExportPassTrust(TestPass):
+    """Test pass GPG trust check."""
+
+    def test_pass_untrusted_key(self):
+        """Testing: untrusted public key."""
+        self._init_pass()
+        out = 'tru::1:0:0:3:1:5\npub:n:255:22:CC9DB947CF90C77B:0:::::::\n'
+        with patch.object(PasswordStore, '_call',
+                          return_value=(0, out, '')):
+            self.assertFalse(self.store.isvalid())
