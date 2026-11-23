@@ -107,10 +107,6 @@ python 3.11:
   image: python:3.11
   extends: .tests
 
-python 3.10:
-  image: python:3.10
-  extends: .tests
-
 # Distribution tests
 
 archlinux:

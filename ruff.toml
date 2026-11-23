@@ -1,4 +1,4 @@
-target-version = "py310"
+target-version = "py311"
 extend-exclude = ["pass_import/*/__init__.py"]
 
 [lint]
