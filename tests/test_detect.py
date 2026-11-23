@@ -108,3 +108,8 @@ class TestDetect(tests.Test):
         pm = tests.managers.get('OnePassword8CSV')
         with pm(io.StringIO(line)) as importer:
             self.assertFalse(importer.is_format())
+
+    def test_manager_stream_unknown(self):
+        """Testing: unknown decrypted plain data is not detected."""
+        detect = pass_import.auto.AutoDetect(settings={'decrypted': True})
+        self.assertIsNone(detect.manager('foo,bar\n1,2\n'))

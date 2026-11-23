@@ -49,7 +49,8 @@ def detector(cls, prefix, settings=None):
     manager = cls(prefix, settings)
     try:
         manager.detecter_open()
-    except (PMError, IsADirectoryError):
+    # TypeError: a path based manager given a decrypted text stream
+    except (PMError, IsADirectoryError, TypeError):
         dummy = DummyDetecter(prefix)
         dummy.detecter_open()
         yield dummy
