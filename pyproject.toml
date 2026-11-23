@@ -38,7 +38,7 @@ classifiers = [
     "Topic :: Security :: Cryptography",
 ]
 
-dependencies = ["pyaml", "zxcvbn", "requests"]
+dependencies = ["PyYAML", "zxcvbn", "requests"]
 
 [project.scripts]
 pimport = "pass_import.__main__:main"

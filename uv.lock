@@ -791,7 +791,7 @@ name = "pass-import"
 version = "3.5"
 source = { editable = "." }
 dependencies = [
-    { name = "pyaml" },
+    { name = "pyyaml" },
     { name = "requests" },
     { name = "zxcvbn" },
 ]
@@ -841,11 +841,11 @@ requires-dist = [
     { name = "defusedxml", marker = "extra == 'xml'" },
     { name = "jsonpath-ng", marker = "extra == 'all'" },
     { name = "jsonpath-ng", marker = "extra == 'filter'" },
-    { name = "pyaml" },
     { name = "pykeepass", marker = "extra == 'all'" },
     { name = "pykeepass", marker = "extra == 'keepass'" },
     { name = "python-magic", marker = "extra == 'all'" },
     { name = "python-magic", marker = "extra == 'decrypt'" },
+    { name = "pyyaml" },
     { name = "requests" },
     { name = "secretstorage", marker = "extra == 'all'" },
     { name = "secretstorage", marker = "extra == 'gnomekeyring'" },
@@ -869,18 +869,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/bf/db/7fc19e6f2dc92a966727031389fc2e08b558f0f25eb7403c1119ad4713cd/pluggy-1.7.0.tar.gz", hash = "sha256:d1eaa46ebb595891b860ab086b4d09c8588af65ebd4361b8e8f4bb8920b90ba8", size = 123304, upload-time = "2026-10-15T09:50:58.343Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/40/9e/2b38731e0fc536806f16490e1a12d7f0dc2a1235aa8cc07bcc75416a7daa/pluggy-1.7.0-py3-none-any.whl", hash = "sha256:7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec", size = 27082, upload-time = "2026-10-15T09:50:56.808Z" },
-]
-
-[[package]]
-name = "pyaml"
-version = "26.7.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pyyaml" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/15/6a/acfdf17de0d6947b419da8696e02b781b18de2cf49e0472298b50e1f0711/pyaml-26.7.0.tar.gz", hash = "sha256:11cda3a796efc6dbce0d56836be56cfd26289dad07bcd78e9904086729929c93", size = 30669, upload-time = "2026-07-04T00:34:38.532Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a6/26/3f05f9e3692853dff663913d5d62fb8df3f5640c8d70b06588c0b51ed953/pyaml-26.7.0-py3-none-any.whl", hash = "sha256:cfa382780c43ae660669b87d394d550a41856ef175f5749f51f753e12d7077ac", size = 27226, upload-time = "2026-07-04T00:34:37.198Z" },
 ]
 
 [[package]]
